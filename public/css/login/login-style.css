@@ -1,0 +1,26 @@
+body{
+	background-color: #f8f8f8;
+}
+
+div#login-container,
+div#message-container{
+	width: 360px;
+	margin: 0 auto;
+}
+
+div#login-container{
+	padding: 20px;
+	border-radius: 6px;
+	-webkit-box-shadow: 4px 4px 2px 0px rgba(1,1,1,0.35);
+	-moz-box-shadow: 4px 4px 2px 0px rgba(1,1,1,0.35);
+	box-shadow: 4px 4px 2px 0px rgba(1,1,1,0.35);
+
+}
+
+@media (max-width: 600px) {
+	div#login-container,
+	div#message-container{
+		width: 40%;
+		margin: 0 auto;
+	}
+}

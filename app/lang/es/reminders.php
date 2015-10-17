@@ -19,6 +19,6 @@ return array(
 
 	"token" => "Este token de renovación de contraseña es inválido.",
 
-	"sent" => "¡Se envió recordatorio de contraseña!",
+	"sent" => "¡Se enviaron instrucciones a su e-mail!",
 
 );
