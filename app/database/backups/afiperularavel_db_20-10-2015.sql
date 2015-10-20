@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-10-2015 a las 16:40:30
+-- Tiempo de generación: 21-10-2015 a las 01:15:27
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -90,7 +90,14 @@ CREATE TABLE IF NOT EXISTS `colegios` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `colegios`
+--
+
+INSERT INTO `colegios` (`idcolegios`, `nombre`, `direccion`, `nombre_contacto`, `email_contacto`, `telefono_contacto`, `interes`, `latitud`, `longitud`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Colegio 1', '', '', '', '', '', '', '', '2015-10-18 19:36:01', '2015-10-18 19:36:01', NULL);
 
 -- --------------------------------------------------------
 
@@ -274,11 +281,11 @@ CREATE TABLE IF NOT EXISTS `fases` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `fase_concursos`
+-- Estructura de tabla para la tabla `fases_concursos`
 --
 
-CREATE TABLE IF NOT EXISTS `fase_concursos` (
-  `idfase_concursos` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `fases_concursos` (
+  `idfases_concursos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -326,7 +333,19 @@ CREATE TABLE IF NOT EXISTS `ninhos` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idcolegios` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='	';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='	';
+
+--
+-- Volcado de datos para la tabla `ninhos`
+--
+
+INSERT INTO `ninhos` (`idninhos`, `nombres`, `apellido_pat`, `ap_mat`, `fecha_nacimiento`, `genero`, `dni`, `nombre_apoderado`, `dni_apoderado`, `num_familiares`, `observaciones`, `created_at`, `updated_at`, `deleted_at`, `idcolegios`) VALUES
+(1, 'Niño 1', 'Apellido Paterno 1', 'Apellido Materno 1', '2015-10-18', '', '', '', '', 0, NULL, '2015-10-18 19:37:06', '2015-10-18 19:37:06', NULL, 1),
+(2, 'Niño 2', 'Apellido Paterno 2', 'Apellido Materno 2', '2015-10-18', '', '', '', '', 0, NULL, '2015-10-18 19:37:57', '2015-10-18 19:37:57', NULL, 1),
+(3, 'Niño 3', 'Apellido Paterno 3', 'Apellido Materno 3', '2015-10-18', '', '', '', '', 0, NULL, '2015-10-18 19:38:43', '2015-10-18 19:38:43', NULL, 1),
+(4, 'Niño 4', 'Apellido Paterno 4', 'Apellido Materno 4', '2015-10-18', '', '', '', '', 0, NULL, '2015-10-18 19:39:24', '2015-10-18 19:39:24', NULL, 1),
+(5, 'Niño 5', 'Apellido Paterno 5', 'Apellido Materno 5', '2015-10-18', '', '', '', '', 0, NULL, '2015-10-18 19:39:24', '2015-10-18 19:39:24', NULL, 1),
+(6, 'Niño 6', 'Apellido Paterno 6', 'Apellido Materno 6', '2015-10-18', '', '', '', '', 0, NULL, '2015-10-18 19:39:24', '2015-10-18 19:39:24', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -336,12 +355,6 @@ CREATE TABLE IF NOT EXISTS `ninhos` (
 
 CREATE TABLE IF NOT EXISTS `padrinos` (
   `idpadrinos` int(11) NOT NULL,
-  `nombres` varchar(100) NOT NULL,
-  `apellido_pat` varchar(100) NOT NULL,
-  `apellido_mat` varchar(100) NOT NULL,
-  `dni` varchar(45) NOT NULL,
-  `fecha_nacimiento` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `email` varchar(100) NOT NULL,
   `como_se_entero` varchar(200) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -401,16 +414,23 @@ CREATE TABLE IF NOT EXISTS `periodos` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `periodos`
+--
+
+INSERT INTO `periodos` (`idperiodos`, `nombre`, `fecha_inicio`, `fecha_fin`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Período 2015-2', '2015-08-17', '2015-12-12', '2015-10-18 19:30:01', '2015-10-18 19:30:01', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `periodo_pagos`
+-- Estructura de tabla para la tabla `periodos_pagos`
 --
 
-CREATE TABLE IF NOT EXISTS `periodo_pagos` (
-  `idperiodo_pagos` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `periodos_pagos` (
+  `idperiodos_pagos` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `numero_pagos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -768,7 +788,17 @@ CREATE TABLE IF NOT EXISTS `tipo_eventos` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tipo_eventos`
+--
+
+INSERT INTO `tipo_eventos` (`idtipo_eventos`, `nombre`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Sesión de voluntariado', '2015-10-18 19:02:34', '2015-10-18 19:02:34', NULL),
+(2, 'Charla informativa', '2015-10-18 19:02:34', '2015-10-18 19:02:34', NULL),
+(3, 'Inducción', '2015-10-18 19:04:03', '2015-10-18 19:04:03', NULL),
+(4, 'Actividad', '2015-10-18 19:04:03', '2015-10-18 19:04:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -858,9 +888,9 @@ CREATE TABLE IF NOT EXISTS `users_perfiles` (
 
 INSERT INTO `users_perfiles` (`idusers_perfiles`, `idperfiles`, `idusers`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 1, 1, '2015-10-06 04:29:14', '2015-10-06 04:29:14', NULL),
-(2, 2, 2, '2015-10-07 07:56:03', '2015-10-07 07:56:03', NULL),
-(3, 2, 3, '2015-10-07 07:57:13', '2015-10-07 07:57:13', NULL),
-(4, 2, 4, '2015-10-07 07:57:29', '2015-10-07 07:57:29', NULL),
+(2, 3, 2, '2015-10-07 07:56:03', '2015-10-07 07:56:03', NULL),
+(3, 3, 3, '2015-10-07 07:57:13', '2015-10-07 07:57:13', NULL),
+(4, 3, 4, '2015-10-07 07:57:29', '2015-10-07 07:57:29', NULL),
 (5, 1, 5, '2015-10-07 08:22:54', '2015-10-07 08:22:54', NULL),
 (6, 2, 5, '2015-10-07 08:22:54', '2015-10-07 08:22:54', NULL);
 
@@ -877,7 +907,16 @@ CREATE TABLE IF NOT EXISTS `users_periodos` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idusers` int(11) NOT NULL,
   `idperiodos` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `users_periodos`
+--
+
+INSERT INTO `users_periodos` (`idusers_periodos`, `created_at`, `updated_at`, `deleted_at`, `idusers`, `idperiodos`) VALUES
+(1, '2015-10-18 19:30:33', '2015-10-18 19:30:33', NULL, 2, 1),
+(2, '2015-10-18 19:30:33', '2015-10-18 19:30:33', NULL, 3, 1),
+(3, '2015-10-18 19:30:41', '2015-10-18 19:30:41', NULL, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -1009,10 +1048,10 @@ ALTER TABLE `fases`
   ADD PRIMARY KEY (`idfases`);
 
 --
--- Indices de la tabla `fase_concursos`
+-- Indices de la tabla `fases_concursos`
 --
-ALTER TABLE `fase_concursos`
-  ADD PRIMARY KEY (`idfase_concursos`),
+ALTER TABLE `fases_concursos`
+  ADD PRIMARY KEY (`idfases_concursos`),
   ADD KEY `fk_fechas_limites_concursos1_idx` (`idconcursos`);
 
 --
@@ -1051,10 +1090,10 @@ ALTER TABLE `periodos`
   ADD PRIMARY KEY (`idperiodos`);
 
 --
--- Indices de la tabla `periodo_pagos`
+-- Indices de la tabla `periodos_pagos`
 --
-ALTER TABLE `periodo_pagos`
-  ADD PRIMARY KEY (`idperiodo_pagos`);
+ALTER TABLE `periodos_pagos`
+  ADD PRIMARY KEY (`idperiodos_pagos`);
 
 --
 -- Indices de la tabla `permisos`
@@ -1211,7 +1250,7 @@ ALTER TABLE `calendario_pagos`
 -- AUTO_INCREMENT de la tabla `colegios`
 --
 ALTER TABLE `colegios`
-  MODIFY `idcolegios` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idcolegios` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `concursos`
 --
@@ -1253,10 +1292,10 @@ ALTER TABLE `eventos`
 ALTER TABLE `fases`
   MODIFY `idfases` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT de la tabla `fase_concursos`
+-- AUTO_INCREMENT de la tabla `fases_concursos`
 --
-ALTER TABLE `fase_concursos`
-  MODIFY `idfase_concursos` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `fases_concursos`
+  MODIFY `idfases_concursos` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `logs`
 --
@@ -1266,7 +1305,7 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT de la tabla `ninhos`
 --
 ALTER TABLE `ninhos`
-  MODIFY `idninhos` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idninhos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `padrinos`
 --
@@ -1281,12 +1320,12 @@ ALTER TABLE `perfiles`
 -- AUTO_INCREMENT de la tabla `periodos`
 --
 ALTER TABLE `periodos`
-  MODIFY `idperiodos` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idperiodos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT de la tabla `periodo_pagos`
+-- AUTO_INCREMENT de la tabla `periodos_pagos`
 --
-ALTER TABLE `periodo_pagos`
-  MODIFY `idperiodo_pagos` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `periodos_pagos`
+  MODIFY `idperiodos_pagos` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
@@ -1341,7 +1380,7 @@ ALTER TABLE `tipo_documentos`
 -- AUTO_INCREMENT de la tabla `tipo_eventos`
 --
 ALTER TABLE `tipo_eventos`
-  MODIFY `idtipo_eventos` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idtipo_eventos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `tipo_identificacion`
 --
@@ -1366,7 +1405,7 @@ ALTER TABLE `users_perfiles`
 -- AUTO_INCREMENT de la tabla `users_periodos`
 --
 ALTER TABLE `users_periodos`
-  MODIFY `idusers_periodos` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idusers_periodos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `visualizaciones`
 --
@@ -1451,9 +1490,9 @@ ALTER TABLE `eventos`
   ADD CONSTRAINT `fk_eventos_tipo_eventos1` FOREIGN KEY (`idtipo_eventos`) REFERENCES `tipo_eventos` (`idtipo_eventos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `fase_concursos`
+-- Filtros para la tabla `fases_concursos`
 --
-ALTER TABLE `fase_concursos`
+ALTER TABLE `fases_concursos`
   ADD CONSTRAINT `fk_fechas_limites_concursos1` FOREIGN KEY (`idconcursos`) REFERENCES `concursos` (`idconcursos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -1473,7 +1512,7 @@ ALTER TABLE `ninhos`
 -- Filtros para la tabla `padrinos`
 --
 ALTER TABLE `padrinos`
-  ADD CONSTRAINT `fk_padrinos_periodo_pagos1` FOREIGN KEY (`idperiodo_pagos`) REFERENCES `periodo_pagos` (`idperiodo_pagos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_padrinos_periodo_pagos1` FOREIGN KEY (`idperiodo_pagos`) REFERENCES `periodos_pagos` (`idperiodos_pagos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_padrinos_users1` FOREIGN KEY (`idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

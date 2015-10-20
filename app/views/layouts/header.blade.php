@@ -6,7 +6,7 @@
         <span class="icon-bar"></span>
     </button>
     <a href="{{ URL::to('/') }}">
-		<img src="{{ asset('img') }}/afilogo.png" width="46" style="display:block;margin-top:4px;"/>
+		<img src="{{ asset('img') }}/afilogo.png" width="46" style="display:block;margin-top:4px;" title="AFI Perú"/>
 	</a>
 </div>
 <!-- /.navbar-header -->
