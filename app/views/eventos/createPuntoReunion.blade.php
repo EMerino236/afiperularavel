@@ -47,7 +47,7 @@
 		<div class="col-xs-12">
 			<div class="row">
 				<div class="form-group col-xs-8">
-					{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+					{{ Form::submit('Crear',array('class'=>'btn btn-primary')) }}	
 				</div>
 			</div>
 		</div>

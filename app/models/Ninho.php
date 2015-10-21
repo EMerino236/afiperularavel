@@ -8,4 +8,10 @@ class Ninho extends Eloquent{
 
 	protected $primaryKey = 'idninhos';
 
+	public function scopeGetNinhosPorColegio($query,$idcolegios)
+	{
+		$query->where('idcolegios','=',$idcolegios);
+		return $query;
+	}
+
 }
