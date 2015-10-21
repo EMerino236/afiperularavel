@@ -19,7 +19,7 @@ class UserController extends \BaseController {
 
 	    	if (\Hash::check($current_password, $user->password))
 	    	{
-                $user->password = Hash::make($new_password);
+                $user->password = \Hash::make($new_password);
 	    		$user->save();
 
 	    		$response = [ 'success' => 1];
