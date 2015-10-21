@@ -86,4 +86,5 @@ Route::group(array('prefix' => 'api/v1'), function()
 Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
 {
     Route::put('change_password', 'api\v1\UserController@change_password');
+    Route::get('sessions', 'api\v1\EventosController@sesiones');
 });
