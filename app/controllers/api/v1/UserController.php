@@ -19,8 +19,8 @@ class UserController extends \BaseController {
 
 	    	if (\Hash::check($current_password, $user->password))
 	    	{
-	    		// $user->password = Hash::make($new_password);
-	    		// $user->save();
+                $user->password = Hash::make($new_password);
+	    		$user->save();
 
 	    		$response = [ 'success' => 1];
 	    		$status_code = 200;
@@ -28,13 +28,13 @@ class UserController extends \BaseController {
 	    	}
 	    	else
 	    	{
-	    		$response = [ 'error' => 3];
-	    		$status_code = 404;
+	    		$response = [ 'error' => 'Password actual incorrecto.'];
+	    		$status_code = 401;
 	    		return Response::json($response, $status_code);
 	    	}
     	}
 
-    	$response = [ 'error' => 2];
+    	$response = [ 'error' => 1];
 		$status_code = 401;
 		return Response::json($response, $status_code);
 	}

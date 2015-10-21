@@ -8,7 +8,7 @@ class SessionController extends \BaseController {
 
 	public function sign_in()
 	{
-		$num_documento = Input::get('document_number');
+		$num_documento = Input::get('username');
 		$password = Input::get('password');
 		$user = User::searchUserByDocumentNumber($num_documento)->first();
     	if ($user)
