@@ -88,3 +88,11 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+Route::filter('api.auth', function()
+{
+    $auth_token = Request::header('Authorization');
+    //$user = User::whereRaw('auth_token = ?', array($auth_token))->first();
+    $user = User::where('auth_token', '=', $auth_token)->first();
+    if (!$user) return Response::json(array('error' => 1), 401);
+});

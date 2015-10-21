@@ -72,3 +72,14 @@ Route::group(array('prefix'=>'sistema','before'=>'auth'),function(){
 	Route::get('/edit_perfil/{id}','SistemaController@render_edit_perfil');
 	Route::post('/submit_disable_perfil','SistemaController@submit_disable_perfil');
 });
+// Route group for API versioning
+Route::group(array('prefix' => 'api/v1'), function()
+{
+    // Route::resource('/users', 'UserWS');
+    Route::post('sign_in', 'api\v1\SessionController@sign_in');
+});
+
+Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
+{
+    Route::put('change_password', 'api\v1\UserController@change_password');
+});

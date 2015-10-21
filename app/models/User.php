@@ -39,6 +39,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
+	public function scopeGetPermisosPorUsuarioId($query,$id)
+	{
+		$null = null;
+		$query->join('users_perfiles','users_perfiles.idusers','=','users.id')
+			  ->join('perfiles','perfiles.idperfiles','=','users_perfiles.idperfiles')
+			  ->join('permisos_perfiles','permisos_perfiles.idperfiles','=','perfiles.idperfiles')
+			  ->join('permisos','permisos.idpermisos','=','permisos_perfiles.idpermisos')
+			  ->where('users.id','=',$id)
+			  ->where('permisos_perfiles.deleted_at','=',$null)
+			  ->select('permisos.idpermisos');
+		return $query;
+	}
+
 	public function scopeGetUsersInfo($query)
 	{
 		$query->withTrashed()
@@ -80,6 +93,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			  ->where('users.id','=',$id)
 			  ->where('users_perfiles.deleted_at','=',$null)
 			  ->select('perfiles.nombre');
+		return $query;
+	}
+
+	public function scopeSearchUserByDocumentNumber($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->join('personas','personas.idpersonas','=','users.idpersona')
+			  ->join('tipo_identificacion','tipo_identificacion.idtipo_identificacion','=','users.idtipo_identificacion')
+			  ->where('users.num_documento','=',$search_criteria)
+			  ->select('tipo_identificacion.nombre as nombre_tipo_identificacion','personas.*','users.*');
 		return $query;
 	}
 
