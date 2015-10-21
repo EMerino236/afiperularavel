@@ -91,7 +91,10 @@ Route::filter('csrf', function()
 
 Route::filter('api.auth', function()
 {
-    $auth_token = Request::header('Authorization');
+    $validator = Validator::make(Request::header(), array('authorization' => 'required'));
+    if ($validator->fails()) return Response::json(array('error' => 1), 401);
+    $auth_token = Request::header('authorization');
+    if ($auth_token == "") return Response::json(array('error' => 1), 401);
     //$user = User::whereRaw('auth_token = ?', array($auth_token))->first();
     $user = User::where('auth_token', '=', $auth_token)->first();
     if (!$user) return Response::json(array('error' => 1), 401);
