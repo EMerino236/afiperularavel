@@ -29,14 +29,17 @@ class SessionController extends \BaseController {
             			'actions' => $permisos_array,
             			'auth_token' => $user->auth_token
         		];
-        
-        		$status_code = 200;
-        		return Response::json($response, $status_code);
+
+        		return Response::json($response, 200);
     		}
+            else
+            {
+                $response = array('error' => "Username and password doesn't match");
+                return Response::json($response, 200);
+            }
     	}
-    
-    	$status_code = 401;
-    	$response = array('error' => 1);
-    	return Response::json($response, $status_code);
+        
+    	$response = array('error' => "Username doesn't exist");
+    	return Response::json($response, 200);
 	}
 }
