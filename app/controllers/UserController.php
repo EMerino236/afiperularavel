@@ -65,6 +65,7 @@ class UserController extends BaseController {
 					$user->idtipo_identificacion = Input::get('idtipo_identificacion');
 					$user->email = Input::get('email');
 					$user->idpersona = $persona->idpersonas;
+					$user->auth_token = Str::random(32);
 					$user->save();
 					// Registro los perfiles seleccionados
 					$perfiles = Input::get('perfiles');

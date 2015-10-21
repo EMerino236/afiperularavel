@@ -30,6 +30,7 @@ Route::group(array('prefix'=>'eventos','before'=>'auth'),function(){
 	Route::get('/','EventosController@home');
 	/* Eventos */
 	Route::get('/create_evento','EventosController@render_create_evento');
+	Route::post('/submit_create_evento','EventosController@submit_create_evento');
 	/* Puntos de reunión*/
 	Route::get('/create_punto_reunion','EventosController@render_create_punto_reunion');
 	Route::post('/submit_create_punto_reunion','EventosController@submit_create_punto_reunion');

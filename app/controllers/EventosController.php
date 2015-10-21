@@ -18,6 +18,103 @@ class EventosController extends BaseController
 		}
 	}
 
+	public function render_create_evento()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_evento',$data["permisos"])){
+				$periodo = Periodo::getPeriodoActual()->get();
+				$data["no_hay_periodo"] = false;
+				if($periodo->isEmpty()){
+					$data["no_hay_periodo"] = true;
+					return View::make('eventos/createEvento',$data);
+				}
+				$data["tipos_eventos"] = TipoEvento::lists('nombre','idtipo_eventos');
+				$data["colegios"] = Colegio::lists('nombre','idcolegios');
+				$data["puntos_reunion"] = PuntoReunion::all();
+				$data["voluntarios"] = UsersPeriodo::getUsersPorPeriodo($periodo[0]->idperiodos)->get();
+				$data["periodo"] = $periodo[0]->idperiodos;
+				return View::make('eventos/createEvento',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_create_evento()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_evento',$data["permisos"])){
+				// Validate the info, create rules for the inputs
+				$rules = array(
+							'nombre' => 'required|alpha_spaces|min:2|max:100',
+							'idtipo_eventos' => 'required',
+							'fecha_evento' => 'required',
+							'idcolegios' => 'required',
+							'direccion' => 'required',
+							'voluntarios' => 'required',
+							'latitud' => 'required',
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('eventos/create_evento')->withErrors($validator)->withInput(Input::all());
+				}else{
+					/* Primero creo el evento */
+					$evento = new Evento;
+					$evento->nombre = Input::get('nombre');
+					$evento->fecha_evento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_evento')));
+					$evento->idtipo_eventos = Input::get('idtipo_eventos');
+					$evento->direccion = Input::get('direccion');
+					$evento->latitud = Input::get('latitud');
+					$evento->longitud = Input::get('longitud');
+					$evento->idperiodos = Input::get('idperiodos');
+					$evento->save();
+					/* Creo los puntos de reunion */
+					foreach(Input::get('puntos_reunion') as $punto_reunion){
+						$punto_reunion_evento = new PuntoEvento;
+						$punto_reunion_evento->idpuntos_reunion = $punto_reunion;
+						$punto_reunion_evento->ideventos = $evento->ideventos;
+						$punto_reunion_evento->save();
+					}
+					/* Creo las asistencias de los usuarios */
+					foreach(Input::get('voluntarios') as $voluntario){
+						$asistencia = new Asistencia;
+						$asistencia->asistio = 0;
+						$asistencia->idusers = $voluntario;
+						$asistencia->ideventos = $evento->ideventos;
+						$asistencia->save();
+					}
+					/* Creo las asistencias de los niños */
+					$ninhos = Ninho::getNinhosPorColegio(Input::get('idcolegios'))->get();
+					foreach($ninhos as $ninho){
+						$asistencia_ninho = new AsistenciaNinho;
+						$asistencia_ninho->idninhos = $ninho->idninhos;
+						$asistencia_ninho->ideventos = $evento->ideventos;
+						$asistencia_ninho->save();
+					}
+
+					Session::flash('message', 'Se registró correctamente el evento.');
+					
+					return Redirect::to('eventos/create_evento');
+				}
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function render_create_punto_reunion()
 	{
 		if(Auth::check()){
