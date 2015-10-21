@@ -88,3 +88,10 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::put('change_password', 'api\v1\UserController@change_password');
     Route::get('sessions', 'api\v1\EventosController@sesiones');
 });
+
+/* Rutas para el juego */
+Route::group(array('prefix' => 'game'), function()
+{
+    Route::get('player', 'api\juego\JuegoController@player');
+    Route::get('friends/score', 'api\juego\JuegoController@friendsScore');
+});
