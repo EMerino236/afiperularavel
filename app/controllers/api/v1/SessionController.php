@@ -34,12 +34,12 @@ class SessionController extends \BaseController {
     		}
             else
             {
-                $response = array('error' => "Username and password doesn't match");
+                $response = array('error' => 'El usuario y la contraseña no coinciden.');
                 return Response::json($response, 200);
             }
     	}
         
-    	$response = array('error' => "Username doesn't exist");
+    	$response = array('error' => 'El nombre de usuario no existe.');
     	return Response::json($response, 200);
 	}
 }

@@ -28,13 +28,13 @@ class UserController extends \BaseController {
 	    	}
 	    	else
 	    	{
-	    		$response = [ 'error' => "Current password doesn't match"];
+	    		$response = [ 'error' => 'La contraseña actual es incorrecta.'];
 	    		$status_code = 200;
 	    		return Response::json($response, $status_code);
 	    	}
     	}
 
-    	$response = [ 'error' => 1];
+    	$response = [ 'error' => 'Error en la autenticación.'];
 		$status_code = 401;
 		return Response::json($response, $status_code);
 	}
