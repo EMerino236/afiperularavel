@@ -4,7 +4,6 @@ $( document ).ready(function(){
 		format: 'DD-MM-YYYY HH:ss',
 		ignoreReadonly: true,
 		sideBySide: true,
-    minDate: new Date(),
 	});
 
 	$("input[name=seleccionar-todos-voluntarios]").change(function(){
