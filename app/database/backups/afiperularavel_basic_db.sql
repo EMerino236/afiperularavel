@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-10-2015 a las 21:52:50
+-- Tiempo de generación: 22-10-2015 a las 22:29:07
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `asistencias` (
   `calificacion` int(11) DEFAULT NULL,
   `comentario` varchar(200) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idusers` int(11) NOT NULL,
   `ideventos` int(11) NOT NULL
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `asistencia_ninhos` (
   `idninhos` int(11) NOT NULL,
   `ideventos` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `calendario_pagos` (
   `fecha_pago` date NOT NULL,
   `num_cuota` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `aprobacion` tinyint(1) NOT NULL,
   `num_comprobante` varchar(45) NOT NULL,
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `colegios` (
   `latitud` varchar(45) NOT NULL,
   `longitud` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `comentarios` (
   `users_id` int(11) NOT NULL,
   `idasistencia_ninhos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `comentarios` (
 CREATE TABLE IF NOT EXISTS `concursos` (
   `idconcursos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `titulo` varchar(100) NOT NULL,
   `resenha` varchar(255) NOT NULL
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `concursos` (
 CREATE TABLE IF NOT EXISTS `detalle_proyectos` (
   `iddetalle_proyectos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idproyectos` int(11) NOT NULL,
   `titulo` varchar(100) DEFAULT NULL,
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `detalle_proyectos` (
 CREATE TABLE IF NOT EXISTS `documentos` (
   `iddocumentos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idtipo_documentos` int(11) NOT NULL,
   `titulo` varchar(100) NOT NULL,
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `documentos` (
 CREATE TABLE IF NOT EXISTS `documentos_colegios` (
   `iddocumentos_colegios` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `colegios_idcolegios` int(11) NOT NULL,
   `documentos_iddocumentos` int(11) NOT NULL
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `documentos_colegios` (
 CREATE TABLE IF NOT EXISTS `documentos_concursos` (
   `iddocumentos_concursos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idconcursos` int(11) NOT NULL,
   `iddocumentos` int(11) NOT NULL
@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `documentos_concursos` (
 CREATE TABLE IF NOT EXISTS `documentos_eventos` (
   `iddocumentos_eventos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `ideventos` int(11) NOT NULL,
   `iddocumentos` int(11) NOT NULL
@@ -213,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `documentos_eventos` (
 CREATE TABLE IF NOT EXISTS `documentos_proyectos` (
   `iddocumentos_proyectos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idproyectos` int(11) NOT NULL,
   `iddocumentos` int(11) NOT NULL
@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `empresas` (
   `telefono` varchar(45) DEFAULT NULL,
   `sector` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -251,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `eventos` (
   `latitud` varchar(45) NOT NULL,
   `longitud` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idperiodos` int(11) NOT NULL,
   `idtipo_eventos` int(11) NOT NULL
@@ -266,7 +266,7 @@ CREATE TABLE IF NOT EXISTS `eventos` (
 CREATE TABLE IF NOT EXISTS `fases` (
   `idfases` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(255) NOT NULL
@@ -281,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `fases` (
 CREATE TABLE IF NOT EXISTS `fase_concursos` (
   `idfase_concursos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idconcursos` int(11) NOT NULL,
   `titulo` varchar(100) NOT NULL,
@@ -326,7 +326,7 @@ CREATE TABLE IF NOT EXISTS `logs` (
   `descripcion` varchar(200) DEFAULT NULL,
   `idtipo_logs` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `users_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -350,7 +350,7 @@ CREATE TABLE IF NOT EXISTS `ninhos` (
   `num_familiares` int(11) NOT NULL,
   `observaciones` varchar(200) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idcolegios` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='	';
@@ -365,7 +365,7 @@ CREATE TABLE IF NOT EXISTS `padrinos` (
   `idpadrinos` int(11) NOT NULL,
   `como_se_entero` varchar(200) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idusers` int(11) NOT NULL,
   `idperiodo_pagos` int(11) NOT NULL
@@ -382,7 +382,7 @@ CREATE TABLE IF NOT EXISTS `perfiles` (
   `nombre` varchar(45) NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -408,7 +408,7 @@ CREATE TABLE IF NOT EXISTS `periodos` (
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -423,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `periodo_pagos` (
   `nombre` varchar(100) NOT NULL,
   `numero_pagos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -437,7 +437,7 @@ CREATE TABLE IF NOT EXISTS `permisos` (
   `idpermisos` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
@@ -491,7 +491,7 @@ CREATE TABLE IF NOT EXISTS `permisos_perfiles` (
   `idpermisos` int(11) NOT NULL,
   `idperfiles` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
 
@@ -582,7 +582,7 @@ CREATE TABLE IF NOT EXISTS `personas` (
   `latitud` varchar(45) DEFAULT NULL,
   `longitud` varchar(45) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -618,7 +618,7 @@ CREATE TABLE IF NOT EXISTS `player` (
 CREATE TABLE IF NOT EXISTS `postulantes` (
   `idpostulantes` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `num_documento` varchar(45) NOT NULL,
   `nombres` varchar(100) NOT NULL,
@@ -640,7 +640,7 @@ CREATE TABLE IF NOT EXISTS `postulantes` (
 CREATE TABLE IF NOT EXISTS `postulantes_fases` (
   `idpostulantes_fases` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idpostulantes` int(11) NOT NULL,
   `idfases` int(11) NOT NULL,
@@ -658,7 +658,7 @@ CREATE TABLE IF NOT EXISTS `postulantes_fases` (
 CREATE TABLE IF NOT EXISTS `postulantes_periodos` (
   `idpostulantes_periodos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idpostulantes` int(11) NOT NULL,
   `idperiodos` int(11) NOT NULL,
@@ -706,7 +706,7 @@ CREATE TABLE IF NOT EXISTS `precolegios` (
   `latitud` varchar(45) NOT NULL,
   `longitud` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -727,7 +727,7 @@ CREATE TABLE IF NOT EXISTS `prepadrinos` (
   `como_se_entero` varchar(200) DEFAULT NULL,
   `idperiodo_pagos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -740,7 +740,7 @@ CREATE TABLE IF NOT EXISTS `prepadrinos` (
 CREATE TABLE IF NOT EXISTS `proyectos` (
   `idproyectos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idconcursos` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
@@ -758,7 +758,7 @@ CREATE TABLE IF NOT EXISTS `proyectos` (
 CREATE TABLE IF NOT EXISTS `puntos_eventos` (
   `idpuntos_eventos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idpuntos_reunion` int(11) NOT NULL,
   `ideventos` int(11) NOT NULL
@@ -776,7 +776,7 @@ CREATE TABLE IF NOT EXISTS `puntos_reunion` (
   `latitud` varchar(45) NOT NULL,
   `longitud` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -804,7 +804,7 @@ CREATE TABLE IF NOT EXISTS `score` (
 CREATE TABLE IF NOT EXISTS `tipo_documentos` (
   `idtipo_documentos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -826,7 +826,7 @@ CREATE TABLE IF NOT EXISTS `tipo_eventos` (
   `idtipo_eventos` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -850,7 +850,7 @@ CREATE TABLE IF NOT EXISTS `tipo_identificacion` (
   `idtipo_identificacion` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -872,7 +872,7 @@ CREATE TABLE IF NOT EXISTS `tipo_logs` (
   `idtipo_logs` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -892,7 +892,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `auth_token` varchar(100) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -914,7 +914,7 @@ CREATE TABLE IF NOT EXISTS `users_perfiles` (
   `idperfiles` int(11) NOT NULL,
   `idusers` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -934,7 +934,7 @@ INSERT INTO `users_perfiles` (`idusers_perfiles`, `idperfiles`, `idusers`, `crea
 CREATE TABLE IF NOT EXISTS `user_periodos` (
   `iduser_periodos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idusers` int(11) NOT NULL,
   `idperiodos` int(11) NOT NULL
@@ -949,7 +949,7 @@ CREATE TABLE IF NOT EXISTS `user_periodos` (
 CREATE TABLE IF NOT EXISTS `visualizaciones` (
   `idvisualizaciones` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idusers` int(11) NOT NULL,
   `ideventos` int(11) NOT NULL,
