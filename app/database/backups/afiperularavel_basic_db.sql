@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-10-2015 a las 22:37:53
+-- Tiempo de generación: 23-10-2015 a las 00:48:37
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -928,11 +928,11 @@ INSERT INTO `users_perfiles` (`idusers_perfiles`, `idperfiles`, `idusers`, `crea
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `user_periodos`
+-- Estructura de tabla para la tabla `users_periodos`
 --
 
-CREATE TABLE IF NOT EXISTS `user_periodos` (
-  `iduser_periodos` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users_periodos` (
+  `idusers_periodos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1276,10 +1276,10 @@ ALTER TABLE `users_perfiles`
   ADD KEY `fk_users_perfiles_users1_idx` (`idusers`);
 
 --
--- Indices de la tabla `user_periodos`
+-- Indices de la tabla `users_periodos`
 --
-ALTER TABLE `user_periodos`
-  ADD PRIMARY KEY (`iduser_periodos`),
+ALTER TABLE `users_periodos`
+  ADD PRIMARY KEY (`idusers_periodos`),
   ADD KEY `fk_user_periodos_users1_idx` (`idusers`),
   ADD KEY `fk_user_periodos_periodos1_idx` (`idperiodos`);
 
@@ -1482,10 +1482,10 @@ ALTER TABLE `users`
 ALTER TABLE `users_perfiles`
   MODIFY `idusers_perfiles` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT de la tabla `user_periodos`
+-- AUTO_INCREMENT de la tabla `users_periodos`
 --
-ALTER TABLE `user_periodos`
-  MODIFY `iduser_periodos` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `users_periodos`
+  MODIFY `idusers_periodos` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `visualizaciones`
 --
@@ -1671,9 +1671,9 @@ ALTER TABLE `users_perfiles`
   ADD CONSTRAINT `fk_users_perfiles_users1` FOREIGN KEY (`idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `user_periodos`
+-- Filtros para la tabla `users_periodos`
 --
-ALTER TABLE `user_periodos`
+ALTER TABLE `users_periodos`
   ADD CONSTRAINT `fk_user_periodos_periodos1` FOREIGN KEY (`idperiodos`) REFERENCES `periodos` (`idperiodos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_user_periodos_users1` FOREIGN KEY (`idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
