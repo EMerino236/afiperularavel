@@ -10,15 +10,40 @@ class JuegoController extends \BaseController {
 		$jugador = Jugador::where('idFacebook', '=', Input::get('idFacebook'))->first();
         if ($jugador)
         {
-            $status_code = 200;
-            return Response::json($jugador, $status_code);
+            return Response::json($jugador, 200);
         }
         else
         {
-            $status_code = 404;
-            return Response::json(['error' => 1], $status_code);
+            return Response::json(['error' => 'No se encontró el jugador.'], 200);
         }
 	}
+    
+    public function create_player()
+    {
+        $rules = array('childName' => 'required',
+                       'idFacebook' => 'required',
+                       'coins' => 'required',
+                       'hairVariation' => 'required',
+                       'clothesVariation' => 'required',
+                       'continues' => 'required'
+        );
+        
+        $validator = \Validator::make(Input::all(), $rules);
+        if($validator->passes())
+        {
+            $jugador = new Jugador;
+            $jugador->childName = Input::get('childName');
+            $jugador->idFacebook = Input::get('idFacebook');
+            $jugador->coins = Input::get('coins');
+            $jugador->hairVariation = Input::get('hairVariation');
+            $jugador->clothesVariation = Input::get('clothesVariation');
+            $jugador->continues = Input::get('continues');
+            $jugador->save();
+            return Response::json(['success' => 1], 200);
+        }
+        else return Response::json($validator->messages(), 200);
+        
+    }
 
 	public function friendsScore()
 	{

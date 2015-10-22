@@ -93,5 +93,6 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
 Route::group(array('prefix' => 'game'), function()
 {
     Route::get('player', 'api\juego\JuegoController@player');
+    Route::post('player', 'api\juego\JuegoController@create_player');
     Route::get('friends/score', 'api\juego\JuegoController@friendsScore');
 });

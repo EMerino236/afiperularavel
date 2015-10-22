@@ -9,5 +9,6 @@ class Jugador extends \Eloquent {
 	 */
 	protected $table = 'player';
     protected $primaryKey = 'idPlayer';
+    public $timestamps = false;
 
 }
