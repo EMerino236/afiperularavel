@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-10-2015 a las 22:29:07
+-- Tiempo de generación: 22-10-2015 a las 22:37:53
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -286,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `fase_concursos` (
   `idconcursos` int(11) NOT NULL,
   `titulo` varchar(100) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
-  `fecha_limite` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `fecha_limite` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -574,7 +574,7 @@ CREATE TABLE IF NOT EXISTS `personas` (
   `nombres` varchar(100) NOT NULL,
   `apellido_pat` varchar(100) NOT NULL,
   `apellido_mat` varchar(100) NOT NULL,
-  `fecha_nacimiento` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fecha_nacimiento` timestamp NULL DEFAULT NULL,
   `direccion` varchar(150) DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   `celular` varchar(45) DEFAULT NULL,
@@ -624,7 +624,7 @@ CREATE TABLE IF NOT EXISTS `postulantes` (
   `nombres` varchar(100) NOT NULL,
   `apellido_pat` varchar(100) NOT NULL,
   `apellido_mat` varchar(100) NOT NULL,
-  `fecha_nacimiento` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fecha_nacimiento` timestamp NULL DEFAULT NULL,
   `direccion` varchar(150) DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   `celular` varchar(45) DEFAULT NULL,
@@ -722,7 +722,7 @@ CREATE TABLE IF NOT EXISTS `prepadrinos` (
   `apellido_pat` varchar(100) NOT NULL,
   `apellido_mat` varchar(100) NOT NULL,
   `dni` varchar(45) NOT NULL,
-  `fecha_nacimiento` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `fecha_nacimiento` timestamp NULL DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `como_se_entero` varchar(200) DEFAULT NULL,
   `idperiodo_pagos` int(11) NOT NULL,
