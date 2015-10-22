@@ -8,4 +8,13 @@ class DocumentosEvento extends Eloquent{
 
 	protected $primaryKey = 'iddocumentos_eventos';
 
+	public function scopeGetDocumentosPorEvento($query,$ideventos)
+	{
+		$query->join('documentos','documentos.iddocumentos','=','documentos_eventos.iddocumentos')
+			  ->join('tipo_documentos','tipo_documentos.idtipo_documentos','=','documentos.idtipo_documentos')
+			  ->where('documentos_eventos.ideventos','=',$ideventos)
+			  ->select('tipo_documentos.nombre as tipo_documento','documentos.titulo','documentos.nombre_archivo','documentos.ruta','documentos.iddocumentos','documentos_eventos.iddocumentos_eventos');
+		return $query;
+	}
+
 }

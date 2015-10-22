@@ -31,6 +31,14 @@ Route::group(array('prefix'=>'eventos','before'=>'auth'),function(){
 	/* Eventos */
 	Route::get('/create_evento','EventosController@render_create_evento');
 	Route::post('/submit_create_evento','EventosController@submit_create_evento');
+	Route::get('/list_eventos','EventosController@list_eventos');
+	Route::get('/search_evento','EventosController@search_evento');
+	Route::get('/edit_evento/{id}','EventosController@render_edit_evento');
+	Route::post('/submit_edit_evento','EventosController@submit_edit_evento');
+	Route::post('/submit_delete_evento','EventosController@submit_delete_evento');
+	Route::get('/upload_file/{id}','EventosController@render_upload_file');
+	Route::post('/submit_upload_file','EventosController@submit_upload_file');
+	Route::post('/submit_delete_file','EventosController@submit_delete_file');
 	/* Puntos de reunión*/
 	Route::get('/create_punto_reunion','EventosController@render_create_punto_reunion');
 	Route::post('/submit_create_punto_reunion','EventosController@submit_create_punto_reunion');

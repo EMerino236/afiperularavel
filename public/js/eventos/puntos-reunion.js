@@ -29,6 +29,7 @@ function initMap() {
         marker = new google.maps.Marker({
           position: {lat:parseFloat(response.puntos_reunion[i].latitud),lng:parseFloat(response.puntos_reunion[i].longitud)},
           map: map,
+          icon: 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png',
           title: String(response.puntos_reunion[i].idpuntos_reunion),
           content: response.puntos_reunion[i].direccion,
         });

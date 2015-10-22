@@ -3,8 +3,7 @@ $( document ).ready(function(){
 		defaultDate: false,
 		format: 'DD-MM-YYYY HH:ss',
 		ignoreReadonly: true,
-		sideBySide: true,
-    minDate: new Date(),
+		sideBySide: true
 	});
 
 	$("input[name=seleccionar-todos-voluntarios]").change(function(){
@@ -49,24 +48,40 @@ function initMap() {
     });
     */
   });
+
+
+  $(".puntos-reunion-evento").each(function(){
+    if($(this).is(':checked')){
+      var punto_reunion = new google.maps.Marker({
+        position: {lat: $(this).data('latitud'), lng: $(this).data('longitud')},
+        map: map,
+        icon: 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png',
+        title: $(this).data('direccion')
+      });
+      bounds.extend(punto_reunion.position);
+      puntos_reunion_markers[$(this).val()] = punto_reunion;
+      map.fitBounds(bounds);
+    }
+  });
+
   $(".puntos-reunion-evento").click(function(){
   	if($(this).is(':checked')){
-	  var punto_reunion = new google.maps.Marker({
-	    position: {lat: $(this).data('latitud'), lng: $(this).data('longitud')},
-	    map: map,
-	    icon: 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png',
-	    title: $(this).data('direccion')
-	  });
+  	  var punto_reunion = new google.maps.Marker({
+  	    position: {lat: $(this).data('latitud'), lng: $(this).data('longitud')},
+  	    map: map,
+  	    icon: 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/purple.png',
+  	    title: $(this).data('direccion')
+  	  });
       bounds.extend(punto_reunion.position);
-	  puntos_reunion_markers[$(this).val()] = punto_reunion;
+	    puntos_reunion_markers[$(this).val()] = punto_reunion;
   	}else{
-	  puntos_reunion_markers[$(this).val()].setMap(null);
+	    puntos_reunion_markers[$(this).val()].setMap(null);
 
-	  bounds = new google.maps.LatLngBounds();
+	    bounds = new google.maps.LatLngBounds();
   	  bounds.extend(marker.position);
-	  puntos_reunion_markers.forEach(function(marker){
+	    puntos_reunion_markers.forEach(function(marker){
         bounds.extend(marker.position);
-	  });
+	    });
   	}
   	map.fitBounds(bounds);
   });
