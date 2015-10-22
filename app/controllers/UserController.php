@@ -76,9 +76,9 @@ class UserController extends BaseController {
 						$users_perfil->save();
 					}
 
-					Mail::send('emails.userRegistration',array('user'=> $user,'persona'=>$persona,'password'=>$password),function($message) use ($persona)
+					Mail::send('emails.userRegistration',array('user'=> $user,'persona'=>$persona,'password'=>$password),function($message) use ($user,$persona)
 					{
-						$message->to($persona->email, $persona->nombres)
+						$message->to($user->email, $persona->nombres)
 								->subject('Registro de nuevo usuario');
 					});
 					Session::flash('message', 'Se registró correctamente al usuario.');
@@ -140,6 +140,7 @@ class UserController extends BaseController {
 			if((in_array('side_nuevo_usuario',$data["permisos"])) && $id){
 				$data["user_info"] = User::searchUserById($id)->get();
 				if($data["user_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró al usuario.');
 					return Redirect::to('user/list_user');
 				}
 				$data["user_info"] = $data["user_info"][0];

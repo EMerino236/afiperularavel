@@ -100,18 +100,33 @@
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Seleccione los Asistentes al Evento <input type="checkbox" name="seleccionar-todos-voluntarios" value=""></h3>
+					<h3 class="panel-title">Seleccione los Asistentes al Evento</h3>
 				</div>
 				<div class="panel-body">
-					<div class="col-xs-12">
-						<div class="row">
-							@foreach($voluntarios as $voluntario)
-							<div class="form-group col-xs-4">
-								<input type="checkbox" class="checkbox-voluntarios" name="voluntarios[]" value="{{$voluntario->idusers}}"> {{$voluntario->nombres}} {{$voluntario->apellido_pat}} {{$voluntario->apellido_mat}}<br>
-							</div>
-							@endforeach
-						</div>
-					</div>
+					<table class="table table-hover">
+						<tr class="info">
+							<th>Número de Documento</th>
+							<th>Nombres</th>
+							<th>Apellidos</th>
+							<th>E-mail</th>
+							<th>Teléfono</th>
+							<th>Celular</th>
+							<th>Seleccionar <input type="checkbox" name="seleccionar-todos-voluntarios" value=""></th>
+						</tr>
+						@foreach($voluntarios as $voluntario)
+						<tr>
+							<td>{{$voluntario->num_documento}}</td>
+							<td>{{$voluntario->nombres}}</td>
+							<td>{{$voluntario->apellido_pat}} {{$voluntario->apellido_mat}}</td>
+							<td>{{$voluntario->email}}</td>
+							<td>{{$voluntario->telefono}}</td>
+							<td>{{$voluntario->celular}}</td>
+							<td class="text-center">
+								<input type="checkbox" class="checkbox-voluntarios" name="voluntarios[]" value="{{$voluntario->idusers}}">
+							</td>
+						</tr>
+						@endforeach
+					</table>
 				</div>
 			</div>
 			<div class="col-xs-12">

@@ -17,6 +17,7 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/gmap.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/fileinput.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
 	</script>
@@ -32,7 +33,6 @@
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-
 </head>
 
 <body>
@@ -46,7 +46,7 @@
                     <li><a href="{{ URL::to('eventos/create_evento') }}"><i class="fa fa-plus fa-fw"></i> Nuevo Evento</a></li>
                     @endif
                     @if(in_array('side_listar_eventos',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-list fa-fw"></i> Listar Eventos</a></li>
+                    <li><a href="{{ URL::to('eventos/list_eventos') }}"><i class="fa fa-list fa-fw"></i> Listar Eventos</a></li>
                     @endif
                     @if(in_array('side_nuevo_punto_reunion',$permisos))
                     <li><a href="{{ URL::to('eventos/create_punto_reunion') }}"><i class="fa fa-map-marker fa-fw"></i> Crear Punto de Reunión</a></li>

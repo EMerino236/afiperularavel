@@ -13,7 +13,7 @@ class UsersPeriodo extends Eloquent{
 		$query->join('users','users.id','=','users_periodos.idusers')
 			  ->join('personas','personas.idpersonas','=','users.idpersona')
 			  ->where('users_periodos.idperiodos','<=',$idperiodos)
-			  ->select('personas.nombres','personas.apellido_pat','personas.apellido_mat','users_periodos.idusers');
+			  ->select('personas.nombres','personas.apellido_pat','personas.apellido_mat','personas.telefono','personas.celular','users_periodos.idusers','users.email','users.num_documento');
 		return $query;
 	}
 
