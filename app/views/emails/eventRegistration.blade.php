@@ -1,7 +1,7 @@
 <html>
 <body>
 	<h2>¡Hola estimado voluntario de AFI Perú!</h2>
-	<p>Se te asignó aun nuevo evento:</p>
+	<p>Se te asignó a un nuevo evento:</p>
 	<ul>
 		<li><strong>Evento:</strong> {{ $evento->nombre }}</li>
 		<li><strong>Dirección:</strong> {{ $evento->direccion }}</li>

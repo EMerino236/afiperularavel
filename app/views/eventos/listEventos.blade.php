@@ -56,7 +56,11 @@
 				{{$evento_data->tipo_evento}}
 			</td>
 			<td>
-				Tomar Asistencia
+				@if($hoy < date('Y-m-d', strtotime($evento_data->fecha_evento. ' + 2 days')))
+					Tomar Asistencia 
+				@else 
+					Ver Asistencia 
+				@endif
 			</td>
 			<td>
 				<a href="{{URL::to('/eventos/upload_file/')}}/{{$evento_data->ideventos}}">@if($hoy < $evento_data->fecha_evento)Subir Documentos @else Visualizaciones @endif</a>
