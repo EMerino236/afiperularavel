@@ -105,7 +105,7 @@
 				<div class="panel-body">
 					<table class="table table-hover">
 						<tr class="info">
-							<th>Número de Documento</th>
+							<th>No. Documento</th>
 							<th>Nombres</th>
 							<th>Apellidos</th>
 							<th>E-mail</th>

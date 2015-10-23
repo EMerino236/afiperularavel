@@ -32,7 +32,7 @@
 		<div class="alert alert-danger">No se encontró un período actual activo.</div>
 	@endif
 
-	<table class="table">
+	<table class="table table-hover">
 		<tr class="info">
 			<th>Evento</th>
 			<th>Fecha</th>
@@ -56,11 +56,7 @@
 				{{$evento_data->tipo_evento}}
 			</td>
 			<td>
-				@if($hoy < date('Y-m-d', strtotime($evento_data->fecha_evento. ' + 2 days')))
-					Tomar Asistencia 
-				@else 
-					Ver Asistencia 
-				@endif
+				<a href="{{URL::to('/eventos/asistencia_evento/')}}/{{$evento_data->ideventos}}">@if($hoy < date('Y-m-d', strtotime($evento_data->fecha_evento. ' + 2 days'))) Tomar Asistencia @else Ver Asistencia @endif</a>	
 			</td>
 			<td>
 				<a href="{{URL::to('/eventos/upload_file/')}}/{{$evento_data->ideventos}}">@if($hoy < $evento_data->fecha_evento)Subir Documentos @else Visualizaciones @endif</a>

@@ -432,6 +432,276 @@ class EventosController extends BaseController
 		}
 	}
 
+	public function render_asistencia_evento($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_nuevo_evento',$data["permisos"])) && $id){
+				$data["evento_info"] = Evento::searchEventosById($id)->get();
+				if($data["evento_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró el evento.');
+					return Redirect::to('eventos/list_evento');
+				}
+				$data["evento_info"] = $data["evento_info"][0];
+				$data["voluntarios"] = Asistencia::getUsersPorEvento($data["evento_info"]->ideventos)->get();
+				$data["hoy"] = date("Y-m-d H:i:s");
+				return View::make('eventos/tomarAsistencia',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_asistencia_evento()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_evento',$data["permisos"])){
+				$idasistencias = Input::get('idasistencias');
+				$calificaciones = Input::get('calificaciones');
+				$comentarios = Input::get('comentarios');
+				$asistencias = Input::get('asistencias');
+				$count = count($idasistencias);
+				for($i=0;$i<$count;$i++){
+					$asistencia = Asistencia::find($idasistencias[$i]);
+					$asistencia->asistio = $asistencias[$i];
+					$asistencia->calificacion = $calificaciones[$i];
+					$asistencia->comentario = $comentarios[$i];
+					$asistencia->save();
+				}
+				$ideventos = Input::get('ideventos');
+				Session::flash('message', 'Se tomó correctamente la asistencia.');				
+				return Redirect::to('eventos/asistencia_evento/'.$ideventos);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_mis_eventos()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
+			if(in_array('side_mis_eventos',$data["permisos"])){
+				return View::make('eventos/misEventos',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function mis_eventos_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		if(Auth::check()){
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
+			if(in_array('side_mis_eventos',$data["permisos"])){
+				$data['eventos'] = Asistencia::getEventosPorUser($data["user"]->id)->get()->toArray();
+				$eventos = [];
+				$length = sizeof($data['eventos']);
+				for($i=0;$i<$length;$i++){
+					$eventos[] = date("Y-m-d",strtotime($data['eventos'][$i]['fecha_evento']));
+				}
+				return Response::json(array( 'success' => true,'eventos'=>$eventos,'detalle_eventos' =>$data['eventos']),200);
+			}else{
+				return Response::json(array( 'success' => false ),200);
+			}
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function render_mis_eventos_fecha($fecha=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_mis_eventos',$data["permisos"])) && $fecha){
+				$fecha_fin = date('Y-m-d', strtotime($fecha. ' + 1 days'));
+				$data['eventos_data'] = Asistencia::getEventosPorUserPorFechas($data["user"]->id,$fecha,$fecha_fin)->get();
+				$data["hoy"] = date("Y-m-d H:i:s");
+				return View::make('eventos/misEventosPorFecha',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_ver_evento($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_mis_eventos',$data["permisos"])) && $id){
+				$asistencia = Asistencia::validarAsistencia($data["user"]->id,$id)->get();
+				if($asistencia->isEmpty()){
+					Session::flash('error', 'Lo sentimos, no tiene acceso a ver el evento solicitado.');
+					return Redirect::to('eventos/mis_eventos');
+				}
+				$data["evento_info"] = Evento::searchEventosById($id)->get();
+				if($data["evento_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró el evento.');
+					return Redirect::to('eventos/mis_eventos');
+				}
+				$data["evento_info"] = $data["evento_info"][0];
+				$data["documentos"] = DocumentosEvento::getDocumentosPorEvento($data["evento_info"]->ideventos)->get();
+				$data["voluntarios"] = Asistencia::getUsersPorEvento($data["evento_info"]->ideventos)->get();
+				$data["puntos_reunion"] = PuntoReunion::all();
+				$puntos_reunion_seleccionados = PuntoEvento::getPuntosPorEvento($data["evento_info"]->ideventos)->get()->toArray();
+				foreach($puntos_reunion_seleccionados as $punto_reunion_seleccionado){
+					$data["puntos_reunion_seleccionados"][] = $punto_reunion_seleccionado['idpuntos_reunion'];
+				}
+				return View::make('eventos/verEvento',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_descargar_documento()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_mis_eventos',$data["permisos"])){
+				$ideventos = Input::get('ideventos');
+				$iddocumentos = Input::get('iddocumentos');
+				$visualizacion = Visualizacion::getVisualizacionesPorUserPorEventoPorDocumento($data["user"]->id,$ideventos,$iddocumentos)->get();
+				if($visualizacion->isEmpty()){
+					$nueva_visualización = new Visualizacion;
+					$nueva_visualización->idusers = $data["user"]->id;
+					$nueva_visualización->ideventos = $ideventos;
+					$nueva_visualización->iddocumentos = $iddocumentos;
+					$nueva_visualización->save();
+				}
+				$documento = Documento::find($iddocumentos);
+				$rutaDestino = $documento->ruta.$documento->nombre_archivo;
+		        $headers = array(
+		              'Content-Type',mime_content_type($rutaDestino),
+		            );
+		        return Response::download($rutaDestino,basename($rutaDestino),$headers);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_registrar_comentario($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_mis_eventos',$data["permisos"])) && $id){
+				$asistencia = Asistencia::validarAsistencia($data["user"]->id,$id)->get();
+				if($asistencia->isEmpty()){
+					Session::flash('error', 'Lo sentimos, no tiene acceso a ver el evento solicitado.');
+					return Redirect::to('eventos/mis_eventos');
+				}
+				$data["evento_info"] = Evento::searchEventosById($id)->get();
+				if($data["evento_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró el evento.');
+					return Redirect::to('eventos/mis_eventos');
+				}
+				$data["evento_info"] = $data["evento_info"][0];
+				$data["hoy"] = date("Y-m-d H:i:s");
+				$data["asistencia_ninhos"] = AsistenciaNinho::getNinhosPorEvento($data["evento_info"]->ideventos)->get();
+				$data["comentario_ninhos"] = array();
+				foreach($data["asistencia_ninhos"] as $ninho){
+					$comentario = Comentario::getComentarioPorUserPorNinhos($data["user"]->id,$ninho->idasistencia_ninhos)->get();
+					if($comentario->isEmpty()){
+						$data["comentario_ninhos"][] = null;
+					}
+					else{
+						$data["comentario_ninhos"][] = $comentario[0];
+					}
+				}
+				return View::make('eventos/registrarComentario',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_registrar_comentario()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_mis_eventos',$data["permisos"]))){
+				$ideventos = Input::get('ideventos');
+				$asistencia = Asistencia::validarAsistencia($data["user"]->id,$ideventos)->get();
+				if($asistencia->isEmpty()){
+					Session::flash('error', 'Lo sentimos, no tiene acceso a ver el evento solicitado.');
+					return Redirect::to('eventos/mis_eventos');
+				}
+				$data["evento_info"] = Evento::searchEventosById($ideventos)->get();
+				if($data["evento_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró el evento.');
+					return Redirect::to('eventos/mis_eventos');
+				}
+				$data["evento_info"] = $data["evento_info"][0];
+				$data["hoy"] = date("Y-m-d H:i:s");
+				$idasistencia_ninhos = Input::get('idasistencia_ninhos');
+				$idcomentarios = Input::get('idcomentarios');
+				$calificaciones = Input::get('calificaciones');
+				$comentarios = Input::get('comentarios');
+				for($i=0;$i<count($idcomentarios);$i++){
+					if(empty($idcomentarios[$i])){
+						$comentario = new Comentario;
+						$comentario->idusers = $data["user"]->id;
+						$comentario->idasistencia_ninhos = $idasistencia_ninhos[$i];
+						$comentario->comentario = $comentarios[$i];
+						$comentario->calificacion = $calificaciones[$i];
+						$comentario->save();
+					}else{
+						$comentario = Comentario::find($idcomentarios[$i]);
+						$comentario->comentario = $comentarios[$i];
+						$comentario->calificacion = $calificaciones[$i];
+						$comentario->save();
+					}
+				}
+				Session::flash('message', 'Se registraron correctamente los comentarios.');				
+				return Redirect::to('eventos/registrar_comentario/'.$ideventos);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function render_create_punto_reunion()
 	{
 		if(Auth::check()){

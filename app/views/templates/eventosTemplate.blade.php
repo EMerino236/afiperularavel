@@ -10,6 +10,8 @@
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Datepicker CSS-->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
+    <!-- Calendar CSS-->
+    <link rel="stylesheet" href="{{ asset('css/responsive-calendar.css') }}">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
     <!-- Custom CSS -->
@@ -18,6 +20,7 @@
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/gmap.css') }}" rel="stylesheet">
     <link href="{{ asset('css/fileinput.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/star-rating.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
 	</script>
@@ -29,6 +32,8 @@
     <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
     <!-- Bootstrap Datepicker JavaScript -->
     <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <!-- Bootstrap Calendar JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/responsive-calendar.min.js') }}"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
@@ -55,7 +60,7 @@
                     <li><a href="{{ URL::to('eventos/list_puntos_reunion') }}"><i class="fa fa-globe fa-fw"></i> Listar Puntos de Reunión</a></li>
                     @endif
                     @if(in_array('side_mis_eventos',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-bell fa-fw"></i> Mis Eventos</a></li>
+                    <li><a href="{{ URL::to('eventos/mis_eventos') }}"><i class="fa fa-bell fa-fw"></i> Mis Eventos</a></li>
                     @endif
                 </ul>
             </div>

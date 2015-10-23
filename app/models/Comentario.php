@@ -8,4 +8,11 @@ class Comentario extends Eloquent{
 
 	protected $primaryKey = 'idcomentarios';
 
+	public function scopeGetComentarioPorUserPorNinhos($query,$idusers,$idasistencia_ninhos)
+	{
+		$query->where('idasistencia_ninhos','=',$idasistencia_ninhos)
+			  ->where('idusers','=',$idusers);
+		return $query;
+	}
+
 }

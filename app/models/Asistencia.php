@@ -8,12 +8,38 @@ class Asistencia extends Eloquent{
 
 	protected $primaryKey = 'idasistencias';
 
+	public function scopeValidarAsistencia($query,$idusers,$ideventos)
+	{
+		$query->where('ideventos','=',$ideventos)
+			  ->where('idusers','=',$idusers);
+		return $query;
+	}
+
 	public function scopeGetUsersPorEvento($query,$ideventos)
 	{
 		$query->join('users','users.id','=','asistencias.idusers')
 			  ->join('personas','personas.idpersonas','=','users.idpersona')
 			  ->where('asistencias.ideventos','=',$ideventos)
-			  ->select('personas.nombres','personas.apellido_pat','personas.apellido_mat','personas.telefono','personas.celular','users.email','users.num_documento');
+			  ->select('personas.nombres','personas.apellido_pat','personas.apellido_mat','personas.telefono','personas.celular','users.email','users.num_documento','asistencias.idasistencias','asistencias.asistio','asistencias.calificacion','asistencias.comentario');
+		return $query;
+	}
+
+	public function scopeGetEventosPorUser($query,$idusers)
+	{
+		$query->join('eventos','eventos.ideventos','=','asistencias.ideventos')
+			  ->where('asistencias.idusers','=',$idusers)
+			  ->select('eventos.*');
+		return $query;
+	}
+
+	public function scopeGetEventosPorUserPorFechas($query,$idusers,$fecha_ini,$fecha_fin)
+	{
+		$query->join('eventos','eventos.ideventos','=','asistencias.ideventos')
+			  ->join('tipo_eventos','tipo_eventos.idtipo_eventos','=','eventos.idtipo_eventos')
+			  ->where('asistencias.idusers','=',$idusers)
+			  ->where('eventos.fecha_evento','>=',$fecha_ini)
+			  ->where('eventos.fecha_evento','<=',$fecha_fin)
+			  ->select('eventos.*','tipo_eventos.nombre as tipo_evento');
 		return $query;
 	}
 
