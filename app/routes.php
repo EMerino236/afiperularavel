@@ -68,6 +68,13 @@ Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
 /* Colegios */
 Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){
 	Route::get('/','ColegiosController@home');
+	Route::get('/create_colegio','ColegiosController@render_create_colegio');
+	Route::post('/submit_create_colegio','ColegiosController@submit_create_colegio');
+	Route::get('/list_colegios','ColegiosController@list_colegios');
+	Route::get('/edit_colegio/{id}','ColegiosController@render_edit_colegio');
+	//Route::post('/submit_edit_colegio','ColegiosController@submit_edit_colegio');
+	Route::post('/submit_disable_colegio','ColegiosController@submit_disable_colegio');
+	Route::post('/submit_enable_colegio','ColegiosController@submit_enable_colegio');
 });
 /* Proyectos */
 Route::group(array('prefix'=>'concursos','before'=>'auth'),function(){

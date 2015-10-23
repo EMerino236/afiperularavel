@@ -27,10 +27,10 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     @if(in_array('side_nuevo_colegio',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-plus fa-fw"></i> Registrar Colegio</a></li>
+                    <li><a href="{{ URL::to('colegios/create_colegio') }}"><i class="fa fa-plus fa-fw"></i> Registrar Colegio</a></li>
                     @endif
                     @if(in_array('side_listar_colegios',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-list fa-fw"></i> Listar Colegios</a></li>
+                    <li><a href="{{ URL::to('colegios/list_colegios') }}"><i class="fa fa-list fa-fw"></i> Listar Colegios</a></li>
                     @endif
                     @if(in_array('side_aprobar_colegios',$permisos))
                     <li><a href="{{ URL::to('#') }}"><i class="fa fa-check fa-fw"></i> Aprobar Colegios</a></li>
