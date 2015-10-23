@@ -39,6 +39,17 @@ Route::group(array('prefix'=>'eventos','before'=>'auth'),function(){
 	Route::get('/upload_file/{id}','EventosController@render_upload_file');
 	Route::post('/submit_upload_file','EventosController@submit_upload_file');
 	Route::post('/submit_delete_file','EventosController@submit_delete_file');
+	/* Toma de asistencia */
+	Route::get('/asistencia_evento/{id}','EventosController@render_asistencia_evento');
+	Route::post('/submit_asistencia_evento','EventosController@submit_asistencia_evento');
+	/* Mis Eventos */
+	Route::get('/mis_eventos','EventosController@render_mis_eventos');
+	Route::post('/mis_eventos_ajax','EventosController@mis_eventos_ajax');
+	Route::get('/mis_eventos/{fecha}','EventosController@render_mis_eventos_fecha');
+	Route::get('/ver_evento/{id}','EventosController@render_ver_evento');
+	Route::post('/descargar_documento','EventosController@submit_descargar_documento');
+	Route::get('/registrar_comentario/{id}','EventosController@render_registrar_comentario');
+	Route::post('/submit_registrar_comentario','EventosController@submit_registrar_comentario');
 	/* Puntos de reunión*/
 	Route::get('/create_punto_reunion','EventosController@render_create_punto_reunion');
 	Route::post('/submit_create_punto_reunion','EventosController@submit_create_punto_reunion');

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-10-2015 a las 00:48:37
+-- Tiempo de generación: 24-10-2015 a las 00:13:41
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `comentarios` (
   `idcomentarios` int(11) NOT NULL,
   `comentario` varchar(200) DEFAULT NULL,
   `calificacion` int(11) NOT NULL DEFAULT '0',
-  `users_id` int(11) NOT NULL,
+  `idusers` int(11) NOT NULL,
   `idasistencia_ninhos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -341,7 +341,7 @@ CREATE TABLE IF NOT EXISTS `ninhos` (
   `idninhos` int(11) NOT NULL,
   `nombres` varchar(100) NOT NULL,
   `apellido_pat` varchar(100) NOT NULL,
-  `ap_mat` varchar(100) NOT NULL,
+  `apellido_mat` varchar(100) NOT NULL,
   `fecha_nacimiento` date NOT NULL,
   `genero` varchar(1) NOT NULL,
   `dni` varchar(45) NOT NULL,
@@ -591,7 +591,7 @@ CREATE TABLE IF NOT EXISTS `personas` (
 --
 
 INSERT INTO `personas` (`idpersonas`, `nombres`, `apellido_pat`, `apellido_mat`, `fecha_nacimiento`, `direccion`, `telefono`, `celular`, `email`, `latitud`, `longitud`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Webmaster', 'AFI', 'PERU', '2015-10-31 05:00:00', NULL, NULL, NULL, 'afiperuwebmaster@gmail.com', NULL, NULL, '2015-10-22 19:48:53', '2015-10-22 19:48:53', NULL);
+(1, 'Webmaster', 'AFI', 'PERÚ', '2015-10-23 05:00:00', NULL, NULL, NULL, 'afiperuwebmaster@gmail.com', NULL, NULL, '2015-10-23 22:11:36', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -706,7 +706,7 @@ CREATE TABLE IF NOT EXISTS `precolegios` (
   `latitud` varchar(45) NOT NULL,
   `longitud` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -722,7 +722,7 @@ CREATE TABLE IF NOT EXISTS `prepadrinos` (
   `apellido_pat` varchar(100) NOT NULL,
   `apellido_mat` varchar(100) NOT NULL,
   `dni` varchar(45) NOT NULL,
-  `fecha_nacimiento` timestamp NULL DEFAULT NULL,
+  `fecha_nacimiento` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `email` varchar(100) NOT NULL,
   `como_se_entero` varchar(200) DEFAULT NULL,
   `idperiodo_pagos` int(11) NOT NULL,
@@ -994,7 +994,7 @@ ALTER TABLE `colegios`
 --
 ALTER TABLE `comentarios`
   ADD PRIMARY KEY (`idcomentarios`),
-  ADD KEY `fk_comentarios_users1_idx` (`users_id`),
+  ADD KEY `fk_comentarios_users1_idx` (`idusers`),
   ADD KEY `fk_comentarios_asistencia_ninhos1_idx` (`idasistencia_ninhos`);
 
 --
@@ -1317,6 +1317,11 @@ ALTER TABLE `calendario_pagos`
 ALTER TABLE `colegios`
   MODIFY `idcolegios` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  MODIFY `idcomentarios` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `concursos`
 --
 ALTER TABLE `concursos`
@@ -1520,7 +1525,7 @@ ALTER TABLE `calendario_pagos`
 --
 ALTER TABLE `comentarios`
   ADD CONSTRAINT `fk_comentarios_asistencia_ninhos1` FOREIGN KEY (`idasistencia_ninhos`) REFERENCES `asistencia_ninhos` (`idasistencia_ninhos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_comentarios_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_comentarios_users1` FOREIGN KEY (`idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `detalle_proyectos`

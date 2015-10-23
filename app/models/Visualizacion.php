@@ -19,4 +19,14 @@ class Visualizacion extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetVisualizacionesPorUserPorEventoPorDocumento($query,$idusers,$ideventos,$iddocumentos)
+	{
+		$query->join('users','users.id','=','visualizaciones.idusers')
+			  ->join('personas','personas.idpersonas','=','users.idpersona')
+			  ->where('users.id','=',$idusers)
+			  ->where('visualizaciones.ideventos','=',$ideventos)
+			  ->where('visualizaciones.iddocumentos','=',$iddocumentos);
+		return $query;
+	}
+
 }
