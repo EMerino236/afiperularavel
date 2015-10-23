@@ -53,6 +53,10 @@ Route::group(array('prefix'=>'voluntarios','before'=>'auth'),function(){
 /* Padrinos */
 Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
 	Route::get('/','PadrinosController@home');
+	Route::get('/list_padrinos','PadrinosController@list_padrinos');
+	Route::get('/search_padrino','PadrinosController@search_padrino');
+	Route::get('/edit_padrino/{id}','PadrinosController@render_edit_padrino');
+	Route::post('/submit_edit_padrino','PadrinosController@submit_edit_padrino');
 });
 /* Colegios */
 Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){

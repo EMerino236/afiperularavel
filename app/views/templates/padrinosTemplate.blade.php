@@ -27,7 +27,7 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     @if(in_array('side_listar_padrinos',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-list fa-fw"></i> Listar Padrinos</a></li>
+                    <li><a href="{{ URL::to('padrinos/list_padrinos') }}"><i class="fa fa-list fa-fw"></i> Listar Padrinos</a></li>
                     @endif
                     @if(in_array('side_aprobar_padrinos',$permisos))
                     <li><a href="{{ URL::to('#') }}"><i class="fa fa-check fa-fw"></i> Aprobar Padrinos</a></li>
