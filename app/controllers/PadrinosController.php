@@ -61,7 +61,7 @@ class PadrinosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if((in_array('side_nuevo_padrino',$data["permisos"])) && $id){
+			if((in_array('side_listar_padrinos',$data["permisos"])) && $id){
 				$data["padrino_info"] = Padrino::searchPadrinoById($id)->get();
 				if($data["padrino_info"]->isEmpty()){
 					Session::flash('error', 'No se encontró al padrino.');
