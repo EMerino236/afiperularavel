@@ -95,6 +95,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			  ->select('perfiles.nombre');
 		return $query;
 	}
+    
+    public function scopeGetPerfilesPorUsuario2($query,$id)
+	{
+		$null = null;
+		$query->join('users_perfiles','users_perfiles.idusers','=','users.id')
+			  ->join('perfiles','perfiles.idperfiles','=','users_perfiles.idperfiles')
+			  ->where('users.id','=',$id)
+			  ->where('users_perfiles.deleted_at','=',$null)
+			  ->select('perfiles.idperfiles','perfiles.nombre');
+		return $query;
+	}
 
 	public function scopeSearchUserByDocumentNumber($query,$search_criteria)
 	{

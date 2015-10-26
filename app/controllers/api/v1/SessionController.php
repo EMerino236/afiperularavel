@@ -15,6 +15,15 @@ class SessionController extends \BaseController {
     	{
     		if (\Hash::check($password, $user->password))
     		{
+                $perfiles = User::getPerfilesPorUsuario2($user->id)->get();
+                $perfiles_array = array();
+                foreach ($perfiles as $perfil)
+                {
+                    $perfiles_array[] = [
+                        'id' => $perfil->idperfiles,
+                        'name' => $perfil->nombre
+                    ];
+                }
     			$permisos = User::getPermisosPorUsuarioId($user->id)->get();
 				$permisos_array = array();
 				foreach ($permisos as $p)
@@ -26,6 +35,7 @@ class SessionController extends \BaseController {
             			'names' => $user->nombres,
             			'last_name' => $user->apellido_pat,
             			'username' => $user->num_documento,
+                        'profiles' => $perfiles_array,
             			'actions' => $permisos_array,
             			'auth_token' => $user->auth_token
         		];

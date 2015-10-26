@@ -35,6 +35,7 @@ class EventosController extends \BaseController {
             foreach($puntos_reunion as $punto)
             {
                 $lista_puntos[] = [
+                    'id' => $punto->idpuntos_reunion,
                     'latitude' => (double)$punto->latitud,
                     'longitude' => (double)$punto->longitud
                 ];
