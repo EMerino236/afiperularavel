@@ -124,6 +124,7 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::get('children', 'api\v1\NinhosController@index');
     Route::get('locations', 'api\v1\LocationController@locations');
     Route::get('users', 'api\v1\UserController@users');
+    Route::post('meeting_points', 'api\v1\MeetingPointController@meeting_points');
 });
 
 /* Rutas para el juego */

@@ -20,6 +20,7 @@ class LocationController extends \BaseController {
     		foreach ($colegios as $c)
     		{
     			$colegios_element['id'] = $c->idcolegios;
+                $colegios_element['name'] = $c->nombre;
     			$colegios_element['latitude'] = (double)$c->latitud;
     			$colegios_element['longitude'] = (double)$c->longitud;
     			$colegios_array[] = $colegios_element;

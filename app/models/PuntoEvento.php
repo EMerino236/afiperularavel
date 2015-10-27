@@ -23,4 +23,11 @@ class PuntoEvento extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetPuntosPorEventoXPunto($query, $ideventos, $idpuntos_reunion)
+	{
+		$query->where('ideventos','=', $ideventos)
+			->where('idpuntos_reunion', '=', $idpuntos_reunion)
+			  ->select('*');
+		return $query;
+	}
 }
