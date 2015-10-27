@@ -81,7 +81,7 @@ class EventosController extends \BaseController {
                         'names' => $v->nombres,
                         'last_name' => $v->apellido_pat,
                         'username' => $v->num_documento,
-                        //'email' => $v->email,
+                        'email' => $v->email,
                         'profiles' => $perfiles_array
                     ],
                     'attended' => $v->asistio
