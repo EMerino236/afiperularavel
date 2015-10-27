@@ -15,6 +15,12 @@ class Colegio extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetActiveColegiosInfo($query)
+	{
+		$query->select('colegios.*');
+		return $query;
+	}
+
 	public function scopeSearchColegioById($query,$search_criteria)
 	{
 		$query->withTrashed()
