@@ -35,6 +35,7 @@ class SessionController extends \BaseController {
             			'names' => $user->nombres,
             			'last_name' => $user->apellido_pat,
             			'username' => $user->num_documento,
+                        'email' => $user->email,
                         'profiles' => $perfiles_array,
             			'actions' => $permisos_array,
             			'auth_token' => $user->auth_token
