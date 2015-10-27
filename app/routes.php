@@ -132,4 +132,5 @@ Route::group(array('prefix' => 'game'), function()
     Route::get('player', 'api\juego\JuegoController@player');
     Route::post('player', 'api\juego\JuegoController@create_player');
     Route::get('friends/score', 'api\juego\JuegoController@friendsScore');
+    Route::get('level/graph', 'api\juego\JuegoController@levelGraph');
 });

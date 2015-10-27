@@ -5,6 +5,7 @@ use \Illuminate\Support\Facades\Response;
 
 class JuegoController extends \BaseController {
 
+    // Obtener datos de jugador
 	public function player()
 	{
 		$jugador = Jugador::where('idFacebook', '=', Input::get('idFacebook'))->first();
@@ -18,6 +19,7 @@ class JuegoController extends \BaseController {
         }
 	}
     
+    // Registrar datos de jugador
     public function create_player()
     {
         $rules = array('childName' => 'required',
@@ -45,6 +47,7 @@ class JuegoController extends \BaseController {
         
     }
 
+    // Obtener puntajes de amigos
 	public function friendsScore()
 	{
         $facebookIDs = Input::get('idPlayers');
@@ -71,5 +74,48 @@ class JuegoController extends \BaseController {
         
 		return Response::json($response, 200);
 	}
+    
+    // Obtener grafo de niveles
+    public function levelGraph()
+    {
+        $idJugador = Input::get('idPlayer');
+        
+        $niveles = Nivel::all();
+        $levels = [];
+        foreach($niveles as $n)
+        {
+            // obtener estado del nivel para el jugador
+            $estado = EstadoNivel::where('idLevel', '=', $n->idLevel)->where('idPlayer', '=', $idJugador)->first();
+            
+            // obtener niveles predecesores
+            $preds = Nivel::where('idPredLevel', '=', $n->idLevel)->select('idLevel')->get();
+            
+            // obtener puntaje del jugador en el nivel
+            $puntaje = Puntaje::where('idLevel', '=', $n->idLevel)->where('idPlayer', '=', $idJugador)->first();
+            
+            // obtener powerups del nivel
+            $powerups = PowerupxNivel::where('idLevel', '=', $n->idLevel)->select('idPowerup','cost')->get();
+            
+            // obtener colectables del nivel
+            $colectables = PesoColectable::where('idLevel', '=', $n->idLevel)->select('idCurrency', 'weight')->get();
+            
+            $levels[] = [
+                'idLevel' => $n->idLevel,
+                'numOrder' => $n->numOrder,
+                'bought' => ($estado) ? $estado->bought : null,
+                'unlocked' => ($estado) ? $estado->unlocked : null,
+                'cost' => $n->cost,
+                'childLevel' => $preds,
+                'score' => ($puntaje) ? $puntaje->score : null,
+                'defeated' => ($puntaje) ? $puntaje->defeated : null,
+                'defeatPosX' => ($puntaje) ? $puntaje->defeatPosX : null,
+                'defeatPosY' => ($puntaje) ? $puntaje->defeatPosY : null,
+                'powerupsAvailable' => $powerups,
+                'currencyWeight' => $colectables
+            ];
+        }
+        
+        return Response::json(['levels' => $levels], 200);
+    }
 
 }

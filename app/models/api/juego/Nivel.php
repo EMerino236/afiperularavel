@@ -1,13 +1,14 @@
 <?php namespace api\juego;
 
-class Puntaje extends \Eloquent {
+class Nivel extends \Eloquent {
     
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'score';
+	protected $table = 'level';
+    protected $primaryKey = 'idLevel';
     public $timestamps = false;
 
 }
