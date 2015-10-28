@@ -37,7 +37,7 @@
     @endif
     @if(in_array('nav_colegios',$permisos))
     <li>
-        <a href="{{ URL::to('colegios') }}"><i class="fa fa-send fa-fw"></i> Colegios</a>
+        <a href="{{ URL::to('colegios') }}"><i class="fa fa-university fa-fw"></i> Colegios</a>
     </li>
     @endif
     @if(in_array('nav_concursos',$permisos))

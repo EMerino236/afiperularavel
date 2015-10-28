@@ -68,6 +68,11 @@ Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
 	Route::get('/search_padrino','PadrinosController@search_padrino');
 	Route::get('/edit_padrino/{id}','PadrinosController@render_edit_padrino');
 	Route::post('/submit_edit_padrino','PadrinosController@submit_edit_padrino');
+	/* Reporte a Padrinos */
+	Route::get('/create_reporte_padrinos','PadrinosController@render_create_reporte_padrinos');
+	Route::post('/submit_create_reporte_padrinos','PadrinosController@submit_create_reporte_padrinos');
+	Route::get('/list_reporte_padrinos','PadrinosController@list_reporte_padrinos');
+	Route::post('/descargar_reporte_padrino','PadrinosController@submit_descargar_reporte_padrino');
 });
 /* Colegios */
 Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){

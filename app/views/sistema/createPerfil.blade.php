@@ -120,6 +120,7 @@
 						<input class="concursos-child" type="checkbox" name="permisos[]" value="24" @if(Input::old('permisos') && in_array("24",Input::old('permisos'))) checked @endif> Listar Concursos<br>
 						<input class="concursos-child" type="checkbox" name="permisos[]" value="25" @if(Input::old('permisos') && in_array("25",Input::old('permisos'))) checked @endif> Crear Proyecto<br>
 						<input class="concursos-child" type="checkbox" name="permisos[]" value="26" @if(Input::old('permisos') && in_array("26",Input::old('permisos'))) checked @endif> Listar Proyectos<br>
+						<br>
 					</div>
 				</div>
 			</div>
@@ -132,7 +133,8 @@
 						<input class="colegios-child" type="checkbox" name="permisos[]" value="27" @if(Input::old('permisos') && in_array("27",Input::old('permisos'))) checked @endif> Crear Colegio<br>
 						<input class="colegios-child" type="checkbox" name="permisos[]" value="28" @if(Input::old('permisos') && in_array("28",Input::old('permisos'))) checked @endif> Listar Colegios<br>
 						<input class="colegios-child" type="checkbox" name="permisos[]" value="29" @if(Input::old('permisos') && in_array("29",Input::old('permisos'))) checked @endif> Aprobar Colegios<br>
-						<br>
+						<input class="colegios-child" type="checkbox" name="permisos[]" value="30" @if(Input::old('permisos') && in_array("30",Input::old('permisos'))) checked @endif> Registrar Niño<br>
+						<input class="colegios-child" type="checkbox" name="permisos[]" value="31" @if(Input::old('permisos') && in_array("31",Input::old('permisos'))) checked @endif> Listar Niños<br>
 					</div>
 				</div>
 			</div>
@@ -142,8 +144,9 @@
 						<h3 class="panel-title"><input class="usuarios-parent" type="checkbox" name="permisos[]" value="7" @if(Input::old('permisos') && in_array("7",Input::old('permisos'))) checked @endif>Menú Usuarios</h3>
 					</div>
 					<div class="panel-body">
-						<input class="usuarios-child" type="checkbox" name="permisos[]" value="30" @if(Input::old('permisos') && in_array("30",Input::old('permisos'))) checked @endif> Crear Usuario<br>
-						<input class="usuarios-child" type="checkbox" name="permisos[]" value="31" @if(Input::old('permisos') && in_array("31",Input::old('permisos'))) checked @endif> Listar Usuarios<br>
+						<input class="usuarios-child" type="checkbox" name="permisos[]" value="32" @if(Input::old('permisos') && in_array("32",Input::old('permisos'))) checked @endif> Crear Usuario<br>
+						<input class="usuarios-child" type="checkbox" name="permisos[]" value="33" @if(Input::old('permisos') && in_array("33",Input::old('permisos'))) checked @endif> Listar Usuarios<br>
+						<br>
 						<br>
 						<br>
 					</div>
@@ -155,8 +158,9 @@
 						<h3 class="panel-title"><input class="sistema-parent" type="checkbox" name="permisos[]" value="8" @if(Input::old('permisos') && in_array("8",Input::old('permisos'))) checked @endif>Menú Sistema</h3>
 					</div>
 					<div class="panel-body">
-						<input class="sistema-child" type="checkbox" name="permisos[]" value="32" @if(Input::old('permisos') && in_array("32",Input::old('permisos'))) checked @endif> Crear Perfil<br>
-						<input class="sistema-child" type="checkbox" name="permisos[]" value="33" @if(Input::old('permisos') && in_array("33",Input::old('permisos'))) checked @endif> Listar Perfiles<br>
+						<input class="sistema-child" type="checkbox" name="permisos[]" value="34" @if(Input::old('permisos') && in_array("34",Input::old('permisos'))) checked @endif> Crear Perfil<br>
+						<input class="sistema-child" type="checkbox" name="permisos[]" value="35" @if(Input::old('permisos') && in_array("35",Input::old('permisos'))) checked @endif> Listar Perfiles<br>
+						<br>
 						<br>
 						<br>
 					</div>

@@ -28,7 +28,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="col-xs-8">
-				<label class="control-label">Seleccione un Documento</label>
+				<label class="control-label">Seleccione un Documento</label>(pdf,doc,docx,xls,xlsx,ppt,pptx)
 				<input name="archivo" id="input-1" type="file" class="file file-loading" data-allowed-file-extensions='["pdf","doc","docx","xls","xlsx","ppt","pptx"]'>
 			</div>
 		</div>

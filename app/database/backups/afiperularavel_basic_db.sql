@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-10-2015 a las 00:13:41
+-- Tiempo de generación: 28-10-2015 a las 03:55:56
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -439,7 +439,7 @@ CREATE TABLE IF NOT EXISTS `permisos` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `permisos`
@@ -475,10 +475,12 @@ INSERT INTO `permisos` (`idpermisos`, `nombre`, `created_at`, `updated_at`, `del
 (27, 'side_nuevo_colegio', '2015-10-07 03:32:13', '2015-10-07 03:32:13', NULL),
 (28, 'side_listar_colegios', '2015-10-07 03:32:13', '2015-10-07 03:32:13', NULL),
 (29, 'side_aprobar_colegios', '2015-10-07 03:32:32', '2015-10-07 03:32:32', NULL),
-(30, 'side_nuevo_usuario', '2015-10-07 04:33:10', '2015-10-07 04:33:10', NULL),
-(31, 'side_listar_usuarios', '2015-10-07 04:33:10', '2015-10-07 04:33:10', NULL),
-(32, 'side_nuevo_perfil', '2015-10-07 09:19:36', '2015-10-07 09:19:36', NULL),
-(33, 'side_listar_perfiles', '2015-10-07 09:19:36', '2015-10-07 09:19:36', NULL);
+(30, 'side_nuevo_ninho', '2015-10-07 03:32:13', '2015-10-07 03:32:13', NULL),
+(31, 'side_listar_ninhos', '2015-10-07 03:32:13', '2015-10-07 03:32:13', NULL),
+(32, 'side_nuevo_usuario', '2015-10-07 04:33:10', '2015-10-07 04:33:10', NULL),
+(33, 'side_listar_usuarios', '2015-10-07 04:33:10', '2015-10-07 04:33:10', NULL),
+(34, 'side_nuevo_perfil', '2015-10-07 09:19:36', '2015-10-07 09:19:36', NULL),
+(35, 'side_listar_perfiles', '2015-10-07 09:19:36', '2015-10-07 09:19:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -493,7 +495,7 @@ CREATE TABLE IF NOT EXISTS `permisos_perfiles` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `permisos_perfiles`
@@ -533,35 +535,39 @@ INSERT INTO `permisos_perfiles` (`idpermisos_perfiles`, `idpermisos`, `idperfile
 (31, 31, 1, '2015-10-07 05:33:17', '2015-10-07 05:33:17', NULL),
 (32, 32, 1, '2015-10-07 09:23:33', '2015-10-07 09:23:33', NULL),
 (33, 33, 1, '2015-10-07 09:23:33', '2015-10-07 09:23:33', NULL),
-(34, 1, 2, '2015-10-16 01:06:28', '2015-10-16 01:06:28', NULL),
-(35, 2, 2, '2015-10-16 01:06:28', '2015-10-16 01:06:28', NULL),
-(36, 3, 2, '2015-10-16 01:06:41', '2015-10-16 01:06:41', NULL),
-(37, 4, 2, '2015-10-16 01:06:41', '2015-10-16 01:06:41', NULL),
-(38, 5, 2, '2015-10-16 01:06:54', '2015-10-16 01:06:54', NULL),
-(39, 6, 2, '2015-10-16 01:06:54', '2015-10-16 01:06:54', NULL),
-(40, 9, 2, '2015-10-16 01:08:21', '2015-10-16 01:08:21', NULL),
-(41, 10, 2, '2015-10-16 01:08:21', '2015-10-16 01:08:21', NULL),
-(42, 11, 2, '2015-10-16 01:08:42', '2015-10-16 01:08:42', NULL),
-(43, 12, 2, '2015-10-16 01:10:48', '2015-10-16 01:10:48', NULL),
-(44, 13, 2, '2015-10-16 01:10:48', '2015-10-16 01:10:48', NULL),
-(45, 14, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(46, 16, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(47, 17, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(48, 18, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(49, 19, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(50, 20, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(51, 23, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(52, 24, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(53, 25, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(54, 26, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(55, 27, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(56, 28, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(57, 29, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
-(58, 2, 3, '2015-10-16 01:24:00', '2015-10-16 01:24:00', NULL),
-(59, 15, 3, '2015-10-16 01:26:45', '2015-10-16 01:26:45', NULL),
-(60, 4, 4, '2015-10-16 01:27:03', '2015-10-16 01:27:03', NULL),
-(61, 21, 4, '2015-10-16 01:27:03', '2015-10-16 01:27:03', NULL),
-(62, 22, 4, '2015-10-16 01:27:11', '2015-10-16 01:27:11', NULL);
+(34, 34, 1, '2015-10-07 09:23:33', '2015-10-07 09:23:33', NULL),
+(35, 35, 1, '2015-10-07 09:23:33', '2015-10-07 09:23:33', NULL),
+(36, 1, 2, '2015-10-16 01:06:28', '2015-10-16 01:06:28', NULL),
+(37, 2, 2, '2015-10-16 01:06:28', '2015-10-16 01:06:28', NULL),
+(38, 3, 2, '2015-10-16 01:06:41', '2015-10-16 01:06:41', NULL),
+(39, 4, 2, '2015-10-16 01:06:41', '2015-10-16 01:06:41', NULL),
+(40, 5, 2, '2015-10-16 01:06:54', '2015-10-16 01:06:54', NULL),
+(41, 6, 2, '2015-10-16 01:06:54', '2015-10-16 01:06:54', NULL),
+(42, 9, 2, '2015-10-16 01:08:21', '2015-10-16 01:08:21', NULL),
+(43, 10, 2, '2015-10-16 01:08:21', '2015-10-16 01:08:21', NULL),
+(44, 11, 2, '2015-10-16 01:08:42', '2015-10-16 01:08:42', NULL),
+(45, 12, 2, '2015-10-16 01:10:48', '2015-10-16 01:10:48', NULL),
+(46, 13, 2, '2015-10-16 01:10:48', '2015-10-16 01:10:48', NULL),
+(47, 14, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(48, 16, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(49, 17, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(50, 18, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(51, 19, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(52, 20, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(53, 23, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(54, 24, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(55, 25, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(56, 26, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(57, 27, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(58, 28, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(59, 29, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(60, 30, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(61, 31, 2, '2015-10-16 01:10:49', '2015-10-16 01:10:49', NULL),
+(62, 2, 3, '2015-10-16 01:24:00', '2015-10-16 01:24:00', NULL),
+(63, 15, 3, '2015-10-16 01:26:45', '2015-10-16 01:26:45', NULL),
+(64, 4, 4, '2015-10-16 01:27:03', '2015-10-16 01:27:03', NULL),
+(65, 21, 4, '2015-10-16 01:27:03', '2015-10-16 01:27:03', NULL),
+(66, 22, 4, '2015-10-16 01:27:11', '2015-10-16 01:27:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -578,7 +584,6 @@ CREATE TABLE IF NOT EXISTS `personas` (
   `direccion` varchar(150) DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   `celular` varchar(45) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
   `latitud` varchar(45) DEFAULT NULL,
   `longitud` varchar(45) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -590,8 +595,8 @@ CREATE TABLE IF NOT EXISTS `personas` (
 -- Volcado de datos para la tabla `personas`
 --
 
-INSERT INTO `personas` (`idpersonas`, `nombres`, `apellido_pat`, `apellido_mat`, `fecha_nacimiento`, `direccion`, `telefono`, `celular`, `email`, `latitud`, `longitud`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Webmaster', 'AFI', 'PERÚ', '2015-10-23 05:00:00', NULL, NULL, NULL, 'afiperuwebmaster@gmail.com', NULL, NULL, '2015-10-23 22:11:36', NULL, NULL);
+INSERT INTO `personas` (`idpersonas`, `nombres`, `apellido_pat`, `apellido_mat`, `fecha_nacimiento`, `direccion`, `telefono`, `celular`, `latitud`, `longitud`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Webmaster', 'AFI', 'PERÚ', '2015-10-23 10:00:00', NULL, NULL, NULL, NULL, NULL, '2015-10-24 03:11:36', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -807,14 +812,18 @@ CREATE TABLE IF NOT EXISTS `tipo_documentos` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `nombre` varchar(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `tipo_documentos`
 --
 
 INSERT INTO `tipo_documentos` (`idtipo_documentos`, `created_at`, `updated_at`, `deleted_at`, `nombre`) VALUES
-(1, '2015-10-22 08:42:35', '2015-10-22 08:42:35', NULL, 'Guía');
+(1, '2015-10-22 13:42:35', '2015-10-22 13:42:35', NULL, 'Guía'),
+(2, '2015-10-27 22:09:20', NULL, NULL, 'Reporte a Padrinos'),
+(3, '2015-10-28 07:06:49', NULL, NULL, 'Documento de colegio'),
+(4, '2015-10-28 07:06:49', NULL, NULL, 'Documento de concurso'),
+(5, '2015-10-28 07:06:58', NULL, NULL, 'Documento de proyecto');
 
 -- --------------------------------------------------------
 
@@ -901,7 +910,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `num_documento`, `password`, `email`, `idtipo_identificacion`, `idpersona`, `auth_token`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'afi_webmaster', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, NULL, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', '2015-10-06 09:22:09', '2015-10-08 11:38:55', NULL);
+(1, 'afi_webmaster', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', '2015-10-06 09:22:09', '2015-10-08 11:38:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -1405,12 +1414,12 @@ ALTER TABLE `periodo_pagos`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermisos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
+  MODIFY `idpermisos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT de la tabla `permisos_perfiles`
 --
 ALTER TABLE `permisos_perfiles`
-  MODIFY `idpermisos_perfiles` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=63;
+  MODIFY `idpermisos_perfiles` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=67;
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
@@ -1460,7 +1469,7 @@ ALTER TABLE `puntos_reunion`
 -- AUTO_INCREMENT de la tabla `tipo_documentos`
 --
 ALTER TABLE `tipo_documentos`
-  MODIFY `idtipo_documentos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `idtipo_documentos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `tipo_eventos`
 --

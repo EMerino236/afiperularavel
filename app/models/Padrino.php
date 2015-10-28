@@ -46,4 +46,12 @@ class Padrino extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetPadrinosActivos($query,$anho)
+	{
+		$query->join('users','users.id','=','padrinos.idusers')
+			  ->where('padrinos.created_at','LIKE',$anho."%")
+			  ->select('users.email');
+		return $query;
+	}
+
 }
