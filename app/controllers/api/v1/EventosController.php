@@ -35,14 +35,17 @@ class EventosController extends \BaseController {
             //obtener los puntos de reunion de la sesion
             //$idpuntos = PuntoEvento::where('ideventos', '=', $sesion->ideventos)->get()->lists('idpuntos_reunion');
             //$puntos_reunion = PuntoReunion::whereIn('idpuntos_reunion', $idpuntos)->get();
-            $puntos_reunion = PuntoEvento::getPuntosPorEvento($sesion->ideventos)->get();
+            $puntos_evento = PuntoEvento::getPuntosPorEvento($sesion->ideventos)->get();
             $lista_puntos = [];
-            foreach($puntos_reunion as $punto)
+            foreach($puntos_evento as $punto)
             {
                 $lista_puntos[] = [
-                    'id' => $punto->idpuntos_reunion,
-                    'latitude' => (double)$punto->latitud,
-                    'longitude' => (double)$punto->longitud
+                    'id' => $punto->idpuntos_eventos,
+                    'meeting_point' => [
+                        'id' => $punto->idpuntos_reunion,
+                        'latitude' => (double)$punto->latitud,
+                        'longitude' => (double)$punto->longitud
+                    ]
                 ];
             }
             
@@ -131,7 +134,7 @@ class EventosController extends \BaseController {
                     'latitude' => (double)$sesion->latitud,
                     'longitude' => (double)$sesion->longitud
                 ],
-                'points_of_reunion' => $lista_puntos,
+                'event_points' => $lista_puntos,
                 'documents' => $lista_docs,
                 'attendance_children' => $lista_ninhos,
                 'attendance_volunteers' => $lista_voluntarios
