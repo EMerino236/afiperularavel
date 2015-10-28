@@ -32,6 +32,9 @@
                     @if(in_array('side_listar_perfiles',$permisos))
                     <li><a href="{{ URL::to('sistema/list_perfiles') }}"><i class="fa fa-check fa-fw"></i> Listar Perfiles</a></li>
                     @endif
+                    @if(in_array('side_reporte_log',$permisos))
+                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Log</a></li>
+                    @endif
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
