@@ -68,7 +68,7 @@ class UserController extends \BaseController {
 				$user_element["last_name"] = $u->apellido_pat;
 				$user_element["username"] = $u->num_documento;
 
-				$perfiles = User::getPerfilesPorUsuario2($user->id)->get();
+				$perfiles = User::getPerfilesPorUsuario2($u->id)->get();
                 $perfiles_array = array();
                 foreach ($perfiles as $perfil)
                 {
