@@ -60,6 +60,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
+	public function scopeGetActiveUsersInfo($query)
+	{
+		$query->join('personas','personas.idpersonas','=','users.idpersona')
+			  ->select('personas.nombres','personas.apellido_pat','personas.apellido_mat','users.*');
+		return $query;
+	}
+
 	public function scopeSearchUsers($query,$search_criteria)
 	{
 		$query->withTrashed()
@@ -95,6 +102,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			  ->select('perfiles.nombre');
 		return $query;
 	}
+    
+    public function scopeGetPerfilesPorUsuario2($query,$id)
+	{
+		$null = null;
+		$query->join('users_perfiles','users_perfiles.idusers','=','users.id')
+			  ->join('perfiles','perfiles.idperfiles','=','users_perfiles.idperfiles')
+			  ->where('users.id','=',$id)
+			  ->where('users_perfiles.deleted_at','=',$null)
+			  ->select('perfiles.idperfiles','perfiles.nombre');
+		return $query;
+	}
 
 	public function scopeSearchUserByDocumentNumber($query,$search_criteria)
 	{
@@ -103,6 +121,20 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			  ->join('tipo_identificacion','tipo_identificacion.idtipo_identificacion','=','users.idtipo_identificacion')
 			  ->where('users.num_documento','=',$search_criteria)
 			  ->select('tipo_identificacion.nombre as nombre_tipo_identificacion','personas.*','users.*');
+		return $query;
+	}
+
+	public function scopeGetVoluntarios($query)
+	{
+		$null = null;
+		$idperfilvoluntario = 3;
+		$query->join('users_perfiles','users_perfiles.idusers','=','users.id')
+			  ->join('perfiles','perfiles.idperfiles','=','users_perfiles.idperfiles')
+			  ->join('personas','personas.idpersonas','=','users.idpersona')
+			  ->where('users_perfiles.deleted_at','=', $null)
+			  ->where('users_perfiles.idperfiles', '=', $idperfilvoluntario)
+			  ->select('perfiles.idperfiles','perfiles.nombre', 'users.*', 'personas.*');
+
 		return $query;
 	}
 

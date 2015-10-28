@@ -35,6 +35,12 @@
                     @if(in_array('side_aprobar_colegios',$permisos))
                     <li><a href="{{ URL::to('#') }}"><i class="fa fa-check fa-fw"></i> Aprobar Colegios</a></li>
                     @endif
+                    @if(in_array('side_nuevo_ninho',$permisos))
+                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-check fa-send"></i> Registrar Niño</a></li>
+                    @endif
+                    @if(in_array('side_listar_ninhos',$permisos))
+                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-list fa-child"></i><i class="fa fa-check fa-child"></i> Listar Niños</a></li>
+                    @endif
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

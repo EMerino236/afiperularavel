@@ -27,7 +27,10 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     @if(in_array('side_listar_voluntarios',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-list fa-fw"></i> Listar Voluntarios</a></li>
+                    <li><a href="{{ URL::to('voluntarios/list_voluntarios') }}"><i class="fa fa-list fa-fw"></i> Listar Voluntarios</a></li>
+                    @endif
+                    @if(in_array('side_reporte_asistencia',$permisos))
+                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Asistencia</a></li>
                     @endif
                 </ul>
             </div>

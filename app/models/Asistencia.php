@@ -20,7 +20,7 @@ class Asistencia extends Eloquent{
 		$query->join('users','users.id','=','asistencias.idusers')
 			  ->join('personas','personas.idpersonas','=','users.idpersona')
 			  ->where('asistencias.ideventos','=',$ideventos)
-			  ->select('personas.nombres','personas.apellido_pat','personas.apellido_mat','personas.telefono','personas.celular','users.email','users.num_documento','asistencias.idasistencias','asistencias.asistio','asistencias.calificacion','asistencias.comentario');
+			  ->select('personas.nombres','personas.apellido_pat','personas.apellido_mat','personas.telefono','personas.celular','users.id','users.email','users.num_documento','asistencias.idasistencias','asistencias.asistio','asistencias.calificacion','asistencias.comentario');
 		return $query;
 	}
 
