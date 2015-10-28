@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-10-2015 a las 05:22:22
+-- Tiempo de generación: 29-10-2015 a las 00:41:45
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -123,6 +123,29 @@ CREATE TABLE IF NOT EXISTS `concursos` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `titulo` varchar(100) NOT NULL,
   `resenha` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `currency`
+--
+
+CREATE TABLE IF NOT EXISTS `currency` (
+  `idCurrency` int(10) unsigned NOT NULL,
+  `name` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `currencyweight`
+--
+
+CREATE TABLE IF NOT EXISTS `currencyweight` (
+  `idCurrency` int(10) unsigned NOT NULL,
+  `idLevel` int(10) unsigned NOT NULL,
+  `weight` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1021,6 +1044,20 @@ ALTER TABLE `concursos`
   ADD PRIMARY KEY (`idconcursos`);
 
 --
+-- Indices de la tabla `currency`
+--
+ALTER TABLE `currency`
+  ADD PRIMARY KEY (`idCurrency`);
+
+--
+-- Indices de la tabla `currencyweight`
+--
+ALTER TABLE `currencyweight`
+  ADD PRIMARY KEY (`idCurrency`,`idLevel`),
+  ADD KEY `fk_Currency_has_Level_Level1_idx` (`idLevel`),
+  ADD KEY `fk_Currency_has_Level_Currency1_idx` (`idCurrency`);
+
+--
 -- Indices de la tabla `detalle_proyectos`
 --
 ALTER TABLE `detalle_proyectos`
@@ -1344,6 +1381,11 @@ ALTER TABLE `comentarios`
 ALTER TABLE `concursos`
   MODIFY `idconcursos` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT de la tabla `currency`
+--
+ALTER TABLE `currency`
+  MODIFY `idCurrency` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `detalle_proyectos`
 --
 ALTER TABLE `detalle_proyectos`
@@ -1543,6 +1585,13 @@ ALTER TABLE `calendario_pagos`
 ALTER TABLE `comentarios`
   ADD CONSTRAINT `fk_comentarios_asistencia_ninhos1` FOREIGN KEY (`idasistencia_ninhos`) REFERENCES `asistencia_ninhos` (`idasistencia_ninhos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_comentarios_users1` FOREIGN KEY (`idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `currencyweight`
+--
+ALTER TABLE `currencyweight`
+  ADD CONSTRAINT `fk_Currency_has_Level_Currency1` FOREIGN KEY (`idCurrency`) REFERENCES `currency` (`idCurrency`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Currency_has_Level_Level1` FOREIGN KEY (`idLevel`) REFERENCES `level` (`idLevel`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `detalle_proyectos`
