@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-10-2015 a las 00:41:45
+-- Tiempo de generación: 29-10-2015 a las 00:53:02
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -742,7 +742,7 @@ CREATE TABLE IF NOT EXISTS `precolegios` (
   `latitud` varchar(45) NOT NULL,
   `longitud` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -758,7 +758,7 @@ CREATE TABLE IF NOT EXISTS `prepadrinos` (
   `apellido_pat` varchar(100) NOT NULL,
   `apellido_mat` varchar(100) NOT NULL,
   `dni` varchar(45) NOT NULL,
-  `fecha_nacimiento` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `fecha_nacimiento` timestamp NULL DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `como_se_entero` varchar(200) DEFAULT NULL,
   `idperiodo_pagos` int(11) NOT NULL,
