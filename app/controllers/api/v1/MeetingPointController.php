@@ -17,7 +17,7 @@ class MeetingPointController extends \BaseController {
 
     	if ($user)
     	{
-    		$data = Input::get('points');
+            $data = file_get_contents('php://input');
     		$meetingPointsInput = (array) json_decode($data);
 
             if ($meetingPointsInput)
