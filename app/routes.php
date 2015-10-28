@@ -60,6 +60,7 @@ Route::group(array('prefix'=>'eventos','before'=>'auth'),function(){
 /* Voluntarios */
 Route::group(array('prefix'=>'voluntarios','before'=>'auth'),function(){
 	Route::get('/','VoluntariosController@home');
+	Route::get('/list_voluntarios','VoluntariosController@list_voluntarios');
 });
 /* Padrinos */
 Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
