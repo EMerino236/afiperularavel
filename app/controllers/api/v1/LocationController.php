@@ -47,7 +47,7 @@ class LocationController extends \BaseController {
                     ];
                 }
 
-                $voluntarios_array['profiles'] = $perfiles_array;
+                $voluntarios_element['profiles'] = $perfiles_array;
     			$voluntarios_element['latitude'] = (double)$v->latitud;
     			$voluntarios_element['longitude'] = (double)$v->longitud;
     			$voluntarios_array[] = $voluntarios_element;
