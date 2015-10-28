@@ -8,7 +8,9 @@ use \PuntoEvento;
 use \Documento;
 use \DocumentosEvento;
 use \Asistencia;
+use \AsistenciaNinho;
 use \User;
+use \Comentario;
 use \Illuminate\Support\Facades\Input;
 use \Illuminate\Support\Facades\Response;
 
@@ -60,6 +62,39 @@ class EventosController extends \BaseController {
                 ];
             }
             
+            //obtener los niños asignados a la sesion
+            $ninhos = AsistenciaNinho::getNinhosPorEvento($sesion->ideventos)->get();
+            $lista_ninhos = [];
+            foreach($ninhos as $n)
+            {
+                // genero
+                $genero = null;
+                if (($n->genero == 'm') || ($n->genero == 'M')) $genero = 0;
+                elseif (($n->genero == 'f') || ($n->genero == 'F')) $genero = 1;
+                
+                // edad
+                $from = new \DateTime($n->fecha_nacimiento);
+                $to = new \DateTime('today');
+                $edad = $from->diff($to)->y;
+                
+                // verificar si el usuario ha comentado al ninho
+                $auth_token = \Request::header('authorization');
+                $user = User::where('auth_token', '=', $auth_token)->first();
+                $comentario = Comentario::getComentarioPorUserPorNinhos($user->id, $n->idasistencia_ninhos)->first();
+                
+                $lista_ninhos[] = [
+                    'id' => $n->idasistencia_ninhos,
+                    'child' => [
+                        'id' => $n->idninhos,
+                        'names' => $n->nombres,
+                        'last_name' => $n->apellido_pat,
+                        'gender' => $genero,
+                        'age' => $edad
+                    ],
+                    'commented' => ($comentario) ? 1 : 0
+                ];
+            }
+            
             //obtener los voluntarios asignados a la sesion
             $voluntarios = Asistencia::getUsersPorEvento($sesion->ideventos)->get();
             $lista_voluntarios = [];
@@ -98,6 +133,7 @@ class EventosController extends \BaseController {
                 ],
                 'points_of_reunion' => $lista_puntos,
                 'documents' => $lista_docs,
+                'attendance_children' => $lista_ninhos,
                 'attendance_volunteers' => $lista_voluntarios
             ];
         }
