@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-10-2015 a las 00:53:02
+-- Tiempo de generación: 29-10-2015 a las 01:52:41
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -392,6 +392,20 @@ CREATE TABLE IF NOT EXISTS `padrinos` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idusers` int(11) NOT NULL,
   `idperiodo_pagos` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_reminders`
+--
+
+CREATE TABLE IF NOT EXISTS `password_reminders` (
+  `email` varchar(100) NOT NULL,
+  `token` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1167,6 +1181,12 @@ ALTER TABLE `padrinos`
   ADD PRIMARY KEY (`idpadrinos`),
   ADD KEY `fk_padrinos_users1_idx` (`idusers`),
   ADD KEY `fk_padrinos_periodo_pagos1_idx` (`idperiodo_pagos`);
+
+--
+-- Indices de la tabla `password_reminders`
+--
+ALTER TABLE `password_reminders`
+  ADD PRIMARY KEY (`email`);
 
 --
 -- Indices de la tabla `perfiles`

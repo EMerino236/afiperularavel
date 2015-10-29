@@ -15,6 +15,7 @@
 			<p><strong>{{ $errors->first('idcolegios') }}</strong></p>
 			<p><strong>{{ $errors->first('direccion') }}</strong></p>
 			<p><strong>{{ $errors->first('voluntarios') }}</strong></p>
+			<p><strong>{{ $errors->first('puntos_reunion') }}</strong></p>
 			@if($errors->first('latitud'))
 				<p><strong>Mueva el punto en el mapa a una ubicación diferente</strong></p>
 			@endif

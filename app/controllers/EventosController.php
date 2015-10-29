@@ -61,6 +61,8 @@ class EventosController extends BaseController
 							'direccion' => 'required',
 							'voluntarios' => 'required',
 							'latitud' => 'required',
+							'voluntarios' => 'required',
+							'puntos_reunion' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
