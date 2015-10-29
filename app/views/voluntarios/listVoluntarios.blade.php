@@ -36,7 +36,7 @@
 				{{$voluntario_data->nombre_periodo}}
 			</td>
 			<td>
-				<a href="{{URL::to('/voluntario/edit_voluntario/')}}/{{$voluntario_data->id}}">{{$voluntario_data->num_documento}}</a>
+				<a href="{{URL::to('/user/edit_user/')}}/{{$voluntario_data->id}}">{{$voluntario_data->num_documento}}</a>
 			</td>
 			<td>
 				{{$voluntario_data->apellido_pat.' '.$voluntario_data->apellido_mat.', '.$voluntario_data->nombre_persona}}
