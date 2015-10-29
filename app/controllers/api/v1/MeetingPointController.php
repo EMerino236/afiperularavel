@@ -35,6 +35,7 @@ class MeetingPointController extends \BaseController {
                     return Response::json($response, $status_code);
                 }
 
+                $receivedpoints = [];
                 foreach ($points as $p)
                 {
                     $dbpoint = PuntoReunion::find($p->id);
@@ -54,7 +55,8 @@ class MeetingPointController extends \BaseController {
                                 $point_event->save();
                             }
                         }
-                    } 
+                    }
+                    $receivedpoints[] = $dbpoint;
                 }
 
                 foreach ($newPoints as $newPoint) {
@@ -76,9 +78,25 @@ class MeetingPointController extends \BaseController {
                     $points_element['selected'] = true;
 
                     $points[] = $points_element;
+                    $receivedpoints[] = $point;
                 }
 
-                return Response::json([ 'success' => 1, 'session_id' => $sessionID,'points_of_reunion' => $points ], 200);
+                $dbpoints = PuntoReunion::all();
+                foreach ($dbpoints as $dbp)
+                {
+                    if (!in_array($dbp, $receivedpoints))
+                    {
+                        $points_element['id'] = $dbp->idpuntos_reunion;
+                        $points_element['address'] = $dbp->direccion;
+                        $points_element['latitude'] = $dbp->latitud;
+                        $points_element['longitude'] = $dbp->longitud;
+                        $points_element['selected'] = false;
+
+                        $points[] = $points_element;
+                    }
+                }
+
+                return Response::json([ 'success' => 1, 'session_id' => $sessionID,'meeting_points' => $points ], 200);
             }
             else
             {
