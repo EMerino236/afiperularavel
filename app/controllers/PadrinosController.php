@@ -62,8 +62,7 @@ class PadrinosController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if((in_array('side_listar_padrinos',$data["permisos"])) && $id){
-				$data["padrino_info"] = Padrino::searchPadrinoById($id)->get();
-				$data["periodos_pagos"] = PeriodoPago::lists('nombre','idperiodo_pagos');
+				$data["padrino_info"] = Padrino::searchPadrinoById($id)->get();				
 				if($data["padrino_info"]->isEmpty()){
 					Session::flash('error', 'No se encontró al padrino.');
 					return Redirect::to('padrinos/list_padrinos');
@@ -78,10 +77,6 @@ class PadrinosController extends BaseController
 		}
 	}
 
-	public function submit_edit_padrino()
-	{
-		return View::make('error/error');
-	}
 
 	public function render_create_reporte_padrinos()
 	{
@@ -195,7 +190,7 @@ class PadrinosController extends BaseController
 			if(in_array('side_listar_padrinos',$data["permisos"])){
 				$padrino_id = Input::get('padrino_id');
 				$url = "padrinos/edit_padrino/".$padrino_id;
-				$padrino = Padrino::find($padrino_id);
+				$padrino = User::find($padrino_id);
 				$padrino->delete();
 				Session::flash('message', 'Se inhabilitó correctamente al padrino.');
 				return Redirect::to($url);
@@ -213,13 +208,51 @@ class PadrinosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_nuevo_usuario',$data["permisos"])){
-				$user_id = Input::get('user_id');
-				$url = "user/edit_user/".$user_id;
-				$user = User::withTrashed()->find($user_id);
-				$user->restore();
-				Session::flash('message', 'Se habilitó correctamente al usuario.');
+			if(in_array('side_listar_padrinos',$data["permisos"])){
+				$padrino_id = Input::get('padrino_id');
+				$url = "padrinos/edit_padrino/".$padrino_id;
+				$padrino = User::withTrashed()->find($padrino_id);
+				$padrino->restore();
+				Session::flash('message', 'Se habilitó correctamente al padrino.');
 				return Redirect::to($url);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+
+	public function list_prepadrinos()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_listar_prepadrinos',$data["permisos"])){
+				$data["search"] = null;			
+				$data["prepadrinos_data"] = Prepadrino::getPrepadrinosInfo()->paginate(10);
+				return View::make('padrinos/listPrepadrinos',$data);
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function search_prepadrino()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_listar_prepadrinos',$data["permisos"])){
+				$data["search"] = Input::get('search');
+				$data["prepadrinos_data"] = Prepadrino::searchPrepadrinos($data["search"])->paginate(10);
+				return View::make('padrinos/listPrepadrinos',$data);
 			}else{
 				return View::make('error/error');
 			}

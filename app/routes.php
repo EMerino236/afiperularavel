@@ -69,6 +69,8 @@ Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
 	Route::get('/search_padrino','PadrinosController@search_padrino');
 	Route::get('/edit_padrino/{id}','PadrinosController@render_edit_padrino');
 	Route::post('/submit_edit_padrino','PadrinosController@submit_edit_padrino');
+	Route::post('/submit_disable_padrino','PadrinosController@submit_disable_padrino');
+	Route::post('/submit_enable_padrino','PadrinosController@submit_enable_padrino');
 	/* Reporte a Padrinos */
 	Route::get('/create_reporte_padrinos','PadrinosController@render_create_reporte_padrinos');
 	Route::post('/submit_create_reporte_padrinos','PadrinosController@submit_create_reporte_padrinos');

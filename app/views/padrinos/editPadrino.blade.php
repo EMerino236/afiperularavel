@@ -15,7 +15,7 @@
 	@endif
 
 	{{ Form::open(array('url'=>'padrinos/submit_edit_padrino', 'role'=>'form')) }}
-		{{ Form::hidden('user_id', $padrino_info->id) }}
+		{{ Form::hidden('padrino_id', $padrino_info->id) }}
 		{{ Form::hidden('latitud', $padrino_info->latitud) }}
 		{{ Form::hidden('longitud', $padrino_info->longitud) }}
 		<div class="col-xs-6">
@@ -100,7 +100,7 @@
 					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
 			@else
 				{{ Form::open(array('url'=>'padrinos/submit_disable_padrino', 'role'=>'form')) }}
-					{{ Form::hidden('padrino_id', $padrino_info->idusers) }}
+					{{ Form::hidden('padrino_id', $padrino_info->id) }}					
 					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}
 			@endif
 				{{ Form::close() }}
