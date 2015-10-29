@@ -41,8 +41,9 @@ class Padrino extends Eloquent{
 			  ->join('users','users.id','=','padrinos.idusers')
 			  ->join('personas','personas.idpersonas','=','users.idpersona')
 			  ->join('tipo_identificacion','tipo_identificacion.idtipo_identificacion','=','users.idtipo_identificacion')
+			  ->join('periodo_pagos','periodo_pagos.idperiodo_pagos','=','padrinos.idperiodo_pagos')
 			  ->where('users.id','=',$search_criteria)
-			  ->select('tipo_identificacion.nombre as nombre_tipo_identificacion','personas.*','users.*');
+			  ->select('tipo_identificacion.nombre as nombre_tipo_identificacion','periodo_pagos.nombre','personas.*','users.*');
 		return $query;
 	}
 

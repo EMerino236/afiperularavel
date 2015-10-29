@@ -82,8 +82,30 @@
 					{{ Form::label('email','E-mail') }}
 					{{ Form::text('email',$padrino_info->email,array('class'=>'form-control')) }}
 				</div>
-			</div>			
+			</div>				
+			<div class="row">
+					<div class="form-group col-xs-8">
+						{{ Form::label('idperiodo_pagos','Periodo de Pago') }}
+						{{ Form::text('idperiodo_pagos',$padrino_info->nombre,array('class'=>'form-control')) }}
+					</div>
+			</div>		
 		</div>
 	{{ Form::close() }}
+	<div class="col-xs-12">
+		<div class="row">
+			<div class="form-group col-xs-8">
+			@if($padrino_info->deleted_at)
+				{{ Form::open(array('url'=>'padrinos/submit_enable_padrino', 'role'=>'form')) }}
+					{{ Form::hidden('padrino_id', $padrino_info->id) }}
+					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+			@else
+				{{ Form::open(array('url'=>'padrinos/submit_disable_padrino', 'role'=>'form')) }}
+					{{ Form::hidden('padrino_id', $padrino_info->idusers) }}
+					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}
+			@endif
+				{{ Form::close() }}
+			</div>
+		</div>
+	</div>
 	
 @stop

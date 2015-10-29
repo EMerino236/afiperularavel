@@ -25,7 +25,7 @@ class PadrinosController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_listar_padrinos',$data["permisos"])){
-				$data["search"] = null;
+				$data["search"] = null;			
 				$data["padrinos_data"] = Padrino::getPadrinosInfo()->paginate(10);
 				return View::make('padrinos/listPadrinos',$data);
 			}else{
@@ -63,12 +63,12 @@ class PadrinosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if((in_array('side_listar_padrinos',$data["permisos"])) && $id){
 				$data["padrino_info"] = Padrino::searchPadrinoById($id)->get();
+				$data["periodos_pagos"] = PeriodoPago::lists('nombre','idperiodo_pagos');
 				if($data["padrino_info"]->isEmpty()){
 					Session::flash('error', 'No se encontró al padrino.');
 					return Redirect::to('padrinos/list_padrinos');
 				}
 				$data["padrino_info"] = $data["padrino_info"][0];
-				/*$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();*/
 				return View::make('padrinos/editPadrino',$data);
 			}else{
 				return View::make('error/error');
@@ -178,6 +178,48 @@ class PadrinosController extends BaseController
 		              'Content-Type',mime_content_type($rutaDestino),
 		            );
 		        return Response::download($rutaDestino,basename($rutaDestino),$headers);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_disable_padrino()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_listar_padrinos',$data["permisos"])){
+				$padrino_id = Input::get('padrino_id');
+				$url = "padrinos/edit_padrino/".$padrino_id;
+				$padrino = Padrino::find($padrino_id);
+				$padrino->delete();
+				Session::flash('message', 'Se inhabilitó correctamente al padrino.');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_enable_padrino()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_usuario',$data["permisos"])){
+				$user_id = Input::get('user_id');
+				$url = "user/edit_user/".$user_id;
+				$user = User::withTrashed()->find($user_id);
+				$user->restore();
+				Session::flash('message', 'Se habilitó correctamente al usuario.');
+				return Redirect::to($url);
 			}else{
 				return View::make('error/error');
 			}
