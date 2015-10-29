@@ -24,7 +24,7 @@ class ConvocatoriasController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_nueva_convocatorias',$data["permisos"])){
+			if(in_array('side_nueva_convocatoria',$data["permisos"])){
 				return View::make('convocatorias/createConvocatoria',$data);
 			}else{
 				return View::make('error/error');
@@ -40,7 +40,7 @@ class ConvocatoriasController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_nueva_convocatorias',$data["permisos"])){
+			if(in_array('side_nueva_convocatoria',$data["permisos"])){
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'nombre' => 'required|alpha_dash|min:2|max:45|unique:periodos',
