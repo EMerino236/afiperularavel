@@ -73,6 +73,7 @@ class MeetingPointController extends \BaseController {
                     $points_element['address'] = $point->direccion;
                     $points_element['latitude'] = $point->latitud;
                     $points_element['longitude'] = $point->longitud;
+                    $points_element['selected'] = true;
 
                     $points[] = $points_element;
                 }
