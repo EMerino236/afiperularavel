@@ -76,8 +76,8 @@ class MeetingPointController extends \BaseController {
                 {
                     $points_element['id'] = $dbp->idpuntos_reunion;
                     $points_element['address'] = $dbp->direccion;
-                    $points_element['latitude'] = $dbp->latitud;
-                    $points_element['longitude'] = $dbp->longitud;
+                    $points_element['latitude'] = (double)$dbp->latitud;
+                    $points_element['longitude'] = (double)$dbp->longitud;
                     $point_event = PuntoEvento::getPuntosPorEventoXPunto($sessionID, $dbp->idpuntos_reunion)->first();
                     if ($point_event)
                         $points_element['selected'] = true;
