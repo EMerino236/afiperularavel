@@ -35,17 +35,19 @@ class EventosController extends \BaseController {
             //obtener los puntos de reunion de la sesion
             //$idpuntos = PuntoEvento::where('ideventos', '=', $sesion->ideventos)->get()->lists('idpuntos_reunion');
             //$puntos_reunion = PuntoReunion::whereIn('idpuntos_reunion', $idpuntos)->get();
-            $puntos_evento = PuntoEvento::getPuntosPorEvento($sesion->ideventos)->get();
+            //$puntos_evento = PuntoEvento::getPuntosPorEvento($sesion->ideventos)->get();
+            $puntos_reunion = PuntoReunion::all();
             $lista_puntos = [];
-            foreach($puntos_evento as $punto)
+            foreach($puntos_reunion as $punto)
             {
+                // verificar si la sesion tiene asignado el punto de reunion
+                $punto_evento = PuntoEvento::getPuntosPorEventoXPunto($sesion->ideventos, $punto->idpuntos_reunion)->first();
+                
                 $lista_puntos[] = [
-                    'id' => $punto->idpuntos_eventos,
-                    'meeting_point' => [
-                        'id' => $punto->idpuntos_reunion,
-                        'latitude' => (double)$punto->latitud,
-                        'longitude' => (double)$punto->longitud
-                    ]
+                    'id' => $punto->idpuntos_reunion,
+                    'latitude' => (double)$punto->latitud,
+                    'longitude' => (double)$punto->longitud,
+                    'selected' => ($punto_evento) ? 1 : 0
                 ];
             }
             
@@ -134,7 +136,7 @@ class EventosController extends \BaseController {
                     'latitude' => (double)$sesion->latitud,
                     'longitude' => (double)$sesion->longitud
                 ],
-                'event_points' => $lista_puntos,
+                'meeting_points' => $lista_puntos,
                 'documents' => $lista_docs,
                 'attendance_children' => $lista_ninhos,
                 'attendance_volunteers' => $lista_voluntarios
