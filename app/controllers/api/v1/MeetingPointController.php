@@ -35,7 +35,6 @@ class MeetingPointController extends \BaseController {
                     return Response::json($response, $status_code);
                 }
 
-                $receivedpoints = [];
                 foreach ($points as $p)
                 {
                     $dbpoint = PuntoReunion::find($p->id);
@@ -56,7 +55,6 @@ class MeetingPointController extends \BaseController {
                             }
                         }
                     }
-                    $receivedpoints[] = $dbpoint;
                 }
 
                 foreach ($newPoints as $newPoint) {
@@ -70,33 +68,26 @@ class MeetingPointController extends \BaseController {
                     $point_event->idpuntos_reunion = $point->idpuntos_reunion;
                     $point_event->ideventos = $sessionID;
                     $point_event->save();
-
-                    $points_element['id'] = $point->idpuntos_reunion;
-                    $points_element['address'] = $point->direccion;
-                    $points_element['latitude'] = $point->latitud;
-                    $points_element['longitude'] = $point->longitud;
-                    $points_element['selected'] = true;
-
-                    $points[] = $points_element;
-                    $receivedpoints[] = $point;
                 }
 
                 $dbpoints = PuntoReunion::all();
+                $responsepoints = [];
                 foreach ($dbpoints as $dbp)
                 {
-                    if (!in_array($dbp, $receivedpoints))
-                    {
-                        $points_element['id'] = $dbp->idpuntos_reunion;
-                        $points_element['address'] = $dbp->direccion;
-                        $points_element['latitude'] = $dbp->latitud;
-                        $points_element['longitude'] = $dbp->longitud;
+                    $points_element['id'] = $dbp->idpuntos_reunion;
+                    $points_element['address'] = $dbp->direccion;
+                    $points_element['latitude'] = $dbp->latitud;
+                    $points_element['longitude'] = $dbp->longitud;
+                    $point_event = PuntoEvento::getPuntosPorEventoXPunto($sessionID, $dbp->idpuntos_reunion)->first();
+                    if ($point_event)
+                        $points_element['selected'] = true;
+                    else
                         $points_element['selected'] = false;
 
-                        $points[] = $points_element;
-                    }
+                    $responsepoints[] = $points_element;
                 }
 
-                return Response::json([ 'success' => 1, 'session_id' => $sessionID,'meeting_points' => $points ], 200);
+                return Response::json([ 'success' => 1, 'session_id' => $sessionID,'meeting_points' => $responsepoints ], 200);
             }
             else
             {
