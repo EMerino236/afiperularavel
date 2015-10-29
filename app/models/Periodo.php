@@ -16,4 +16,27 @@ class Periodo extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetPeriodosInfo($query)
+	{
+		$query->withTrashed()
+			  ->select('periodos.*');
+		return $query;
+	}
+
+	public function scopeSearchPeriodos($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->where('periodos.nombre','LIKE',"%$search_criteria%")
+			  ->select('periodos.*');
+		return $query;
+	}
+
+	public function scopeSearchPeriodoById($query,$id)
+	{
+		$query->withTrashed()
+			  ->where('periodos.idperiodos','=',$id)
+			  ->select('periodos.*');
+		return $query;
+	}
+
 }

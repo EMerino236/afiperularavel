@@ -24,6 +24,12 @@ Route::group(array('before'=>'auth'),function(){
 /* Convocatorias */
 Route::group(array('prefix'=>'convocatorias','before'=>'auth'),function(){
 	Route::get('/','ConvocatoriasController@home');
+	Route::get('/create_convocatoria','ConvocatoriasController@render_create_convocatoria');
+	Route::post('/submit_create_convocatoria','ConvocatoriasController@submit_create_convocatoria');
+	Route::get('/list_convocatoria','ConvocatoriasController@list_convocatorias');
+	Route::get('/search_convocatoria','ConvocatoriasController@search_convocatorias');
+	Route::get('/edit_convocatoria/{id}','ConvocatoriasController@render_edit_convocatoria');
+	Route::post('/submit_edit_convocatoria','ConvocatoriasController@submit_edit_convocatoria');
 });
 /* Eventos */
 Route::group(array('prefix'=>'eventos','before'=>'auth'),function(){

@@ -30,4 +30,13 @@ class PuntoEvento extends Eloquent{
 			  ->select('*');
 		return $query;
 	}
+
+	public function scopeGetPuntosPorEventoXPuntoTrashed($query, $ideventos, $idpuntos_reunion)
+	{
+		$query->onlyTrashed()
+			->where('ideventos','=', $ideventos)
+			->where('idpuntos_reunion', '=', $idpuntos_reunion)
+			->select('*');
+		return $query;
+	}
 }
