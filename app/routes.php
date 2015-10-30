@@ -101,6 +101,14 @@ Route::group(array('prefix'=>'ninhos','before'=>'auth'),function(){
 /* Proyectos */
 Route::group(array('prefix'=>'concursos','before'=>'auth'),function(){
 	Route::get('/','ConcursosController@home');
+	Route::get('/search_concurso','ConcursosController@search_concurso');
+	Route::get('/list_concursos','ConcursosController@list_concursos');
+	Route::get('/create_concurso','ConcursosController@render_create_concurso');
+	Route::post('/submit_create_concurso','ConcursosController@submit_create_concurso');
+	Route::get('/upload_file/{id}','ConcursosController@render_upload_file');
+	Route::post('/submit_upload_file','ConcursosController@submit_upload_file');
+	Route::post('/submit_delete_file','ConcursosController@submit_delete_file');	
+	Route::post('/descargar_documento','ConcursosController@submit_descargar_documento');
 });
 /* Users */
 Route::group(array('prefix'=>'user', 'before'=>'auth'),function(){
