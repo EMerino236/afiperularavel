@@ -188,10 +188,13 @@ class PadrinosController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_listar_padrinos',$data["permisos"])){
+				$user_id = Input::get('user_id');
 				$padrino_id = Input::get('padrino_id');
-				$url = "padrinos/edit_padrino/".$padrino_id;
-				$padrino = User::find($padrino_id);
+				$url = "padrinos/edit_padrino/".$user_id;
+				$padrino = Padrino::find($padrino_id);
+				$user = User::find($user_id);
 				$padrino->delete();
+				$user->delete();				
 				Session::flash('message', 'Se inhabilitó correctamente al padrino.');
 				return Redirect::to($url);
 			}else{
@@ -209,10 +212,13 @@ class PadrinosController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_listar_padrinos',$data["permisos"])){
+				$user_id = Input::get('user_id');
 				$padrino_id = Input::get('padrino_id');
-				$url = "padrinos/edit_padrino/".$padrino_id;
-				$padrino = User::withTrashed()->find($padrino_id);
+				$url = "padrinos/edit_padrino/".$user_id;
+				$padrino = Padrino::withTrashed()->find($padrino_id);
+				$user = User::withTrashed()->find($user_id);
 				$padrino->restore();
+				$user->restore();
 				Session::flash('message', 'Se habilitó correctamente al padrino.');
 				return Redirect::to($url);
 			}else{
