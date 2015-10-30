@@ -128,6 +128,7 @@ class ColegiosController extends BaseController
 					Session::flash('error', 'No se encontró al colegio.');
 					return Redirect::to('colegios/list_colegios');
 				}
+				
 				$data["colegio_info"] = $data["colegio_info"][0];
 				return View::make('colegios/editColegio',$data);
 			}else{

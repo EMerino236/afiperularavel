@@ -36,7 +36,7 @@ class Ninho extends Eloquent{
 			  ->join('colegios','colegios.idcolegios','=','ninhos.idcolegios')	
 			  ->whereNested(function($query) use($search_criteria){
 			  		$query->where('ninhos.nombres','LIKE',"%$search_criteria%")
-			  			  ->orWhere('ninhos.apellido_pat','LIKE',"%$search_criteria%");
+			  			  ->orWhere('ninhos.apellido_pat','LIKE',"%$search_criteria%")
 			  			  ->orWhere('ninhos.apellido_mat','LIKE',"%$search_criteria%");
 			  })
 			  ->select('ninhos.*','colegios.nombre');
