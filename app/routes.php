@@ -131,7 +131,7 @@ Route::group(array('prefix' => 'api/v1'), function()
     Route::post('empresas', 'api\v1\EmpresasController@store');
     Route::post('postulantes', 'api\v1\PostulantesController@store');
     Route::post('precolegios', 'api\v1\PrecolegiosController@store');
-    Route::post('recover_password', 'api\v1\UserController@recover_password');
+    Route::put('recover_password', 'api\v1\UserController@recover_password');
 });
 
 Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()

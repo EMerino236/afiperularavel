@@ -45,7 +45,7 @@ class UserController extends \BaseController {
 		switch ($response = Password::remind(Input::only('email')))
 		{
 			case Password::INVALID_USER:
-				return Response::json(['error' => 1], 200);
+				return Response::json(['error' => 'E-mail no registrado.'], 200);
 
 			case Password::REMINDER_SENT:
 				return Response::json(['success' => 1], 200);
