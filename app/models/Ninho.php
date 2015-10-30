@@ -14,4 +14,32 @@ class Ninho extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetNinhosInfo($query)
+	{
+		$query->withTrashed()
+			  ->join('colegios','colegios.idcolegios','=','ninhos.idcolegios')
+			  ->select('ninhos.*','colegios.nombre');
+		return $query;
+	}
+
+	public function scopeSearchNinhoById($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->where('ninho.idninhos','=',$search_criteria)
+			  ->select('ninhos.*');
+		return $query;
+	}
+
+	public function scopeSearchNinhos($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->join('colegios','colegios.idcolegios','=','ninhos.idcolegios')	
+			  ->whereNested(function($query) use($search_criteria){
+			  		$query->where('ninhos.nombres','LIKE',"%$search_criteria%")
+			  			  ->orWhere('ninhos.apellido_pat','LIKE',"%$search_criteria%");
+			  			  ->orWhere('ninhos.apellido_mat','LIKE',"%$search_criteria%");
+			  })
+			  ->select('ninhos.*','colegios.nombre');
+		return $query;
+	}
 }

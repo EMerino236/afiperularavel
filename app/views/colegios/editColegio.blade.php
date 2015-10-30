@@ -13,7 +13,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'colegios/submit_create_colegio', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'colegios/submit_edit_colegio', 'role'=>'form')) }}
 		{{ Form::hidden('colegio_id', $colegio_info->idcolegios) }}
 		<div class="col-xs-6">
 			<div class="row">
@@ -67,9 +67,13 @@
 					{{ Form::hidden('colegio_id', $colegio_info->idcolegios) }}
 					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
 			@else
+				{{ Form::open(array('url'=>'colegios/submit_edit_colegio', 'role'=>'form')) }}
+				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+				{{ Form::close() }}
 				{{ Form::open(array('url'=>'colegios/submit_disable_colegio', 'role'=>'form')) }}
 					{{ Form::hidden('colegio_id', $colegio_info->idcolegios) }}
-					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}
+					 {{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}
+				
 			@endif
 				{{ Form::close() }}
 			</div>

@@ -81,11 +81,23 @@ Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){
 	Route::get('/create_colegio','ColegiosController@render_create_colegio');
 	Route::post('/submit_create_colegio','ColegiosController@submit_create_colegio');
 	Route::get('/list_colegios','ColegiosController@list_colegios');
+	Route::get('/search_colegio','ColegiosController@search_colegio');
 	Route::get('/edit_colegio/{id}','ColegiosController@render_edit_colegio');
-	//Route::post('/submit_edit_colegio','ColegiosController@submit_edit_colegio');
+	Route::post('/submit_edit_colegio','ColegiosController@submit_edit_colegio');
 	Route::post('/submit_disable_colegio','ColegiosController@submit_disable_colegio');
 	Route::post('/submit_enable_colegio','ColegiosController@submit_enable_colegio');
+
 });
+
+/*Niños*/
+Route::group(array('prefix'=>'ninhos','before'=>'auth'),function(){
+	Route::get('/','NinhosController@home');
+	Route::get('/create_ninho','NinhosController@render_create_ninho');
+	Route::post('/submit_create_ninho','NinhosController@submit_create_ninho');
+	Route::get('/list_ninhos','NinhosController@list_ninhos');
+	Route::get('/search_ninho','NinhosController@search_ninho');
+});
+
 /* Proyectos */
 Route::group(array('prefix'=>'concursos','before'=>'auth'),function(){
 	Route::get('/','ConcursosController@home');

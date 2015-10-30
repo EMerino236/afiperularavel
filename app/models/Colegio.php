@@ -17,7 +17,7 @@ class Colegio extends Eloquent{
 
 	public function scopeGetActiveColegiosInfo($query)
 	{
-		$query->select('colegios.*');
+		$query->select('colegios.idcolegios','colegios.nombre');
 		return $query;
 	}
 
@@ -25,6 +25,17 @@ class Colegio extends Eloquent{
 	{
 		$query->withTrashed()
 			  ->where('colegios.idcolegios','=',$search_criteria)
+			  ->select('colegios.*');
+		return $query;
+	}
+
+	public function scopeSearchColegios($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->whereNested(function($query) use($search_criteria){
+			  		$query->where('colegios.nombre','LIKE',"%$search_criteria%")
+			  			  ->orWhere('colegios.direccion','LIKE',"%$search_criteria%");
+			  })
 			  ->select('colegios.*');
 		return $query;
 	}
