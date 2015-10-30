@@ -91,11 +91,11 @@ Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){
 
 /*Niños*/
 Route::group(array('prefix'=>'ninhos','before'=>'auth'),function(){
-	Route::get('/','NinhosController@home');
-	Route::get('/create_ninho','NinhosController@render_create_ninho');
-	Route::post('/submit_create_ninho','NinhosController@submit_create_ninho');
-	Route::get('/list_ninhos','NinhosController@list_ninhos');
-	Route::get('/search_ninho','NinhosController@search_ninho');
+	Route::get('/','NinhoController@home');
+	Route::get('/create_ninho','NinhoController@render_create_ninho');
+	Route::post('/submit_create_ninho','NinhoController@submit_create_ninho');
+	Route::get('/list_ninhos','NinhoController@list_ninhos');
+	Route::get('/search_ninho','NinhoController@search_ninho');
 });
 
 /* Proyectos */
