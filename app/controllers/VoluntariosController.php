@@ -24,7 +24,7 @@ class VoluntariosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"]= Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('nav_voluntarios',$data["permisos"])){
+			if(in_array('side_listar_voluntarios',$data["permisos"])){
 				$data["search"] = null;
 				$data["voluntarios_data"] = UsersPerfil::getVoluntariosInfo();
 				return View::make('voluntarios/listVoluntarios',$data);
@@ -42,7 +42,7 @@ class VoluntariosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if((in_array('side_nuevo_usuario',$data["permisos"])) && $id){
+			if((in_array('side_listar_voluntarios',$data["permisos"])) && $id){
 				$data["user_info"] = User::searchUserById($id)->get();
 				if($data["user_info"]->isEmpty()){
 					Session::flash('error', 'No se encontró al voluntario.');
@@ -51,6 +51,24 @@ class VoluntariosController extends BaseController
 				$data["user_info"] = $data["user_info"][0];
 				$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
 				return View::make('voluntarios/viewVoluntario',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function search_voluntario()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_listar_voluntarios',$data["permisos"])){
+				$data["search"] = Input::get('search');
+				$data["voluntarios_data"] = UsersPerfil::getVoluntariosInfo($data["search"]);
+				return View::make('voluntarios/listVoluntarios',$data);
 			}else{
 				return View::make('error/error');
 			}

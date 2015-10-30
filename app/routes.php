@@ -68,6 +68,7 @@ Route::group(array('prefix'=>'voluntarios','before'=>'auth'),function(){
 	Route::get('/','VoluntariosController@home');
 	Route::get('/list_voluntarios','VoluntariosController@list_voluntarios');
 	Route::get('/view_voluntario/{id}','VoluntariosController@render_view_voluntario');
+	Route::get('/search_voluntario','VoluntariosController@search_voluntario');
 });
 /* Padrinos */
 Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
