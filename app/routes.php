@@ -93,6 +93,9 @@ Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){
 	//Route::post('/submit_edit_colegio','ColegiosController@submit_edit_colegio');
 	Route::post('/submit_disable_colegio','ColegiosController@submit_disable_colegio');
 	Route::post('/submit_enable_colegio','ColegiosController@submit_enable_colegio');
+	Route::get('/list_precolegios','ColegiosController@list_precolegios');
+	Route::get('/edit_precolegio/{id}','ColegiosController@render_edit_precolegio');
+	Route::post('/submit_aprove_precolegio','ColegiosController@submit_aprove_precolegio');
 });
 /* Proyectos */
 Route::group(array('prefix'=>'concursos','before'=>'auth'),function(){
