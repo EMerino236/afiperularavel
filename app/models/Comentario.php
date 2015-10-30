@@ -11,7 +11,7 @@ class Comentario extends Eloquent{
 	public function scopeGetComentarioPorUserPorNinhos($query,$idusers,$idasistencia_ninhos)
 	{
 		$query->where('idasistencia_ninhos','=',$idasistencia_ninhos)
-			  ->where('users_id','=',$idusers);
+			  ->where('idusers','=',$idusers);
 		return $query;
 	}
 

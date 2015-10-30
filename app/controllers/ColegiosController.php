@@ -228,4 +228,90 @@ class ColegiosController extends BaseController
 		}
 	}
 
+
+	//Precolegios
+
+	public function list_precolegios()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_aprobar_colegios',$data["permisos"])){
+				$data["search"] = null;
+				$data["precolegios_data"] = Precolegio::getPreColegiosInfo()->paginate(10);
+				return View::make('colegios/listPreColegios',$data);
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_edit_precolegio($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_nuevo_colegio',$data["permisos"])) && $id){
+				$data["precolegio_info"] = Precolegio::searchPreColegioById($id)->get();
+				if($data["precolegio_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró al colegio.');
+					return Redirect::to('colegios/list_precolegios');
+				}
+				$data["precolegio_info"] = $data["precolegio_info"][0];
+				//$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
+				return View::make('colegios/editPreColegios',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_aprove_precolegio()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_colegio',$data["permisos"])){
+				$precolegio_id = Input::get('precolegio_id');
+				$url = "colegios/edit_precolegio/".$precolegio_id;
+				$precolegio = Precolegio::withTrashed()->find($precolegio_id);
+
+				//Se inserta el colegio
+
+				$colegio = new Colegio;
+				$colegio->nombre = $precolegio->nombre;
+				$colegio->direccion = $precolegio->direccion;
+				$colegio->nombre_contacto = $precolegio->nombre_contacto;
+				$colegio->email_contacto = $precolegio->email_contacto;
+				$colegio->telefono_contacto = $precolegio->telefono_contacto;
+				$colegio->interes = $precolegio->interes;
+				$colegio->save();
+				//Se borra el precolegio				
+				$precolegio->delete();
+				$emails = array();
+				$emails[] = $colegio->email_contacto;
+				Mail::send('emails.colegioRegistration',array('colegio'=> $colegio),function($message) use ($emails,$colegio)
+					{
+						$message->to($emails)
+								->subject('Aprobación de colegio en AFI Perú.');
+					});
+
+				Session::flash('message', 'Se aprobó correctamente al colegio.');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 }

@@ -35,7 +35,7 @@
                     <li><a href="{{ URL::to('colegios/list_colegios') }}"><i class="fa fa-list fa-fw"></i> Listar Colegios</a></li>
                     @endif
                     @if(in_array('side_aprobar_colegios',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-check fa-fw"></i> Aprobar Colegios</a></li>
+                    <li><a href="{{ URL::to('colegios/list_precolegios') }}"><i class="fa fa-check fa-fw"></i> Aprobar Colegios</a></li>
                     @endif
                     @if(in_array('side_nuevo_ninho',$permisos))
                     <li><a href="{{ URL::to('ninhos/create_ninho') }}"><i class="fa fa-check fa-send"></i> Registrar Niño</a></li>
