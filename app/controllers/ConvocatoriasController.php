@@ -43,7 +43,7 @@ class ConvocatoriasController extends BaseController
 			if(in_array('side_nueva_convocatoria',$data["permisos"])){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'nombre' => 'required|alpha_dash|min:2|max:45|unique:periodos',
+							'nombre' => 'required|min:2|max:45|unique:periodos',
 							'fecha_inicio' => 'required',
 							'fecha_fin' => 'required',
 						);
