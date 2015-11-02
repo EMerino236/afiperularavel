@@ -8,4 +8,12 @@ class CalendarioPago extends Eloquent{
 
 	protected $primaryKey = 'idcalendario_pagos';
 
+	public function scopeGetCalendarioByPadrino($query, $idpadrinos)
+	{
+		$query->where('idpadrinos', '=', $idpadrinos)
+			->select('*');
+
+		return $query;
+	}
+
 }

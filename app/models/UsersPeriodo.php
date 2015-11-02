@@ -17,4 +17,13 @@ class UsersPeriodo extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetUsersPeriodoByUserXPeriodo($query, $idusers, $idperiodos)
+	{
+		$query->where('idusers', '=', $idusers)
+			->where('idperiodos', '=', $idperiodos)
+			->select('*');
+
+		return $query;
+	}
+
 }

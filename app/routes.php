@@ -156,6 +156,10 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::get('locations', 'api\v1\LocationController@locations');
     Route::get('users', 'api\v1\UserController@users');
     Route::post('meeting_points', 'api\v1\MeetingPointController@meeting_points');
+    Route::post('reapply', 'api\v1\VolunteerController@reapply');
+    Route::post('payment', 'api\v1\SponsorController@payment');
+    Route::post('roll_call', 'api\v1\VolunteerController@roll_call');
+    Route::get('payment_calendar', 'api\v1\SponsorController@payment_calendar');
 });
 
 /* Rutas para el juego */

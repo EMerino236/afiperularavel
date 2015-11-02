@@ -31,7 +31,7 @@ class MeetingPointController extends \BaseController {
                 catch (Exception $e)
                 {
                     $response = [ 'error' => 'Formato inválido: debe contener session_id, meeting_points, new_meeting_points.'];
-                    $status_code = 401;
+                    $status_code = 404;
                     return Response::json($response, $status_code);
                 }
 
