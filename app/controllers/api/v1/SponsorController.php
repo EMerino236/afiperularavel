@@ -25,10 +25,9 @@ class SponsorController extends \BaseController {
     		{
     			$cuota = CalendarioPago::find($idcalendario_pagos);
     			$cuota->num_comprobante = $opcode;
-    			$cuota->monto = $amount;
     			$cuota->fecha_pago = date('Y-m-d H:i:s', $date);
 
-    			//$cuota->save();
+    			$cuota->save();
 
     			$response = [ 'success' => 1, 'fee' => $cuota ];
     			$status_code = 200;
@@ -64,7 +63,7 @@ class SponsorController extends \BaseController {
                     $responseCalendar_element["fee_id"] = $fee->idcalendario_pagos;
                     $responseCalendar_element["amount"] = $fee->monto;
                     $responseCalendar_element["due_date"] = strtotime($fee->vencimiento);
-                    $responseCalendar_element["fee_number"] = $fee->idcalendario_pagos;
+                    $responseCalendar_element["fee_number"] = $fee->num_cuota;
 
                     $responseCalendar[] = $responseCalendar_element;
                 }
