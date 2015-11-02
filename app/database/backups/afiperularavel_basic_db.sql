@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-10-2015 a las 01:52:41
+-- Tiempo de generación: 31-10-2015 a las 02:18:40
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS `calendario_pagos` (
   `vencimiento` date DEFAULT NULL,
   `fecha_pago` date NOT NULL,
   `num_cuota` int(11) NOT NULL,
+  `monto` float DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -941,6 +942,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `num_documento` varchar(45) NOT NULL,
   `password` varchar(64) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
+  `push_eventos` int(1) NOT NULL DEFAULT '1',
+  `push_pagos` int(1) NOT NULL DEFAULT '1',
   `idtipo_identificacion` int(11) NOT NULL,
   `idpersona` int(11) NOT NULL,
   `auth_token` varchar(100) DEFAULT NULL,
@@ -954,8 +957,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `num_documento`, `password`, `email`, `idtipo_identificacion`, `idpersona`, `auth_token`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'afi_webmaster', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', 'h6Ev4vzPEVuDY5gVCJI5mSieHiMAtQYQXiudQZeS7xA7kDGYdETOC5cYzpS2', '2015-10-06 09:22:09', '2015-10-28 09:17:59', NULL);
+INSERT INTO `users` (`id`, `num_documento`, `password`, `email`, `push_eventos`, `push_pagos`, `idtipo_identificacion`, `idpersona`, `auth_token`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'afi_webmaster', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, 1, 1, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', 'h6Ev4vzPEVuDY5gVCJI5mSieHiMAtQYQXiudQZeS7xA7kDGYdETOC5cYzpS2', '2015-10-06 09:22:09', '2015-10-28 09:17:59', NULL);
 
 -- --------------------------------------------------------
 
