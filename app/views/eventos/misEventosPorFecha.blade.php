@@ -18,7 +18,6 @@
 			<th>Evento</th>
 			<th>Fecha</th>
 			<th>Dirección</th>
-			<th>Tipo</th>
 			<th>Registrar Comentario</th>
 		</tr>
 		@foreach($eventos_data as $evento_data)
@@ -31,9 +30,6 @@
 			</td>
 			<td>
 				{{$evento_data->direccion}}
-			</td>
-			<td>
-				{{$evento_data->tipo_evento}}
 			</td>
 			<td>
 				<a href="{{URL::to('/eventos/registrar_comentario/')}}/{{$evento_data->ideventos}}">@if($hoy > date('Y-m-d', strtotime($evento_data->fecha_evento)) && $hoy < date('Y-m-d', strtotime($evento_data->fecha_evento. ' + 2 days'))) Comentar @else Ver Comentarios @endif</a>	

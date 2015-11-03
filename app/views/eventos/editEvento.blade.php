@@ -10,7 +10,6 @@
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('nombre') }}</strong></p>
-			<p><strong>{{ $errors->first('idtipo_eventos') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_evento') }}</strong></p>
 			<p><strong>{{ $errors->first('idcolegios') }}</strong></p>
 			<p><strong>{{ $errors->first('direccion') }}</strong></p>
@@ -46,12 +45,6 @@
 							@else
 								{{ Form::text('nombre',$evento_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 							@endif
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('idtipo_eventos','Tipo de Evento') }}
-							{{ Form::text('idtipo_eventos',$evento_info->tipo_evento,array('class'=>'form-control','readonly'=>'')) }}
 						</div>
 					</div>
 				</div>

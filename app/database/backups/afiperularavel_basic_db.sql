@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-10-2015 a las 02:18:40
+-- Tiempo de generación: 03-11-2015 a las 16:23:47
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -62,15 +62,15 @@ CREATE TABLE IF NOT EXISTS `asistencia_ninhos` (
 CREATE TABLE IF NOT EXISTS `calendario_pagos` (
   `idcalendario_pagos` int(11) NOT NULL,
   `vencimiento` date DEFAULT NULL,
-  `fecha_pago` date NOT NULL,
+  `fecha_pago` date DEFAULT NULL,
   `num_cuota` int(11) NOT NULL,
-  `monto` float DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `aprobacion` tinyint(1) NOT NULL,
   `num_comprobante` varchar(45) NOT NULL,
-  `idpadrinos` int(11) NOT NULL
+  `idpadrinos` int(11) NOT NULL,
+  `monto` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -294,7 +294,16 @@ CREATE TABLE IF NOT EXISTS `fases` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `fases`
+--
+
+INSERT INTO `fases` (`idfases`, `created_at`, `updated_at`, `deleted_at`, `nombre`, `descripcion`) VALUES
+(1, '2015-11-03 20:07:54', NULL, NULL, 'Postulación', ''),
+(2, '2015-11-03 20:07:54', NULL, NULL, 'Charla informativa', ''),
+(3, '2015-11-03 20:10:26', NULL, NULL, 'Inducción', '');
 
 -- --------------------------------------------------------
 
@@ -429,10 +438,10 @@ CREATE TABLE IF NOT EXISTS `perfiles` (
 --
 
 INSERT INTO `perfiles` (`idperfiles`, `nombre`, `descripcion`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'webmaster', 'administrador del sitio', '2015-10-06 09:08:06', '2015-10-06 09:08:06', NULL),
-(2, 'afi', 'miembro de afi', '2015-10-06 09:08:06', '2015-10-06 09:08:06', NULL),
-(3, 'voluntario', 'voluntario que participa en eventos variados', '2015-10-06 09:08:24', '2015-10-06 09:08:24', NULL),
-(4, 'padrino', 'contribuyente de fondos monetarios', '2015-10-06 09:08:24', '2015-10-06 09:08:24', NULL);
+(1, 'webmaster', 'administrador del sitio', '2015-10-06 14:08:06', '2015-10-06 14:08:06', NULL),
+(2, 'afi', 'miembro de afi', '2015-10-06 14:08:06', '2015-10-06 14:08:06', NULL),
+(3, 'voluntario', 'voluntario que participa en eventos variados', '2015-10-06 14:08:24', '2015-10-06 14:08:24', NULL),
+(4, 'padrino', 'contribuyente de fondos monetarios', '2015-10-06 14:08:24', '2015-10-06 14:08:24', NULL);
 
 -- --------------------------------------------------------
 
@@ -484,44 +493,44 @@ CREATE TABLE IF NOT EXISTS `permisos` (
 --
 
 INSERT INTO `permisos` (`idpermisos`, `nombre`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'nav_convocatorias', '2015-10-06 08:59:51', '2015-10-06 08:59:51', NULL),
-(2, 'nav_eventos', '2015-10-06 09:01:00', '2015-10-06 09:01:00', NULL),
-(3, 'nav_voluntarios', '2015-10-06 09:01:11', '2015-10-06 09:01:11', NULL),
-(4, 'nav_padrinos', '2015-10-06 09:01:20', '2015-10-06 09:01:20', NULL),
-(5, 'nav_concursos', '2015-10-06 09:01:41', '2015-10-06 09:01:41', NULL),
-(6, 'nav_colegios', '2015-10-06 09:01:41', '2015-10-06 09:01:41', NULL),
-(7, 'nav_usuarios', '2015-10-06 09:05:52', '2015-10-06 09:05:52', NULL),
-(8, 'nav_sistema', '2015-10-06 09:05:52', '2015-10-06 09:05:52', NULL),
-(9, 'side_nueva_convocatoria', '2015-10-07 03:19:27', '2015-10-07 03:19:27', NULL),
-(10, 'side_listar_convocatorias', '2015-10-07 03:19:27', '2015-10-07 03:19:27', NULL),
-(11, 'side_nuevo_evento', '2015-10-07 03:22:04', '2015-10-07 03:22:04', NULL),
-(12, 'side_listar_eventos', '2015-10-07 03:22:04', '2015-10-07 03:22:04', NULL),
-(13, 'side_nuevo_punto_reunion', '2015-10-07 03:22:31', '2015-10-07 03:22:31', NULL),
-(14, 'side_listar_puntos_reunion', '2015-10-07 03:22:31', '2015-10-07 03:22:31', NULL),
-(15, 'side_mis_eventos', '2015-10-07 03:23:28', '2015-10-07 03:23:28', NULL),
-(16, 'side_listar_voluntarios', '2015-10-07 03:24:27', '2015-10-07 03:24:27', NULL),
-(17, 'side_reporte_asistencia', '2015-10-07 03:24:27', '2015-10-07 03:24:27', NULL),
-(18, 'side_listar_padrinos', '2015-10-07 03:26:36', '2015-10-07 03:26:36', NULL),
-(19, 'side_aprobar_padrinos', '2015-10-07 03:26:36', '2015-10-07 03:26:36', NULL),
-(20, 'side_nuevo_reporte_padrinos', '2015-10-07 03:27:18', '2015-10-07 03:27:18', NULL),
-(21, 'side_listar_reportes_padrinos', '2015-10-07 03:27:18', '2015-10-07 03:27:18', NULL),
-(22, 'side_calendario_pagos', '2015-10-07 03:28:21', '2015-10-07 03:28:21', NULL),
-(23, 'side_reporte_pagos', '2015-10-07 03:28:21', '2015-10-07 03:28:21', NULL),
-(24, 'side_registrar_pago', '2015-10-07 03:28:21', '2015-10-07 03:28:21', NULL),
-(25, 'side_nuevo_concurso', '2015-10-07 03:30:03', '2015-10-07 03:30:03', NULL),
-(26, 'side_listar_concursos', '2015-10-07 03:30:03', '2015-10-07 03:30:03', NULL),
-(27, 'side_nuevo_proyecto', '2015-10-07 03:31:35', '2015-10-07 03:31:35', NULL),
-(28, 'side_listar_proyectos', '2015-10-07 03:31:35', '2015-10-07 03:31:35', NULL),
-(29, 'side_nuevo_colegio', '2015-10-07 03:32:13', '2015-10-07 03:32:13', NULL),
-(30, 'side_listar_colegios', '2015-10-07 03:32:13', '2015-10-07 03:32:13', NULL),
-(31, 'side_aprobar_colegios', '2015-10-07 03:32:32', '2015-10-07 03:32:32', NULL),
-(32, 'side_nuevo_ninho', '2015-10-07 03:32:13', '2015-10-07 03:32:13', NULL),
-(33, 'side_listar_ninhos', '2015-10-07 03:32:13', '2015-10-07 03:32:13', NULL),
-(34, 'side_nuevo_usuario', '2015-10-07 04:33:10', '2015-10-07 04:33:10', NULL),
-(35, 'side_listar_usuarios', '2015-10-07 04:33:10', '2015-10-07 04:33:10', NULL),
-(36, 'side_nuevo_perfil', '2015-10-07 09:19:36', '2015-10-07 09:19:36', NULL),
-(37, 'side_listar_perfiles', '2015-10-07 09:19:36', '2015-10-07 09:19:36', NULL),
-(38, 'side_reporte_log', '2015-10-07 09:19:36', '2015-10-07 09:19:36', NULL);
+(1, 'nav_convocatorias', '2015-10-06 13:59:51', '2015-10-06 13:59:51', NULL),
+(2, 'nav_eventos', '2015-10-06 14:01:00', '2015-10-06 14:01:00', NULL),
+(3, 'nav_voluntarios', '2015-10-06 14:01:11', '2015-10-06 14:01:11', NULL),
+(4, 'nav_padrinos', '2015-10-06 14:01:20', '2015-10-06 14:01:20', NULL),
+(5, 'nav_concursos', '2015-10-06 14:01:41', '2015-10-06 14:01:41', NULL),
+(6, 'nav_colegios', '2015-10-06 14:01:41', '2015-10-06 14:01:41', NULL),
+(7, 'nav_usuarios', '2015-10-06 14:05:52', '2015-10-06 14:05:52', NULL),
+(8, 'nav_sistema', '2015-10-06 14:05:52', '2015-10-06 14:05:52', NULL),
+(9, 'side_nueva_convocatoria', '2015-10-07 08:19:27', '2015-10-07 08:19:27', NULL),
+(10, 'side_listar_convocatorias', '2015-10-07 08:19:27', '2015-10-07 08:19:27', NULL),
+(11, 'side_nuevo_evento', '2015-10-07 08:22:04', '2015-10-07 08:22:04', NULL),
+(12, 'side_listar_eventos', '2015-10-07 08:22:04', '2015-10-07 08:22:04', NULL),
+(13, 'side_nuevo_punto_reunion', '2015-10-07 08:22:31', '2015-10-07 08:22:31', NULL),
+(14, 'side_listar_puntos_reunion', '2015-10-07 08:22:31', '2015-10-07 08:22:31', NULL),
+(15, 'side_mis_eventos', '2015-10-07 08:23:28', '2015-10-07 08:23:28', NULL),
+(16, 'side_listar_voluntarios', '2015-10-07 08:24:27', '2015-10-07 08:24:27', NULL),
+(17, 'side_reporte_asistencia', '2015-10-07 08:24:27', '2015-10-07 08:24:27', NULL),
+(18, 'side_listar_padrinos', '2015-10-07 08:26:36', '2015-10-07 08:26:36', NULL),
+(19, 'side_aprobar_padrinos', '2015-10-07 08:26:36', '2015-10-07 08:26:36', NULL),
+(20, 'side_nuevo_reporte_padrinos', '2015-10-07 08:27:18', '2015-10-07 08:27:18', NULL),
+(21, 'side_listar_reportes_padrinos', '2015-10-07 08:27:18', '2015-10-07 08:27:18', NULL),
+(22, 'side_calendario_pagos', '2015-10-07 08:28:21', '2015-10-07 08:28:21', NULL),
+(23, 'side_reporte_pagos', '2015-10-07 08:28:21', '2015-10-07 08:28:21', NULL),
+(24, 'side_registrar_pago', '2015-10-07 08:28:21', '2015-10-07 08:28:21', NULL),
+(25, 'side_nuevo_concurso', '2015-10-07 08:30:03', '2015-10-07 08:30:03', NULL),
+(26, 'side_listar_concursos', '2015-10-07 08:30:03', '2015-10-07 08:30:03', NULL),
+(27, 'side_nuevo_proyecto', '2015-10-07 08:31:35', '2015-10-07 08:31:35', NULL),
+(28, 'side_listar_proyectos', '2015-10-07 08:31:35', '2015-10-07 08:31:35', NULL),
+(29, 'side_nuevo_colegio', '2015-10-07 08:32:13', '2015-10-07 08:32:13', NULL),
+(30, 'side_listar_colegios', '2015-10-07 08:32:13', '2015-10-07 08:32:13', NULL),
+(31, 'side_aprobar_colegios', '2015-10-07 08:32:32', '2015-10-07 08:32:32', NULL),
+(32, 'side_nuevo_ninho', '2015-10-07 08:32:13', '2015-10-07 08:32:13', NULL),
+(33, 'side_listar_ninhos', '2015-10-07 08:32:13', '2015-10-07 08:32:13', NULL),
+(34, 'side_nuevo_usuario', '2015-10-07 09:33:10', '2015-10-07 09:33:10', NULL),
+(35, 'side_listar_usuarios', '2015-10-07 09:33:10', '2015-10-07 09:33:10', NULL),
+(36, 'side_nuevo_perfil', '2015-10-07 14:19:36', '2015-10-07 14:19:36', NULL),
+(37, 'side_listar_perfiles', '2015-10-07 14:19:36', '2015-10-07 14:19:36', NULL),
+(38, 'side_reporte_log', '2015-10-07 14:19:36', '2015-10-07 14:19:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -642,7 +651,7 @@ CREATE TABLE IF NOT EXISTS `personas` (
 --
 
 INSERT INTO `personas` (`idpersonas`, `nombres`, `apellido_pat`, `apellido_mat`, `fecha_nacimiento`, `direccion`, `telefono`, `celular`, `latitud`, `longitud`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Webmaster', 'AFI', 'PERÚ', '2015-10-23 10:00:00', NULL, NULL, NULL, NULL, NULL, '2015-10-24 03:11:36', NULL, NULL);
+(1, 'Webmaster', 'AFI', 'PERÚ', '2015-10-23 15:00:00', NULL, NULL, NULL, NULL, NULL, '2015-10-24 08:11:36', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -685,24 +694,6 @@ CREATE TABLE IF NOT EXISTS `postulantes` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `postulantes_fases`
---
-
-CREATE TABLE IF NOT EXISTS `postulantes_fases` (
-  `idpostulantes_fases` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `idpostulantes` int(11) NOT NULL,
-  `idfases` int(11) NOT NULL,
-  `asistencia` int(11) NOT NULL,
-  `aprobacion` int(11) NOT NULL,
-  `comentario` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `postulantes_periodos`
 --
 
@@ -713,7 +704,10 @@ CREATE TABLE IF NOT EXISTS `postulantes_periodos` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idpostulantes` int(11) NOT NULL,
   `idperiodos` int(11) NOT NULL,
-  `comentario` varchar(255) DEFAULT NULL
+  `comentario` varchar(255) DEFAULT NULL,
+  `asistencia` int(11) DEFAULT NULL,
+  `aprobacion` int(11) DEFAULT NULL,
+  `idfases` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -757,7 +751,7 @@ CREATE TABLE IF NOT EXISTS `precolegios` (
   `latitud` varchar(45) NOT NULL,
   `longitud` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -773,7 +767,7 @@ CREATE TABLE IF NOT EXISTS `prepadrinos` (
   `apellido_pat` varchar(100) NOT NULL,
   `apellido_mat` varchar(100) NOT NULL,
   `dni` varchar(45) NOT NULL,
-  `fecha_nacimiento` timestamp NULL DEFAULT NULL,
+  `fecha_nacimiento` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `email` varchar(100) NOT NULL,
   `como_se_entero` varchar(200) DEFAULT NULL,
   `idperiodo_pagos` int(11) NOT NULL,
@@ -865,11 +859,11 @@ CREATE TABLE IF NOT EXISTS `tipo_documentos` (
 --
 
 INSERT INTO `tipo_documentos` (`idtipo_documentos`, `created_at`, `updated_at`, `deleted_at`, `nombre`) VALUES
-(1, '2015-10-22 13:42:35', '2015-10-22 13:42:35', NULL, 'Guía'),
-(2, '2015-10-27 22:09:20', NULL, NULL, 'Reporte a Padrinos'),
-(3, '2015-10-28 07:06:49', NULL, NULL, 'Documento de colegio'),
-(4, '2015-10-28 07:06:49', NULL, NULL, 'Documento de concurso'),
-(5, '2015-10-28 07:06:58', NULL, NULL, 'Documento de proyecto');
+(1, '2015-10-22 18:42:35', '2015-10-22 18:42:35', NULL, 'Guía'),
+(2, '2015-10-28 03:09:20', NULL, NULL, 'Reporte a Padrinos'),
+(3, '2015-10-28 12:06:49', NULL, NULL, 'Documento de colegio'),
+(4, '2015-10-28 12:06:49', NULL, NULL, 'Documento de concurso'),
+(5, '2015-10-28 12:06:58', NULL, NULL, 'Documento de proyecto');
 
 -- --------------------------------------------------------
 
@@ -883,17 +877,7 @@ CREATE TABLE IF NOT EXISTS `tipo_eventos` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `tipo_eventos`
---
-
-INSERT INTO `tipo_eventos` (`idtipo_eventos`, `nombre`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Sesión de voluntariado', '2015-10-19 00:02:34', '2015-10-19 00:02:34', NULL),
-(2, 'Charla informativa', '2015-10-19 00:02:34', '2015-10-19 00:02:34', NULL),
-(3, 'Inducción', '2015-10-19 00:04:03', '2015-10-19 00:04:03', NULL),
-(4, 'Actividad', '2015-10-19 00:04:03', '2015-10-19 00:04:03', NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -914,8 +898,8 @@ CREATE TABLE IF NOT EXISTS `tipo_identificacion` (
 --
 
 INSERT INTO `tipo_identificacion` (`idtipo_identificacion`, `nombre`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'L.E. / DNI', '2015-10-06 09:19:40', '2015-10-06 09:19:40', NULL),
-(2, 'CARNET EXT.', '2015-10-06 09:19:40', '2015-10-06 09:19:40', NULL);
+(1, 'L.E. / DNI', '2015-10-06 14:19:40', '2015-10-06 14:19:40', NULL),
+(2, 'CARNET EXT.', '2015-10-06 14:19:40', '2015-10-06 14:19:40', NULL);
 
 -- --------------------------------------------------------
 
@@ -942,23 +926,23 @@ CREATE TABLE IF NOT EXISTS `users` (
   `num_documento` varchar(45) NOT NULL,
   `password` varchar(64) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
-  `push_eventos` int(1) NOT NULL DEFAULT '1',
-  `push_pagos` int(1) NOT NULL DEFAULT '1',
   `idtipo_identificacion` int(11) NOT NULL,
   `idpersona` int(11) NOT NULL,
   `auth_token` varchar(100) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `push_eventos` int(11) DEFAULT '1',
+  `push_pagos` int(11) DEFAULT '1'
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `num_documento`, `password`, `email`, `push_eventos`, `push_pagos`, `idtipo_identificacion`, `idpersona`, `auth_token`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'afi_webmaster', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, 1, 1, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', 'h6Ev4vzPEVuDY5gVCJI5mSieHiMAtQYQXiudQZeS7xA7kDGYdETOC5cYzpS2', '2015-10-06 09:22:09', '2015-10-28 09:17:59', NULL);
+INSERT INTO `users` (`id`, `num_documento`, `password`, `email`, `idtipo_identificacion`, `idpersona`, `auth_token`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `push_eventos`, `push_pagos`) VALUES
+(1, 'afi_webmaster', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', 'h6Ev4vzPEVuDY5gVCJI5mSieHiMAtQYQXiudQZeS7xA7kDGYdETOC5cYzpS2', '2015-10-06 14:22:09', '2015-10-28 14:17:59', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -980,7 +964,7 @@ CREATE TABLE IF NOT EXISTS `users_perfiles` (
 --
 
 INSERT INTO `users_perfiles` (`idusers_perfiles`, `idperfiles`, `idusers`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 1, '2015-10-06 09:29:14', '2015-10-06 09:29:14', NULL);
+(1, 1, 1, '2015-10-06 14:29:14', '2015-10-06 14:29:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -1242,20 +1226,13 @@ ALTER TABLE `postulantes`
   ADD PRIMARY KEY (`idpostulantes`);
 
 --
--- Indices de la tabla `postulantes_fases`
---
-ALTER TABLE `postulantes_fases`
-  ADD PRIMARY KEY (`idpostulantes_fases`),
-  ADD KEY `fk_postulantes_fases_postulantes1_idx` (`idpostulantes`),
-  ADD KEY `fk_postulantes_fases_fases1_idx` (`idfases`);
-
---
 -- Indices de la tabla `postulantes_periodos`
 --
 ALTER TABLE `postulantes_periodos`
   ADD PRIMARY KEY (`idpostulantes_periodos`),
   ADD KEY `fk_postulantes_periodos_postulantes1_idx` (`idpostulantes`),
-  ADD KEY `fk_postulantes_periodos_periodos1_idx` (`idperiodos`);
+  ADD KEY `fk_postulantes_periodos_periodos1_idx` (`idperiodos`),
+  ADD KEY `fk_postulantes_periodos_fases1_idx` (`idfases`);
 
 --
 -- Indices de la tabla `powerup`
@@ -1442,7 +1419,7 @@ ALTER TABLE `eventos`
 -- AUTO_INCREMENT de la tabla `fases`
 --
 ALTER TABLE `fases`
-  MODIFY `idfases` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idfases` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `fase_concursos`
 --
@@ -1509,11 +1486,6 @@ ALTER TABLE `player`
 ALTER TABLE `postulantes`
   MODIFY `idpostulantes` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT de la tabla `postulantes_fases`
---
-ALTER TABLE `postulantes_fases`
-  MODIFY `idpostulantes_fases` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT de la tabla `postulantes_periodos`
 --
 ALTER TABLE `postulantes_periodos`
@@ -1547,7 +1519,7 @@ ALTER TABLE `tipo_documentos`
 -- AUTO_INCREMENT de la tabla `tipo_eventos`
 --
 ALTER TABLE `tipo_eventos`
-  MODIFY `idtipo_eventos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `idtipo_eventos` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `tipo_identificacion`
 --
@@ -1710,16 +1682,10 @@ ALTER TABLE `permisos_perfiles`
   ADD CONSTRAINT `fk_permisos_perfiles_permisos` FOREIGN KEY (`idpermisos`) REFERENCES `permisos` (`idpermisos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `postulantes_fases`
---
-ALTER TABLE `postulantes_fases`
-  ADD CONSTRAINT `fk_postulantes_fases_fases1` FOREIGN KEY (`idfases`) REFERENCES `fases` (`idfases`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_postulantes_fases_postulantes1` FOREIGN KEY (`idpostulantes`) REFERENCES `postulantes` (`idpostulantes`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Filtros para la tabla `postulantes_periodos`
 --
 ALTER TABLE `postulantes_periodos`
+  ADD CONSTRAINT `fk_postulantes_periodos_fases1` FOREIGN KEY (`idfases`) REFERENCES `fases` (`idfases`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_postulantes_periodos_periodos1` FOREIGN KEY (`idperiodos`) REFERENCES `periodos` (`idperiodos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_postulantes_periodos_postulantes1` FOREIGN KEY (`idpostulantes`) REFERENCES `postulantes` (`idpostulantes`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 

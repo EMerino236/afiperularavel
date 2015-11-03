@@ -29,12 +29,6 @@
 							{{ Form::text('nombre',$evento_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 						</div>
 					</div>
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('idtipo_eventos','Tipo de Evento') }}
-							{{ Form::text('idtipo_eventos',$evento_info->tipo_evento,array('class'=>'form-control','readonly'=>'')) }}
-						</div>
-					</div>
 				</div>
 				<div class="col-xs-6">
 					<div class="row">

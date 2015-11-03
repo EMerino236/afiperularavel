@@ -37,7 +37,6 @@
 			<th>Evento</th>
 			<th>Fecha</th>
 			<th>Dirección</th>
-			<th>Tipo</th>
 			<th>Asistencia</th>
 			<th>Documentos</th>
 		</tr>
@@ -51,9 +50,6 @@
 			</td>
 			<td>
 				{{$evento_data->direccion}}
-			</td>
-			<td>
-				{{$evento_data->tipo_evento}}
 			</td>
 			<td>
 				<a href="{{URL::to('/eventos/asistencia_evento/')}}/{{$evento_data->ideventos}}">@if($hoy < date('Y-m-d', strtotime($evento_data->fecha_evento. ' + 2 days'))) Tomar Asistencia @else Ver Asistencia @endif</a>	

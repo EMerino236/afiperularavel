@@ -31,7 +31,7 @@ class EventosController extends BaseController
 					$data["no_hay_periodo"] = true;
 					return View::make('eventos/createEvento',$data);
 				}
-				$data["tipos_eventos"] = TipoEvento::lists('nombre','idtipo_eventos');
+				//$data["tipos_eventos"] = TipoEvento::lists('nombre','idtipo_eventos');
 				$data["colegios"] = Colegio::lists('nombre','idcolegios');
 				$data["puntos_reunion"] = PuntoReunion::all();
 				$data["voluntarios"] = UsersPeriodo::getUsersPorPeriodo($periodo[0]->idperiodos)->get();
@@ -55,14 +55,13 @@ class EventosController extends BaseController
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'nombre' => 'required|alpha_spaces|min:2|max:100',
-							'idtipo_eventos' => 'required',
+							//'idtipo_eventos' => 'required',
 							'fecha_evento' => 'required',
 							'idcolegios' => 'required',
 							'direccion' => 'required',
 							'voluntarios' => 'required',
 							'latitud' => 'required',
 							'voluntarios' => 'required',
-							'puntos_reunion' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -74,18 +73,20 @@ class EventosController extends BaseController
 					$evento = new Evento;
 					$evento->nombre = Input::get('nombre');
 					$evento->fecha_evento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_evento')));
-					$evento->idtipo_eventos = Input::get('idtipo_eventos');
+					//$evento->idtipo_eventos = Input::get('idtipo_eventos');
 					$evento->direccion = Input::get('direccion');
 					$evento->latitud = Input::get('latitud');
 					$evento->longitud = Input::get('longitud');
 					$evento->idperiodos = Input::get('idperiodos');
 					$evento->save();
 					/* Creo los puntos de reunion */
-					foreach(Input::get('puntos_reunion') as $punto_reunion){
-						$punto_reunion_evento = new PuntoEvento;
-						$punto_reunion_evento->idpuntos_reunion = $punto_reunion;
-						$punto_reunion_evento->ideventos = $evento->ideventos;
-						$punto_reunion_evento->save();
+					if(!empty(Input::get('puntos_reunion'))){
+						foreach(Input::get('puntos_reunion') as $punto_reunion){
+							$punto_reunion_evento = new PuntoEvento;
+							$punto_reunion_evento->idpuntos_reunion = $punto_reunion;
+							$punto_reunion_evento->ideventos = $evento->ideventos;
+							$punto_reunion_evento->save();
+						}
 					}
 					/* Creo las asistencias de los usuarios */
 					foreach(Input::get('voluntarios') as $voluntario){

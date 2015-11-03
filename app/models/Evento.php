@@ -10,17 +10,13 @@ class Evento extends Eloquent{
 
 	public function scopeSearchEventosById($query,$ideventos)
 	{
-		$query->join('tipo_eventos','tipo_eventos.idtipo_eventos','=','eventos.idtipo_eventos')
-			  ->where('eventos.ideventos','=',$ideventos)
-			  ->select('tipo_eventos.nombre as tipo_evento','eventos.*');
+		$query->where('ideventos','=',$ideventos);
 		return $query;
 	}
 
 	public function scopeGetEventosInfo($query,$idperiodos)
 	{
-		$query->join('tipo_eventos','tipo_eventos.idtipo_eventos','=','eventos.idtipo_eventos')
-			  ->where('eventos.idperiodos','=',$idperiodos)
-			  ->select('tipo_eventos.nombre as tipo_evento','eventos.*');
+		$query->where('idperiodos','=',$idperiodos);
 		return $query;
 	}
 

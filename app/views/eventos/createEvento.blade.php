@@ -10,7 +10,6 @@
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('nombre') }}</strong></p>
-			<p><strong>{{ $errors->first('idtipo_eventos') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_evento') }}</strong></p>
 			<p><strong>{{ $errors->first('idcolegios') }}</strong></p>
 			<p><strong>{{ $errors->first('direccion') }}</strong></p>
@@ -45,12 +44,6 @@
 							<div class="form-group col-xs-8">
 								{{ Form::label('nombre','Título del Evento') }}
 								{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
-							</div>
-						</div>
-						<div class="row">
-							<div class="form-group col-xs-8">
-								{{ Form::label('idtipo_eventos','Tipo de Evento') }}
-								{{ Form::select('idtipo_eventos',$tipos_eventos,Input::old('idtipo_eventos'),['class' => 'form-control']) }}
 							</div>
 						</div>
 					</div>
