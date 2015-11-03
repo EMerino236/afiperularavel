@@ -162,6 +162,7 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::get('payment_calendar', 'api\v1\SponsorController@payment_calendar');
     Route::post('attendance_children/{attendance_children_id}/comments', 'api\v1\NinhosController@comment');
     Route::get('documents', 'api\v1\DocumentosController@index');
+    Route::post('documents/{document_id}/visualizations', 'api\v1\DocumentosController@register_visualization');
 });
 
 /* Rutas para el juego */
