@@ -4,10 +4,38 @@ class DocumentosController extends \BaseController {
 
 	public function index()
 	{
-		// obtener los eventos a los que esta asignado el usuario
         $auth_token = \Request::header('authorization');
         $user = \User::where('auth_token', '=', $auth_token)->first();
-        $eventos = \Asistencia::getEventosPorUser($user->id)->get();
+        // obtener los perfiles del usuario
+        $perfiles = \User::getPerfilesPorUsuario2($user->id)->get();
+        $es_webmaster = 0;
+        $es_miembroafi = 0;
+        $es_voluntario = 0;
+        $es_padrino = 0;
+        foreach($perfiles as $p)
+        {
+            switch ($p->idperfiles) {
+                case 1:
+                    $es_webmaster = 1;
+                    break;
+                case 2:
+                    $es_miembroafi = 1;
+                    break;
+                case 3:
+                    $es_voluntario = 1;
+                    break;
+                case 4:
+                    $es_padrino = 1;
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        // obtener los eventos a los que esta asignado el usuario
+        $eventos = [];
+        if($es_webmaster || $es_miembroafi) $eventos = \Evento::where('idtipo_eventos', '=', 1)->get();
+        elseif ($es_voluntario) $eventos = \Asistencia::getEventosPorUser($user->id)->get();
         
         $response = [];
         
