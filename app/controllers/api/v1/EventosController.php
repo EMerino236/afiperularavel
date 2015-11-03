@@ -223,8 +223,8 @@ class EventosController extends \BaseController {
                             'email' => $v->email,
                             'profiles' => $perfiles_array
                         ],
-                        'attended' => $v->asistio,
-                        'rating' => $v->calificacion,
+                        'attended' => (bool)$v->asistio,
+                        'rating' => (int)$v->calificacion,
                         'comment' => $v->comentario
                     ];
                 }
