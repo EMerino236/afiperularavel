@@ -99,12 +99,43 @@ class EventosController extends \BaseController {
                 $lista_docs = [];
                 foreach($documentos as $doc)
                 {
+                    // obtener los usuarios asignados al documento (al evento)
+                    $users = [];
+                    $usuarios = \Asistencia::getUsersPorEvento($sesion->ideventos)->get();
+                    foreach($usuarios as $u)
+                    {
+                        $perfiles = \User::getPerfilesPorUsuario2($u->id)->get();
+                        $perfiles_array = [];
+                        foreach ($perfiles as $perfil)
+                        {
+                            $perfiles_array[] = [
+                                'id' => $perfil->idperfiles,
+                                'name' => $perfil->nombre
+                            ];
+                        }
+                
+                        // verificar si el usuario ha visto el documento
+                        $visto = \Visualizacion::getVisualizacionesPorUserPorEventoPorDocumento($u->id, $sesion->ideventos, $doc->iddocumentos)->first();
+                    
+                        $users[] = [
+                            'id' => $u->id,
+                            'names' => $u->nombres,
+                            'last_name' => $u->apellido_pat,
+                            'username' => $u->num_documento,
+                            'profiles' => $perfiles_array,
+                            'seen' => ($visto) ? 1 : 0
+                        ];
+                    }
+                    
                     $lista_docs[] = [
+                        'id' => $doc->iddocumentos,
                         'name' => $doc->nombre_archivo,
                         'date' => date('Y-m-d'),
                         //'date' => strtotime($doc->fecha),
-                        'size' => 1.2
+                        'size' => 1.2,
                         //'size' => $doc->tamaño
+                        'url' => $doc->ruta,
+                        'users' => $users
                     ];
                 }
             
@@ -122,11 +153,36 @@ class EventosController extends \BaseController {
                     $from = new \DateTime($n->fecha_nacimiento);
                     $to = new \DateTime('today');
                     $edad = $from->diff($to)->y;
-                
-                    // verificar si el usuario ha comentado al ninho
-                    $auth_token = \Request::header('authorization');
-                    $user = User::where('auth_token', '=', $auth_token)->first();
-                    $comentario = Comentario::getComentarioPorUserPorNinhos($user->id, $n->idasistencia_ninhos)->first();
+                    
+                    // obtener comentarios
+                    $comentarios = null;
+                    $ha_comentado = 0;
+                    if($es_webmaster || $es_miembroafi)
+                    {
+                        // obtener todos los comentarios hechos al niño en la sesion
+                        $comentarios = \Comentario::where('idasistencia_ninhos', '=', $n->idasistencia_ninhos)->get();
+                    }
+                    elseif($es_voluntario)
+                    {
+                        // verificar si el voluntario ha comentado al ninho
+                        $comentarios = Comentario::getComentarioPorUserPorNinhos($user->id, $n->idasistencia_ninhos)->get();
+                        $ha_comentado = ($comentarios->first()) ? 1 : 0;
+                    }
+                    $lista_comentarios = [];
+                    foreach($comentarios as $c)
+                    {
+                        $voluntario = \User::searchUserById($c->idusers)->first();
+                        $lista_comentarios[] = [
+                            'id' => $c->idcomentarios,
+                            'comment' => $c->comentario,
+                            'face' => $c->calificacion,
+                            'volunteer' => [
+                                    'id' => $voluntario->id,
+                                    'names' => $voluntario->nombres,
+                                    'last_name' => $voluntario->apellido_pat
+                                ]
+                        ];
+                    }
                 
                     $lista_ninhos[] = [
                         'id' => $n->idasistencia_ninhos,
@@ -137,7 +193,8 @@ class EventosController extends \BaseController {
                             'gender' => $genero,
                             'age' => $edad
                         ],
-                        'commented' => ($comentario) ? 1 : 0
+                        'commented' => $ha_comentado,
+                        'comments' => $lista_comentarios
                     ];
                 }
             
