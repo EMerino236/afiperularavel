@@ -34,7 +34,7 @@ class DocumentosController extends \BaseController {
         
         // obtener los eventos a los que esta asignado el usuario
         $eventos = [];
-        if($es_webmaster || $es_miembroafi) $eventos = \Evento::where('idtipo_eventos', '=', 1)->get();
+        if($es_webmaster || $es_miembroafi) $eventos = \Evento::all();
         elseif ($es_voluntario) $eventos = \Asistencia::getEventosPorUser($user->id)->get();
         
         $response = [];

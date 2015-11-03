@@ -1,7 +1,6 @@
 <?php namespace api\v1;
 
 use \Evento;
-use \TipoEvento;
 use \Periodo;
 use \PuntoReunion;
 use \PuntoEvento;
@@ -22,12 +21,9 @@ class EventosController extends \BaseController {
 	 * @return Response
 	 */
 	public function sesiones()
-	{
-        // obtener tipo de evento sesion
-        $tipo_sesion = TipoEvento::find(1);
-        
+	{   
         // obtener sesiones
-        $sesiones = Evento::where('idtipo_eventos', '=', $tipo_sesion->idtipo_eventos)->get();
+        $sesiones = Evento::all();
         
         // obtener usuario que esta haciendo la peticion
         $auth_token = \Request::header('authorization');
