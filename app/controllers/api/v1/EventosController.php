@@ -95,6 +95,12 @@ class EventosController extends \BaseController {
                 $lista_docs = [];
                 foreach($documentos as $doc)
                 {
+                    // obtener hace cuantos dias se subio el documento
+                    $from = new \DateTime();
+                    $from->setTimestamp(strtotime($doc->created_at));
+                    $to = new \DateTime('today');
+                    $dias = $from->diff($to)->d;
+                    
                     // obtener los usuarios asignados al documento (al evento)
                     $users = [];
                     $usuarios = \Asistencia::getUsersPorEvento($sesion->ideventos)->get();
@@ -126,11 +132,10 @@ class EventosController extends \BaseController {
                     $lista_docs[] = [
                         'id' => $doc->iddocumentos,
                         'name' => $doc->nombre_archivo,
-                        'date' => date('Y-m-d'),
-                        //'date' => strtotime($doc->fecha),
-                        'size' => 1.2,
+                        'url' => $doc->ruta . $doc->nombre_archivo,
+                        'upload_date' => 'Hace ' . $dias . ' día' . (($dias != 1) ? 's' : '') . ', ' . date('h:i A', $from->getTimestamp()),
+                        'size' => '12 KB',
                         //'size' => $doc->tamaño
-                        'url' => $doc->ruta,
                         'users' => $users
                     ];
                 }
@@ -218,7 +223,9 @@ class EventosController extends \BaseController {
                             'email' => $v->email,
                             'profiles' => $perfiles_array
                         ],
-                        'attended' => $v->asistio
+                        'attended' => $v->asistio,
+                        'rating' => $v->calificacion,
+                        'comment' => $v->comentario
                     ];
                 }
             

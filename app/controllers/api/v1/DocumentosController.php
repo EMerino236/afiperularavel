@@ -46,6 +46,12 @@ class DocumentosController extends \BaseController {
             
             foreach($docs as $d)
             {
+                // obtener hace cuantos dias se subio el documento
+                $from = new \DateTime();
+                $from->setTimestamp(strtotime($d->created_at));
+                $to = new \DateTime('today');
+                $dias = $from->diff($to)->d;
+                
                 // obtener los usuarios asignados al documento (al evento)
                 $users = [];
                 $usuarios = \Asistencia::getUsersPorEvento($e->ideventos)->get();
@@ -77,7 +83,9 @@ class DocumentosController extends \BaseController {
                 $response[] = [
                     'id' => $d->iddocumentos,
                     'name' => $d->nombre_archivo,
-                    'url' => $d->ruta,
+                    'url' => $d->ruta . $d->nombre_archivo,
+                    'upload_date' => 'Hace ' . $dias . ' día' . (($dias != 1) ? 's' : '') . ', ' . date('h:i A', $from->getTimestamp()),
+                    'size' => '12 KB',
                     'users' => $users
                 ];
             }
