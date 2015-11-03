@@ -160,6 +160,7 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::post('payment', 'api\v1\SponsorController@payment');
     Route::post('roll_call', 'api\v1\VolunteerController@roll_call');
     Route::get('payment_calendar', 'api\v1\SponsorController@payment_calendar');
+    Route::post('attendance_children/{attendance_children_id}/comments', 'api\v1\NinhosController@comment');
 });
 
 /* Rutas para el juego */
