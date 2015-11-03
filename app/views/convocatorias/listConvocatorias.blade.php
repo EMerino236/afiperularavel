@@ -26,6 +26,7 @@
 			<th>Nombre</th>
 			<th>Fecha Inicio</th>
 			<th>Fecha Fin</th>
+			<th>Postulación</th>
 		</tr>
 		@foreach($convocatorias_data as $convocatoria_data)
 		<tr class="@if($convocatoria_data->deleted_at) bg-danger @endif">
@@ -37,6 +38,9 @@
 			</td>
 			<td>
 				{{$convocatoria_data->fecha_fin}}
+			</td>
+			<td>
+				<a href="{{URL::to('/convocatorias/edit_convocatoria/')}}/{{$convocatoria_data->idperiodos}}">Ver proceso</a>
 			</td>
 		</tr>
 		@endforeach
