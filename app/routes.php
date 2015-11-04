@@ -98,7 +98,9 @@ Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){
 	Route::post('/submit_edit_colegio','ColegiosController@submit_edit_colegio');
 	Route::post('/submit_disable_colegio','ColegiosController@submit_disable_colegio');
 	Route::post('/submit_enable_colegio','ColegiosController@submit_enable_colegio');
-
+	Route::get('/list_precolegios','ColegiosController@list_precolegios');
+	Route::get('/edit_precolegio/{id}','ColegiosController@render_edit_precolegio');
+	Route::post('/submit_aprove_precolegio','ColegiosController@submit_aprove_precolegio');
 });
 
 /*Niños*/
@@ -121,6 +123,11 @@ Route::group(array('prefix'=>'concursos','before'=>'auth'),function(){
 	Route::post('/submit_upload_file','ConcursosController@submit_upload_file');
 	Route::post('/submit_delete_file','ConcursosController@submit_delete_file');	
 	Route::post('/descargar_documento','ConcursosController@submit_descargar_documento');
+	Route::post('/fase_register_ajax','ConcursosController@fase_register_ajax');
+	Route::post('/fase_delete_ajax','ConcursosController@fase_delete_ajax');
+	Route::get('/fases_concurso/{id}','ConcursosController@render_fases_concurso');
+	Route::get('/edit_concurso/{id}','ConcursosController@render_edit_concurso');
+	Route::post('/submit_edit_concurso','ConcursosController@submit_edit_concurso');
 });
 /* Users */
 Route::group(array('prefix'=>'user', 'before'=>'auth'),function(){
