@@ -49,6 +49,7 @@ class NinhoController extends BaseController
 							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
 							'fecha_nacimiento' => 'required',
+							'genero' => 'required',
 							'nombre_apoderado' => 'required|alpha_spaces|min:2|max:200',
 							'dni_apoderado' => 'required|numeric|digits_between:8,16',
 							'num_familiares' => 'numeric|min:1',
@@ -67,6 +68,7 @@ class NinhoController extends BaseController
 					$ninho->apellido_pat = Input::get('apellido_pat');
 					$ninho->apellido_mat = Input::get('apellido_mat');
 					$ninho->fecha_nacimiento = Input::get('fecha_nacimiento');
+					$ninho->genero = Input::get('genero');
 					$ninho->nombre_apoderado = Input::get('nombre_apoderado');
 					$ninho->dni_apoderado = Input::get('dni_apoderado');
 					$ninho->num_familiares = Input::get('num_familiares');

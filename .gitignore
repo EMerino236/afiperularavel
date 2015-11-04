@@ -6,8 +6,3 @@ composer.lock
 .env.php
 .DS_Store
 Thumbs.db
-app/controllers/UserWS.php
-app/controllers/UrlController.php
-app/controllers/NinhosController.php
-app/views/ninhos/createNinho.blade.php
-app/views/templates/ninhoTemplate.blade.php

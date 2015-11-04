@@ -65,13 +65,6 @@
 			</div>
 			<div class="row">
 				<div class="form-group col-xs-8">
-					{{ Form::label('genero','Género') }}</br>
-					{{ Form::radio('genero', 'M') }} M
-					{{ Form::radio('genero', 'F',false,array('style'=>'margin-left:40px')) }} F
-				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-xs-8">
 					{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
 				</div>
 			</div>		
