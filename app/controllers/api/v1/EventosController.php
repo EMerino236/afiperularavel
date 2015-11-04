@@ -134,8 +134,7 @@ class EventosController extends \BaseController {
                         'name' => $doc->nombre_archivo,
                         'url' => $doc->ruta . $doc->nombre_archivo,
                         'upload_date' => 'Hace ' . $dias . ' día' . (($dias != 1) ? 's' : '') . ', ' . date('h:i A', $from->getTimestamp()),
-                        'size' => '12 KB',
-                        //'size' => $doc->tamaño
+                        'size' => $doc->peso . ' KB',
                         'users' => $users
                     ];
                 }
