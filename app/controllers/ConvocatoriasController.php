@@ -186,6 +186,46 @@ class ConvocatoriasController extends BaseController
 		}
 	}
 
+	public function list_postulantes($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nueva_convocatoria',$data["permisos"])){
+				$data["fases_postulacion"] = Fase::lists('nombre','idfases');
+				$data["convocatoria_info"] = Periodo::searchPeriodoById($id)->get();
+				$data["convocatoria_info"] = $data["convocatoria_info"][0];
+				$data["postulantes_info"] = array();
+				return View::make('convocatorias/listPostulantes',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function search_postulantes()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nueva_convocatoria',$data["permisos"])){
+				$data["fases_postulacion"] = Fase::lists('nombre','idfases');
+				$data["convocatoria_info"] = Periodo::searchPeriodoById($id)->get();
+				$data["convocatoria_info"] = $data["convocatoria_info"][0];
+				$data["postulantes_info"] = null;
+				return View::make('convocatorias/listPostulantes',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function submit_disable_user()
 	{
 		if(Auth::check()){

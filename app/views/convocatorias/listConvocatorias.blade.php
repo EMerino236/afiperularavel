@@ -40,7 +40,7 @@
 				{{$convocatoria_data->fecha_fin}}
 			</td>
 			<td>
-				<a href="{{URL::to('/convocatorias/edit_convocatoria/')}}/{{$convocatoria_data->idperiodos}}">Ver proceso</a>
+				<a href="{{URL::to('/convocatorias/list_postulantes/')}}/{{$convocatoria_data->idperiodos}}">Ver proceso</a>
 			</td>
 		</tr>
 		@endforeach
