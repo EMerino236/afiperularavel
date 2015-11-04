@@ -34,6 +34,7 @@
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+    <script src="{{ asset('js/concursos/fases-concurso.js') }}"></script>
 </head>
 
 <body>
@@ -74,5 +75,6 @@
 <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
 <!-- Custom Theme JavaScript -->
 <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
 </body>
 </html>

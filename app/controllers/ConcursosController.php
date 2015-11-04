@@ -44,8 +44,8 @@ class ConcursosController extends BaseController
 			if(in_array('side_nuevo_concurso',$data["permisos"])){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'titulo' => 'required',
-							'resenha' => 'required'
+							'titulo' => 'required|min:2|max:100',
+							'resenha' => 'required|max:255'
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -243,4 +243,152 @@ class ConcursosController extends BaseController
 			return View::make('error/error');
 		}
 	}
+
+
+
+	public function render_fases_concurso($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_nuevo_concurso',$data["permisos"])) && $id){
+				$data["concurso_info"] = Concurso::searchConcursosById($id)->get();
+				if($data["concurso_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró el concurso.');
+					return Redirect::to('concursos/list_concursos');
+				}
+				$data["concurso_info"] = $data["concurso_info"][0];
+				$data["faseconcursos_data"] = FasesConcurso::getFasesPorConcurso($data["concurso_info"]->idconcursos)->get();
+				
+				$data["hoy"] = date("Y-m-d H:i:s");
+				return View::make('concursos/fasesConcurso',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function fase_register_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		if(Auth::check()){
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
+			if(in_array('side_nuevo_concurso',$data["permisos"])){
+				$fecha_limite = date('Y-m-d H:i:s',strtotime(Input::get('fecha_limite')));
+
+				$fase_concursos = new FasesConcurso;
+				$fase_concursos->titulo = Input::get('titulo');
+				$fase_concursos->descripcion = Input::get('descripcion');
+				$fase_concursos->fecha_limite = $fecha_limite;
+				$fase_concursos->idconcursos = Input::get('idconcursos');
+				$fase_concursos->save();
+				return Response::json(array( 'success' => true,'faseconcursos_data'=>$fase_concursos),200);
+			}else{
+				return Response::json(array( 'success' => false ),200);
+			}
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function fase_delete_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		if(Auth::check()){
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
+			if(in_array('side_nuevo_concurso',$data["permisos"])){
+				
+				$idfase_concursos = Input::get('idfase');
+				$fase_concursos = FasesConcurso::find($idfase_concursos);
+
+				$fase_concursos->delete(); 
+				return Response::json(array( 'success' => true,'faseconcursos_data'=>$fase_concursos),200);
+			}else{
+				return Response::json(array( 'success' => false ),200);
+			}
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+
+	public function render_edit_concurso($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_nuevo_concurso',$data["permisos"])) && $id){
+				$data["concurso_info"] = Concurso::searchConcursosById($id)->get();
+				if($data["concurso_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró al concurso.');
+					return Redirect::to('concursos/list_concursos');
+				}
+				
+				$data["concurso_info"] = $data["concurso_info"][0];
+				return View::make('concursos/editConcurso',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_edit_concurso()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_concurso',$data["permisos"])){
+				// Validate the info, create rules for the inputs
+
+				$rules = array(
+							'titulo' => 'required|alpha_spaces|min:2|max:100',
+							'resenha' => 'required|max:255'
+							
+						);
+				// Run the validation rules on the inputs from the form
+				$concurso_id = Input::get('concurso_id');
+				$url = "concursos/edit_concurso"."/".$concurso_id;
+				$validator = Validator::make(Input::all(), $rules);
+				
+				if($validator->fails()){
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
+				}else{
+					$concurso = Concurso::find($concurso_id);
+					$concurso->titulo = Input::get('titulo');
+					$concurso->resenha = Input::get('resenha');
+					
+					$concurso->save();
+					
+					Session::flash('message', 'Se editó correctamente el concurso.');
+					
+					return Redirect::to($url);
+				}
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 }

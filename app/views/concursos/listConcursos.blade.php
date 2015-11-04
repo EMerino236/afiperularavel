@@ -26,18 +26,22 @@
 			<th>Titulo</th>
 			<th>Reseña</th>
 			<th>Fecha Creación</th>
+			<th>Fases</th>
 			<th>Documentos</th>
 		</tr>
 		@foreach($concursos_data as $concurso_data)
 		<tr class="@if($concurso_data->deleted_at) bg-danger @endif">			
 			<td>
-				{{$concurso_data->titulo}}
+				<a href="{{URL::to('/concursos/edit_concurso/')}}/{{$concurso_data->idconcursos}}">{{$concurso_data->titulo}}</a>
 			</td>
 			<td>
 				{{$concurso_data->resenha}}
 			</td>
 			<td>
 				{{date('d/m/Y - H:i',strtotime($concurso_data->created_at))}}
+			</td>
+			<td>
+				<a href="{{URL::to('/concursos/fases_concurso/')}}/{{$concurso_data->idconcursos}}">Fases</a>
 			</td>
 			<td>
 				<a href="{{URL::to('/concursos/upload_file/')}}/{{$concurso_data->idconcursos}}">Documentos</a>
