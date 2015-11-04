@@ -195,7 +195,8 @@ class ConvocatoriasController extends BaseController
 			if(in_array('side_nueva_convocatoria',$data["permisos"])){
 				$data["fases_postulacion"] = Fase::lists('nombre','idfases');
 				$data["convocatoria_info"] = Periodo::searchPeriodoById($id)->get();
-				$data["convocatoria_info"] = $data["convocatoria_info"][0];
+				$data["convocatoria_info"] = $data["convocatoria_info"][0];	
+				$data["idfase"] = null;			
 				$data["postulantes_info"] = array();
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
@@ -214,9 +215,10 @@ class ConvocatoriasController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nueva_convocatoria',$data["permisos"])){
 				$data["fases_postulacion"] = Fase::lists('nombre','idfases');
-				$data["convocatoria_info"] = Periodo::searchPeriodoById($id)->get();
+				$data["convocatoria_info"] = Periodo::searchPeriodoById(Input::get('idperiodos'))->get();
 				$data["convocatoria_info"] = $data["convocatoria_info"][0];
-				$data["postulantes_info"] = null;
+				$data["idfase"] = Input::get('idfases');
+				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase(Input::get('idperiodos'),Input::get('idfases'))->paginate(10);				
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
 				return View::make('error/error');
@@ -225,6 +227,81 @@ class ConvocatoriasController extends BaseController
 			return View::make('error/error');
 		}
 	}
+
+	public function submit_aprobacion_postulantes()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nueva_convocatoria',$data["permisos"])){
+				$idpostulantes_periodos = Input::get('idpostulantes_periodos');
+				$idperiodos = Input::get('idperiodos');
+				$idfase = Input::get('idfase');
+				$comentarios = Input::get('comentarios');
+				$asistencias = Input::get('asistencias');
+				$aprobaciones = Input::get('aprobaciones');
+				$count = count($idpostulantes_periodos);
+				if($idfase==1){
+					for($i=0;$i<$count;$i++){
+						if($aprobaciones[$i] !== null){
+							$postulante_periodo = PostulantesPeriodo::find($idpostulantes_periodos[$i]);
+							$estado_aprobacion_anterior = $postulante_periodo->aprobacion;
+							$postulante_periodo->asistencia = $asistencias[$i];
+							$postulante_periodo->comentario = $comentarios[$i];
+							$postulante_periodo->aprobacion = $aprobaciones[$i];
+							$postulante_periodo->save();
+
+							if($aprobaciones[$i] == 1 && $estado_aprobacion_anterior != 1){
+								$postulante_periodo_nuevo = new PostulantesPeriodo;
+								$postulante_periodo_nuevo->idpostulantes = $postulante_periodo->idpostulantes;
+								$postulante_periodo_nuevo->idperiodos = $postulante_periodo->idperiodos;
+								$postulante_periodo_nuevo->idfases = $idfase + 1;
+								$postulante_periodo_nuevo->save();
+							}
+						}
+					}
+				}
+
+				if($idfase==2){
+					for($i=0;$i<$count;$i++){
+						$postulante_periodo = PostulantesPeriodo::find($idpostulantes_periodos[$i]);
+						$postulante_periodo->asistencia = $asistencias[$i];
+						$postulante_periodo->comentario = $comentarios[$i];
+						$postulante_periodo->aprobacion = $aprobaciones[$i];
+						$postulante_periodo->save();
+
+						if($aprobaciones[$i] == 1){
+							$postulante_periodo_nuevo = new PostulantesPeriodo;
+							$postulante_periodo_nuevo->idpostulantes = $postulante_periodo->idpostulantes;
+							$postulante_periodo_nuevo->idperiodos = $postulante_periodo->idperiodos;
+							$postulante_periodo_nuevo->idfases = $idfase + 1;
+							$postulante_periodo_nuevo->save();
+						}
+					}
+				}
+
+				if($idfase==3){
+					for($i=0;$i<$count;$i++){
+						$postulante_periodo = PostulantesPeriodo::find($idpostulantes_periodos[$i]);
+						$postulante_periodo->asistencia = $asistencias[$i];
+						$postulante_periodo->comentario = $comentarios[$i];
+						$postulante_periodo->aprobacion = $aprobaciones[$i];
+						$postulante_periodo->save();
+					}
+				}
+
+				Session::flash('message', 'Se registró correctamente la aprobación de postulantes..');				
+				return Redirect::to('convocatorias/list_postulantes/'.$idperiodos)->withInput(Input::all());
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	/*
 
 	public function submit_disable_user()
 	{
@@ -267,5 +344,6 @@ class ConvocatoriasController extends BaseController
 			return View::make('error/error');
 		}
 	}
+	*/
 
 }
