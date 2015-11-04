@@ -51,7 +51,7 @@ class NinhosController extends \BaseController {
         $validator = \Validator::make(Input::all(), $rules);
         if($validator->fails()) return Response::json($validator->messages(), 200);
         
-        // verificar si el voluntario ya le comento al niño
+        // verificar si el usuario ya le comento al niño
         $auth_token = \Request::header('authorization');
         $user = \User::where('auth_token', '=', $auth_token)->first();
         $comentario = \Comentario::getComentarioPorUserPorNinhos($user->id, $attendance_children_id)->first();
@@ -70,7 +70,60 @@ class NinhosController extends \BaseController {
             $nuevo_comentario->idasistencia_ninhos = $attendance_children_id;
             $nuevo_comentario->save();
         }
-        return Response::json(['success' => 1], 200);
+        
+        
+        // armar la respuesta
+        
+        // verificar si tiene permiso para leer todos los comentarios del niño
+        $idpermisos = \User::getPermisosPorUsuarioId($user->id)->get()->lists('idpermisos');
+        
+        if(!(in_array(35, $idpermisos))) return Response::json(['success' => 1], 200);
+        
+        $n = \Ninho::find($asistencia_ninho->idninhos);
+        // genero
+        $genero = null;
+        if (($n->genero == 'm') || ($n->genero == 'M')) $genero = 0;
+        elseif (($n->genero == 'f') || ($n->genero == 'F')) $genero = 1;        
+        // edad
+        $from = new \DateTime($n->fecha_nacimiento);
+        $to = new \DateTime('today');
+        $edad = $from->diff($to)->y;
+        // obtener todos los comentarios hechos al niño en todas las sesiones
+        $lista_comentarios = [];
+        $asistencias = \AsistenciaNinho::where('idninhos', '=', $n->idninhos)->get();
+        foreach($asistencias as $a)
+        {
+            $comentarios = \Comentario::where('idasistencia_ninhos', '=', $a->idasistencia_ninhos)->get();
+            foreach($comentarios as $c)
+            {
+                $autor = \User::searchUserById($c->idusers)->first();
+                $lista_comentarios[] = [
+                    'id' => $c->idcomentarios,
+                    'session_id' =>  $a->ideventos,
+                    'message' => $c->comentario,
+                    'face' => (int)$c->calificacion,
+                    'author' => [
+                        'id' => $autor->id,
+                        'names' => $autor->nombres,
+                        'last_name' => $autor->apellido_pat
+                    ]
+                ];
+            }
+        }
+        
+        $response = [
+            'success' => 1,
+            'id' => $n->idninhos,
+            'names' => $n->nombres,
+            'last_name' => $n->apellido_pat,
+            'gender' => $genero,
+            'age' => $edad,
+            'sessions' => 12,
+            'joining_date' => strtotime($n->created_at),
+            'comments' => $lista_comentarios
+        ];
+        
+        return Response::json($response, 200);
     }
 
 }

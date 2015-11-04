@@ -154,33 +154,17 @@ class EventosController extends \BaseController {
                     $to = new \DateTime('today');
                     $edad = $from->diff($to)->y;
                     
-                    // obtener comentarios
-                    $comentarios = null;
+                    // obtener el comentario que el usuario le ha hecho al niño
                     $ha_comentado = 0;
-                    if($es_webmaster || $es_miembroafi)
+                    $comentario = null;
+                    $c = Comentario::getComentarioPorUserPorNinhos($user->id, $n->idasistencia_ninhos)->first();
+                    if($c)
                     {
-                        // obtener todos los comentarios hechos al niño en la sesion
-                        $comentarios = \Comentario::where('idasistencia_ninhos', '=', $n->idasistencia_ninhos)->get();
-                    }
-                    elseif($es_voluntario)
-                    {
-                        // verificar si el voluntario ha comentado al ninho
-                        $comentarios = Comentario::getComentarioPorUserPorNinhos($user->id, $n->idasistencia_ninhos)->get();
-                        $ha_comentado = ($comentarios->first()) ? 1 : 0;
-                    }
-                    $lista_comentarios = [];
-                    foreach($comentarios as $c)
-                    {
-                        $voluntario = \User::searchUserById($c->idusers)->first();
-                        $lista_comentarios[] = [
+                        $ha_comentado = 1;
+                        $comentario = [
                             'id' => $c->idcomentarios,
-                            'comment' => $c->comentario,
-                            'face' => (int)$c->calificacion,
-                            'volunteer' => [
-                                    'id' => $voluntario->id,
-                                    'names' => $voluntario->nombres,
-                                    'last_name' => $voluntario->apellido_pat
-                                ]
+                            'message' => $c->comentario,
+                            'face' => (int)$c->calificacion
                         ];
                     }
                 
@@ -194,7 +178,7 @@ class EventosController extends \BaseController {
                             'age' => $edad
                         ],
                         'commented' => $ha_comentado,
-                        'comments' => $lista_comentarios
+                        'comment' => $comentario
                     ];
                 }
             
