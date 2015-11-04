@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-11-2015 a las 16:23:47
+-- Tiempo de generación: 04-11-2015 a las 04:42:15
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -180,7 +180,8 @@ CREATE TABLE IF NOT EXISTS `documentos` (
   `idtipo_documentos` int(11) NOT NULL,
   `titulo` varchar(100) NOT NULL,
   `nombre_archivo` varchar(100) NOT NULL,
-  `ruta` varchar(100) NOT NULL
+  `ruta` varchar(100) NOT NULL,
+  `peso` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

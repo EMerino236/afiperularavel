@@ -10,7 +10,7 @@ class UserController extends BaseController {
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_usuario',$data["permisos"])){
 				$data["tipos_identificacion"] = TipoIdentificacion::lists('nombre','idtipo_identificacion');
-				$data["perfiles"] = Perfil::getAdminPerfiles()->get();	
+				$data["perfiles"] = Perfil::getPerfilesCreacion()->get();	
 				return View::make('user/createUser',$data);
 			}else{
 				return View::make('error/error');

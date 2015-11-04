@@ -16,6 +16,7 @@
     <link href="{{ asset('dist/css/sb-admin-2.css') }}" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/general.css') }}" rel="stylesheet">
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
 	</script>
