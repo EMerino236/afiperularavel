@@ -176,7 +176,7 @@ class EventosController extends \BaseController {
                         $lista_comentarios[] = [
                             'id' => $c->idcomentarios,
                             'comment' => $c->comentario,
-                            'face' => $c->calificacion,
+                            'face' => (int)$c->calificacion,
                             'volunteer' => [
                                     'id' => $voluntario->id,
                                     'names' => $voluntario->nombres,
