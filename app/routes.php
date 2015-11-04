@@ -177,6 +177,7 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::post('attendance_children/{attendance_children_id}/comments', 'api\v1\NinhosController@comment');
     Route::get('documents', 'api\v1\DocumentosController@index');
     Route::post('documents/{document_id}/visualizations', 'api\v1\DocumentosController@register_visualization');
+    Route::get('children/{id}', 'api\v1\NinhosController@show');
 });
 
 /* Rutas para el juego */

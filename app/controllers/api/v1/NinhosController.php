@@ -97,6 +97,15 @@ class NinhosController extends \BaseController {
             foreach($comentarios as $c)
             {
                 $autor = \User::searchUserById($c->idusers)->first();
+                $perfiles = \User::getPerfilesPorUsuario2($autor->id)->get();
+                $perfiles_array = [];
+                foreach ($perfiles as $perfil)
+                {
+                    $perfiles_array[] = [
+                        'id' => $perfil->idperfiles,
+                        'name' => $perfil->nombre
+                    ];
+                }
                 $lista_comentarios[] = [
                     'id' => $c->idcomentarios,
                     'session_id' =>  $a->ideventos,
@@ -105,7 +114,9 @@ class NinhosController extends \BaseController {
                     'author' => [
                         'id' => $autor->id,
                         'names' => $autor->nombres,
-                        'last_name' => $autor->apellido_pat
+                        'last_name' => $autor->apellido_pat,
+                        'username' => $autor->num_documento,
+                        'profiles' => $perfiles_array
                     ]
                 ];
             }
@@ -126,4 +137,64 @@ class NinhosController extends \BaseController {
         return Response::json($response, 200);
     }
 
+    public function show($id)
+    {
+        $n = \Ninho::find($id);
+        if(!$n) return Response::json(['error' => 'No existe niño con id = ' . $id], 200);
+        
+        // genero
+        $genero = null;
+        if (($n->genero == 'm') || ($n->genero == 'M')) $genero = 0;
+        elseif (($n->genero == 'f') || ($n->genero == 'F')) $genero = 1;        
+        // edad
+        $from = new \DateTime($n->fecha_nacimiento);
+        $to = new \DateTime('today');
+        $edad = $from->diff($to)->y;
+        // obtener todos los comentarios hechos al niño en todas las sesiones
+        $lista_comentarios = [];
+        $asistencias = \AsistenciaNinho::where('idninhos', '=', $n->idninhos)->get();
+        foreach($asistencias as $a)
+        {
+            $comentarios = \Comentario::where('idasistencia_ninhos', '=', $a->idasistencia_ninhos)->get();
+            foreach($comentarios as $c)
+            {
+                $autor = \User::searchUserById($c->idusers)->first();
+                $perfiles = \User::getPerfilesPorUsuario2($autor->id)->get();
+                $perfiles_array = [];
+                foreach ($perfiles as $perfil)
+                {
+                    $perfiles_array[] = [
+                        'id' => $perfil->idperfiles,
+                        'name' => $perfil->nombre
+                    ];
+                }
+                $lista_comentarios[] = [
+                    'id' => $c->idcomentarios,
+                    'session_id' =>  $a->ideventos,
+                    'message' => $c->comentario,
+                    'face' => (int)$c->calificacion,
+                    'author' => [
+                        'id' => $autor->id,
+                        'names' => $autor->nombres,
+                        'last_name' => $autor->apellido_pat,
+                        'username' => $autor->num_documento,
+                        'profiles' => $perfiles_array
+                    ]
+                ];
+            }
+        }
+        
+        $response = [
+            'id' => $n->idninhos,
+            'names' => $n->nombres,
+            'last_name' => $n->apellido_pat,
+            'gender' => $genero,
+            'age' => $edad,
+            'sessions' => $asistencias->count(),
+            'joining_date' => strtotime($n->created_at),
+            'comments' => $lista_comentarios
+        ];
+        
+        return Response::json($response, 200);
+    }
 }
