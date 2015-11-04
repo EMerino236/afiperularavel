@@ -87,20 +87,27 @@
 				<h3 class="panel-title">Documentos del Evento</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-xs-12">
+				<table class="table table-hover">
+					<tr class="info">
+						<th>Título</th>
+						<th>Peso del Documento</th>
+						<th>Descargar</th>
+					</tr>
 					@foreach($documentos as $documento)
 					{{ Form::open(array('url'=>'eventos/descargar_documento', 'role'=>'form')) }}
 						{{ Form::hidden('ideventos', $evento_info->ideventos) }}
 						{{ Form::hidden('iddocumentos', $documento->iddocumentos) }}
-						<div class="row">
-							<div class="form-group col-xs-8">
+						<tr>
+							<td>{{$documento->titulo}}</td>
+							<td>{{round($documento->peso/1024)}} KB</td>
+							<td>
 								<button type="submit" class="btn btn-primary">
 								  <span class="fa fa-download"></span> {{$documento->titulo}}
 								</button>
-							</div>
-						</div>
+							</td>
+						</tr>
 					@endforeach
-				</div>
+				</table>
 			</div>
 		</div>
 <script src="{{ asset('js/eventos/ver-evento.js') }}"></script>
