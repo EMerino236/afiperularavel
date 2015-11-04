@@ -100,8 +100,8 @@ class VolunteerController extends \BaseController {
                     $responseRollCall_element['id'] = $rollCallEntryDB->id;
                     $responseRollCall_element['names'] = $rollCallEntryDB->nombres;
                     $responseRollCall_element['last_name'] = $rollCallEntryDB->apellido_pat;
-                    $responseRollCall_element['attended'] = $rollCallEntryDB->asistio;
-                    $responseRollCall_element['rating'] = $rollCallEntryDB->calificacion;
+                    $responseRollCall_element['attended'] = (bool)$rollCallEntryDB->asistio;
+                    $responseRollCall_element['rating'] = (int)$rollCallEntryDB->calificacion;
                     $responseRollCall_element['comment'] = $rollCallEntryDB->comentario;
 
                     $responseRollCall[] = $responseRollCall_element;
