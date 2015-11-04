@@ -118,7 +118,7 @@ class NinhosController extends \BaseController {
             'last_name' => $n->apellido_pat,
             'gender' => $genero,
             'age' => $edad,
-            'sessions' => 12,
+            'sessions' => $asistencias->count(),
             'joining_date' => strtotime($n->created_at),
             'comments' => $lista_comentarios
         ];

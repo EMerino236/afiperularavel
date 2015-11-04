@@ -175,7 +175,9 @@ class EventosController extends \BaseController {
                             'names' => $n->nombres,
                             'last_name' => $n->apellido_pat,
                             'gender' => $genero,
-                            'age' => $edad
+                            'age' => $edad,
+                            'sessions' => \AsistenciaNinho::where('idninhos', '=', $n->idninhos)->count(),
+                            'joining_date' => strtotime($n->created_at)
                         ],
                         'commented' => $ha_comentado,
                         'comment' => $comentario
