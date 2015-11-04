@@ -40,8 +40,8 @@
 			</td>
 			<?php
 				$date = DateTime::createFromFormat("Y-m-d", $ninho_data->fecha_nacimiento);
-				$year = $date->format("Y");
-				$age = date("Y") - $year;
+				$year = $date->format('Y');
+				$age = date('Y') - $year;
 			?>
 			<td>
 				{{$age}}
