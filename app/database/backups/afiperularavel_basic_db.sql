@@ -278,8 +278,7 @@ CREATE TABLE IF NOT EXISTS `eventos` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `idperiodos` int(11) NOT NULL,
-  `idtipo_eventos` int(11) NOT NULL
+  `idperiodos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -752,7 +751,7 @@ CREATE TABLE IF NOT EXISTS `precolegios` (
   `latitud` varchar(45) NOT NULL,
   `longitud` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -768,7 +767,7 @@ CREATE TABLE IF NOT EXISTS `prepadrinos` (
   `apellido_pat` varchar(100) NOT NULL,
   `apellido_mat` varchar(100) NOT NULL,
   `dni` varchar(45) NOT NULL,
-  `fecha_nacimiento` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `fecha_nacimiento` timestamp NULL DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `como_se_entero` varchar(200) DEFAULT NULL,
   `idperiodo_pagos` int(11) NOT NULL,
@@ -866,19 +865,6 @@ INSERT INTO `tipo_documentos` (`idtipo_documentos`, `created_at`, `updated_at`, 
 (4, '2015-10-28 12:06:49', NULL, NULL, 'Documento de concurso'),
 (5, '2015-10-28 12:06:58', NULL, NULL, 'Documento de proyecto');
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tipo_eventos`
---
-
-CREATE TABLE IF NOT EXISTS `tipo_eventos` (
-  `idtipo_eventos` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1116,8 +1102,7 @@ ALTER TABLE `empresas`
 --
 ALTER TABLE `eventos`
   ADD PRIMARY KEY (`ideventos`),
-  ADD KEY `fk_eventos_periodos1_idx` (`idperiodos`),
-  ADD KEY `fk_eventos_tipo_eventos1_idx` (`idtipo_eventos`);
+  ADD KEY `fk_eventos_periodos1_idx` (`idperiodos`);
 
 --
 -- Indices de la tabla `fases`
@@ -1295,12 +1280,6 @@ ALTER TABLE `score`
 --
 ALTER TABLE `tipo_documentos`
   ADD PRIMARY KEY (`idtipo_documentos`);
-
---
--- Indices de la tabla `tipo_eventos`
---
-ALTER TABLE `tipo_eventos`
-  ADD PRIMARY KEY (`idtipo_eventos`);
 
 --
 -- Indices de la tabla `tipo_identificacion`
@@ -1517,11 +1496,6 @@ ALTER TABLE `puntos_reunion`
 ALTER TABLE `tipo_documentos`
   MODIFY `idtipo_documentos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
--- AUTO_INCREMENT de la tabla `tipo_eventos`
---
-ALTER TABLE `tipo_eventos`
-  MODIFY `idtipo_eventos` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT de la tabla `tipo_identificacion`
 --
 ALTER TABLE `tipo_identificacion`
@@ -1633,8 +1607,7 @@ ALTER TABLE `documentos_proyectos`
 -- Filtros para la tabla `eventos`
 --
 ALTER TABLE `eventos`
-  ADD CONSTRAINT `fk_eventos_periodos1` FOREIGN KEY (`idperiodos`) REFERENCES `periodos` (`idperiodos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_eventos_tipo_eventos1` FOREIGN KEY (`idtipo_eventos`) REFERENCES `tipo_eventos` (`idtipo_eventos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_eventos_periodos1` FOREIGN KEY (`idperiodos`) REFERENCES `periodos` (`idperiodos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `fase_concursos`
