@@ -5,8 +5,12 @@
 	<meta charset="UTF-8">
 	<meta name="robots" content="noindex, follow">
 	<title>Padrinos</title>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, follow">
+    <title>Padrinos</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 	<!-- Bootstrap Core CSS -->
+    <!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
@@ -19,6 +23,8 @@
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
 	</script>
+        var inside_url = "{{$inside_url}}";
+    </script>
     <!-- jQuery -->
     <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -34,6 +40,10 @@
 		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 			@include('layouts.header', array('user'=>$user,'permisos'=>$permisos))
 			<div class="navbar-default sidebar" role="navigation">
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            @include('layouts.header', array('user'=>$user,'permisos'=>$permisos))
+            <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     @if(in_array('side_listar_padrinos',$permisos))
@@ -41,6 +51,7 @@
                     @endif
                     @if(in_array('side_aprobar_padrinos',$permisos))
                     <li><a href="{{ URL::to('#') }}"><i class="fa fa-check fa-fw"></i> Aprobar Padrinos</a></li>
+                    <li><a href="{{ URL::to('padrinos/list_prepadrinos') }}"><i class="fa fa-check fa-fw"></i> Aprobar Padrinos</a></li>
                     @endif
                     @if(in_array('side_nuevo_reporte_padrinos',$permisos))
                     <li><a href="{{ URL::to('padrinos/create_reporte_padrinos') }}"><i class="fa fa-file-o fa-fw"></i> Crear Reporte a Padrinos</a></li>
@@ -63,8 +74,11 @@
         </div>
 		</nav>
 		<div id="page-wrapper">
+        </nav>
+        <div id="page-wrapper">
             @yield('content')
         </div>
 	</div>
+    </div>
 </body>
 </html>

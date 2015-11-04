@@ -36,6 +36,7 @@ class Prepadrino extends Eloquent{
 			  ->join('periodo_pagos','periodo_pagos.idperiodo_pagos','=','prepadrinos.idperiodo_pagos')
 			  ->where('prepadrinos.idprepadrinos','=',$search_criteria)
 			  ->select('periodo_pagos.nombre','prepadrinos.*');
+			  ->select('periodo_pagos.nombre as nombre_periodo','prepadrinos.*');
 		return $query;
 	}
 

@@ -236,7 +236,7 @@ class PadrinosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_listar_prepadrinos',$data["permisos"])){
+			if(in_array('side_aprobar_padrinos',$data["permisos"])){
 				$data["search"] = null;			
 				$data["prepadrinos_data"] = Prepadrino::getPrepadrinosInfo()->paginate(10);
 				return View::make('padrinos/listPrepadrinos',$data);
@@ -249,19 +249,98 @@ class PadrinosController extends BaseController
 		}
 	}
 
-	public function search_prepadrino()
+	public function render_edit_prepadrino($id=null)
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_listar_prepadrinos',$data["permisos"])){
-				$data["search"] = Input::get('search');
-				$data["prepadrinos_data"] = Prepadrino::searchPrepadrinos($data["search"])->paginate(10);
-				return View::make('padrinos/listPrepadrinos',$data);
+			if((in_array('side_nuevo_colegio',$data["permisos"])) && $id){
+				$data["prepadrino_info"] = Prepadrino::searchPrepadrinoById($id)->get();
+				if($data["prepadrino_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró al padrino.');
+					return Redirect::to('padrinos/list_prepadrinos');
+				}
+				$data["prepadrino_info"] = $data["prepadrino_info"][0];
+				//$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
+				return View::make('padrinos/editPrepadrinos',$data);
 			}else{
 				return View::make('error/error');
 			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_create_padrino()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_usuario',$data["permisos"])){
+				// Validate the info, create rules for the inputs
+				$rules = array(
+							'idtipo_identificacion' => 'required',
+							'num_documento' => 'required|numeric|digits_between:8,16|unique:users',
+							'email' => 'required|email|max:45|unique:users',
+							'nombres' => 'required|alpha_spaces|min:2|max:45',
+							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
+							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
+							'fecha_nacimiento' => 'required',
+							'direccion' => 'required',
+							'telefono' => 'min:7|max:20',
+							'celular' => 'min:7|max:20',
+							'perfiles' => 'required',
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('user/create_user')->withErrors($validator)->withInput(Input::all());
+				}else{
+					// Creo primero a la persona
+					$persona = new Persona;
+					$persona->nombres = Input::get('nombres');
+					$persona->apellido_pat = Input::get('apellido_pat');
+					$persona->apellido_mat = Input::get('apellido_mat');
+					$persona->fecha_nacimiento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_nacimiento')));
+					$persona->direccion = Input::get('direccion');
+					$persona->telefono = Input::get('telefono');
+					$persona->celular = Input::get('celular');
+					$persona->save();
+					// Creo al usuario y le asigno su información de persona
+					$password = Str::random(8);
+					$user = new User;
+					$user->num_documento = Input::get('num_documento');
+					$user->password = Hash::make($password);
+					$user->idtipo_identificacion = Input::get('idtipo_identificacion');
+					$user->email = Input::get('email');
+					$user->idpersona = $persona->idpersonas;
+					$user->auth_token = Str::random(32);
+					$user->save();
+					// Registro los perfiles seleccionados
+					$perfiles = Input::get('perfiles');
+					foreach($perfiles as $perfil){
+						$users_perfil = new UsersPerfil;
+						$users_perfil->idusers = $user->id;
+						$users_perfil->idperfiles = $perfil;
+						$users_perfil->save();
+					}
+
+					Mail::send('emails.userRegistration',array('user'=> $user,'persona'=>$persona,'password'=>$password),function($message) use ($user,$persona)
+					{
+						$message->to($user->email, $persona->nombres)
+								->subject('Registro de nuevo usuario');
+					});
+					Session::flash('message', 'Se registró correctamente al usuario.');
+					
+					return Redirect::to('user/create_user');
+				}
+			}else{
+				return View::make('error/error');
+			}
+
 		}else{
 			return View::make('error/error');
 		}
