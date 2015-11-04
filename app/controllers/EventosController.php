@@ -363,6 +363,7 @@ class EventosController extends BaseController
 				        $archivo = Input::file('archivo');
 				        $rutaDestino = 'files/eventos/';
 				        $nombreArchivo = $archivo->getClientOriginalName();
+				        $peso = $archivo->getSize();
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivo);
 				    	/* Creo el documento */
 						$documento = new Documento;
@@ -370,7 +371,7 @@ class EventosController extends BaseController
 						$documento->idtipo_documentos = 1; // ¡Que viva el hardcode!
 						$documento->nombre_archivo = $nombreArchivo;
 						$documento->ruta = $rutaDestino;
-						$documento->peso = $archivo->getSize();
+						$documento->peso = $peso;
 						$documento->save();
 						/* Creo la relación de evento con documento */
 						$documentos_evento = new DocumentosEvento;

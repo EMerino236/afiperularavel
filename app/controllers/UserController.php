@@ -237,12 +237,12 @@ class UserController extends BaseController {
 			if($validator->fails()){
 				return Redirect::to("user/mi_cuenta")->withErrors($validator)->withInput(Input::all());
 			}else{
-
 				$persona = Persona::find($data["user"]->idpersona);
 				$persona->nombres = Input::get('nombres');
 				$persona->apellido_pat = Input::get('apellido_pat');
 				$persona->apellido_mat = Input::get('apellido_mat');
-				$persona->fecha_nacimiento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_nacimiento')));
+				if(!empty(Input::get('fecha_nacimiento')))
+					$persona->fecha_nacimiento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_nacimiento')));
 				$persona->direccion = Input::get('direccion');
 				$persona->telefono = Input::get('telefono');
 				$persona->celular = Input::get('celular');
@@ -252,7 +252,8 @@ class UserController extends BaseController {
 
 				$password = Input::get('password');
 				$user = User::find($data["user"]->id);
-				$user->email = Input::get('email');
+				if(!empty(Input::get('email')))
+					$user->email = Input::get('email');
 				if(!empty($password))
 					$user->password = Hash::make($password);
 				$user->save();

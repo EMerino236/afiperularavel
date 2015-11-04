@@ -35,11 +35,10 @@ class Asistencia extends Eloquent{
 	public function scopeGetEventosPorUserPorFechas($query,$idusers,$fecha_ini,$fecha_fin)
 	{
 		$query->join('eventos','eventos.ideventos','=','asistencias.ideventos')
-			  ->join('tipo_eventos','tipo_eventos.idtipo_eventos','=','eventos.idtipo_eventos')
 			  ->where('asistencias.idusers','=',$idusers)
 			  ->where('eventos.fecha_evento','>=',$fecha_ini)
 			  ->where('eventos.fecha_evento','<=',$fecha_fin)
-			  ->select('eventos.*','tipo_eventos.nombre as tipo_evento');
+			  ->select('eventos.*');
 		return $query;
 	}
 
