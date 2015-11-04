@@ -11,7 +11,7 @@ class EventosController extends BaseController
 			if(in_array('nav_eventos',$data["permisos"])){
 				return View::make('eventos/home',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -38,7 +38,7 @@ class EventosController extends BaseController
 				$data["periodo"] = $periodo[0]->idperiodos;
 				return View::make('eventos/createEvento',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -117,11 +117,14 @@ class EventosController extends BaseController
 								->subject('Tienes un nuevo evento de AFI Perú.');
 					});
 
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se creó el evento con id {{$evento->ideventos}}";
+					Helpers::registrarLog(3,$descripcion_log);
 					Session::flash('message', 'Se registró correctamente el evento.');
 					return Redirect::to('eventos/create_evento');
 				}
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 
 		}else{
@@ -149,7 +152,7 @@ class EventosController extends BaseController
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('eventos/listEventos',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -170,7 +173,7 @@ class EventosController extends BaseController
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('eventos/listEventos',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -199,7 +202,7 @@ class EventosController extends BaseController
 				}
 				return View::make('eventos/editEvento',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -255,11 +258,14 @@ class EventosController extends BaseController
 						$punto_reunion_evento->ideventos = $evento->ideventos;
 						$punto_reunion_evento->save();
 					}
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se editó el evento con id {{$evento->ideventos}}";
+					Helpers::registrarLog(4,$descripcion_log);
 					Session::flash('message', 'Se editó correctamente el evento.');
 					return Redirect::to('eventos/edit_evento/'.$ideventos);
 				}
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 
 		}else{
@@ -297,10 +303,13 @@ class EventosController extends BaseController
 				DB::table('puntos_eventos')->where('ideventos', '=', $ideventos)->delete();
 				/* Elimino las visualizaciones */
 				DB::table('visualizaciones')->where('ideventos', '=', $ideventos)->delete();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se eliminó el evento con id {{$ideventos}}";
+				Helpers::registrarLog(5,$descripcion_log);
 				Session::flash('message', 'Se canceló correctamente el evento.');
 				return Redirect::to('eventos/list_eventos');
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 
 		}else{
@@ -334,7 +343,7 @@ class EventosController extends BaseController
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('eventos/uploadFile',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -390,13 +399,16 @@ class EventosController extends BaseController
 							$message->to($emails)
 									->subject('Se subió un nuevo documento de AFI Perú.');
 						});
+						// Llamo a la función para registrar el log de auditoria
+						$descripcion_log = "Se subió el documento {{$documento->nombre_archivo}} con id {{$documento->iddocumentos}}";
+						Helpers::registrarLog(7,$descripcion_log);
 				    }
 					
 					Session::flash('message', 'Se subió correctamente el archivo.');				
 					return Redirect::to('eventos/upload_file/'.$ideventos);
 				}
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -426,11 +438,14 @@ class EventosController extends BaseController
 					$documento = Documento::find($documentos_evento->iddocumentos);
 					$documento->delete();
 					$documentos_evento->delete();
-					Session::flash('message', 'Se eliminó correctamente el archivo.');				
+					Session::flash('message', 'Se eliminó correctamente el archivo.');
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se eliminó el documento {{$documento->nombre_archivo}} con id {{$documento->iddocumentos}}";
+					Helpers::registrarLog(8,$descripcion_log);			
 					return Redirect::to('eventos/upload_file/'.$ideventos);
 				}
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -454,7 +469,7 @@ class EventosController extends BaseController
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('eventos/tomarAsistencia',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -481,10 +496,13 @@ class EventosController extends BaseController
 					$asistencia->save();
 				}
 				$ideventos = Input::get('ideventos');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se registró asistencia para el evento con id {{$ideventos}}";
+				Helpers::registrarLog(3,$descripcion_log);	
 				Session::flash('message', 'Se tomó correctamente la asistencia.');				
 				return Redirect::to('eventos/asistencia_evento/'.$ideventos);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -501,7 +519,7 @@ class EventosController extends BaseController
 			if(in_array('side_mis_eventos',$data["permisos"])){
 				return View::make('eventos/misEventos',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -547,7 +565,7 @@ class EventosController extends BaseController
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('eventos/misEventosPorFecha',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -581,7 +599,7 @@ class EventosController extends BaseController
 				}
 				return View::make('eventos/verEvento',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -610,9 +628,12 @@ class EventosController extends BaseController
 		        $headers = array(
 		              'Content-Type',mime_content_type($rutaDestino),
 		            );
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se descargó el documento {{$documento->nombre_archivo}} con id {{$documento->iddocumentos}}";
+				Helpers::registrarLog(9,$descripcion_log);	
 		        return Response::download($rutaDestino,basename($rutaDestino),$headers);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -651,7 +672,7 @@ class EventosController extends BaseController
 				}
 				return View::make('eventos/registrarComentario',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -697,10 +718,13 @@ class EventosController extends BaseController
 						$comentario->save();
 					}
 				}
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se registraron comentarios sobre los niños en el evento con id {{$ideventos}}";
+				Helpers::registrarLog(3,$descripcion_log);
 				Session::flash('message', 'Se registraron correctamente los comentarios.');				
 				return Redirect::to('eventos/registrar_comentario/'.$ideventos);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -716,7 +740,7 @@ class EventosController extends BaseController
 			if(in_array('side_nuevo_punto_reunion',$data["permisos"])){
 				return View::make('eventos/createPuntoReunion',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -747,11 +771,14 @@ class EventosController extends BaseController
 					$punto_reunion->latitud = Input::get('latitud');
 					$punto_reunion->longitud = Input::get('longitud');
 					$punto_reunion->save();
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se registró el punto de reunión con id {{$punto_reunion->idpuntos_reunion}}";
+					Helpers::registrarLog(3,$descripcion_log);
 					Session::flash('message', 'Se registró correctamente el punto de reunión.');
 					return Redirect::to('eventos/create_punto_reunion');
 				}
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 
 		}else{
@@ -769,7 +796,7 @@ class EventosController extends BaseController
 				//$data["puntos_reunion_data"] = PuntoReunion::all();
 				return View::make('eventos/listPuntosReunion',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 
 		}else{
@@ -806,6 +833,9 @@ class EventosController extends BaseController
 			if($eventos_relacionados->isEmpty()){
 				$punto_reunion = PuntoReunion::find(Input::get('idpuntos_reunion'));
 				$punto_reunion->delete();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se eliminó el punto de reunión con id {{$punto_reunion->idpuntos_reunion}}";
+				Helpers::registrarLog(5,$descripcion_log);
 				return Response::json(array( 'success' => true ),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);

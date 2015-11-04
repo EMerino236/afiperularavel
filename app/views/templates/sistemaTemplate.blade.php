@@ -8,6 +8,8 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 	<!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Datepicker CSS-->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
     <!-- Custom CSS -->
@@ -18,6 +20,18 @@
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
 	</script>
+    <!-- jQuery -->
+    <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <!-- Moment JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
+    <!-- Bootstrap Datepicker JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
 </head>
 
 <body>
@@ -34,7 +48,7 @@
                     <li><a href="{{ URL::to('sistema/list_perfiles') }}"><i class="fa fa-check fa-fw"></i> Listar Perfiles</a></li>
                     @endif
                     @if(in_array('side_reporte_log',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Log</a></li>
+                    <li><a href="{{ URL::to('sistema/list_logs') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Log</a></li>
                     @endif
                 </ul>
             </div>
@@ -45,15 +59,5 @@
             @yield('content')
         </div>
 	</div>
-
-<!-- jQuery -->
-<script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
-<!-- Bootstrap Core JavaScript -->
-<script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<!-- Metis Menu Plugin JavaScript -->
-<script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
-<!-- Custom Theme JavaScript -->
-<script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-<script src="{{ asset('js/sistema/sistema.js') }}"></script>
 </body>
 </html>

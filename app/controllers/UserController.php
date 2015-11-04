@@ -13,7 +13,7 @@ class UserController extends BaseController {
 				$data["perfiles"] = Perfil::getPerfilesCreacion()->get();	
 				return View::make('user/createUser',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -81,12 +81,17 @@ class UserController extends BaseController {
 						$message->to($user->email, $persona->nombres)
 								->subject('Registro de nuevo usuario');
 					});
+
+					Session::put('permisos',$permisos);
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se creó al usuario con id {{$user->id}}";
+					Helpers::registrarLog(3,$descripcion_log);
+
 					Session::flash('message', 'Se registró correctamente al usuario.');
-					
 					return Redirect::to('user/create_user');
 				}
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 
 		}else{
@@ -105,7 +110,7 @@ class UserController extends BaseController {
 				$data["users_data"] = User::getUsersInfo()->paginate(10);
 				return View::make('user/listUsers',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 
 		}else{
@@ -124,7 +129,7 @@ class UserController extends BaseController {
 				$data["users_data"] = User::searchUsers($data["search"])->paginate(10);
 				return View::make('user/listUsers',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -147,7 +152,7 @@ class UserController extends BaseController {
 				$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
 				return View::make('user/editUser',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -165,10 +170,13 @@ class UserController extends BaseController {
 				$url = "user/edit_user/".$user_id;
 				$user = User::find($user_id);
 				$user->delete();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se inhabilitó al usuario con id {{$user_id}}";
+				Helpers::registrarLog(5,$descripcion_log);
 				Session::flash('message', 'Se inhabilitó correctamente al usuario.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -186,10 +194,13 @@ class UserController extends BaseController {
 				$url = "user/edit_user/".$user_id;
 				$user = User::withTrashed()->find($user_id);
 				$user->restore();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se habilitó al usuario con id {{$user_id}}";
+				Helpers::registrarLog(6,$descripcion_log);
 				Session::flash('message', 'Se habilitó correctamente al usuario.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -257,6 +268,9 @@ class UserController extends BaseController {
 				if(!empty($password))
 					$user->password = Hash::make($password);
 				$user->save();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Editó su información de usuario";
+				Helpers::registrarLog(4,$descripcion_log);
 				Session::flash('message', 'Se editó correctamente la información.');
 				return Redirect::to("user/mi_cuenta");
 			}

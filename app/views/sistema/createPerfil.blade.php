@@ -168,4 +168,6 @@
 			</div>
 		</div>
 	{{ Form::close() }}
+
+<script src="{{ asset('js/sistema/perfiles.js') }}"></script>
 @stop

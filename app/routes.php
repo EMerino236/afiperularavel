@@ -150,6 +150,8 @@ Route::group(array('prefix'=>'sistema','before'=>'auth'),function(){
 	Route::get('/list_perfiles','SistemaController@list_perfiles');
 	Route::get('/edit_perfil/{id}','SistemaController@render_edit_perfil');
 	Route::post('/submit_disable_perfil','SistemaController@submit_disable_perfil');
+	Route::get('/list_logs','SistemaController@list_logs');
+	Route::get('/search_logs','SistemaController@search_logs');
 });
 // Route group for API versioning
 Route::group(array('prefix' => 'api/v1'), function()
