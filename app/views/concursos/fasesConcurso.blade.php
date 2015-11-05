@@ -65,7 +65,7 @@
 				{{date('d/m/Y',strtotime($faseconcurso_data->fecha_limite))}}
 			</td>			
 			<td>
-				{{ HTML::link('','X',array('class'=>'btn btn-danger delete-fase-concurso','data-fase'=>$faseconcurso_data->idfase_concursos)) }}
+				{{ HTML::link('','Eliminar',array('class'=>'btn btn-danger delete-fase-concurso','data-fase'=>$faseconcurso_data->idfase_concursos)) }}
 			</td>
 		</tr>
 		@endforeach

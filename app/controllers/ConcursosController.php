@@ -159,12 +159,14 @@ class ConcursosController extends BaseController
 				        $archivo = Input::file('archivo');
 				        $rutaDestino = 'files/concursos/';
 				        $nombreArchivo = $archivo->getClientOriginalName();
+				        $peso = $archivo->getSize();
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivo);
 				    	/* Creo el documento */
 						$documento = new Documento;
 						$documento->titulo = $nombreArchivo;
 						$documento->idtipo_documentos = 1; 
 						$documento->nombre_archivo = $nombreArchivo;
+						$documento->peso = $peso;
 						$documento->ruta = $rutaDestino;
 						$documento->save();
 						/* Creo la relación de concurso con documento */

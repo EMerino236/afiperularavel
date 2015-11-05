@@ -65,7 +65,13 @@ class ColegiosController extends BaseController
 					$colegio->telefono_contacto = Input::get('telefono_contacto');
 					$colegio->interes = Input::get('interes');
 					$colegio->save();
-					
+					$emails = array();
+					$emails[] = $colegio->email_contacto;
+					Mail::send('emails.colegioRegistration',array('colegio'=> $colegio),function($message) use ($emails,$colegio)
+						{
+							$message->to($emails)
+									->subject('Aprobación de colegio en AFI Perú.');
+						});
 					Session::flash('message', 'Se registró correctamente al colegio.');
 					
 					return Redirect::to('colegios/create_colegio');

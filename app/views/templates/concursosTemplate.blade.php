@@ -35,6 +35,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/concursos/fases-concurso.js') }}"></script>
+    
 </head>
 
 <body>
