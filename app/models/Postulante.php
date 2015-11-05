@@ -8,4 +8,11 @@ class Postulante extends Eloquent{
 
 	protected $primaryKey = 'idpostulantes';
 
+	public function scopeSearchPostulanteById($query,$id)
+	{
+		$query->withTrashed()
+			  ->where('postulantes.idpostulantes','=',$id)
+			  ->select('postulantes.*');
+		return $query;
+	}
 }

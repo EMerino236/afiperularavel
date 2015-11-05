@@ -24,9 +24,21 @@ $( document ).ready(function(){
 		}
 	});
 	$("input[name=seleccionar-todos-asistio]").change(function(){
-		$(".checkbox-asistencia").prop('checked',$(this).prop("checked"));
+		if($(this).is(':checked')){
+			$(".checkbox-asistencia").prop('checked',true);
+			$(".hidden-asistencia").val('1');
+		}else{
+			$(".checkbox-asistencia").prop('checked',false);
+			$(".hidden-asistencia").val('0');
+		}
 	});
 	$("input[name=seleccionar-todos-aprobados]").change(function(){
-		$(".checkbox-aprobacion").prop('checked',$(this).prop("checked"));
+		if($(this).is(':checked')){
+			$(".checkbox-aprobacion").prop('checked',true);
+			$(".hidden-aprobacion").val('1');
+		}else{
+			$(".checkbox-aprobacion").prop('checked',false);
+			$(".hidden-aprobacion").val('0');
+		}
 	});
 });

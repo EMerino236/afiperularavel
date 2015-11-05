@@ -74,32 +74,32 @@
 				<td class="text-center" style="vertical-align:middle">
 					@if($postulante_info->asistencia === null)
 						<input type="checkbox" name="asistencia" class="checkbox-asistencia" value="0" @if($postulante_info->asistencia == 1) checked @endif>
-						{{ Form::hidden('asistencias[]', $postulante_info->asistencia) }}
+						{{ Form::hidden('asistencias[]', $postulante_info->asistencia,array('class'=>'hidden-asistencia')) }}
 					@endif
 					@if($postulante_info->asistencia === 1)
 						<input hidden type="checkbox" name="asistencia" class="checkbox-asistencia" value="">
-						{{ Form::hidden('asistencias[]', null) }}
+						{{ Form::hidden('asistencias[]', -1) }}
 						Asistió
 					@endif
 					@if($postulante_info->asistencia === 0)
 						<input hidden type="checkbox" name="asistencia" class="checkbox-asistencia" value="">
-						{{ Form::hidden('asistencias[]', null) }}
+						{{ Form::hidden('asistencias[]', -1) }}
 						No Asistió
 					@endif
 				</td>
 				<td class="text-center" style="vertical-align:middle">
 					@if($postulante_info->aprobacion === null)
 						<input type="checkbox" name="aprobacion" class="checkbox-aprobacion" value="0" @if($postulante_info->aprobacion == 1) checked @endif>
-						{{ Form::hidden('aprobaciones[]', $postulante_info->aprobacion) }}
+						{{ Form::hidden('aprobaciones[]', $postulante_info->aprobacion,array('class'=>'hidden-aprobacion')) }}
 					@endif
 					@if($postulante_info->aprobacion === 1)
 						<input hidden type="checkbox" name="aprobacion" class="checkbox-aprobacion" value="">
-						{{ Form::hidden('aprobaciones[]', null) }}
+						{{ Form::hidden('aprobaciones[]', -1) }}
 						Aprobado
 					@endif
 					@if($postulante_info->aprobacion === 0)
 						<input hidden type="checkbox" name="aprobacion" class="checkbox-asistencia" value="">
-						{{ Form::hidden('aprobaciones[]', null) }}
+						{{ Form::hidden('aprobaciones[]', -1) }}
 						No Aprobado
 					@endif
 				</td>

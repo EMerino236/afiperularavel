@@ -244,7 +244,7 @@ class ConvocatoriasController extends BaseController
 				$count = count($idpostulantes_periodos);
 				if($idfase==1){
 					for($i=0;$i<$count;$i++){
-						if($aprobaciones[$i] !== null){
+						if($aprobaciones[$i] != -1){
 							$postulante_periodo = PostulantesPeriodo::find($idpostulantes_periodos[$i]);
 							$estado_aprobacion_anterior = $postulante_periodo->aprobacion;
 							$postulante_periodo->asistencia = $asistencias[$i];
@@ -252,12 +252,27 @@ class ConvocatoriasController extends BaseController
 							$postulante_periodo->aprobacion = $aprobaciones[$i];
 							$postulante_periodo->save();
 
+							$postulante = Postulante::searchPostulanteById($postulante_periodo->idpostulantes)->get();
+							$postulante = $postulante[0];
 							if($aprobaciones[$i] == 1 && $estado_aprobacion_anterior != 1){
 								$postulante_periodo_nuevo = new PostulantesPeriodo;
 								$postulante_periodo_nuevo->idpostulantes = $postulante_periodo->idpostulantes;
 								$postulante_periodo_nuevo->idperiodos = $postulante_periodo->idperiodos;
 								$postulante_periodo_nuevo->idfases = $idfase + 1;
 								$postulante_periodo_nuevo->save();
+
+								Mail::send('emails.aprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
+									{
+										$message->to($postulante->email)
+												->subject('Primera Fase de Postulación - AFI Perú.');
+									});
+							}
+							else{
+								Mail::send('emails.desaprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
+									{
+										$message->to($postulante->email)
+												->subject('Primera Fase de Postulación - AFI Perú.');
+									});
 							}
 						}
 					}
@@ -265,29 +280,96 @@ class ConvocatoriasController extends BaseController
 
 				if($idfase==2){
 					for($i=0;$i<$count;$i++){
-						$postulante_periodo = PostulantesPeriodo::find($idpostulantes_periodos[$i]);
-						$postulante_periodo->asistencia = $asistencias[$i];
-						$postulante_periodo->comentario = $comentarios[$i];
-						$postulante_periodo->aprobacion = $aprobaciones[$i];
-						$postulante_periodo->save();
+						if($aprobaciones[$i] != -1){
+							$postulante_periodo = PostulantesPeriodo::find($idpostulantes_periodos[$i]);
+							$postulante_periodo->asistencia = $asistencias[$i];
+							$postulante_periodo->comentario = $comentarios[$i];
+							$postulante_periodo->aprobacion = $aprobaciones[$i];
+							$postulante_periodo->save();
 
-						if($aprobaciones[$i] == 1){
-							$postulante_periodo_nuevo = new PostulantesPeriodo;
-							$postulante_periodo_nuevo->idpostulantes = $postulante_periodo->idpostulantes;
-							$postulante_periodo_nuevo->idperiodos = $postulante_periodo->idperiodos;
-							$postulante_periodo_nuevo->idfases = $idfase + 1;
-							$postulante_periodo_nuevo->save();
+							$postulante = Postulante::searchPostulanteById($postulante_periodo->idpostulantes)->get();
+							$postulante = $postulante[0];
+							if($aprobaciones[$i] == 1){
+								$postulante_periodo_nuevo = new PostulantesPeriodo;
+								$postulante_periodo_nuevo->idpostulantes = $postulante_periodo->idpostulantes;
+								$postulante_periodo_nuevo->idperiodos = $postulante_periodo->idperiodos;
+								$postulante_periodo_nuevo->idfases = $idfase + 1;
+								$postulante_periodo_nuevo->save();
+
+								Mail::send('emails.aprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
+									{
+										$message->to($postulante->email)
+												->subject('Primera Fase de Postulación - AFI Perú.');
+									});
+							}
+							else{
+								Mail::send('emails.desaprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
+									{
+										$message->to($postulante->email)
+												->subject('Primera Fase de Postulación - AFI Perú.');
+									});
+							}
 						}
 					}
 				}
 
 				if($idfase==3){
 					for($i=0;$i<$count;$i++){
-						$postulante_periodo = PostulantesPeriodo::find($idpostulantes_periodos[$i]);
-						$postulante_periodo->asistencia = $asistencias[$i];
-						$postulante_periodo->comentario = $comentarios[$i];
-						$postulante_periodo->aprobacion = $aprobaciones[$i];
-						$postulante_periodo->save();
+						if($aprobaciones[$i] != -1){
+							$postulante_periodo = PostulantesPeriodo::find($idpostulantes_periodos[$i]);
+							$postulante_periodo->asistencia = $asistencias[$i];
+							$postulante_periodo->comentario = $comentarios[$i];
+							$postulante_periodo->aprobacion = $aprobaciones[$i];
+							$postulante_periodo->save();
+						
+							$postulante = Postulante::searchPostulanteById($postulante_periodo->idpostulantes)->get();
+							$postulante = $postulante[0];
+							if($aprobaciones[$i] == 1){
+								$persona = new Persona;
+								$persona->nombres = $postulante->nombres;
+								$persona->apellido_pat = $postulante->apellido_pat;
+								$persona->apellido_mat = $postulante->apellido_mat;
+								$persona->fecha_nacimiento = date('Y-m-d H:i:s',strtotime($postulante->fecha_nacimiento));
+								$persona->direccion = $postulante->direccion;
+								$persona->telefono = $postulante->telefono;
+								$persona->celular = $postulante->celular;
+								$persona->save();
+								// Creo al usuario y le asigno su información de persona
+								$password = Str::random(8);
+								$user = new User;
+								$user->num_documento = $postulante->num_documento;
+								$user->password = Hash::make($password);
+								$user->idtipo_identificacion = 1;
+								$user->email = $postulante->email;
+								$user->idpersona = $persona->idpersonas;
+								$user->auth_token = Str::random(32);
+								$user->save();
+								// Registro los perfiles seleccionados
+								$perfil = 3;
+								$users_perfil = new UsersPerfil;
+								$users_perfil->idusers = $user->id;
+								$users_perfil->idperfiles = $perfil;
+								$users_perfil->save();
+								// Registro el usuario en el periodo correspondiente
+								$users_periodo = new UsersPeriodo;
+								$users_periodo->idusers = $user->id;
+								$users_periodo->idperiodos = $postulante_periodo->idperiodos;
+								$users_periodo->save();
+
+								Mail::send('emails.aprobacionFinalPostulacion',array('user'=> $user,'persona'=>$persona,'password'=>$password),function($message) use ($user,$persona)
+								{
+									$message->to($user->email, $persona->nombres)
+											->subject('Registro de nuevo usuario');
+								});
+							}
+							else{
+								Mail::send('emails.desaprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
+											{
+												$message->to($postulante->email)
+														->subject('Primera Fase de Postulación - AFI Perú.');
+											});
+							}
+						}
 					}
 				}
 
