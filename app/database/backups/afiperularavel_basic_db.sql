@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-11-2015 a las 04:42:15
+-- Tiempo de generación: 05-11-2015 a las 04:41:18
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -865,7 +865,6 @@ INSERT INTO `tipo_documentos` (`idtipo_documentos`, `created_at`, `updated_at`, 
 (4, '2015-10-28 12:06:49', NULL, NULL, 'Documento de concurso'),
 (5, '2015-10-28 12:06:58', NULL, NULL, 'Documento de proyecto');
 
-
 -- --------------------------------------------------------
 
 --
@@ -900,7 +899,23 @@ CREATE TABLE IF NOT EXISTS `tipo_logs` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tipo_logs`
+--
+
+INSERT INTO `tipo_logs` (`idtipo_logs`, `nombre`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Inicio de sesión', '2015-11-04 19:12:45', NULL, NULL),
+(2, 'Cierre de sesión', '2015-11-04 19:12:45', NULL, NULL),
+(3, 'Registro/Creación', '2015-11-04 19:13:24', NULL, NULL),
+(4, 'Edición', '2015-11-04 19:13:24', NULL, NULL),
+(5, 'Eliminación/Cancelación/Inhabilitación', '2015-11-04 19:13:53', NULL, NULL),
+(6, 'Habilitación', '2015-11-04 19:13:53', NULL, NULL),
+(7, 'Subida de documento al servidor', '2015-11-04 19:50:47', NULL, NULL),
+(8, 'Eliminación de documento del servidor', '2015-11-04 20:00:08', NULL, NULL),
+(9, 'Descarga de documento', '2015-11-04 20:16:09', NULL, NULL),
+(10, 'Error de permisos', '2015-11-04 21:51:01', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1504,7 +1519,7 @@ ALTER TABLE `tipo_identificacion`
 -- AUTO_INCREMENT de la tabla `tipo_logs`
 --
 ALTER TABLE `tipo_logs`
-  MODIFY `idtipo_logs` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idtipo_logs` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
