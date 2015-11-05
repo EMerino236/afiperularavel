@@ -44,6 +44,8 @@ class ColegiosController extends BaseController
 				// Validate the info, create rules for the inputs
 
 				$rules = array(
+							'latitud' => 'required',
+							'longitud' => 'required',
 							'nombre' => 'required|alpha_spaces|min:2|max:100',
 							'direccion' => 'required',
 							'nombre_contacto' => 'required|alpha_spaces|min:2|max:100',
@@ -64,6 +66,8 @@ class ColegiosController extends BaseController
 					$colegio->email_contacto = Input::get('email_contacto');
 					$colegio->telefono_contacto = Input::get('telefono_contacto');
 					$colegio->interes = Input::get('interes');
+					$colegio->latitud = Input::get('latitud');
+					$colegio->longitud = Input::get('longitud');
 					$colegio->save();
 					
 					Session::flash('message', 'Se registró correctamente al colegio.');
@@ -152,11 +156,12 @@ class ColegiosController extends BaseController
 							'nombre' => 'required|alpha_spaces|min:2|max:100',
 							'direccion' => 'required',
 							'nombre_contacto' => 'required|alpha_spaces|min:2|max:100',
-							'email_contacto' => 'email|max:45|unique:colegios',
+							'email_contacto' => 'email|max:45',
 							'telefono_contacto' => 'min:7|max:20',
 							'interes' => 'max:100',
 						);
 				// Run the validation rules on the inputs from the form
+				
 				$colegio_id = Input::get('idcolegios');
 				$url = "colegios/edit_colegio"."/".$colegio_id;
 				$validator = Validator::make(Input::all(), $rules);
@@ -164,13 +169,15 @@ class ColegiosController extends BaseController
 				if($validator->fails()){
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$colegio = Colegio::find($data["colegio_info"]->idcolegios);
+					$colegio = Colegio::find($colegio_id);
 					$colegio->nombre = Input::get('nombre');
 					$colegio->direccion = Input::get('direccion');
 					$colegio->nombre_contacto = Input::get('nombre_contacto');
 					$colegio->email_contacto = Input::get('email_contacto');
 					$colegio->telefono_contacto = Input::get('telefono_contacto');
 					$colegio->interes = Input::get('interes');
+					$colegio->latitud = Input::get('latitud');
+					$colegio->longitud = Input::get('longitud');
 					$colegio->save();
 					
 					Session::flash('message', 'Se editó correctamente al colegio.');

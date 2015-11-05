@@ -25,7 +25,7 @@ class Ninho extends Eloquent{
 	public function scopeSearchNinhoById($query,$search_criteria)
 	{
 		$query->withTrashed()
-			  ->where('ninho.idninhos','=',$search_criteria)
+			  ->where('ninhos.idninhos','=',$search_criteria)
 			  ->select('ninhos.*');
 		return $query;
 	}
@@ -37,7 +37,8 @@ class Ninho extends Eloquent{
 			  ->whereNested(function($query) use($search_criteria){
 			  		$query->where('ninhos.nombres','LIKE',"%$search_criteria%")
 			  			  ->orWhere('ninhos.apellido_pat','LIKE',"%$search_criteria%")
-			  			  ->orWhere('ninhos.apellido_mat','LIKE',"%$search_criteria%");
+			  			  ->orWhere('ninhos.apellido_mat','LIKE',"%$search_criteria%")
+			  			  ->orWhere('colegios.nombre','LIKE',"%$search_criteria%");
 			  })
 			  ->select('ninhos.*','colegios.nombre');
 		return $query;

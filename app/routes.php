@@ -101,6 +101,11 @@ Route::group(array('prefix'=>'ninhos','before'=>'auth'),function(){
 	Route::post('/submit_create_ninho','NinhoController@submit_create_ninho');
 	Route::get('/list_ninhos','NinhoController@list_ninhos');
 	Route::get('/search_ninho','NinhoController@search_ninho');
+
+	Route::get('/edit_ninho/{id}','NinhoController@render_edit_ninho');
+	Route::post('/submit_edit_ninho','NinhoController@submit_edit_ninho');
+	Route::post('/submit_disable_ninho','NinhoController@submit_disable_ninho');
+	Route::post('/submit_enable_ninho','NinhoController@submit_enable_ninho');
 });
 
 /* Proyectos */
