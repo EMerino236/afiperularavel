@@ -64,6 +64,24 @@ class SponsorController extends \BaseController {
                     $responseCalendar_element["amount"] = $fee->monto;
                     $responseCalendar_element["due_date"] = strtotime($fee->vencimiento);
                     $responseCalendar_element["fee_number"] = $fee->num_cuota;
+                    if ($fee->aprobacion)
+                    {
+                        $status = 2;
+                    }
+                    else
+                    {
+                        $today = date("Y-m-d");
+                        $expire = $fee->vencimiento;
+
+                        $today_time = strtotime($today);
+                        $expire_time = strtotime($expire);
+
+                        if ($today_time >= $expire_time)
+                            $status = 0;
+                        else
+                            $status = 1;
+                    }
+                    $responseCalendar_element["status"] = $status;
 
                     $responseCalendar[] = $responseCalendar_element;
                 }
