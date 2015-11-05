@@ -15,6 +15,7 @@
 Route::get('/', 'HomeController@home');
 Route::controller('password', 'RemindersController');
 /* Login */
+Route::get('/login', 'LoginController@login_expires');
 Route::post('/login', 'LoginController@login');
 /* Dashboard */
 Route::group(array('before'=>'auth'),function(){

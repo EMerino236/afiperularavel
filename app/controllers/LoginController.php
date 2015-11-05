@@ -43,6 +43,17 @@ class LoginController extends BaseController
 		}
 	}
 
+	public function login_expires()
+	{
+		// Llamo a la función para registrar el log de auditoria
+		$descripcion_log = "Se cerró sesión por tiempo expirado";
+		Helpers::registrarLog(2,$descripcion_log);
+		// Cierro la sesion del usuario
+		Auth::logout();
+		Session::flush();
+		return Redirect::to('/');
+	}
+
 	public function logout()
 	{
 		// Llamo a la función para registrar el log de auditoria
