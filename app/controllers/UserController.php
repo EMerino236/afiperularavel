@@ -81,8 +81,6 @@ class UserController extends BaseController {
 						$message->to($user->email, $persona->nombres)
 								->subject('Registro de nuevo usuario');
 					});
-
-					Session::put('permisos',$permisos);
 					// Llamo a la función para registrar el log de auditoria
 					$descripcion_log = "Se creó al usuario con id {{$user->id}}";
 					Helpers::registrarLog(3,$descripcion_log);
