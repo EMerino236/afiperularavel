@@ -26,7 +26,8 @@
 			<th>Nombre</th>
 			<th>Fecha Inicio</th>
 			<th>Fecha Fin</th>
-			<th>Postulación</th>
+			<th>Postulantes</th>
+			<th>Voluntarios</th>
 		</tr>
 		@foreach($convocatorias_data as $convocatoria_data)
 		<tr class="@if($convocatoria_data->deleted_at) bg-danger @endif">
@@ -41,6 +42,9 @@
 			</td>
 			<td>
 				<a href="{{URL::to('/convocatorias/list_postulantes/')}}/{{$convocatoria_data->idperiodos}}">Ver Postulantes</a>
+			</td>
+			<td>
+				<a href="{{URL::to('/convocatorias/list_postulantes/')}}/{{$convocatoria_data->idperiodos}}">Ver Voluntarios</a>
 			</td>
 		</tr>
 		@endforeach

@@ -17,4 +17,12 @@ class PostulantesPeriodo extends Eloquent{
 			  			'postulantes.fecha_nacimiento','postulantes.num_documento','postulantes.email','postulantes_periodos.*');
 		return $query;
 	}
+
+	public function scopeSearchPostulantePeriodoById($query,$id)
+	{
+		$query->withTrashed()
+			  ->where('postulantes_periodos.idpostulantes_periodos','=',$id)
+			  ->select('postulantes_periodos.*');
+		return $query;
+	}
 }

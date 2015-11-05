@@ -60,7 +60,7 @@
 			<tr>
 				{{ Form::hidden('idpostulantes_periodos[]', $postulante_info->idpostulantes_periodos) }}
 				<td style="vertical-align:middle">
-					<a href="{{URL::to('/convocatorias/view_postulante/')}}/{{$postulante_info->idpostulantes}}">{{$postulante_info->num_documento}}</a>
+					<a href="{{URL::to('/convocatorias/view_postulante/')}}/{{$postulante_info->idpostulantes_periodos}}">{{$postulante_info->num_documento}}</a>
 					</td>
 				<td style="vertical-align:middle">{{$postulante_info->nombres}} {{$postulante_info->apellido_pat}} {{$postulante_info->apellido_mat}}</td>
 				<td style="vertical-align:middle">

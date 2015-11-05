@@ -218,7 +218,7 @@ class ConvocatoriasController extends BaseController
 				$data["convocatoria_info"] = Periodo::searchPeriodoById(Input::get('idperiodos'))->get();
 				$data["convocatoria_info"] = $data["convocatoria_info"][0];
 				$data["idfase"] = Input::get('idfases');
-				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase(Input::get('idperiodos'),Input::get('idfases'))->paginate(10);				
+				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase(Input::get('idperiodos'),Input::get('idfases'))->paginate(10);	
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
 				return View::make('error/error');
@@ -390,13 +390,15 @@ class ConvocatoriasController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if((in_array('side_nueva_convocatoria',$data["permisos"])) && $id){
-				$data["postulante_info"] = Postulante::searchPostulanteById($id)->get();
+				$postulante_periodo = PostulantesPeriodo::searchPostulantePeriodoById($id)->get();
+				$postulante_periodo = $postulante_periodo[0];
+				$data["idperiodo"] = $postulante_periodo->idperiodos;
+				$data["postulante_info"] = Postulante::searchPostulanteById($postulante_periodo->idpostulantes)->get();
 				if($data["postulante_info"]->isEmpty()){
 					Session::flash('error', 'No se encontró la convocatoria.');
 					return Redirect::to('convocatorias/list_convocatoria');
 				}
 				$data["postulante_info"]  = $data["postulante_info"] [0];
-				$data["idfase"]  = Input::get('idfase');
 				return View::make('convocatorias/viewPostulante',$data);
 			}else{
 				return View::make('error/error');
