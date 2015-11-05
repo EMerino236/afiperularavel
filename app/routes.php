@@ -33,6 +33,7 @@ Route::group(array('prefix'=>'convocatorias','before'=>'auth'),function(){
 	Route::get('/list_postulantes/{id}','ConvocatoriasController@list_postulantes');
 	Route::get('/search_postulantes','ConvocatoriasController@search_postulantes');
 	Route::post('/submit_aprobacion_postulantes','ConvocatoriasController@submit_aprobacion_postulantes');
+	Route::get('/view_postulante/{id}','ConvocatoriasController@render_view_postulante');
 });
 /* Eventos */
 Route::group(array('prefix'=>'eventos','before'=>'auth'),function(){

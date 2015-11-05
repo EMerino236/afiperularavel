@@ -59,7 +59,9 @@
 			@foreach($postulantes_info as $postulante_info)
 			<tr>
 				{{ Form::hidden('idpostulantes_periodos[]', $postulante_info->idpostulantes_periodos) }}
-				<td style="vertical-align:middle">{{$postulante_info->num_documento}}</td>
+				<td style="vertical-align:middle">
+					<a href="{{URL::to('/convocatorias/view_postulante/')}}/{{$postulante_info->idpostulantes}}">{{$postulante_info->num_documento}}</a>
+					</td>
 				<td style="vertical-align:middle">{{$postulante_info->nombres}} {{$postulante_info->apellido_pat}} {{$postulante_info->apellido_mat}}</td>
 				<td style="vertical-align:middle">
 					{{Form::textarea('comentarios[]', $postulante_info->comentario,array('rows'=>'3','cols'=>'70','maxlength'=>'200'))}}

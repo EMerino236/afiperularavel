@@ -383,6 +383,29 @@ class ConvocatoriasController extends BaseController
 		}
 	}
 
+	public function render_view_postulante($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_nueva_convocatoria',$data["permisos"])) && $id){
+				$data["postulante_info"] = Postulante::searchPostulanteById($id)->get();
+				if($data["postulante_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró la convocatoria.');
+					return Redirect::to('convocatorias/list_convocatoria');
+				}
+				$data["postulante_info"]  = $data["postulante_info"] [0];
+				$data["idfase"]  = Input::get('idfase');
+				return View::make('convocatorias/viewPostulante',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	/*
 
 	public function submit_disable_user()
