@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2015 a las 04:41:18
+-- Tiempo de generación: 05-11-2015 a las 04:44:14
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -688,7 +688,8 @@ CREATE TABLE IF NOT EXISTS `postulantes` (
   `direccion` varchar(150) DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   `celular` varchar(45) DEFAULT NULL,
-  `email` varchar(100) NOT NULL
+  `email` varchar(100) NOT NULL,
+  `idtipo_identificacion` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
