@@ -13,7 +13,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'padrinos/submit_aprove_prepadrino', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'padrinos/list_prepadrinos', 'method'=>'get', 'role'=>'form')) }}
 		{{ Form::hidden('prepadrino_id', $prepadrino_info->idprepadrinos) }}		
 		<div class="col-xs-6">
 			<div class="row">
@@ -45,32 +45,27 @@
 					{{ Form::label('fecha_nacimiento','Fecha de nacimiento') }}
 					{{ Form::text('fecha_nacimiento',date('d-m-Y',strtotime($prepadrino_info->fecha_nacimiento)),array('class'=>'form-control','readonly' => 'true')) }}
 				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-xs-8">
-					<span>*La contraseña será autogenerada y enviada al email ingresado.</span>
-				</div>
-			</div>	
+			</div>			
 		</div>
 		<div class="col-xs-6">			
 			<div class="row">
 				<div class="form-group col-xs-8 @if($errors->first('direccion')) has-error has-feedback @endif">
 					{{ Form::label('direccion','Dirección') }}
-					{{ Form::text('direccion',Input::old('direccion'),array('class'=>'form-control')) }}
+					{{ Form::text('direccion',$prepadrino_info->direccion,array('class'=>'form-control','readonly' => 'true')) }}
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="form-group col-xs-8 @if($errors->first('telefono')) has-error has-feedback @endif">
 					{{ Form::label('telefono','Teléfono') }}
-					{{ Form::text('telefono',Input::old('telefono'),array('class'=>'form-control')) }}
+					{{ Form::text('telefono',$prepadrino_info->telefono,array('class'=>'form-control','readonly' => 'true')) }}
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="form-group col-xs-8 @if($errors->first('celular')) has-error has-feedback @endif">
 					{{ Form::label('celular','Celular') }}
-					{{ Form::text('celular',Input::old('celular'),array('class'=>'form-control')) }}
+					{{ Form::text('celular',$prepadrino_info->celular,array('class'=>'form-control','readonly' => 'true')) }}
 				</div>
 			</div>
 			<div class="row">
@@ -86,17 +81,15 @@
 				</div>
 			</div>
 		</div>
-	{{ Form::close() }}
-	<div class="col-xs-12">
-		<div class="row">
-			<div class="form-group col-xs-8">	
-			@if(!$prepadrino_info->deleted_at)		
-				{{ Form::open(array('url'=>'padrinos/submit_aprove_prepadrino', 'role'=>'form')) }}
-				{{ Form::hidden('prepadrino_id', $prepadrino_info->idprepadrinos) }}
-				{{ Form::submit('Aprobar',array('prepadrino_id'=>'submit-delete', 'class'=>'btn btn-success')) }}							
-			@endif
-			{{ Form::close() }}
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="form-group col-xs-8">	
+				@if(!$prepadrino_info->deleted_at)
+					{{ Form::hidden('prepadrino_id', $prepadrino_info->idprepadrinos) }}
+					{{ Form::submit('Regresar',array('prepadrino_id'=>'submit-edit', 'class'=>'btn btn-primary')) }}							
+				@endif
+				</div>
 			</div>
 		</div>
-	</div>
+	{{ Form::close() }}	
 @stop

@@ -14,6 +14,7 @@ class LogAuditoria extends Eloquent{
 		$query->join('users','users.id','=','logs.users_id')
 			  ->join('personas','personas.idpersonas','=','users.idpersona')
 			  ->join('tipo_logs','tipo_logs.idtipo_logs','=','logs.idtipo_logs')
+			  ->orderBy('idlogs','desc')
 			  ->select('personas.nombres','personas.apellido_pat','personas.apellido_mat','users.num_documento','users.email','tipo_logs.nombre as tipo_log','logs.*');
 		return $query;
 	}
@@ -37,7 +38,8 @@ class LogAuditoria extends Eloquent{
 			$query->where('logs.created_at','>=',date('Y-m-d H:i:s',strtotime($fecha_ini)));
 		if($fecha_fin != "")
 			$query->where('logs.created_at','<=',date('Y-m-d H:i:s',strtotime($fecha_fin)));
-		$query->select('personas.nombres','personas.apellido_pat','personas.apellido_mat','users.num_documento','users.email','tipo_logs.nombre as tipo_log','logs.*');
+		$query->orderBy('idlogs','desc')
+			  ->select('personas.nombres','personas.apellido_pat','personas.apellido_mat','users.num_documento','users.email','tipo_logs.nombre as tipo_log','logs.*');
 		return $query;
 	}
 

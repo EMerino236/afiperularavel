@@ -59,7 +59,7 @@ class VoluntariosController extends BaseController
 		}
 	}
 
-	public function search_voluntario()
+	public function search_voluntarios()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
@@ -67,7 +67,7 @@ class VoluntariosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_listar_voluntarios',$data["permisos"])){
 				$data["search"] = Input::get('search');
-				$data["voluntarios_data"] = UsersPerfil::getVoluntariosInfo($data["search"]);
+				$data["voluntarios_data"] = UsersPerfil::searchVoluntariosInfo($data["search"]);
 				return View::make('voluntarios/listVoluntarios',$data);
 			}else{
 				return View::make('error/error');
