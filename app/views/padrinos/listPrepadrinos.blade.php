@@ -7,13 +7,14 @@
         <!-- /.col-lg-12 -->
     </div>
 
+    {{ Form::open(array('url'=>'padrinos/submit_aprove_prepadrino', 'role'=>'form')) }}
     <table class="table">
 		<tr class="info">
 			<th>DNI</th>
 			<th>Nombres</th>
 			<th>Apellido Paterno</th>
 			<th>Apellido Materno</th>
-			<th>Aprobación <input type="checkbox" name="seleccionar-todos-aprobados" value="0"></th>
+			<th>Seleccionar <input type="checkbox" name="seleccionar-todos-prepadrinos" value=""></th>
 		</tr>
 		@foreach($prepadrinos_data as $prepadrino_data)
 		<tr class="@if($prepadrino_data->deleted_at) bg-danger @endif">
@@ -30,30 +31,27 @@
 				<td>
 					{{$prepadrino_data->apellido_mat}}
 				</td>
-				<td class="text-center" style="vertical-align:middle">
-					<input type="checkbox" name="aprobacion" class="checkbox-aprobacion" value="0">
-					{{ Form::hidden('aprobaciones[]', $prepadrino_data->aprobacion,array('class'=>'hidden-aprobacion')) }}
-				</td>				
+				<td class="text-center">
+					<input type="checkbox" class="checkbox-prepadrinos" name="prepadrinos[]" value="{{$prepadrino_data->idprepadrinos}}">
+				</td>
 			@endif
 		</tr>
 		@endforeach
-			
 	</table>
 	<div class="row">
 		<div class="form-group col-xs-8">
-			<span>*La contraseña será autogenerada y enviada al email ingresado.</span>
+			<span>*Contraseñas serán autogeneradas y enviadas a los email ingresados.</span>
 		</div>
 	</div>
 	<div class="col-xs-12">
 		<div class="row">
 			<div class="form-group col-xs-8">	
-			@if(!$prepadrino_data->deleted_at)		
-				{{ Form::open(array('url'=>'padrinos/submit_aprove_prepadrino', 'role'=>'form')) }}
-				{{ Form::hidden('prepadrino_id', $prepadrino_data->idprepadrinos) }}
-				{{ Form::submit('Aprobar',array('prepadrino_id'=>'submit-delete', 'class'=>'btn btn-success')) }}							
+			@if(!$prepadrino_data->deleted_at)						
+				{{ Form::submit('Aprobar',array('class'=>'btn btn-primary')) }}				
 			@endif
-			{{ Form::close() }}
 			</div>
 		</div>
 	</div>
+	{{ Form::close() }}
+	<script src="{{ asset('js/padrinos/padrinos.js') }}"></script>
 @stop
