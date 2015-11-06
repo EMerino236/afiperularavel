@@ -13,7 +13,11 @@ class UserController extends BaseController {
 				$data["perfiles"] = Perfil::getPerfilesCreacion()->get();	
 				return View::make('user/createUser',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -89,7 +93,11 @@ class UserController extends BaseController {
 					return Redirect::to('user/create_user');
 				}
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -108,7 +116,11 @@ class UserController extends BaseController {
 				$data["users_data"] = User::getUsersInfo()->paginate(10);
 				return View::make('user/listUsers',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -127,7 +139,11 @@ class UserController extends BaseController {
 				$data["users_data"] = User::searchUsers($data["search"])->paginate(10);
 				return View::make('user/listUsers',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -150,7 +166,11 @@ class UserController extends BaseController {
 				$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
 				return View::make('user/editUser',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -174,7 +194,11 @@ class UserController extends BaseController {
 				Session::flash('message', 'Se inhabilitó correctamente al usuario.');
 				return Redirect::to($url);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -198,7 +222,11 @@ class UserController extends BaseController {
 				Session::flash('message', 'Se habilitó correctamente al usuario.');
 				return Redirect::to($url);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');

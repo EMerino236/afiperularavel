@@ -11,7 +11,11 @@ class EventosController extends BaseController
 			if(in_array('nav_eventos',$data["permisos"])){
 				return View::make('eventos/home',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -38,7 +42,11 @@ class EventosController extends BaseController
 				$data["periodo"] = $periodo[0]->idperiodos;
 				return View::make('eventos/createEvento',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -124,7 +132,11 @@ class EventosController extends BaseController
 					return Redirect::to('eventos/create_evento');
 				}
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -152,7 +164,11 @@ class EventosController extends BaseController
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('eventos/listEventos',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -173,7 +189,11 @@ class EventosController extends BaseController
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('eventos/listEventos',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -202,7 +222,11 @@ class EventosController extends BaseController
 				}
 				return View::make('eventos/editEvento',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -265,7 +289,11 @@ class EventosController extends BaseController
 					return Redirect::to('eventos/edit_evento/'.$ideventos);
 				}
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -309,7 +337,11 @@ class EventosController extends BaseController
 				Session::flash('message', 'Se canceló correctamente el evento.');
 				return Redirect::to('eventos/list_eventos');
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -343,7 +375,11 @@ class EventosController extends BaseController
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('eventos/uploadFile',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -378,7 +414,7 @@ class EventosController extends BaseController
 						$documento = new Documento;
 						$documento->titulo = $nombreArchivo;
 						$documento->idtipo_documentos = 1; // ¡Que viva el hardcode!
-						$documento->nombre_archivo = $nombreArchivo;
+						$documento->nombre_archivo = Hash::make($nombreArchivo);
 						$documento->ruta = $rutaDestino;
 						$documento->peso = $peso;
 						$documento->save();
@@ -408,7 +444,11 @@ class EventosController extends BaseController
 					return Redirect::to('eventos/upload_file/'.$ideventos);
 				}
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -445,7 +485,11 @@ class EventosController extends BaseController
 					return Redirect::to('eventos/upload_file/'.$ideventos);
 				}
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -469,7 +513,11 @@ class EventosController extends BaseController
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('eventos/tomarAsistencia',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -502,7 +550,11 @@ class EventosController extends BaseController
 				Session::flash('message', 'Se tomó correctamente la asistencia.');				
 				return Redirect::to('eventos/asistencia_evento/'.$ideventos);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -519,7 +571,11 @@ class EventosController extends BaseController
 			if(in_array('side_mis_eventos',$data["permisos"])){
 				return View::make('eventos/misEventos',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -565,7 +621,11 @@ class EventosController extends BaseController
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('eventos/misEventosPorFecha',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -599,7 +659,11 @@ class EventosController extends BaseController
 				}
 				return View::make('eventos/verEvento',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -633,7 +697,11 @@ class EventosController extends BaseController
 				Helpers::registrarLog(9,$descripcion_log);	
 		        return Response::download($rutaDestino,basename($rutaDestino),$headers);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -672,7 +740,11 @@ class EventosController extends BaseController
 				}
 				return View::make('eventos/registrarComentario',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -724,7 +796,11 @@ class EventosController extends BaseController
 				Session::flash('message', 'Se registraron correctamente los comentarios.');				
 				return Redirect::to('eventos/registrar_comentario/'.$ideventos);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -740,7 +816,11 @@ class EventosController extends BaseController
 			if(in_array('side_nuevo_punto_reunion',$data["permisos"])){
 				return View::make('eventos/createPuntoReunion',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -778,7 +858,11 @@ class EventosController extends BaseController
 					return Redirect::to('eventos/create_punto_reunion');
 				}
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -796,9 +880,12 @@ class EventosController extends BaseController
 				//$data["puntos_reunion_data"] = PuntoReunion::all();
 				return View::make('eventos/listPuntosReunion',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
-
 		}else{
 			return View::make('error/error');
 		}

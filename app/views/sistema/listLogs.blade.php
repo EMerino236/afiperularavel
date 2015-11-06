@@ -21,7 +21,7 @@
 					</div>
 					<div class="form-group col-md-6">
 						{{ Form::label('search_tipo_log','Tipo de Log') }}
-						{{ Form::select('search_tipo_log',$tipo_logs,$search_tipo_log,['class' => 'form-control']) }}
+						{{ Form::select('search_tipo_log',array("0"=>"Seleccione")+$tipo_logs,$search_tipo_log,['class' => 'form-control']) }}
 					</div>
 				</div>
 				<div class="row">

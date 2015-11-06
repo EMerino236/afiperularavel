@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2015 a las 00:16:14
+-- Tiempo de generación: 06-11-2015 a las 01:41:14
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -402,7 +402,8 @@ CREATE TABLE IF NOT EXISTS `padrinos` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idusers` int(11) NOT NULL,
   `idperiodo_pagos` int(11) NOT NULL,
-  `idresponsable` int(11) NOT NULL
+  `idresponsable` int(11) NOT NULL,
+  `comentario` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -797,7 +798,8 @@ CREATE TABLE IF NOT EXISTS `prepadrinos` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
-  `celular` varchar(45) DEFAULT NULL
+  `celular` varchar(45) DEFAULT NULL,
+  `direccion` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

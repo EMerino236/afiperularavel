@@ -11,7 +11,11 @@ class SistemaController extends BaseController
 			if(in_array('nav_sistema',$data["permisos"])){
 				return View::make('sistema/home',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -28,7 +32,11 @@ class SistemaController extends BaseController
 				$data["permisos_data"] = Permiso::all();
 				return View::make('sistema/createPerfil',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -75,7 +83,11 @@ class SistemaController extends BaseController
 					return Redirect::to('sistema/create_perfil');
 				}
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -93,7 +105,11 @@ class SistemaController extends BaseController
 				$data["perfiles_data"] = Perfil::paginate(10);
 				return View::make('sistema/listPerfiles',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -119,7 +135,11 @@ class SistemaController extends BaseController
 				}
 				return View::make('sistema/editPerfil',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -148,7 +168,11 @@ class SistemaController extends BaseController
 				Helpers::registrarLog(5,$descripcion_log);
 				return Redirect::to($url);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -170,7 +194,11 @@ class SistemaController extends BaseController
 				$data["logs"] = LogAuditoria::getLogsInfo()->paginate(30);
 				return View::make('sistema/listLogs',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -189,10 +217,14 @@ class SistemaController extends BaseController
 				$data["fecha_ini"] = Input::get('fecha_ini');
 				$data["fecha_fin"] = Input::get('fecha_fin');
 				$data["tipo_logs"] = TipoLog::lists('nombre','idtipo_logs');
-				$data["logs"] = LogAuditoria::getLogsInfo()->paginate(30);
+				$data["logs"] = LogAuditoria::searchLogsInfo($data["search"],$data["search_tipo_log"],$data["fecha_ini"],$data["fecha_fin"])->paginate(30);
 				return View::make('sistema/listLogs',$data);
 			}else{
-				Helpers::manejarErrorPermisos();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
