@@ -45,7 +45,7 @@ class NinhoController extends BaseController
 			if(in_array('side_nuevo_ninho',$data["permisos"])){
 				$rules = array(
 							'dni' => 'required|numeric|digits_between:8,16|unique:ninhos',
-							'nombres' => 'required|alpha_spaces|min:2|max:45',
+							'nombres' => 'required|min:2|max:45',
 							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
 							'fecha_nacimiento' => 'required',
@@ -154,25 +154,26 @@ class NinhoController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_ninho',$data["permisos"])){
 				$rules = array(
-							'dni' => 'required|numeric|digits_between:8,16|unique:ninhos',
-							'nombres' => 'required|alpha_spaces|min:2|max:45',
+							'dni' => 'required|numeric|digits_between:8,16',
+							'nombres' => 'required|min:2|max:45',
 							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
 							'fecha_nacimiento' => 'required',
 							'genero' => 'required',
 							'nombre_apoderado' => 'required|alpha_spaces|min:2|max:200',
 							'dni_apoderado' => 'required|numeric|digits_between:8,16',
-							'num_familiares' => 'numeric|min:1',
+							'num_familiares' => 'numeric',
 							'observaciones' => 'max:200',
 							'idcolegios' => 'required',
 				);
-
+				$ninho_id = Input::get('idninhos');
+				$url = "ninhos/edit_ninho"."/".$ninho_id;
 				$validator = Validator::make(Input::all(), $rules);
 
 				if($validator->fails()){
-					return Redirect::to('ninhos/create_ninho')->withErrors($validator)->withInput(Input::all());
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
-					$ninho = new Ninho;
+					$ninho = Ninho::find($ninho_id);
 					$ninho->dni = Input::get('dni');
 					$ninho->nombres = Input::get('nombres');
 					$ninho->apellido_pat = Input::get('apellido_pat');
@@ -185,8 +186,8 @@ class NinhoController extends BaseController
 					$ninho->idcolegios = Input::get('idcolegios');
 					$ninho->observaciones = Input::get('observaciones');
 					$ninho->save();
-					Session::flash('message', 'Se registró correctamente al niño.');
-					return Redirect::to('ninhos/create_ninho');
+					Session::flash('message', 'Se editó correctamente al niño.');
+					return Redirect::to($url);
 				}
 			}else{
 				return View::make('error/error');
@@ -196,19 +197,19 @@ class NinhoController extends BaseController
 			return View::make('error/error');
 		}
 	}
-/*
-	public function submit_disable_user()
+
+	public function submit_disable_ninho()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_nuevo_usuario',$data["permisos"])){
-				$user_id = Input::get('user_id');
-				$url = "user/edit_user/".$user_id;
-				$user = User::find($user_id);
-				$user->delete();
-				Session::flash('message', 'Se inhabilitó correctamente al usuario.');
+			if(in_array('side_nuevo_ninho',$data["permisos"])){
+				$ninho_id = Input::get('ninho_id');
+				$url = "ninhos/edit_ninho/".$ninho_id;
+				$ninho = Ninho::find($ninho_id);
+				$ninho->delete();
+				Session::flash('message', 'Se inhabilitó correctamente al niño.');
 				return Redirect::to($url);
 			}else{
 				return View::make('error/error');
@@ -218,18 +219,18 @@ class NinhoController extends BaseController
 		}
 	}
 
-	public function submit_enable_user()
+	public function submit_enable_ninho()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_nuevo_usuario',$data["permisos"])){
-				$user_id = Input::get('user_id');
-				$url = "user/edit_user/".$user_id;
-				$user = User::withTrashed()->find($user_id);
-				$user->restore();
-				Session::flash('message', 'Se habilitó correctamente al usuario.');
+			if(in_array('side_nuevo_ninho',$data["permisos"])){
+				$ninho_id = Input::get('ninho_id');
+				$url = "ninhos/edit_ninho/".$ninho_id;
+				$ninho = Ninho::withTrashed()->find($ninho_id);
+				$ninho->restore();
+				Session::flash('message', 'Se habilitó correctamente al niño.');
 				return Redirect::to($url);
 			}else{
 				return View::make('error/error');
@@ -237,7 +238,6 @@ class NinhoController extends BaseController
 		}else{
 			return View::make('error/error');
 		}
-	}*/
-
+	}
 	
 }

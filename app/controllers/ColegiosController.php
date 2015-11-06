@@ -1,5 +1,4 @@
 <?php
-
 class ColegiosController extends BaseController
 {
 	public function home()
@@ -157,16 +156,14 @@ class ColegiosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_colegio',$data["permisos"])){
 				// Validate the info, create rules for the inputs
-
 				$rules = array(
 							'nombre' => 'required|alpha_spaces|min:2|max:100',
 							'direccion' => 'required',
 							'nombre_contacto' => 'required|alpha_spaces|min:2|max:100',
-							'email_contacto' => 'email|max:45',
+							'email_contacto' => 'required|email|max:45',
 							'telefono_contacto' => 'min:7|max:20',
 							'interes' => 'max:100',
 						);
-				// Run the validation rules on the inputs from the form
 				
 				$colegio_id = Input::get('idcolegios');
 				$url = "colegios/edit_colegio"."/".$colegio_id;

@@ -13,7 +13,6 @@
 			<p><strong>{{ $errors->first('nombre_contacto') }}</strong></p>
 			<p><strong>{{ $errors->first('email_contacto') }}</strong></p>
 			<p><strong>{{ $errors->first('telefono_contacto') }}</strong></p>
-			<p><strong>{{ $errors->first('interes') }}</strong></p>
 			@if($errors->first('latitud'))
 				<p><strong>Mueva el punto en el mapa a una ubicación diferente</strong></p>
 			@endif

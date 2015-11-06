@@ -6,6 +6,20 @@
         </div>
     </div>
 
+    @if ($errors->has())
+		<div class="alert alert-danger" role="alert">
+			<p><strong>{{ $errors->first('dni') }}</strong></p>
+			<p><strong>{{ $errors->first('nombres') }}</strong></p>
+			<p><strong>{{ $errors->first('apellido_pat') }}</strong></p>
+			<p><strong>{{ $errors->first('apellido_mat') }}</strong></p>
+			<p><strong>{{ $errors->first('fecha_nacimiento') }}</strong></p>
+			<p><strong>{{ $errors->first('nombre_apoderado') }}</strong></p>
+			<p><strong>{{ $errors->first('dni_apoderado') }}</strong></p>
+			<p><strong>{{ $errors->first('num_familiares') }}</strong></p>
+			<p><strong>{{ $errors->first('idcolegios') }}</strong></p>
+		</div>
+	@endif
+
     @if (Session::has('message'))
 		<div class="alert alert-success">{{ Session::get('message') }}</div>
 	@endif
@@ -41,30 +55,31 @@
 				</div>
 			</div>
 			<div class="row">
-					<div class="form-group col-xs-8">
-						{{ Form::label('fecha_nacimiento','Fecha de Nacimiento') }}
-						{{ Form::text('fecha_nacimiento',date('d-m-Y',strtotime($ninho_info->fecha_nacimiento)),array('class'=>'form-control')) }}
-					</div>
+				{{ Form::label('fecha_nacimiento','Fecha de nacimiento') }}
+				<div id="datetimepicker1" class="form-group input-group date col-xs-8 @if($errors->first('fecha_nacimiento')) has-error has-feedback @endif">
+					{{ Form::text('fecha_nacimiento',$ninho_info->fecha_nacimiento,array('class'=>'form-control','readonly'=>'')) }}
+					<span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
 				</div>
-			<div class="row">
-				<div class="form-group col-xs-8">
-					{{ Form::label('genero','Género') }}</br>
-					@if($ninho_info->genero == 'M')
-						{{ Form::radio('genero', 'M',true) }} M
-					@else
-						{{ Form::radio('genero', 'M') }} M
-					@endif
+			</div>	
+			<div class="form-group col-xs-8">
+				{{ Form::label('genero','Género') }}</br>
+				@if($ninho_info->genero == 'M')
+					{{ Form::radio('genero', 'M',true) }} M
+				@else
+					{{ Form::radio('genero', 'M') }} M
+				@endif
 
-					@if($ninho_info->genero == 'F')
-						{{ Form::radio('genero', 'F',true,array('style'=>'margin-left:40px')) }} F
-					@else
-						{{ Form::radio('genero', 'F',false,array('style'=>'margin-left:40px')) }} F
-					@endif
-				</div>
+				@if($ninho_info->genero == 'F')
+					{{ Form::radio('genero', 'F',true,array('style'=>'margin-left:40px')) }} F
+				@else
+					{{ Form::radio('genero', 'F',false,array('style'=>'margin-left:40px')) }} F
+				@endif
 			</div>
 			<div class="row">
 				<div class="form-group col-xs-8">
-					{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+					{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
 				</div>
 			</div>
 		</div>
@@ -95,10 +110,28 @@
 			</div>
 			<div class="row">
 				<div class="form-group col-xs-8">
-					{{ Form::label('colegio','Colegio') }}
-					{{ Form::select('colegio',$colegios,$ninho_info->idcolegios,['class' => 'form-control']) }}
+					{{ Form::label('idcolegios','Colegio') }}
+					{{ Form::select('idcolegios',$colegios,$ninho_info->idcolegios,['class' => 'form-control']) }}
 				</div>
 			</div>
-		</div>	
+		</div>
+	{{ Form::close() }}	
+
+	<div class="col-xs-12">
+		<div class="row">
+			<div class="form-group col-xs-8">
+			@if($ninho_info->deleted_at)
+				{{ Form::open(array('url'=>'ninhos/submit_enable_ninho', 'role'=>'form')) }}
+					{{ Form::hidden('ninho_id', $ninho_info->idninhos) }}
+					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+			@else
+				{{ Form::open(array('url'=>'ninhos/submit_disable_ninho', 'role'=>'form')) }}
+					{{ Form::hidden('ninho_id', $ninho_info->idninhos) }}
+					 {{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+			@endif
+				{{ Form::close() }}
+			</div>
+		</div>
+	</div>
 	
 @stop

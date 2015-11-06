@@ -6,6 +6,19 @@
         </div>
     </div>
 
+    @if ($errors->has())
+		<div class="alert alert-danger" role="alert">
+			<p><strong>{{ $errors->first('nombre') }}</strong></p>
+			<p><strong>{{ $errors->first('direccion') }}</strong></p>
+			<p><strong>{{ $errors->first('nombre_contacto') }}</strong></p>
+			<p><strong>{{ $errors->first('email_contacto') }}</strong></p>
+			<p><strong>{{ $errors->first('telefono_contacto') }}</strong></p>
+			@if($errors->first('latitud'))
+				<p><strong>Mueva el punto en el mapa a una ubicación diferente</strong></p>
+			@endif
+		</div>
+	@endif
+
     @if (Session::has('message'))
 		<div class="alert alert-success">{{ Session::get('message') }}</div>
 	@endif
