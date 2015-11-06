@@ -1,5 +1,5 @@
 <?php
-class Helpers{
+class Helpers extends BaseController{
 	// Función que registra los logs de auditoria
 	public static function registrarLog($idtipo_logs,$descripcion)
 	{
@@ -24,7 +24,7 @@ class Helpers{
 			$log->descripcion = $descripcion;
 			$log->users_id = Session::get('user')->id;
 			$log->save();
-			return View::make('error/permisos');
+			return Redirect::to('/logout');			
 		}else{
 			return Redirect::to('/logout');
 		}
