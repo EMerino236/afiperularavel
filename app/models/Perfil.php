@@ -9,10 +9,9 @@ class Perfil extends Eloquent{
 	protected $table = 'perfiles';
 	protected $primaryKey = 'idperfiles';
 
-	public function scopeGetAdminPerfiles($query)
+	public function scopeGetPerfilesCreacion($query)
 	{
-		$query->where('idperfiles','!=','3')
-			  ->where('idperfiles','!=','4');
+		$query->where('idperfiles','!=','4');
 		return $query;
 	}
 

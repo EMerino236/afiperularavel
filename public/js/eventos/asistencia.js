@@ -11,6 +11,12 @@ $( document ).ready(function(){
 		}
 	});
 	$("input[name=seleccionar-todos-asistio]").change(function(){
-		$(".checkbox-asistio").prop('checked',$(this).prop("checked"));
+		if($(this).is(':checked')){
+			$(".checkbox-asistio").prop('checked',true);
+			$(".hidden-asistencia").val('1');
+		}else{
+			$(".checkbox-asistio").prop('checked',false);
+			$(".hidden-asistencia").val('0');
+		}
 	});
 });

@@ -10,10 +10,10 @@ class UserController extends BaseController {
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_usuario',$data["permisos"])){
 				$data["tipos_identificacion"] = TipoIdentificacion::lists('nombre','idtipo_identificacion');
-				$data["perfiles"] = Perfil::getAdminPerfiles()->get();	
+				$data["perfiles"] = Perfil::getPerfilesCreacion()->get();	
 				return View::make('user/createUser',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -81,12 +81,15 @@ class UserController extends BaseController {
 						$message->to($user->email, $persona->nombres)
 								->subject('Registro de nuevo usuario');
 					});
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se creó al usuario con id {{$user->id}}";
+					Helpers::registrarLog(3,$descripcion_log);
+
 					Session::flash('message', 'Se registró correctamente al usuario.');
-					
 					return Redirect::to('user/create_user');
 				}
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 
 		}else{
@@ -105,7 +108,7 @@ class UserController extends BaseController {
 				$data["users_data"] = User::getUsersInfo()->paginate(10);
 				return View::make('user/listUsers',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 
 		}else{
@@ -124,7 +127,7 @@ class UserController extends BaseController {
 				$data["users_data"] = User::searchUsers($data["search"])->paginate(10);
 				return View::make('user/listUsers',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -147,7 +150,7 @@ class UserController extends BaseController {
 				$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
 				return View::make('user/editUser',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -165,10 +168,13 @@ class UserController extends BaseController {
 				$url = "user/edit_user/".$user_id;
 				$user = User::find($user_id);
 				$user->delete();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se inhabilitó al usuario con id {{$user_id}}";
+				Helpers::registrarLog(5,$descripcion_log);
 				Session::flash('message', 'Se inhabilitó correctamente al usuario.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -186,10 +192,13 @@ class UserController extends BaseController {
 				$url = "user/edit_user/".$user_id;
 				$user = User::withTrashed()->find($user_id);
 				$user->restore();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se habilitó al usuario con id {{$user_id}}";
+				Helpers::registrarLog(6,$descripcion_log);
 				Session::flash('message', 'Se habilitó correctamente al usuario.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -237,12 +246,12 @@ class UserController extends BaseController {
 			if($validator->fails()){
 				return Redirect::to("user/mi_cuenta")->withErrors($validator)->withInput(Input::all());
 			}else{
-
 				$persona = Persona::find($data["user"]->idpersona);
 				$persona->nombres = Input::get('nombres');
 				$persona->apellido_pat = Input::get('apellido_pat');
 				$persona->apellido_mat = Input::get('apellido_mat');
-				$persona->fecha_nacimiento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_nacimiento')));
+				if(!empty(Input::get('fecha_nacimiento')))
+					$persona->fecha_nacimiento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_nacimiento')));
 				$persona->direccion = Input::get('direccion');
 				$persona->telefono = Input::get('telefono');
 				$persona->celular = Input::get('celular');
@@ -252,10 +261,14 @@ class UserController extends BaseController {
 
 				$password = Input::get('password');
 				$user = User::find($data["user"]->id);
-				$user->email = Input::get('email');
+				if(!empty(Input::get('email')))
+					$user->email = Input::get('email');
 				if(!empty($password))
 					$user->password = Hash::make($password);
 				$user->save();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Editó su información de usuario";
+				Helpers::registrarLog(4,$descripcion_log);
 				Session::flash('message', 'Se editó correctamente la información.');
 				return Redirect::to("user/mi_cuenta");
 			}

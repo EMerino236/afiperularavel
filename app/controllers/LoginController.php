@@ -30,6 +30,9 @@ class LoginController extends BaseController
 				foreach($pre_permisos as $pre_permiso)
 					$permisos[] = $pre_permiso['nombre'];
 				Session::put('permisos',$permisos);
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se inició sesión";
+				Helpers::registrarLog(1,$descripcion_log);
 				return Redirect::to('/dashboard');
 			}else{
 				// Si falla la autenticacion se lo regresa al login con un mensaje de error
@@ -40,8 +43,22 @@ class LoginController extends BaseController
 		}
 	}
 
+	public function login_expires()
+	{
+		// Llamo a la función para registrar el log de auditoria
+		$descripcion_log = "Se cerró sesión por tiempo expirado";
+		Helpers::registrarLog(2,$descripcion_log);
+		// Cierro la sesion del usuario
+		Auth::logout();
+		Session::flush();
+		return Redirect::to('/');
+	}
+
 	public function logout()
 	{
+		// Llamo a la función para registrar el log de auditoria
+		$descripcion_log = "Se cerró sesión";
+		Helpers::registrarLog(2,$descripcion_log);
 		// Cierro la sesion del usuario
 		Auth::logout();
 		Session::flush();

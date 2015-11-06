@@ -18,75 +18,59 @@
 		{{ Form::hidden('user_id', $user_info->id) }}
 		{{ Form::hidden('latitud', $user_info->latitud) }}
 		{{ Form::hidden('longitud', $user_info->longitud) }}
-		<div class="col-xs-6">
+		<div class="col-md-12">
 			<div class="row">
-				<div class="form-group col-xs-8">
+				<div class="form-group col-md-4">
 					{{ Form::label('idtipo_identificacion','Tipo de identificación') }}
 					{{ Form::text('idtipo_identificacion',$user_info->nombre_tipo_identificacion,array('class'=>'form-control')) }}
 				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-xs-8">
+				<div class="form-group col-md-4">
 					{{ Form::label('num_documento','Número de Documento') }}
 					{{ Form::text('num_documento',$user_info->num_documento,array('class'=>'form-control')) }}
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-xs-8">
+				<div class="form-group col-md-4">
 					{{ Form::label('nombres','Nombres') }}
 					{{ Form::text('nombres',$user_info->nombres,array('class'=>'form-control')) }}
 				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-xs-8">
+				<div class="form-group col-md-4">
 					{{ Form::label('apellido_pat','Apellido Paterno') }}
 					{{ Form::text('apellido_pat',$user_info->apellido_pat,array('class'=>'form-control')) }}
 				</div>
-			</div>
-			<div class="row">
-				<div class="form-group col-xs-8">
+				<div class="form-group col-md-4">
 					{{ Form::label('apellido_mat','Apellido Materno') }}
 					{{ Form::text('apellido_mat',$user_info->apellido_mat,array('class'=>'form-control')) }}
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-xs-8">
+				<div class="form-group col-md-4">
 					{{ Form::label('fecha_nacimiento','Fecha de nacimiento') }}
 					{{ Form::text('fecha_nacimiento',date('d-m-Y',strtotime($user_info->fecha_nacimiento)),array('class'=>'form-control')) }}
 				</div>
-			</div>	
-		</div>
-		<div class="col-xs-6">
-			<div class="row">
-				<div class="form-group col-xs-8">
-					{{ Form::label('direccion','Dirección') }}
-					{{ Form::text('direccion',$user_info->direccion,array('class'=>'form-control')) }}
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="form-group col-xs-8">
+				<div class="form-group col-md-4">
 					{{ Form::label('telefono','Teléfono') }}
 					{{ Form::text('telefono',$user_info->telefono,array('class'=>'form-control')) }}
 				</div>
-			</div>
-
-			<div class="row">
-				<div class="form-group col-xs-8">
+				<div class="form-group col-md-4">
 					{{ Form::label('celular','Celular') }}
 					{{ Form::text('celular',$user_info->celular,array('class'=>'form-control')) }}
 				</div>
-			</div>
+			</div>	
 			<div class="row">
-				<div class="form-group col-xs-8">
+				<div class="form-group col-md-4">
 					{{ Form::label('email','E-mail') }}
 					{{ Form::text('email',$user_info->email,array('class'=>'form-control')) }}
+				</div>
+				<div class="form-group col-md-8">
+					{{ Form::label('direccion','Dirección') }}
+					{{ Form::text('direccion',$user_info->direccion,array('class'=>'form-control')) }}
 				</div>
 			</div>
 		</div>
 		<div class="container-fluid row">
 			<div class="form-group col-md-2">
-				<a class="btn btn-default btn-block" href="{{URL::to('/voluntarios/list_voluntarios')}}">Cancelar</a>				
+				<a class="btn btn-primary btn-block" href="{{URL::to('/voluntarios/list_voluntarios')}}">Regresar</a>				
 			</div>
 		</div>	
 	{{ Form::close() }}	

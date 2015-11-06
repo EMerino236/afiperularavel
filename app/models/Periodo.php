@@ -39,4 +39,12 @@ class Periodo extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetFuturePeriodos($query)
+	{
+		$hoy = date('Y-m-d');
+		$query->where('fecha_inicio','>=',$hoy)
+			  ->orderBy('fecha_inicio')
+			  ->select('*');
+		return $query;
+	}
 }

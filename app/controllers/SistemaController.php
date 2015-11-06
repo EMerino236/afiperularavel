@@ -11,7 +11,7 @@ class SistemaController extends BaseController
 			if(in_array('nav_sistema',$data["permisos"])){
 				return View::make('sistema/home',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -28,7 +28,7 @@ class SistemaController extends BaseController
 				$data["permisos_data"] = Permiso::all();
 				return View::make('sistema/createPerfil',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -67,12 +67,15 @@ class SistemaController extends BaseController
 						$permisos_perfil->idpermisos = $permiso;
 						$permisos_perfil->save();
 					}
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se registró el perfil con id {{$perfil->idperfiles}}";
+					Helpers::registrarLog(3,$descripcion_log);
 					Session::flash('message', 'Se registró correctamente el perfil.');
 					
 					return Redirect::to('sistema/create_perfil');
 				}
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 
 		}else{
@@ -90,7 +93,7 @@ class SistemaController extends BaseController
 				$data["perfiles_data"] = Perfil::paginate(10);
 				return View::make('sistema/listPerfiles',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -116,7 +119,7 @@ class SistemaController extends BaseController
 				}
 				return View::make('sistema/editPerfil',$data);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');
@@ -140,9 +143,56 @@ class SistemaController extends BaseController
 				}else{
 					Session::flash('error', 'No se pudo eliminar el perfil debido a que por lo menos un usuario pertenece a dicho perfil.');
 				}
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se eliminó el perfil con id {{$perfil->idperfiles}}";
+				Helpers::registrarLog(5,$descripcion_log);
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				Helpers::manejarErrorPermisos();
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function list_logs()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"]= Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_reporte_log',$data["permisos"])){
+				$data["search"] = null;
+				$data["search_tipo_log"] = null;
+				$data["fecha_ini"] = null;
+				$data["fecha_fin"] = null;
+				$data["tipo_logs"] = TipoLog::lists('nombre','idtipo_logs');
+				$data["logs"] = LogAuditoria::getLogsInfo()->paginate(30);
+				return View::make('sistema/listLogs',$data);
+			}else{
+				Helpers::manejarErrorPermisos();
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function search_logs()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"]= Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_reporte_log',$data["permisos"])){
+				$data["search"] = Input::get('search');
+				$data["search_tipo_log"] = Input::get('search_tipo_log');
+				$data["fecha_ini"] = Input::get('fecha_ini');
+				$data["fecha_fin"] = Input::get('fecha_fin');
+				$data["tipo_logs"] = TipoLog::lists('nombre','idtipo_logs');
+				$data["logs"] = LogAuditoria::getLogsInfo()->paginate(30);
+				return View::make('sistema/listLogs',$data);
+			}else{
+				Helpers::manejarErrorPermisos();
 			}
 		}else{
 			return View::make('error/error');

@@ -13,7 +13,7 @@ class DocumentosEvento extends Eloquent{
 		$query->join('documentos','documentos.iddocumentos','=','documentos_eventos.iddocumentos')
 			  ->join('tipo_documentos','tipo_documentos.idtipo_documentos','=','documentos.idtipo_documentos')
 			  ->where('documentos_eventos.ideventos','=',$ideventos)
-			  ->select('tipo_documentos.nombre as tipo_documento','documentos.titulo','documentos.nombre_archivo','documentos.ruta','documentos.iddocumentos','documentos.created_at','documentos_eventos.iddocumentos_eventos');
+			  ->select('tipo_documentos.nombre as tipo_documento','documentos.titulo','documentos.nombre_archivo','documentos.ruta','documentos.iddocumentos','documentos.created_at','documentos.peso','documentos_eventos.iddocumentos_eventos');
 		return $query;
 	}
 

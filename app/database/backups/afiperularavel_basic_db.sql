@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-11-2015 a las 16:23:47
+-- Tiempo de generación: 05-11-2015 a las 04:44:14
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -180,7 +180,8 @@ CREATE TABLE IF NOT EXISTS `documentos` (
   `idtipo_documentos` int(11) NOT NULL,
   `titulo` varchar(100) NOT NULL,
   `nombre_archivo` varchar(100) NOT NULL,
-  `ruta` varchar(100) NOT NULL
+  `ruta` varchar(100) NOT NULL,
+  `peso` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -277,8 +278,7 @@ CREATE TABLE IF NOT EXISTS `eventos` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `idperiodos` int(11) NOT NULL,
-  `idtipo_eventos` int(11) NOT NULL
+  `idperiodos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -688,7 +688,8 @@ CREATE TABLE IF NOT EXISTS `postulantes` (
   `direccion` varchar(150) DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   `celular` varchar(45) DEFAULT NULL,
-  `email` varchar(100) NOT NULL
+  `email` varchar(100) NOT NULL,
+  `idtipo_identificacion` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -751,7 +752,7 @@ CREATE TABLE IF NOT EXISTS `precolegios` (
   `latitud` varchar(45) NOT NULL,
   `longitud` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -767,7 +768,7 @@ CREATE TABLE IF NOT EXISTS `prepadrinos` (
   `apellido_pat` varchar(100) NOT NULL,
   `apellido_mat` varchar(100) NOT NULL,
   `dni` varchar(45) NOT NULL,
-  `fecha_nacimiento` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `fecha_nacimiento` timestamp NULL DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `como_se_entero` varchar(200) DEFAULT NULL,
   `idperiodo_pagos` int(11) NOT NULL,
@@ -868,20 +869,6 @@ INSERT INTO `tipo_documentos` (`idtipo_documentos`, `created_at`, `updated_at`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_eventos`
---
-
-CREATE TABLE IF NOT EXISTS `tipo_eventos` (
-  `idtipo_eventos` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tipo_identificacion`
 --
 
@@ -913,7 +900,23 @@ CREATE TABLE IF NOT EXISTS `tipo_logs` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tipo_logs`
+--
+
+INSERT INTO `tipo_logs` (`idtipo_logs`, `nombre`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Inicio de sesión', '2015-11-04 19:12:45', NULL, NULL),
+(2, 'Cierre de sesión', '2015-11-04 19:12:45', NULL, NULL),
+(3, 'Registro/Creación', '2015-11-04 19:13:24', NULL, NULL),
+(4, 'Edición', '2015-11-04 19:13:24', NULL, NULL),
+(5, 'Eliminación/Cancelación/Inhabilitación', '2015-11-04 19:13:53', NULL, NULL),
+(6, 'Habilitación', '2015-11-04 19:13:53', NULL, NULL),
+(7, 'Subida de documento al servidor', '2015-11-04 19:50:47', NULL, NULL),
+(8, 'Eliminación de documento del servidor', '2015-11-04 20:00:08', NULL, NULL),
+(9, 'Descarga de documento', '2015-11-04 20:16:09', NULL, NULL),
+(10, 'Error de permisos', '2015-11-04 21:51:01', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1115,8 +1118,7 @@ ALTER TABLE `empresas`
 --
 ALTER TABLE `eventos`
   ADD PRIMARY KEY (`ideventos`),
-  ADD KEY `fk_eventos_periodos1_idx` (`idperiodos`),
-  ADD KEY `fk_eventos_tipo_eventos1_idx` (`idtipo_eventos`);
+  ADD KEY `fk_eventos_periodos1_idx` (`idperiodos`);
 
 --
 -- Indices de la tabla `fases`
@@ -1294,12 +1296,6 @@ ALTER TABLE `score`
 --
 ALTER TABLE `tipo_documentos`
   ADD PRIMARY KEY (`idtipo_documentos`);
-
---
--- Indices de la tabla `tipo_eventos`
---
-ALTER TABLE `tipo_eventos`
-  ADD PRIMARY KEY (`idtipo_eventos`);
 
 --
 -- Indices de la tabla `tipo_identificacion`
@@ -1516,11 +1512,6 @@ ALTER TABLE `puntos_reunion`
 ALTER TABLE `tipo_documentos`
   MODIFY `idtipo_documentos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
--- AUTO_INCREMENT de la tabla `tipo_eventos`
---
-ALTER TABLE `tipo_eventos`
-  MODIFY `idtipo_eventos` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT de la tabla `tipo_identificacion`
 --
 ALTER TABLE `tipo_identificacion`
@@ -1529,7 +1520,7 @@ ALTER TABLE `tipo_identificacion`
 -- AUTO_INCREMENT de la tabla `tipo_logs`
 --
 ALTER TABLE `tipo_logs`
-  MODIFY `idtipo_logs` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idtipo_logs` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
@@ -1632,8 +1623,7 @@ ALTER TABLE `documentos_proyectos`
 -- Filtros para la tabla `eventos`
 --
 ALTER TABLE `eventos`
-  ADD CONSTRAINT `fk_eventos_periodos1` FOREIGN KEY (`idperiodos`) REFERENCES `periodos` (`idperiodos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_eventos_tipo_eventos1` FOREIGN KEY (`idtipo_eventos`) REFERENCES `tipo_eventos` (`idtipo_eventos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_eventos_periodos1` FOREIGN KEY (`idperiodos`) REFERENCES `periodos` (`idperiodos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `fase_concursos`

@@ -1,6 +1,7 @@
 <?php namespace api\v1;
 
 use \User;
+use \Periodo;
 use \Illuminate\Support\Facades\Input;
 use \Illuminate\Support\Facades\Response;
 
@@ -17,12 +18,25 @@ class SessionController extends \BaseController {
     		{
                 $perfiles = User::getPerfilesPorUsuario2($user->id)->get();
                 $perfiles_array = array();
+                $can_reapply = 0;
+                $period = null;
                 foreach ($perfiles as $perfil)
                 {
                     $perfiles_array[] = [
                         'id' => $perfil->idperfiles,
                         'name' => $perfil->nombre
                     ];
+                    if ($perfil->idperfiles == 3)
+                    {
+                        $sgtePeriodo = Periodo::getFuturePeriodos()->first();
+                        if ($sgtePeriodo)
+                        {
+                            $can_reapply = 1;
+                            $period_element['id'] = $sgtePeriodo->idperiodos;
+                            $period_element['name'] = $sgtePeriodo->nombre;
+                            $period = $period_element;
+                        }
+                    }
                 }
     			$permisos = User::getPermisosPorUsuarioId($user->id)->get();
 				$permisos_array = array();
@@ -30,6 +44,8 @@ class SessionController extends \BaseController {
 				{
 					$permisos_array[] = ['id' => $p->idpermisos];
 				}
+                
+
         		$response = [
             			'id' => $user->id,
             			'names' => $user->nombres,
@@ -38,6 +54,8 @@ class SessionController extends \BaseController {
                         'email' => $user->email,
                         'profiles' => $perfiles_array,
             			'actions' => $permisos_array,
+                        'can_reapply' => $can_reapply,
+                        'period' => $period,
             			'auth_token' => $user->auth_token
         		];
 

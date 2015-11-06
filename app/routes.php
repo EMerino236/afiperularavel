@@ -15,6 +15,7 @@
 Route::get('/', 'HomeController@home');
 Route::controller('password', 'RemindersController');
 /* Login */
+Route::get('/login', 'LoginController@login_expires');
 Route::post('/login', 'LoginController@login');
 /* Dashboard */
 Route::group(array('before'=>'auth'),function(){
@@ -29,6 +30,10 @@ Route::group(array('prefix'=>'convocatorias','before'=>'auth'),function(){
 	Route::get('/list_convocatoria','ConvocatoriasController@list_convocatorias');
 	Route::get('/edit_convocatoria/{id}','ConvocatoriasController@render_edit_convocatoria');
 	Route::post('/submit_edit_convocatoria','ConvocatoriasController@submit_edit_convocatoria');
+	Route::get('/list_postulantes/{id}','ConvocatoriasController@list_postulantes');
+	Route::get('/search_postulantes','ConvocatoriasController@search_postulantes');
+	Route::post('/submit_aprobacion_postulantes','ConvocatoriasController@submit_aprobacion_postulantes');
+	Route::get('/view_postulante/{id}','ConvocatoriasController@render_view_postulante');
 });
 /* Eventos */
 Route::group(array('prefix'=>'eventos','before'=>'auth'),function(){
@@ -66,6 +71,7 @@ Route::group(array('prefix'=>'eventos','before'=>'auth'),function(){
 Route::group(array('prefix'=>'voluntarios','before'=>'auth'),function(){
 	Route::get('/','VoluntariosController@home');
 	Route::get('/list_voluntarios','VoluntariosController@list_voluntarios');
+	Route::get('/view_voluntario/{id}','VoluntariosController@render_view_voluntario');
 });
 /* Padrinos */
 Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
@@ -74,6 +80,11 @@ Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
 	Route::get('/search_padrino','PadrinosController@search_padrino');
 	Route::get('/edit_padrino/{id}','PadrinosController@render_edit_padrino');
 	Route::post('/submit_edit_padrino','PadrinosController@submit_edit_padrino');
+	Route::post('/submit_disable_padrino','PadrinosController@submit_disable_padrino');
+	Route::post('/submit_enable_padrino','PadrinosController@submit_enable_padrino');
+	Route::get('/list_prepadrinos','PadrinosController@list_prepadrinos');
+	Route::get('/edit_prepadrino/{id}','PadrinosController@render_edit_prepadrino');
+	Route::post('/submit_aprove_prepadrino','PadrinosController@submit_aprove_prepadrino');
 	/* Reporte a Padrinos */
 	Route::get('/create_reporte_padrinos','PadrinosController@render_create_reporte_padrinos');
 	Route::post('/submit_create_reporte_padrinos','PadrinosController@submit_create_reporte_padrinos');
@@ -91,7 +102,9 @@ Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){
 	Route::post('/submit_edit_colegio','ColegiosController@submit_edit_colegio');
 	Route::post('/submit_disable_colegio','ColegiosController@submit_disable_colegio');
 	Route::post('/submit_enable_colegio','ColegiosController@submit_enable_colegio');
-
+	Route::get('/list_precolegios','ColegiosController@list_precolegios');
+	Route::get('/edit_precolegio/{id}','ColegiosController@render_edit_precolegio');
+	Route::post('/submit_aprove_precolegio','ColegiosController@submit_aprove_precolegio');
 });
 
 /*Niños*/
@@ -119,6 +132,11 @@ Route::group(array('prefix'=>'concursos','before'=>'auth'),function(){
 	Route::post('/submit_upload_file','ConcursosController@submit_upload_file');
 	Route::post('/submit_delete_file','ConcursosController@submit_delete_file');	
 	Route::post('/descargar_documento','ConcursosController@submit_descargar_documento');
+	Route::post('/fase_register_ajax','ConcursosController@fase_register_ajax');
+	Route::post('/fase_delete_ajax','ConcursosController@fase_delete_ajax');
+	Route::get('/fases_concurso/{id}','ConcursosController@render_fases_concurso');
+	Route::get('/edit_concurso/{id}','ConcursosController@render_edit_concurso');
+	Route::post('/submit_edit_concurso','ConcursosController@submit_edit_concurso');
 });
 /* Users */
 Route::group(array('prefix'=>'user', 'before'=>'auth'),function(){
@@ -141,6 +159,8 @@ Route::group(array('prefix'=>'sistema','before'=>'auth'),function(){
 	Route::get('/list_perfiles','SistemaController@list_perfiles');
 	Route::get('/edit_perfil/{id}','SistemaController@render_edit_perfil');
 	Route::post('/submit_disable_perfil','SistemaController@submit_disable_perfil');
+	Route::get('/list_logs','SistemaController@list_logs');
+	Route::get('/search_logs','SistemaController@search_logs');
 });
 // Route group for API versioning
 Route::group(array('prefix' => 'api/v1'), function()
@@ -168,6 +188,7 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::post('attendance_children/{attendance_children_id}/comments', 'api\v1\NinhosController@comment');
     Route::get('documents', 'api\v1\DocumentosController@index');
     Route::post('documents/{document_id}/visualizations', 'api\v1\DocumentosController@register_visualization');
+    Route::get('children/{id}', 'api\v1\NinhosController@show');
 });
 
 /* Rutas para el juego */
@@ -177,4 +198,7 @@ Route::group(array('prefix' => 'game'), function()
     Route::post('player', 'api\juego\JuegoController@create_player');
     Route::get('friends/score', 'api\juego\JuegoController@friendsScore');
     Route::get('level/graph', 'api\juego\JuegoController@levelGraph');
+    Route::post('level/clear', 'api\juego\JuegoController@levelClear');
+    Route::post('level/defeat', 'api\juego\JuegoController@levelDefeat');
+    Route::get('pu', 'api\juego\JuegoController@pu');
 });

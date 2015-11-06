@@ -22,20 +22,14 @@
 				<h3 class="panel-title">Información Básica</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-xs-6">
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('nombre','Título del Evento') }}
-							{{ Form::text('nombre',$evento_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
-						</div>
+				<div class="row">
+					<div class="form-group col-md-6">
+						{{ Form::label('nombre','Título del Evento') }}
+						{{ Form::text('nombre',$evento_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 					</div>
-				</div>
-				<div class="col-xs-6">
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::label('fecha','Fecha del Evento') }}
-							{{ Form::text('fecha',date('d/m/Y - H:i',strtotime($evento_info->fecha_evento)),array('class'=>'form-control','readonly'=>'')) }}
-						</div>
+					<div class="form-group col-md-6">
+						{{ Form::label('fecha','Fecha del Evento') }}
+						{{ Form::text('fecha',date('d/m/Y - H:i',strtotime($evento_info->fecha_evento)),array('class'=>'form-control','readonly'=>'')) }}
 					</div>
 				</div>
 			</div>
@@ -45,21 +39,22 @@
 				<h3 class="panel-title">Ubicación del Evento en el Mapa</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-xs-12">
-					<div class="row">
-						<div class="form-group col-xs-8 @if($errors->first('direccion')) has-error has-feedback @endif">
-							{{ Form::label('direccion','Dirección') }}
-							{{ Form::text('direccion',$evento_info->direccion,array('class'=>'form-control','readonly'=>'')) }}
-						</div>
-					</div>	
-					<div id="map-eventos"></div>
+				<div class="row">
+					<div class="form-group col-md-6 @if($errors->first('direccion')) has-error has-feedback @endif">
+						{{ Form::label('direccion','Dirección') }}
+						{{ Form::text('direccion',$evento_info->direccion,array('class'=>'form-control','readonly'=>'')) }}
+					</div>
+					<div class="form-group col-md-12">
+						<div id="map-eventos"></div>
+					</div>
 				</div>
-				<div class="col-xs-12">
-					{{ Form::label('puntos_reunion','Puntos de Reunión') }}
-					<div class="row">
+				
+				<div class="row">
+					<div class="form-group col-md-12">
+						{{ Form::label('puntos_reunion','Puntos de Reunión') }}
 						@foreach($puntos_reunion as $punto_reunion)
 							@if(in_array($punto_reunion->idpuntos_reunion,$puntos_reunion_seleccionados))
-								<div class="form-group col-xs-4">
+								<div class="form-group col-md-4">
 									<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}" checked disabled> {{$punto_reunion->direccion}}<br>
 								</div>
 							@endif
@@ -92,20 +87,27 @@
 				<h3 class="panel-title">Documentos del Evento</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-xs-12">
+				<table class="table table-hover">
+					<tr class="info">
+						<th>Título</th>
+						<th>Peso del Documento</th>
+						<th>Descargar</th>
+					</tr>
 					@foreach($documentos as $documento)
 					{{ Form::open(array('url'=>'eventos/descargar_documento', 'role'=>'form')) }}
 						{{ Form::hidden('ideventos', $evento_info->ideventos) }}
 						{{ Form::hidden('iddocumentos', $documento->iddocumentos) }}
-						<div class="row">
-							<div class="form-group col-xs-8">
+						<tr>
+							<td>{{$documento->titulo}}</td>
+							<td>{{round($documento->peso/1024)}} KB</td>
+							<td>
 								<button type="submit" class="btn btn-primary">
 								  <span class="fa fa-download"></span> {{$documento->titulo}}
 								</button>
-							</div>
-						</div>
+							</td>
+						</tr>
 					@endforeach
-				</div>
+				</table>
 			</div>
 		</div>
 <script src="{{ asset('js/eventos/ver-evento.js') }}"></script>

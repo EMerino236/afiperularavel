@@ -38,21 +38,44 @@
 				<h3 class="panel-title">Documentos del Concurso</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-xs-12">
-					@foreach($documentos as $documento)
-						@if(!$documento->deleted_at)
-						{{ Form::open(array('url'=>'concursos/descargar_documento', 'role'=>'form')) }}
-							{{ Form::hidden('idconcursos', $concurso_info->idconcursos) }}
-							{{ Form::hidden('iddocumentos', $documento->iddocumentos) }}
-							<div class="row">
-								<div class="form-group col-xs-8">
-									<button type="submit" class="btn btn-primary">
-									  <span class="fa fa-download"></span> {{$documento->titulo}}
-									</button>
-								</div>
-							</div>
-						@endif
-					@endforeach
+				<div class="col-md-12">
+
+					<table class="table" style ="width:100%;word-wrap:break-word;table-layout: fixed;">
+						<tr class="info">
+							<th>Titulo</th>
+							<th>Nombre Archivo</th>
+							<th>Tamaño</th>
+							<th>Descargar</th>
+						</tr>
+						@foreach($documentos as $documento)
+						<tr class="@if($documento->deleted_at) bg-danger @endif">			
+							<td>
+								{{$documento->titulo}}
+							</td>
+							<td>
+								{{$documento->nombre_archivo}}
+							</td>	
+							<td>
+								@if(($documento->peso)/1024 >1000)
+									{{round(($documento->peso)/(1024*1024),2)}} <span> MB</span>
+								@else
+									{{round(($documento->peso)/1024,2)}} <span> KB</span>
+								@endif
+							</td>					
+							<td >
+							@if(!$documento->deleted_at)
+							{{ Form::open(array('url'=>'concursos/descargar_documento', 'role'=>'form')) }}
+								{{ Form::hidden('idconcursos', $concurso_info->idconcursos) }}
+								{{ Form::hidden('iddocumentos', $documento->iddocumentos) }}
+								<button type="submit" class="btn btn-primary">
+								  <span class="fa fa-download"> Descargar</span> 
+								</button>	
+							@endif
+							</td>
+							
+						</tr>
+						@endforeach
+					</table>
 				</div>
 			</div>
 		</div>

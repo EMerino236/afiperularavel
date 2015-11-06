@@ -39,29 +39,25 @@
 					<h3 class="panel-title">Información Básica</h3>
 				</div>
 				<div class="panel-body">
-					<div class="col-xs-6">
-						<div class="row">
-							<div class="form-group col-xs-8">
-								{{ Form::label('nombre','Título del Evento') }}
-								{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
-							</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							{{ Form::label('nombre','Título del Evento') }}
+							{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
 						</div>
-					</div>
-					<div class="col-xs-6">
-						<div class="row">
+						<div class="form-group col-md-6">
 							{{ Form::label('fecha_evento','Fecha del Evento') }}
-							<div id="datetimepicker1" class="form-group input-group date col-xs-8 @if($errors->first('fecha_evento')) has-error has-feedback @endif">
+							<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_evento')) has-error has-feedback @endif">
 								{{ Form::text('fecha_evento',Input::old('fecha_evento'),array('class'=>'form-control','readonly'=>'')) }}
 								<span class="input-group-addon">
 			                        <span class="glyphicon glyphicon-calendar"></span>
 			                    </span>
 							</div>
 						</div>
-						<div class="row">
-							<div class="form-group col-xs-8">
-								{{ Form::label('idcolegios','Los niños pertenecen al colegio') }}
-								{{ Form::select('idcolegios',$colegios,Input::old('idcolegios'),['class' => 'form-control']) }}
-							</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							{{ Form::label('idcolegios','Los niños pertenecen al colegio') }}
+							{{ Form::select('idcolegios',$colegios,Input::old('idcolegios'),['class' => 'form-control']) }}
 						</div>
 					</div>
 				</div>
@@ -71,25 +67,25 @@
 					<h3 class="panel-title">Ingrese la Ubicación del Evento en el Mapa</h3>
 				</div>
 				<div class="panel-body">
-					<div class="col-xs-12">
 						<div class="row">
-							<div class="form-group col-xs-8 @if($errors->first('direccion')) has-error has-feedback @endif">
+							<div class="form-group col-md-6 @if($errors->first('direccion')) has-error has-feedback @endif">
 								{{ Form::label('direccion','Dirección') }}
 								{{ Form::text('direccion',Input::old('direccion'),array('class'=>'form-control')) }}
 							</div>
-						</div>	
-						<div id="map-eventos"></div>
-					</div>
-					<div class="col-xs-12">
-						{{ Form::label('puntos_reunion','Seleccione los Puntos de Reunión') }}
-						<div class="row">
-							@foreach($puntos_reunion as $punto_reunion)
-							<div class="form-group col-xs-4">
-								<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}"> {{$punto_reunion->direccion}}<br>
+							<div class="form-group col-md-12">
+								<div id="map-eventos"></div>
 							</div>
-							@endforeach
 						</div>
-					</div>
+						<div class="row">
+							<div class="form-group col-md-12">
+								{{ Form::label('puntos_reunion','Seleccione los Puntos de Reunión') }}
+								@foreach($puntos_reunion as $punto_reunion)
+								<div class="form-group col-xs-4">
+									<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}"> {{$punto_reunion->direccion}}<br>
+								</div>
+								@endforeach
+							</div>
+						</div>
 				</div>
 			</div>
 			<div class="panel panel-default">
@@ -123,11 +119,9 @@
 					</table>
 				</div>
 			</div>
-			<div class="col-xs-12">
-				<div class="row">
-					<div class="form-group col-xs-8">
-						{{ Form::submit('Crear',array('class'=>'btn btn-primary')) }}	
-					</div>
+			<div class="row">
+				<div class="form-group col-xs-8">
+					{{ Form::submit('Crear',array('class'=>'btn btn-primary')) }}	
 				</div>
 			</div>
 		{{ Form::close() }}

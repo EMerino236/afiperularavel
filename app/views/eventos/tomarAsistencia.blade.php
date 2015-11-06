@@ -39,7 +39,7 @@
 						</td>
 						<td class="text-center" style="vertical-align:middle">
 							<input type="checkbox" name="asistio" class="checkbox-asistio" value="0" @if($voluntario->asistio == 1) checked @endif>
-							{{ Form::hidden('asistencias[]', $voluntario->asistio) }}
+							{{ Form::hidden('asistencias[]', $voluntario->asistio,array('class'=>'hidden-asistencia')) }}
 						</td>
 					</tr>
 					@endforeach
