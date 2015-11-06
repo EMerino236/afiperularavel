@@ -76,4 +76,28 @@ class VoluntariosController extends BaseController
 			return View::make('error/error');
 		}
 	}
+
+	public function submit_repostulacion()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_mis_eventos',$data["permisos"])){
+				$data["user_perfil"] = null;
+				$data["periodo_actual"] = null;
+				$data["usuario_ya_inscrito"] = true;
+				$user_periodo = new UsersPeriodo;
+				$user_periodo->idusers = Input::get('user_id');
+				$user_periodo->idperiodos = Input::get('idperiodos');
+				$user_periodo->save();
+				Session::flash('message',"Se ha registrado correctamente su postulación al nuevo período.");
+				return Redirect::to('/dashboard');
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
 }

@@ -47,4 +47,11 @@ class UsersPerfil extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetUsersPerfilByIdUserByIdPerfil($query,$iduser,$idperfil)
+	{
+		$query->where('idusers','=',$iduser)
+			  ->where('idperfiles','=',$idperfil);
+		return $query;
+	}
+
 }
