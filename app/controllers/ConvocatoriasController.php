@@ -198,6 +198,7 @@ class ConvocatoriasController extends BaseController
 				$data["convocatoria_info"] = $data["convocatoria_info"][0];	
 				$data["idfase"] = null;			
 				$data["postulantes_info"] = array();
+				$data["select_aprobacion"] = '';
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
 				return View::make('error/error');
@@ -218,7 +219,12 @@ class ConvocatoriasController extends BaseController
 				$data["convocatoria_info"] = Periodo::searchPeriodoById(Input::get('idperiodos'))->get();
 				$data["convocatoria_info"] = $data["convocatoria_info"][0];
 				$data["idfase"] = Input::get('idfases');
-				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase(Input::get('idperiodos'),Input::get('idfases'))->paginate(10);	
+				$data["select_aprobacion"] = '';
+				$data["estado_aprobacion"] = Input::get('select_aprobacion');
+				if($data["estado_aprobacion"] == -1){
+					$data["estado_aprobacion"] = null;
+				}
+				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase(Input::get('idperiodos'),Input::get('idfases'),$data["estado_aprobacion"])->paginate(10);	
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
 				return View::make('error/error');
@@ -408,20 +414,27 @@ class ConvocatoriasController extends BaseController
 		}
 	}
 
-	/*
-
-	public function submit_disable_user()
+	public function submit_disable_convocatoria()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_usuario',$data["permisos"])){
-				$user_id = Input::get('user_id');
-				$url = "user/edit_user/".$user_id;
-				$user = User::find($user_id);
-				$user->delete();
-				Session::flash('message', 'Se inhabilitó correctamente al usuario.');
+				$idperiodo = Input::get('idperiodo');
+				$exist_evento = Evento::where('idperiodos','=',$idperiodo)->get();
+				$exist_postulante = PostulantesPeriodo::where('idperiodos','=',$idperiodo)->get();
+				$exist_user = UsersPeriodo::where('idperiodos','=',$idperiodo)->get();
+				$url = "convocatorias/edit_convocatoria/".$idperiodo;
+				if($exist_evento->isEmpty() && $exist_postulante->isEmpty() && $exist_user->isEmpty()){
+					$periodo = Periodo::find($idperiodo);
+					$periodo->delete();
+
+				Session::flash('message', 'Se inhabilitó correctamente la convocatoria.');
+				}
+				else{
+					Session::flash('error', 'Existe al menos un evento, postulante o usuario asociado a esta convocatoria. No es posible inhbailitar.');
+				}
 				return Redirect::to($url);
 			}else{
 				return View::make('error/error');
@@ -431,18 +444,18 @@ class ConvocatoriasController extends BaseController
 		}
 	}
 
-	public function submit_enable_user()
+	public function submit_enable_convocatoria()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_usuario',$data["permisos"])){
-				$user_id = Input::get('user_id');
-				$url = "user/edit_user/".$user_id;
-				$user = User::withTrashed()->find($user_id);
-				$user->restore();
-				Session::flash('message', 'Se habilitó correctamente al usuario.');
+				$idperiodo = Input::get('idperiodo');
+				$url = "convocatorias/edit_convocatoria/".$idperiodo;
+				$periodo = Periodo::withTrashed()->find($idperiodo);
+				$periodo->restore();
+				Session::flash('message', 'Se habilitó correctamente la convocatoria.');
 				return Redirect::to($url);
 			}else{
 				return View::make('error/error');
@@ -450,7 +463,6 @@ class ConvocatoriasController extends BaseController
 		}else{
 			return View::make('error/error');
 		}
-	}
-	*/
+	}	
 
 }

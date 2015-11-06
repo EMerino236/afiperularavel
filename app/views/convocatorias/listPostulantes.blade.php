@@ -33,7 +33,11 @@
 							{{ Form::label('idfases','Fases de Postulación') }}
 							{{ Form::select('idfases',array(''=>'Selecicone')+$fases_postulacion,$idfase,['class' => 'form-control']) }}
 						</div>
-					</div>	
+						<div class="form-group col-md-4 @if($errors->first('select_aprobacion')) has-error has-feedback @endif">
+							{{ Form::label('select_aprobacion','Estado de Aprobación') }}
+							{{ Form::select('select_aprobacion',array(''=>'Seleccione','-1'=>'Sin Revisión','1'=>'Aprobado','0'=>'Desaprobado'),$select_aprobacion,['class' => 'form-control']) }}
+						</div>
+					</div>
 					<div class="row">
 						<div class="form-group col-md-4">
 							{{ Form::submit('Buscar Postulantes',array('id'=>'submit-search', 'class'=>'btn btn-primary')) }}	
