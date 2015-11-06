@@ -33,10 +33,10 @@
 		@foreach($ninhos_data as $ninho_data)
 		<tr class="@if($ninho_data->deleted_at) bg-danger @endif">
 			<td>
-				{{$ninho_data->dni}}
+				<a href="{{URL::to('/ninhos/edit_ninho/')}}/{{$ninho_data->idninhos}}">{{$ninho_data->dni}}</a>
 			</td>
 			<td>
-				{{$ninho_data->nombres}} {{$ninho_data->apellido_pat}} {{$ninho_data->apellido_mat}}
+				<a href="{{URL::to('/ninhos/edit_ninho/')}}/{{$ninho_data->idninhos}}">{{$ninho_data->nombres}} {{$ninho_data->apellido_pat}} {{$ninho_data->apellido_mat}}</a>
 			</td>
 			<?php
 				$date = DateTime::createFromFormat("Y-m-d", $ninho_data->fecha_nacimiento);
