@@ -27,6 +27,7 @@ Route::group(array('prefix'=>'convocatorias','before'=>'auth'),function(){
 	Route::get('/','ConvocatoriasController@home');
 	Route::get('/create_convocatoria','ConvocatoriasController@render_create_convocatoria');
 	Route::post('/submit_create_convocatoria','ConvocatoriasController@submit_create_convocatoria');
+	Route::get('/search_convocatorias','ConvocatoriasController@search_convocatorias');
 	Route::get('/list_convocatoria','ConvocatoriasController@list_convocatorias');
 	Route::get('/edit_convocatoria/{id}','ConvocatoriasController@render_edit_convocatoria');
 	Route::post('/submit_edit_convocatoria','ConvocatoriasController@submit_edit_convocatoria');
@@ -73,6 +74,7 @@ Route::group(array('prefix'=>'voluntarios','before'=>'auth'),function(){
 	Route::get('/list_voluntarios','VoluntariosController@list_voluntarios');
 	Route::get('/view_voluntario/{id}','VoluntariosController@render_view_voluntario');
 	Route::post('/submit_repostulacion','VoluntariosController@submit_repostulacion');
+	Route::get('/search_voluntarios','VoluntariosController@search_voluntarios');
 });
 /* Padrinos */
 Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
