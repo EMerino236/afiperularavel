@@ -346,4 +346,118 @@ class PadrinosController extends BaseController
 		}
 	}
 
+	public function list_aprobar_pagos()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_reporte_pagos',$data["permisos"])){
+				$data["search"] = null;
+				$data["pagos_data"] = CalendarioPago::getPagosPendientesAprobacion()->paginate(10);
+				return View::make('padrinos/listAprobarPagos',$data);
+			}else{
+				return View::make('error/error');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function aprobar_pago_ajax()
+	{
+		// If there was an error, respond with 404 status
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		if(Auth::check()){
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
+			if(in_array('side_reporte_pagos',$data["permisos"])){
+
+				$selected_ids = Input::get('selected_id');
+				
+
+				foreach($selected_ids as $selected_id){
+					$pago = CalendarioPago::find($selected_id);
+					$padrinoPago = CalendarioPago::SearchPadrinoByIdPago($selected_id)->get();
+					$padrinoPago = $padrinoPago[0];
+					if($pago){
+						$pago->aprobacion = 1;
+						$pago->save();
+					}
+					Mail::send('emails.aprobacionPago',array('padrinoPago'=> $padrinoPago),function($message) use ($padrinoPago)
+									{
+										$message->to($padrinoPago->email)
+												->subject('Aprobación de Pago - AFI Perú.');
+									});
+				}
+				return Response::json(array( 'success' => true,'pago_data'=>$pago),200);
+			}else{
+				return Response::json(array( 'success' => false ),200);
+			}
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+
+	public function render_view_pago($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_reporte_pagos',$data["permisos"])) && $id){
+				$data["pago_data"] = CalendarioPago::SearchPadrinoByIdPago($id)->get();
+				if($data["pago_data"]->isEmpty()){
+					Session::flash('error', 'No se encontró el pago.');
+					return Redirect::to('padrinos/list_aprobar_pagos');
+				}
+				$data["pago_data"] = $data["pago_data"][0];
+				//$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
+				return View::make('padrinos/viewPagos',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_aprove_pago()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_reporte_pagos',$data["permisos"])){
+				$idcalendario_pago = Input::get('idcalendario_pagos');
+				$url = "padrinos/view_pago/".$idcalendario_pago;
+				$pago = CalendarioPago::withTrashed()->find($idcalendario_pago);
+				$padrinoPago = CalendarioPago::SearchPadrinoByIdPago($idcalendario_pago)->get();
+				$padrinoPago = $padrinoPago[0];
+				//Se aprueba
+
+				$pago->aprobacion = 1;	
+				$pago->save();
+				Mail::send('emails.aprobacionPago',array('padrinoPago'=> $padrinoPago),function($message) use ($padrinoPago)
+									{
+										$message->to($padrinoPago->email)
+												->subject('Aprobación de Pago - AFI Perú.');
+									});
+
+				Session::flash('message', 'Se aprobó correctamente el pago.');
+				return Redirect::to($url);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}	
+
 }
