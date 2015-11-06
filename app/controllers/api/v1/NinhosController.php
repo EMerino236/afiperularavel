@@ -78,7 +78,7 @@ class NinhosController extends \BaseController {
         // verificar si tiene permiso para leer todos los comentarios del niño
         $idpermisos = \User::getPermisosPorUsuarioId($user->id)->get()->lists('idpermisos');
         
-        if(!(in_array(35, $idpermisos))) return Response::json(['success' => 1], 200);
+        if(!(in_array(33, $idpermisos))) return Response::json(['success' => 1], 200);
         
         $n = \Ninho::find($asistencia_ninho->idninhos);
         // genero
