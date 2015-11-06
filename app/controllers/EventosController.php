@@ -414,7 +414,7 @@ class EventosController extends BaseController
 						$documento = new Documento;
 						$documento->titulo = $nombreArchivo;
 						$documento->idtipo_documentos = 1; // ¡Que viva el hardcode!
-						$documento->nombre_archivo = $nombreArchivo;
+						$documento->nombre_archivo = Hash::make($nombreArchivo);
 						$documento->ruta = $rutaDestino;
 						$documento->peso = $peso;
 						$documento->save();

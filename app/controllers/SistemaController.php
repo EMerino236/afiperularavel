@@ -217,7 +217,7 @@ class SistemaController extends BaseController
 				$data["fecha_ini"] = Input::get('fecha_ini');
 				$data["fecha_fin"] = Input::get('fecha_fin');
 				$data["tipo_logs"] = TipoLog::lists('nombre','idtipo_logs');
-				$data["logs"] = LogAuditoria::getLogsInfo()->paginate(30);
+				$data["logs"] = LogAuditoria::searchLogsInfo($data["search"],$data["search_tipo_log"],$data["fecha_ini"],$data["fecha_fin"])->paginate(30);
 				return View::make('sistema/listLogs',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
