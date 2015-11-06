@@ -23,41 +23,48 @@
 	@endif
 
 	{{ Form::open(array('url'=>'convocatorias/submit_create_convocatoria', 'role'=>'form')) }}
-		<div class="row">
-			<div class="form-group col-md-4">
-				<div class="form-group @if($errors->first('nombre')) has-error has-feedback @endif">
-					{{ Form::label('nombre','Nombre de Periodo') }}
-					{{ Form::text('nombre',Input::old('nombre'),['class' => 'form-control']) }}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Datos Generales</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="form-group col-md-4">
+						<div class="form-group @if($errors->first('nombre')) has-error has-feedback @endif">
+							{{ Form::label('nombre','Nombre de Periodo') }}
+							{{ Form::text('nombre',Input::old('nombre'),['class' => 'form-control']) }}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						{{ Form::label('fecha_inicio','Fecha de inicio del Periodo') }}
+						<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_inicio')) has-error has-feedback @endif">
+							{{ Form::text('fecha_inicio',Input::old('fecha_inicio'),array('class'=>'form-control','readonly'=>'')) }}
+							<span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						{{ Form::label('fecha_fin','Fecha de fin del Periodo') }}
+						<div id="datetimepicker2" class="form-group input-group date @if($errors->first('fecha_fin')) has-error has-feedback @endif">
+							{{ Form::text('fecha_fin',Input::old('fecha_fin'),array('class'=>'form-control','readonly'=>'')) }}
+							<span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+						</div>
+					</div>
+				</div>
+					<div class="row">
+						<div class="form-group col-xs-8">
+							{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+						</div>
+					</div>	
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="form-group col-md-4">
-				{{ Form::label('fecha_inicio','Fecha de inicio del Periodo') }}
-				<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_inicio')) has-error has-feedback @endif">
-					{{ Form::text('fecha_inicio',Input::old('fecha_inicio'),array('class'=>'form-control','readonly'=>'')) }}
-					<span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="form-group col-md-4">
-				{{ Form::label('fecha_fin','Fecha de fin del Periodo') }}
-				<div id="datetimepicker2" class="form-group input-group date @if($errors->first('fecha_fin')) has-error has-feedback @endif">
-					{{ Form::text('fecha_fin',Input::old('fecha_fin'),array('class'=>'form-control','readonly'=>'')) }}
-					<span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-				</div>
-			</div>
-		</div>
-			<div class="row">
-				<div class="form-group col-xs-8">
-					{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-				</div>
-			</div>	
 		</div>
 	{{ Form::close() }}
 @stop

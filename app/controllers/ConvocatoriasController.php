@@ -414,6 +414,23 @@ class ConvocatoriasController extends BaseController
 		}
 	}
 
+	public function list_voluntarios($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nueva_convocatoria',$data["permisos"])){
+				$data["voluntarios_data"] = UsersPerfil::getVoluntariosByIdPeriodo($id);
+				return View::make('convocatorias/listVoluntarios',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function submit_disable_convocatoria()
 	{
 		if(Auth::check()){

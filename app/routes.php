@@ -37,6 +37,7 @@ Route::group(array('prefix'=>'convocatorias','before'=>'auth'),function(){
 	Route::get('/view_postulante/{id}','ConvocatoriasController@render_view_postulante');
 	Route::post('/submit_disable_convocatoria','ConvocatoriasController@submit_disable_convocatoria');
 	Route::post('/submit_enable_convocatoria','ConvocatoriasController@submit_enable_convocatoria');
+	Route::get('/list_voluntarios/{id}','ConvocatoriasController@list_voluntarios');
 });
 /* Eventos */
 Route::group(array('prefix'=>'eventos','before'=>'auth'),function(){
