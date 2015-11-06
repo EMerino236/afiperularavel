@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2015 a las 04:44:14
+-- Tiempo de generación: 06-11-2015 a las 01:41:14
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -401,7 +401,9 @@ CREATE TABLE IF NOT EXISTS `padrinos` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `idusers` int(11) NOT NULL,
-  `idperiodo_pagos` int(11) NOT NULL
+  `idperiodo_pagos` int(11) NOT NULL,
+  `idresponsable` int(11) NOT NULL,
+  `comentario` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -472,7 +474,19 @@ CREATE TABLE IF NOT EXISTS `periodo_pagos` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `periodo_pagos`
+--
+
+INSERT INTO `periodo_pagos` (`idperiodo_pagos`, `nombre`, `numero_pagos`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Mensual', 12, '2015-11-05 23:14:33', NULL, NULL),
+(2, 'Bimestral', 6, '2015-11-05 23:14:33', NULL, NULL),
+(3, 'Trimestral', 4, '2015-11-05 23:14:56', NULL, NULL),
+(4, 'Cuatrimestral', 3, '2015-11-05 23:14:56', NULL, NULL),
+(5, 'Semestral', 2, '2015-11-05 23:15:42', NULL, NULL),
+(6, 'Anual', 1, '2015-11-05 23:15:42', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -689,7 +703,15 @@ CREATE TABLE IF NOT EXISTS `postulantes` (
   `telefono` varchar(45) DEFAULT NULL,
   `celular` varchar(45) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
-  `idtipo_identificacion` int(11) NOT NULL DEFAULT '1'
+  `idtipo_identificacion` int(11) DEFAULT '1',
+  `centro_estudio_trabajo` varchar(500) DEFAULT NULL,
+  `ciclo_grado` varchar(100) DEFAULT NULL,
+  `carrera` varchar(100) DEFAULT NULL,
+  `experiencia` int(11) DEFAULT NULL,
+  `aprendizaje` varchar(500) DEFAULT NULL,
+  `motivacion` varchar(500) DEFAULT NULL,
+  `aporte` varchar(500) DEFAULT NULL,
+  `expectativas` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -774,7 +796,10 @@ CREATE TABLE IF NOT EXISTS `prepadrinos` (
   `idperiodo_pagos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `telefono` varchar(45) DEFAULT NULL,
+  `celular` varchar(45) DEFAULT NULL,
+  `direccion` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1000,6 +1025,28 @@ CREATE TABLE IF NOT EXISTS `visualizaciones` (
   `iddocumentos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `voluntarios`
+--
+
+CREATE TABLE IF NOT EXISTS `voluntarios` (
+  `idvoluntarios` int(11) NOT NULL,
+  `centro_estudio_trabajo` varchar(500) DEFAULT NULL,
+  `ciclo_grado` varchar(100) DEFAULT NULL,
+  `carrera` varchar(100) DEFAULT NULL,
+  `experiencia` int(11) DEFAULT NULL,
+  `aprendizaje` varchar(500) DEFAULT NULL,
+  `motivacion` varchar(500) DEFAULT NULL,
+  `aporte` varchar(500) DEFAULT NULL,
+  `expectativas` varchar(500) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `idusers` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Índices para tablas volcadas
 --
@@ -1169,7 +1216,8 @@ ALTER TABLE `ninhos`
 ALTER TABLE `padrinos`
   ADD PRIMARY KEY (`idpadrinos`),
   ADD KEY `fk_padrinos_users1_idx` (`idusers`),
-  ADD KEY `fk_padrinos_periodo_pagos1_idx` (`idperiodo_pagos`);
+  ADD KEY `fk_padrinos_periodo_pagos1_idx` (`idperiodo_pagos`),
+  ADD KEY `fk_padrinos_users2_idx` (`idresponsable`);
 
 --
 -- Indices de la tabla `password_reminders`
@@ -1343,6 +1391,13 @@ ALTER TABLE `visualizaciones`
   ADD KEY `fk_visualizaciones_documentos1_idx` (`iddocumentos`);
 
 --
+-- Indices de la tabla `voluntarios`
+--
+ALTER TABLE `voluntarios`
+  ADD PRIMARY KEY (`idvoluntarios`),
+  ADD KEY `fk_voluntarios_users1_idx` (`idusers`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -1407,6 +1462,11 @@ ALTER TABLE `documentos_eventos`
 ALTER TABLE `documentos_proyectos`
   MODIFY `iddocumentos_proyectos` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT de la tabla `empresas`
+--
+ALTER TABLE `empresas`
+  MODIFY `idempresas` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `eventos`
 --
 ALTER TABLE `eventos`
@@ -1455,7 +1515,7 @@ ALTER TABLE `periodos`
 -- AUTO_INCREMENT de la tabla `periodo_pagos`
 --
 ALTER TABLE `periodo_pagos`
-  MODIFY `idperiodo_pagos` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idperiodo_pagos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
@@ -1491,6 +1551,16 @@ ALTER TABLE `postulantes_periodos`
 --
 ALTER TABLE `powerup`
   MODIFY `idPowerup` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `precolegios`
+--
+ALTER TABLE `precolegios`
+  MODIFY `idprecolegios` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `prepadrinos`
+--
+ALTER TABLE `prepadrinos`
+  MODIFY `idprepadrinos` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `proyectos`
 --
@@ -1541,6 +1611,11 @@ ALTER TABLE `users_periodos`
 --
 ALTER TABLE `visualizaciones`
   MODIFY `idvisualizaciones` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `voluntarios`
+--
+ALTER TABLE `voluntarios`
+  MODIFY `idvoluntarios` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Restricciones para tablas volcadas
 --
@@ -1662,7 +1737,8 @@ ALTER TABLE `ninhos`
 --
 ALTER TABLE `padrinos`
   ADD CONSTRAINT `fk_padrinos_periodo_pagos1` FOREIGN KEY (`idperiodo_pagos`) REFERENCES `periodo_pagos` (`idperiodo_pagos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_padrinos_users1` FOREIGN KEY (`idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_padrinos_users1` FOREIGN KEY (`idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_padrinos_users2` FOREIGN KEY (`idresponsable`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `permisos_perfiles`
@@ -1734,6 +1810,12 @@ ALTER TABLE `visualizaciones`
   ADD CONSTRAINT `fk_visualizaciones_documentos1` FOREIGN KEY (`iddocumentos`) REFERENCES `documentos` (`iddocumentos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_visualizaciones_eventos1` FOREIGN KEY (`ideventos`) REFERENCES `eventos` (`ideventos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_visualizaciones_users1` FOREIGN KEY (`idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `voluntarios`
+--
+ALTER TABLE `voluntarios`
+  ADD CONSTRAINT `fk_voluntarios_users1` FOREIGN KEY (`idusers`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

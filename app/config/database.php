@@ -54,7 +54,7 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => 'localhost:3308',
 			'database'  => 'afiperularavel',
 			'username'  => 'root',
 			'password'  => '',

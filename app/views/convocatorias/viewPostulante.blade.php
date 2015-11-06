@@ -74,59 +74,67 @@
 						<div class="form-group col-md-4">
 							<div class="form-group">
 								{{ Form::label('centro_estudio_trabajo','Centro de Estudios o Laboral') }}
-								{{ Form::text('centro_estudio_trabajo','',['class' => 'form-control','readonly'=>'']) }}
+								{{ Form::text('centro_estudio_trabajo',$postulante_info->centro_estudio_trabajo,['class' => 'form-control','readonly'=>'']) }}
 							</div>
 						</div>
 						<div class="form-group col-md-4">
 							<div class="form-group">
 								{{ Form::label('ciclo_estudio_grado_titulo','Ciclo de estudios/Grados o títulos') }}
-								{{ Form::text('ciclo_estudio_grado_titulo','',['class' => 'form-control','readonly'=>'']) }}
+								{{ Form::text('ciclo_estudio_grado_titulo',$postulante_info->ciclo_grado,['class' => 'form-control','readonly'=>'']) }}
 							</div>
 						</div>
 						<div class="form-group col-md-4">
 							<div class="form-group">
 								{{ Form::label('carrera','Carrera') }}
-								{{ Form::text('carrera','',['class' => 'form-control','readonly'=>'']) }}
+								{{ Form::text('carrera',$postulante_info->carrera,['class' => 'form-control','readonly'=>'']) }}
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-4">
 							<div class="form-group">
 								{{ Form::label('experiencia','Experiencia Laboral o Voluntariado') }}
-								{{ Form::textarea('experiencia','',['class' => 'form-control','readonly'=>'']) }}
+								@if($postulante_info->experiencia===0)
+									{{ Form::text('experiencia','No',['class' => 'form-control','readonly'=>'']) }}
+								@endif
+								@if($postulante_info->experiencia===1)
+									{{ Form::text('experiencia','Si',['class' => 'form-control','readonly'=>'']) }}
+								@endif
+								@if($postulante_info->experiencia===null)
+									{{ Form::text('experiencia','',['class' => 'form-control','readonly'=>'']) }}
+								@endif
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-12">
 							<div class="form-group">
 								{{ Form::label('aprendizaje','Mayor Aprendizaje') }}
-								{{ Form::textarea('aprendizaje','',['class' => 'form-control','readonly'=>'']) }}
+								{{ Form::textarea('aprendizaje',$postulante_info->aprendizaje,['class' => 'form-control','readonly'=>'']) }}
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-12">
 							<div class="form-group">
 								{{ Form::label('motivacion','Motivacion') }}
-								{{ Form::textarea('motivacion','',['class' => 'form-control','readonly'=>'']) }}
+								{{ Form::textarea('motivacion',$postulante_info->motivacion,['class' => 'form-control','readonly'=>'']) }}
 							</div>
 						</div>
 					</div>	
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-12">
 							<div class="form-group">
 								{{ Form::label('aportacion','Aportacion al Voluntariado') }}
-								{{ Form::textarea('aportacion','',['class' => 'form-control','readonly'=>'']) }}
+								{{ Form::textarea('aportacion',$postulante_info->aporte,['class' => 'form-control','readonly'=>'']) }}
 							</div>
 						</div>
 					</div>	
 					<div class="row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-12">
 							<div class="form-group">
 								{{ Form::label('expectativas','Expectativas del Voluntariado') }}
-								{{ Form::textarea('expectativas','',['class' => 'form-control','readonly'=>'']) }}
+								{{ Form::textarea('expectativas',$postulante_info->expectativas,['class' => 'form-control','readonly'=>'']) }}
 							</div>
 						</div>
 					</div>				
