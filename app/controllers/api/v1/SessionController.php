@@ -2,6 +2,7 @@
 
 use \User;
 use \Periodo;
+use \UsersPeriodo;
 use \Illuminate\Support\Facades\Input;
 use \Illuminate\Support\Facades\Response;
 
@@ -31,10 +32,16 @@ class SessionController extends \BaseController {
                         $sgtePeriodo = Periodo::getFuturePeriodos()->first();
                         if ($sgtePeriodo)
                         {
-                            $can_reapply = 1;
-                            $period_element['id'] = $sgtePeriodo->idperiodos;
-                            $period_element['name'] = $sgtePeriodo->nombre;
-                            $period = $period_element;
+                            $userPeriodo = UsersPeriodo::getUsersPeriodoByUserXPeriodo($sgtePeriodo->idperiodos, $user->id)->first();
+                            if (!$userPeriodo)
+                            {
+                                $can_reapply = 1;
+                                $period_element['id'] = $sgtePeriodo->idperiodos;
+                                $period_element['name'] = $sgtePeriodo->nombre;
+                                $period = $period_element;
+                            }
+                            else
+                                $can_reapply = 0;
                         }
                     }
                 }
