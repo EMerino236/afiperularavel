@@ -37,7 +37,8 @@ class UsersPerfil extends Eloquent{
 				  			 join periodos on users_periodos.idperiodos = periodos.idperiodos
 				  			 join personas on personas.idpersonas = users.idpersona
 				  where users_perfiles.idperfiles = 3
-				  		and (periodos.nombre LIKE \'%'.$search.'%\'
+				  		and (users.num_documento LIKE \'%'.$search.'%\'
+				  			 or periodos.nombre LIKE \'%'.$search.'%\'
 				  			 or personas.nombres LIKE \'%'.$search.'%\'
 				  			 or personas.apellido_pat LIKE \'%'.$search.'%\'
 				  			 or personas.apellido_mat LIKE \'%'.$search.'%\'

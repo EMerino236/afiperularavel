@@ -6,7 +6,7 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>   
-	{{ Form::open(array('url'=>'convocatorias/list_postulantes/'.$idperiodo, 'method'=>'get','role'=>'form')) }}
+	{{ Form::open(array('method'=>'get','role'=>'form')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Datos Personales del Postulante</h3>
@@ -140,7 +140,7 @@
 					</div>				
 					<div class="row">
 						<div class="form-group col-xs-4">
-							{{ Form::submit('Regresar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+							<a class="btn btn-primary btn-block" href="{{URL::to('/convocatorias/list_postulantes/')}}/{{$idperiodo}}">Regresar</a>
 						</div>
 					</div>	
 				</div>
