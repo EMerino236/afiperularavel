@@ -18,7 +18,9 @@ $( document ).ready(function(){
 			aprobar_pagos = false;
 			var selected = [];
 			$("input[type=checkbox][name=aprobacion]:checked").each(function(){
-				selected.push($(this).val());
+				if(!$(this).val().length==0){
+					selected.push($(this).val());
+				}
 			});
 			if(selected.length > 0){
 				var confirmation = confirm("¿Está seguro que desea aprobar los pagos seleccionados?");
