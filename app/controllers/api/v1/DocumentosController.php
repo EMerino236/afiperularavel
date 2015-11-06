@@ -103,7 +103,7 @@ class DocumentosController extends \BaseController {
         $rules = array('event_id' => 'required');
         $validator = \Validator::make(\Input::all(), $rules);
         if($validator->fails())
-            return \Response::json($validator->messages(), 200);
+            return \Response::json(['error' => 'El parámetro event_id es obligatorio.'], 200);
         
         $idevento = \Input::get('event_id');
         $evento = \Evento::find($idevento);

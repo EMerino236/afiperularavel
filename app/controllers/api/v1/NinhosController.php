@@ -49,7 +49,8 @@ class NinhosController extends \BaseController {
                        'face' => 'required',
         );
         $validator = \Validator::make(Input::all(), $rules);
-        if($validator->fails()) return Response::json($validator->messages(), 200);
+        if($validator->fails())
+            return Response::json(['error' => 'Los parámetros message y face son obligatorios.'], 200);
         
         // verificar si el usuario ya le comento al niño
         $auth_token = \Request::header('authorization');
