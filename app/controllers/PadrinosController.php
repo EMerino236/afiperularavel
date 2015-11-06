@@ -346,4 +346,63 @@ class PadrinosController extends BaseController
 		}
 	}
 
+	public function render_reporte_pagos_padrinos()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_reporte_pagos',$data["permisos"]))){
+				/*$data["padrino_info"] = Padrino::searchPadrinoById($id)->get();
+				if($data["prepadrino_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró al padrino.');
+					return Redirect::to('padrinos/list_prepadrinos');
+				}
+				$data["prepadrino_info"] = $data["prepadrino_info"][0];
+				//$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();*/
+				$data["report_rows"] = null;
+				return View::make('padrinos/pagosPadrinoReporte',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_reporte_pagos_padrinos() 
+	{ 
+	if(Auth::check()){ 
+		$data["inside_url"] = Config::get('app.inside_url'); 
+		$data["user"] = Session::get('user'); 
+		$data["permisos"] = Session::get('permisos'); 
+		if((in_array('side_reporte_pagos',$data["permisos"]))){ 
+
+			$rules = array( 
+				'num_doc' => 'required|numeric' 
+			); 
+
+			$validator = Validator::make(Input::all(), $rules); 
+
+			if($validator->fails()){ 
+				return Redirect::to('padrinos/reporte_pagos_padrinos')->withErrors($validator)->withInput(Input::all()); 
+			}else{
+				$data["num_doc"] = Input::get('num_doc');
+				$padrino = Padrino::searchPadrinoByNumDoc($data["num_doc"])->first(); //buscar funcion
+				if($padrino){
+					$data["report_rows"] = CalendarioPago::getCalendarioByPadrino($padrino->idpadrinos)->get(); 
+					return View::make('padrinos/pagoPadrinoReporte',$data);
+				}
+				else{
+					Session::flash('danger','No existe un padrino asociado a dicho número de documento.'); 
+					return Redirect::to('padrinos/reporte_pagos_padrinos'); 
+				}
+			}
+		}	
+		else{
+			return View::make('error/error');
+		}
+	}	
+	}
+
 }
