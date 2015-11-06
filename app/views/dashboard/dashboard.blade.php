@@ -18,10 +18,11 @@
 		@if($user_perfil && $periodo_actual && !$usuario_ya_inscrito)
 			{{ Form::hidden('user_id', $user->id) }}
 			{{ Form::hidden('idperiodos', $periodo_actual->idperiodos) }}
+			<p><font color="red" size="5">¡Aviso Importante!</font></p>
 		<div id="repostulacion">
 				<div class="row">
 					<div class="form-group col-md-3">
-						{{ Form::label('Está disponible una nueva convocatoria para el periodo. ¿Deseas postular?') }}
+						{{ Form::label('Está disponible una nueva convocatoria para el periodo '.$periodo_actual->nombre.'. ¿Deseas postular?') }}
 					</div>
 				</div>
 				<div class="row">
