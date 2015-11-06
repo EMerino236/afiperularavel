@@ -255,7 +255,7 @@ class PadrinosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if((in_array('side_nuevo_colegio',$data["permisos"])) && $id){
+			if((in_array('side_aprobar_padrinos',$data["permisos"])) && $id){
 				$data["prepadrino_info"] = Prepadrino::searchPrepadrinoById($id)->get();
 				if($data["prepadrino_info"]->isEmpty()){
 					Session::flash('error', 'No se encontró al padrino.');
@@ -272,18 +272,16 @@ class PadrinosController extends BaseController
 		}
 	}
 
-	public function submit_create_padrino()
+	public function submit_aprove_prepadrino()
 	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_nuevo_usuario',$data["permisos"])){
+			if(in_array('side_aprobar_padrinos',$data["permisos"])){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'idtipo_identificacion' => 'required',
-							'num_documento' => 'required|numeric|digits_between:8,16|unique:users',
-							'email' => 'required|email|max:45|unique:users',
+							'dni' => 'required|numeric|digits_between:8,16|unique:users',							
 							'nombres' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
@@ -291,13 +289,15 @@ class PadrinosController extends BaseController
 							'direccion' => 'required',
 							'telefono' => 'min:7|max:20',
 							'celular' => 'min:7|max:20',
-							'perfiles' => 'required',
+							'email' => 'required|email|max:45|unique:users',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
 				// If the validator fails, redirect back to the form
+				$prepadrino_id = Input::get('prepadrino_id');
+				$url = "padrinos/edit_prepadrino"."/".$prepadrino_id;
 				if($validator->fails()){
-					return Redirect::to('user/create_user')->withErrors($validator)->withInput(Input::all());
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
 				}else{
 					// Creo primero a la persona
 					$persona = new Persona;
@@ -314,7 +314,7 @@ class PadrinosController extends BaseController
 					$user = new User;
 					$user->num_documento = Input::get('num_documento');
 					$user->password = Hash::make($password);
-					$user->idtipo_identificacion = Input::get('idtipo_identificacion');
+					$user->idtipo_identificacion = 1;
 					$user->email = Input::get('email');
 					$user->idpersona = $persona->idpersonas;
 					$user->auth_token = Str::random(32);
