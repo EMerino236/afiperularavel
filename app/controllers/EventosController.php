@@ -324,13 +324,13 @@ class EventosController extends BaseController
 							->subject('Cancelación de evento de AFI Perú.');
 				});
 				/* Elimino los registros de asistencia */
-				DB::table('asistencias')->where('ideventos', '=', $ideventos)->delete();
+				//DB::table('asistencias')->where('ideventos', '=', $ideventos)->delete();
 				/* Elimino los registros de asistencia de niños */
-				DB::table('asistencia_ninhos')->where('ideventos', '=', $ideventos)->delete();
+				//DB::table('asistencia_ninhos')->where('ideventos', '=', $ideventos)->delete();
 				/* Elimino los puntos de reunion */
-				DB::table('puntos_eventos')->where('ideventos', '=', $ideventos)->delete();
+				//DB::table('puntos_eventos')->where('ideventos', '=', $ideventos)->delete();
 				/* Elimino las visualizaciones */
-				DB::table('visualizaciones')->where('ideventos', '=', $ideventos)->delete();
+				//DB::table('visualizaciones')->where('ideventos', '=', $ideventos)->delete();
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se eliminó el evento con id {{$ideventos}}";
 				Helpers::registrarLog(5,$descripcion_log);
@@ -408,13 +408,14 @@ class EventosController extends BaseController
 				        $archivo = Input::file('archivo');
 				        $rutaDestino = 'files/eventos/';
 				        $nombreArchivo = $archivo->getClientOriginalName();
+				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $peso = $archivo->getSize();
-				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivo);
+				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
 				    	/* Creo el documento */
 						$documento = new Documento;
 						$documento->titulo = $nombreArchivo;
 						$documento->idtipo_documentos = 1; // ¡Que viva el hardcode!
-						$documento->nombre_archivo = Hash::make($nombreArchivo);
+						$documento->nombre_archivo = $nombreArchivoEncriptado;
 						$documento->ruta = $rutaDestino;
 						$documento->peso = $peso;
 						$documento->save();
