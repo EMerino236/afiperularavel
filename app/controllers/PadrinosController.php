@@ -275,7 +275,7 @@ class PadrinosController extends BaseController
 	}
 
 	public function aprobar_prepadrino_ajax()
-	{o
+	{
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -309,25 +309,31 @@ class PadrinosController extends BaseController
 						$user->auth_token = Str::random(32);
 						$user->save();
 
-						// Registro los perfiles seleccionados
-						$perfiles = Input::get('perfiles');
-						foreach($perfiles as $perfil){
-						$users_perfil = new UsersPerfil;
-						$users_perfil->idusers = $user->id;
-						$users_perfil->idperfiles = $perfil;
-						$users_perfil->save();
-						}
+						//Registro perfil padrino
+						$user_perfil = new UsersPerfil;
+						$user_perfil->idperfiles = 4;
+						$user_perfil->idusers = $user->id;
+						$user_perfil->save();
+
+						//Regisro al padrino
+						$padrino = new Padrino;
+						$padrino->como_se_entero = $prepadrino->como_se_entero;
+						$padrino->idusers = $user->id;
+						$padrino->idperiodo_pagos = $prepadrino->idperiodo_pagos;
+						$padrino->idresponsable = $data["user"]->id;
+						$padrino->save();
+
+						//Borrado logico del prepadrino
+						$prepadrino->delete();
+
+						Mail::send('emails.userRegistration',array('user'=> $user,'persona'=>$persona,'password'=>$password),function($message) use ($user,$persona)
+						{
+							$message->to($user->email, $persona->nombres)
+							->subject('Registro de nuevo padrino');
+						});
 					}
 				}
-				
-
-				Mail::send('emails.userRegistration',array('user'=> $user,'persona'=>$persona,'password'=>$password),function($message) use ($user,$persona)
-				{
-					$message->to($user->email, $persona->nombres)
-							->subject('Registro de nuevo usuario');
-				});
-				Session::flash('message', 'Se registró correctamente al usuario.');
-
+				return Response::json(array( 'success' => true,'prepadrino_data'=>$prepadrino),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
 			}
