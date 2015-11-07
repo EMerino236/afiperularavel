@@ -20,6 +20,27 @@ class DashboardController extends BaseController
 			else{
 				$data["periodo_actual"] = array();
 			}
+			if(in_array('side_aprobar_padrinos',$data["permisos"])){
+				$data["prepadrinos"] = Prepadrino::all()->count();
+			}
+			if(in_array('side_listar_convocatorias',$data["permisos"])){
+				$periodo_actual = Periodo::getPeriodoActual()->get();
+				if($periodo_actual->isEmpty()){
+					$data["postulantes"] = 0;
+					$data["idperiodos"] = null;
+				}else{
+					$periodo_actual = $periodo_actual[0];
+					$data["postulantes"] = PostulantesPeriodo::getPostulantesPorPeriodoFase($periodo_actual->idperiodos,1,"null")->get()->count();
+					$data["idperiodos"] = $periodo_actual->idperiodos;
+				}
+			}
+			if(in_array('side_aprobar_colegios',$data["permisos"])){
+				$data["precolegios"] = Precolegio::all()->count();
+			}
+			if(in_array('side_listar_usuarios',$data["permisos"])){
+				$data["usuarios"] = USer::all()->count();
+			}
+
 			return View::make('dashboard/dashboard',$data);
 		}else{
 			return View::make('error/error');

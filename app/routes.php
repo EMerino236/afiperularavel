@@ -156,7 +156,7 @@ Route::group(array('prefix'=>'user', 'before'=>'auth'),function(){
 	Route::get('/list_users','UserController@list_users');
 	Route::get('/search_user','UserController@search_user');
 	Route::get('/edit_user/{id}','UserController@render_edit_user');
-	//Route::post('/submit_edit_user','UserController@submit_edit_user');
+	Route::post('/submit_edit_user','UserController@submit_edit_user');
 	Route::post('/submit_disable_user','UserController@submit_disable_user');
 	Route::post('/submit_enable_user','UserController@submit_enable_user');
 	Route::get('/mi_cuenta','UserController@render_mi_cuenta');
