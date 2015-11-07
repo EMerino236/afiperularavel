@@ -1,13 +1,16 @@
 $( document ).ready(function(){
+	var hoy = new Date();
 	$("#datetimepicker1").datetimepicker({
 		defaultDate: false,
 		format: 'DD-MM-YYYY',
-		ignoreReadonly: true
+		ignoreReadonly: true,
+		minDate: hoy
 	});
 	$("#datetimepicker2").datetimepicker({
 		defaultDate: false,
 		format: 'DD-MM-YYYY',
-		ignoreReadonly: true
+		ignoreReadonly: true,
+		minDate: hoy
 	});
 	$("input[name=asistencia]").change(function(){
 		if($(this).is(':checked')){
