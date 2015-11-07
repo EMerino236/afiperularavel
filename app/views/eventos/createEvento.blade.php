@@ -69,7 +69,7 @@
 				<div class="panel-body">
 						<div class="row">
 							<div class="form-group col-md-6 required @if($errors->first('direccion')) has-error has-feedback @endif">
-								{{ Form::label('direccion','Dirección') }}
+								{{ Form::label('direccion','Dirección Exacta') }}
 								{{ Form::text('direccion',Input::old('direccion'),array('class'=>'form-control','maxlength'=>'100')) }}
 							</div>
 							<div class="form-group col-md-12">

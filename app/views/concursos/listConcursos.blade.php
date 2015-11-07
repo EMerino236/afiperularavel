@@ -21,9 +21,32 @@
 		</div>
 	{{ Form::close() }}</br>
 
-	<table class="table">
+	<table class="table" style ="width:100%;word-wrap:break-word;table-layout: fixed;">
 		<tr class="info">
-			<th>Titulo</th>
+			<th>@if ($sortby == 'titulo' && $order == 'asc') {{
+                        link_to_action(
+                            'ConcursosController@search_concurso',
+                            'Título',
+                            array(
+                            	'search' => $search,
+                                'sortby' => 'titulo',
+                                'order' => 'desc'
+                            )
+                        )
+                    }}
+                    @else {{              
+                    	link_to_action(
+                            'ConcursosController@search_concurso',
+                            'Título',
+                            array(
+                            	'search' => $search,
+                                'sortby' => 'titulo',
+                                'order' => 'asc'
+                            )
+                        )
+                    }}
+                    @endif
+            </th>
 			<th>Reseña</th>
 			<th>Fecha Creación</th>
 			<th>Fases</th>
@@ -49,5 +72,7 @@
 		</tr>
 		@endforeach
 	</table>
-	
+	@if($concursos_data)
+		{{ $concursos_data->links() }}
+	@endif
 @stop

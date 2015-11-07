@@ -33,10 +33,11 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="form-group col-md-8 required @if($errors->first('direccion')) has-error has-feedback @endif">
-						{{ Form::label('direccion','Dirección') }}
+						{{ Form::label('direccion','Dirección Exacta') }}
 						{{ Form::text('direccion',null,array('class'=>'form-control')) }}
 					</div>
 				</div>
+				<input id="pac-input" class="controls" type="text" placeholder="Bucar lugares">
 				<div id="map"></div>
 			</div>
 		</div>
@@ -48,5 +49,5 @@
 	{{ Form::close() }}
 	
 <script src="{{ asset('js/gmap.js') }}"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
 @stop

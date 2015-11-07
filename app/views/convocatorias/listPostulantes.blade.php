@@ -68,7 +68,7 @@
 					</td>
 				<td style="vertical-align:middle">{{$postulante_info->nombres}} {{$postulante_info->apellido_pat}} {{$postulante_info->apellido_mat}}</td>
 				<td style="vertical-align:middle">
-					{{Form::textarea('comentarios[]', $postulante_info->comentario,array('rows'=>'3','cols'=>'70','maxlength'=>'200'))}}
+					{{Form::textarea('comentarios[]', $postulante_info->comentario)}}
 				</td>
 				<td style="vertical-align:middle">
 					@if($postulante_info->aprobacion === null)

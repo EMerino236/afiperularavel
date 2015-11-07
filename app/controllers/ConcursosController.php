@@ -11,7 +11,11 @@ class ConcursosController extends BaseController
 			if(in_array('nav_concursos',$data["permisos"])){
 				return View::make('concursos/home',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -28,7 +32,11 @@ class ConcursosController extends BaseController
 				
 				return View::make('concursos/createConcursos',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -44,8 +52,7 @@ class ConcursosController extends BaseController
 			if(in_array('side_nuevo_concurso',$data["permisos"])){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'titulo' => 'required|min:2|max:100',
-							'resenha' => 'required|max:255'
+							'titulo' => 'required|min:2|max:100'
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -61,12 +68,19 @@ class ConcursosController extends BaseController
 					$concurso->save();
 					// Creo al usuario y le asigno su información de persona
 
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se creó el concurso con id {{$concurso->idconcursos}}";
+					Helpers::registrarLog(3,$descripcion_log);
 					Session::flash('message', 'Se registró correctamente al concurso.');
 					
 					return Redirect::to('concursos/create_concurso');
 				}
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -82,10 +96,25 @@ class ConcursosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_listar_concursos',$data["permisos"])){
 				$data["search"] = null;
-				$data["concursos_data"] = Concurso::getConcursosInfo()->paginate(10);
+				//$data["concursos_data"] = Concurso::getConcursosInfo()->paginate(10);
+
+				$sortby = Input::get('sortby');
+			    $order = Input::get('order');
+			    $data["sortby"] = $sortby;
+			    $data["order"] = $order;
+			    if ($sortby && $order) {
+			        $data["concursos_data"] =Concurso::getConcursosInfo()->orderBy($sortby, $order)->paginate(10);
+			    } else {
+			        $data["concursos_data"] = Concurso::getConcursosInfo()->paginate(10);
+			    }
+
 				return View::make('concursos/listConcursos',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -101,10 +130,23 @@ class ConcursosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_listar_concursos',$data["permisos"])){
 				$data["search"] = Input::get('search');
-				$data["concursos_data"] = Concurso::searchConcursos($data["search"])->paginate(10);
+				//$data["concursos_data"] = Concurso::searchConcursos($data["search"])->paginate(10);
+				$sortby = Input::get('sortby');
+			    $order = Input::get('order');
+			    $data["sortby"] = $sortby;
+			    $data["order"] = $order;
+			    if ($sortby && $order) {
+			        $data["concursos_data"] = Concurso::searchConcursos($data["search"])->orderBy($sortby, $order)->paginate(10);
+			    } else {
+			       $data["concursos_data"] = Concurso::searchConcursos($data["search"])->paginate(10);
+			    }
 				return View::make('concursos/listConcursos',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -130,7 +172,11 @@ class ConcursosController extends BaseController
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('concursos/uploadFile',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -159,13 +205,14 @@ class ConcursosController extends BaseController
 				        $archivo = Input::file('archivo');
 				        $rutaDestino = 'files/concursos/';
 				        $nombreArchivo = $archivo->getClientOriginalName();
+				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $peso = $archivo->getSize();
 				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivo);
 				    	/* Creo el documento */
 						$documento = new Documento;
 						$documento->titulo = $nombreArchivo;
 						$documento->idtipo_documentos = 1; 
-						$documento->nombre_archivo = $nombreArchivo;
+						$documento->nombre_archivo = $nombreArchivoEncriptado;
 						$documento->peso = $peso;
 						$documento->ruta = $rutaDestino;
 						$documento->save();
@@ -176,12 +223,18 @@ class ConcursosController extends BaseController
 						$documentos_concurso->save();
 						
 				    }
-					
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se subió el archivo con id {{$documento->iddocumentos}} para el concurso con id {{$documentos_concurso->idconcursos}}";
+					Helpers::registrarLog(7,$descripcion_log);
 					Session::flash('message', 'Se subió correctamente el archivo.');				
 					return Redirect::to('concursos/upload_file/'.$idconcursos);
 				}
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -211,11 +264,18 @@ class ConcursosController extends BaseController
 					$documento = Documento::find($documentos_concurso->iddocumentos);
 					$documento->delete();
 					$documentos_concurso->delete();
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se eliminó el archivo con id {{$documento->iddocumentos}} para el concurso con id {{$documentos_concurso->idconcursos}}";
+					Helpers::registrarLog(8,$descripcion_log);
 					Session::flash('message', 'Se eliminó correctamente el archivo.');				
 					return Redirect::to('concursos/upload_file/'.$idconcursos);
 				}
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -237,9 +297,16 @@ class ConcursosController extends BaseController
 		        $headers = array(
 		              'Content-Type',mime_content_type($rutaDestino),
 		            );
+		        // Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se descargó el archivo con id {{$documento->iddocumentos}} para el concurso con id {{$idconcursos}}";
+				Helpers::registrarLog(9,$descripcion_log);
 		        return Response::download($rutaDestino,basename($rutaDestino),$headers);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -261,12 +328,16 @@ class ConcursosController extends BaseController
 					return Redirect::to('concursos/list_concursos');
 				}
 				$data["concurso_info"] = $data["concurso_info"][0];
-				$data["faseconcursos_data"] = FasesConcurso::getFasesPorConcurso($data["concurso_info"]->idconcursos)->get();
+				$data["faseconcursos_data"] = FasesConcurso::getFasesPorConcurso($data["concurso_info"]->idconcursos)->paginate(10);
 				
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('concursos/fasesConcurso',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -293,6 +364,9 @@ class ConcursosController extends BaseController
 				$fase_concursos->fecha_limite = $fecha_limite;
 				$fase_concursos->idconcursos = Input::get('idconcursos');
 				$fase_concursos->save();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se creó la fase con id {{$fase_concursos->idfase_concursos}} para el concurso con id {{$fase_concursos->idconcursos}}";
+				Helpers::registrarLog(3,$descripcion_log);
 				return Response::json(array( 'success' => true,'faseconcursos_data'=>$fase_concursos),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
@@ -319,6 +393,9 @@ class ConcursosController extends BaseController
 				$fase_concursos = FasesConcurso::find($idfase_concursos);
 
 				$fase_concursos->delete(); 
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se eliminó la fase con id {{$fase_concursos->idfase_concursos}} para el concurso con id {{$fase_concursos->idconcursos}}";
+				Helpers::registrarLog(5,$descripcion_log);
 				return Response::json(array( 'success' => true,'faseconcursos_data'=>$fase_concursos),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
@@ -345,7 +422,11 @@ class ConcursosController extends BaseController
 				$data["concurso_info"] = $data["concurso_info"][0];
 				return View::make('concursos/editConcurso',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -362,9 +443,7 @@ class ConcursosController extends BaseController
 				// Validate the info, create rules for the inputs
 
 				$rules = array(
-							'titulo' => 'required|alpha_spaces|min:2|max:100',
-							'resenha' => 'required|max:255'
-							
+							'titulo' => 'required|min:2|max:100'							
 						);
 				// Run the validation rules on the inputs from the form
 				$concurso_id = Input::get('concurso_id');
@@ -379,13 +458,19 @@ class ConcursosController extends BaseController
 					$concurso->resenha = Input::get('resenha');
 					
 					$concurso->save();
-					
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se editó el concurso con id {{$concurso->idconcursos}}";
+					Helpers::registrarLog(4,$descripcion_log);
 					Session::flash('message', 'Se editó correctamente el concurso.');
 					
 					return Redirect::to($url);
 				}
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
