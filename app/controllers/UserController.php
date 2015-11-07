@@ -32,21 +32,35 @@ class UserController extends BaseController {
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_usuario',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'idtipo_identificacion' => 'Tipo de identificación',
+							'num_documento' => 'Número de Documento',
+							'email' => 'E-mail',
+							'nombres' => 'Nombres',
+							'apellido_pat' => 'Apellido Paterno',
+							'apellido_mat' => 'Apellido Materno',
+							'fecha_nacimiento' => 'Fecha de nacimiento',
+							'direccion' => 'Dirección',
+							'telefono' => 'Teléfono',
+							'celular' => 'Celular',
+							'perfiles' => 'Perfil',
+						);
+				$messages = array();
 				$rules = array(
 							'idtipo_identificacion' => 'required',
 							'num_documento' => 'required|numeric|digits_between:8,16|unique:users',
-							'email' => 'required|email|max:45|unique:users',
-							'nombres' => 'required|alpha_spaces|min:2|max:45',
-							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
-							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
+							'email' => 'required|email|max:100|unique:users',
+							'nombres' => 'required|alpha_spaces|min:2|max:100',
+							'apellido_pat' => 'required|alpha_spaces|min:2|max:100',
+							'apellido_mat' => 'required|alpha_spaces|min:2|max:100',
 							'fecha_nacimiento' => 'required',
-							'direccion' => 'required',
-							'telefono' => 'min:7|max:20',
-							'celular' => 'min:7|max:20',
+							'direccion' => 'required|max:150',
+							'telefono' => 'numeric|digits_between:7,20',
+							'celular' => 'numeric|digits_between:7,20',
 							'perfiles' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('user/create_user')->withErrors($validator)->withInput(Input::all());
@@ -244,6 +258,7 @@ class UserController extends BaseController {
 				return Redirect::to('user/list_user');
 			}
 			$data["user_info"] = $data["user_info"][0];
+			$data["tipos_identificacion"] = TipoIdentificacion::lists('nombre','idtipo_identificacion');
 			$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
 			return View::make('user/editMyUser',$data);
 		}else{
@@ -257,7 +272,21 @@ class UserController extends BaseController {
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			// Validate the info, create rules for the inputs
+			$attributes = array(
+						'idtipo_identificacion' => 'Tipo de identificación',
+						'num_documento' => 'Número de Documento',
+						'email' => 'E-mail',
+						'nombres' => 'Nombres',
+						'apellido_pat' => 'Apellido Paterno',
+						'apellido_mat' => 'Apellido Materno',
+						'fecha_nacimiento' => 'Fecha de nacimiento',
+						'direccion' => 'Dirección',
+						'telefono' => 'Teléfono',
+						'celular' => 'Celular',
+					);
+			$messages = array();
 			$rules = array(
+						/*
 						'email' => 'email|max:45|unique:users',
 						'nombres' => 'required|alpha_spaces|min:2|max:45',
 						'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
@@ -267,9 +296,20 @@ class UserController extends BaseController {
 						'celular' => 'min:7|max:20',
 						'password' => 'min:8|max:30|confirmed',
 						'password_confirmation' => 'min:8|max:30',
+						*/
+						'idtipo_identificacion' => 'required',
+						'num_documento' => 'numeric|digits_between:8,16|unique:users',
+						'email' => 'required|email|max:100|unique:users',
+						'nombres' => 'required|alpha_spaces|min:2|max:100',
+						'apellido_pat' => 'required|alpha_spaces|min:2|max:100',
+						'apellido_mat' => 'required|alpha_spaces|min:2|max:100',
+						'fecha_nacimiento' => 'required',
+						'direccion' => 'required|max:150',
+						'telefono' => 'numeric|digits_between:7,20',
+						'celular' => 'numeric|digits_between:7,20',
 					);
 			// Run the validation rules on the inputs from the form
-			$validator = Validator::make(Input::all(), $rules);
+			$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 			// If the validator fails, redirect back to the form
 			if($validator->fails()){
 				return Redirect::to("user/mi_cuenta")->withErrors($validator)->withInput(Input::all());
@@ -293,6 +333,9 @@ class UserController extends BaseController {
 					$user->email = Input::get('email');
 				if(!empty($password))
 					$user->password = Hash::make($password);
+				if(!empty(Input::get('num_documento')))
+					$user->num_documento = Input::get('num_documento');
+				$user->idtipo_identificacion = Input::get('idtipo_identificacion');
 				$user->save();
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Editó su información de usuario";

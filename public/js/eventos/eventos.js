@@ -5,6 +5,14 @@ $( document ).ready(function(){
 		ignoreReadonly: true,
 		sideBySide: true,
 	});
+  var hoy = new Date();
+  $("#fecha-evento").datetimepicker({
+    defaultDate: false,
+    format: 'DD-MM-YYYY HH:ss',
+    ignoreReadonly: true,
+    sideBySide: true,
+    minDate: hoy
+  });
 
 	$("input[name=seleccionar-todos-voluntarios]").change(function(){
 		$(".checkbox-voluntarios").prop('checked',$(this).prop("checked"));

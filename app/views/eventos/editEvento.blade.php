@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Editar Evento</h3>
+            <h3 class="page-header">Editar Evento</h3><span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -37,10 +37,10 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-6 required">
 						{{ Form::label('nombre','Título del Evento') }}
 						@if($hoy < $evento_info->fecha_evento)
-							{{ Form::text('nombre',$evento_info->nombre,array('class'=>'form-control')) }}
+							{{ Form::text('nombre',$evento_info->nombre,array('class'=>'form-control','maxlength'=>'100')) }}
 						@else
 							{{ Form::text('nombre',$evento_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
 						@endif
@@ -71,10 +71,10 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-6 @if($errors->first('direccion')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 required @if($errors->first('direccion')) has-error has-feedback @endif">
 						{{ Form::label('direccion','Dirección') }}
 						@if($hoy < $evento_info->fecha_evento)
-							{{ Form::text('direccion',$evento_info->direccion,array('class'=>'form-control')) }}
+							{{ Form::text('direccion',$evento_info->direccion,array('class'=>'form-control','maxlength'=>'100')) }}
 						@else
 							{{ Form::text('direccion',$evento_info->direccion,array('class'=>'form-control','readonly'=>'')) }}
 						@endif
@@ -85,12 +85,16 @@
 				</div>
 				<div class="row">
 					<div class="form-group col-md-12">
-						{{ Form::label('puntos_reunion','Puntos de Reunión') }}
-						@foreach($puntos_reunion as $punto_reunion)
-						<div class="form-group col-md-4">
-							<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}" @if(in_array($punto_reunion->idpuntos_reunion,$puntos_reunion_seleccionados)) checked @endif @if($hoy >= $evento_info->fecha_evento) disabled @endif> {{$punto_reunion->direccion}}<br>
-						</div>
-						@endforeach
+						@if($puntos_reunion->isEmpty())
+							{{ Form::label('puntos_reunion','No existen puntos de reunión creados') }}
+						@else
+							{{ Form::label('puntos_reunion','Puntos de Reunión') }}
+							@foreach($puntos_reunion as $punto_reunion)
+							<div class="form-group col-md-4">
+								<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}" @if(in_array($punto_reunion->idpuntos_reunion,$puntos_reunion_seleccionados)) checked @endif @if($hoy >= $evento_info->fecha_evento) disabled @endif> {{$punto_reunion->direccion}}<br>
+							</div>
+							@endforeach
+						@endif
 					</div>
 				</div>
 			</div>

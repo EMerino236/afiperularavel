@@ -61,18 +61,25 @@ class EventosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_evento',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'nombre' => 'Título del Evento',
+							'fecha_evento' => 'Fecha del Evento',
+							'idcolegios' => 'Colegio',
+							'direccion' => 'Dirección',
+							'voluntarios' => 'Voluntarios',
+							'latitud' => 'Punto en el Mapa',
+						);
+				$messages = array();
 				$rules = array(
 							'nombre' => 'required|alpha_spaces|min:2|max:100',
-							//'idtipo_eventos' => 'required',
 							'fecha_evento' => 'required',
 							'idcolegios' => 'required',
-							'direccion' => 'required',
+							'direccion' => 'required|max:100',
 							'voluntarios' => 'required',
 							'latitud' => 'required',
-							'voluntarios' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('eventos/create_evento')->withErrors($validator)->withInput(Input::all());
@@ -243,7 +250,7 @@ class EventosController extends BaseController
 				// Validate the info, create rules for the inputs
 				$rules = array(
 							'nombre' => 'required|alpha_spaces|min:2|max:100',
-							'direccion' => 'required',
+							'direccion' => 'required|max:100',
 							'latitud' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
@@ -317,20 +324,11 @@ class EventosController extends BaseController
 				foreach($emails_voluntarios as $email_voluntario){
 					$emails[] = $email_voluntario->email;
 				}
-
 				Mail::send('emails.eventCancellation',array('evento'=> $evento),function($message) use ($emails,$evento)
 				{
 					$message->to($emails)
 							->subject('Cancelación de evento de AFI Perú.');
 				});
-				/* Elimino los registros de asistencia */
-				//DB::table('asistencias')->where('ideventos', '=', $ideventos)->delete();
-				/* Elimino los registros de asistencia de niños */
-				//DB::table('asistencia_ninhos')->where('ideventos', '=', $ideventos)->delete();
-				/* Elimino los puntos de reunion */
-				//DB::table('puntos_eventos')->where('ideventos', '=', $ideventos)->delete();
-				/* Elimino las visualizaciones */
-				//DB::table('visualizaciones')->where('ideventos', '=', $ideventos)->delete();
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se eliminó el evento con id {{$ideventos}}";
 				Helpers::registrarLog(5,$descripcion_log);

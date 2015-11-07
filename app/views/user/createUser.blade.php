@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Crear Nuevo Usuario</h3>
+            <h3 class="page-header">Crear Nuevo Usuario</h3><span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -43,7 +43,7 @@
 					</div>
 					<div class="form-group col-md-6 required @if($errors->first('num_documento')) has-error has-feedback @endif">
 						{{ Form::label('num_documento','Número de Documento') }}
-						{{ Form::text('num_documento',Input::old('num_documento'),array('class'=>'form-control')) }}
+						{{ Form::text('num_documento',Input::old('num_documento'),array('class'=>'form-control','maxlength'=>'16')) }}
 					</div>
 				</div>
 				<div class="row">
@@ -73,37 +73,37 @@
 				<div class="row">
 					<div class="form-group col-md-6 required @if($errors->first('nombres')) has-error has-feedback @endif">
 						{{ Form::label('nombres','Nombres') }}
-						{{ Form::text('nombres',Input::old('nombres'),array('class'=>'form-control')) }}
+						{{ Form::text('nombres',Input::old('nombres'),array('class'=>'form-control','maxlength'=>'100')) }}
 					</div>
 					<div class="form-group col-md-6 required @if($errors->first('direccion')) has-error has-feedback @endif">
 						{{ Form::label('direccion','Dirección') }}
-						{{ Form::text('direccion',Input::old('direccion'),array('class'=>'form-control')) }}
+						{{ Form::text('direccion',Input::old('direccion'),array('class'=>'form-control','maxlength'=>'150')) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-6 required @if($errors->first('apellido_pat')) has-error has-feedback @endif">
 						{{ Form::label('apellido_pat','Apellido Paterno') }}
-						{{ Form::text('apellido_pat',Input::old('apellido_pat'),array('class'=>'form-control')) }}
+						{{ Form::text('apellido_pat',Input::old('apellido_pat'),array('class'=>'form-control','maxlength'=>'100')) }}
 					</div>
 					<div class="form-group col-md-6 @if($errors->first('telefono')) has-error has-feedback @endif">
 						{{ Form::label('telefono','Teléfono') }}
-						{{ Form::text('telefono',Input::old('telefono'),array('class'=>'form-control')) }}
+						{{ Form::text('telefono',Input::old('telefono'),array('class'=>'form-control','maxlength'=>'20')) }}
 					</div>				
 				</div>
 				<div class="row">
 					<div class="form-group col-md-6 required @if($errors->first('apellido_mat')) has-error has-feedback @endif">
 						{{ Form::label('apellido_mat','Apellido Materno') }}
-						{{ Form::text('apellido_mat',Input::old('apellido_mat'),array('class'=>'form-control')) }}
+						{{ Form::text('apellido_mat',Input::old('apellido_mat'),array('class'=>'form-control','maxlength'=>'100')) }}
 					</div>
 					<div class="form-group col-md-6 @if($errors->first('celular')) has-error has-feedback @endif">
 						{{ Form::label('celular','Celular') }}
-						{{ Form::text('celular',Input::old('celular'),array('class'=>'form-control')) }}
+						{{ Form::text('celular',Input::old('celular'),array('class'=>'form-control','maxlength'=>'20')) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-6 required">
 						{{ Form::label('fecha_nacimiento','Fecha de nacimiento') }}
-						<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_nacimiento')) has-error has-feedback @endif">
+						<div id="fecha-nacimiento" class="form-group input-group date @if($errors->first('fecha_nacimiento')) has-error has-feedback @endif">
 							{{ Form::text('fecha_nacimiento',Input::old('fecha_nacimiento'),array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
@@ -112,7 +112,7 @@
 					</div>
 					<div class="form-group col-md-6 required @if($errors->first('email')) has-error has-feedback @endif">
 						{{ Form::label('email','E-mail') }}
-						{{ Form::text('email',Input::old('email'),array('class'=>'form-control')) }}
+						{{ Form::text('email',Input::old('email'),array('class'=>'form-control','maxlength'=>'100')) }}
 					</div>
 				</div>
 			</div>
