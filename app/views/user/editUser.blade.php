@@ -107,4 +107,6 @@
 			{{ Form::close() }}
 		</div>
 	</div>
+<script src="{{ asset('js/gmap.js') }}"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
 @stop

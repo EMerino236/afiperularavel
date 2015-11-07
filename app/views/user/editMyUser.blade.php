@@ -2,13 +2,14 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Mi Cuenta</h3>
+            <h3 class="page-header">Mi Cuenta</h3> <span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
         </div>
         <!-- /.col-lg-12 -->
     </div>
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
+			<p><strong>{{ $errors->first('idtipo_identificacion') }}</strong></p>
 			<p><strong>{{ $errors->first('nombres') }}</strong></p>
 			<p><strong>{{ $errors->first('apellido_pat') }}</strong></p>
 			<p><strong>{{ $errors->first('apellido_mat') }}</strong></p>
@@ -34,17 +35,17 @@
 		{{ Form::hidden('longitud', $user_info->longitud) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Información de la cuenta</h3>
+				<h3 class="panel-title">Información de la cuenta: <strong>{{$user_info->num_documento}}</strong></h3>
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-6 required @if($errors->first('idtipo_identificacion')) has-error has-feedback @endif">
 						{{ Form::label('idtipo_identificacion','Tipo de identificación') }}
-						{{ Form::text('idtipo_identificacion',$user_info->nombre_tipo_identificacion,array('class'=>'form-control')) }}
+						{{ Form::select('idtipo_identificacion',$tipos_identificacion,Input::old('idtipo_identificacion'),['class' => 'form-control']) }}
 					</div>
 					<div class="form-group col-md-6">
-						{{ Form::label('num_documento','Número de Documento') }}
-						{{ Form::text('num_documento',$user_info->num_documento,array('class'=>'form-control')) }}
+						{{ Form::label('num_documento','Cambiar Número de Documento') }}
+						{{ Form::text('num_documento',null,array('class'=>'form-control')) }}
 					</div>
 				</div>
 				<div class="row">
@@ -65,17 +66,17 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-6 @if($errors->first('nombres')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 required @if($errors->first('nombres')) has-error has-feedback @endif">
 						{{ Form::label('nombres','Nombres') }}
 						{{ Form::text('nombres',$user_info->nombres,array('class'=>'form-control')) }}
 					</div>
-					<div class="form-group col-md-6 @if($errors->first('direccion')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 required @if($errors->first('direccion')) has-error has-feedback @endif">
 						{{ Form::label('direccion','Dirección') }}
 						{{ Form::text('direccion',$user_info->direccion,array('class'=>'form-control')) }}
 					</div>
 				</div>
 				<div class="row">
-					<div class="form-group col-md-6 @if($errors->first('apellido_pat')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 required @if($errors->first('apellido_pat')) has-error has-feedback @endif">
 						{{ Form::label('apellido_pat','Apellido Paterno') }}
 						{{ Form::text('apellido_pat',$user_info->apellido_pat,array('class'=>'form-control')) }}
 					</div>
@@ -85,7 +86,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="form-group col-md-6 @if($errors->first('apellido_mat')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 required @if($errors->first('apellido_mat')) has-error has-feedback @endif">
 						{{ Form::label('apellido_mat','Apellido Materno') }}
 						{{ Form::text('apellido_mat',$user_info->apellido_mat,array('class'=>'form-control')) }}
 					</div>
@@ -107,7 +108,7 @@
 				<div class="row">
 					<div class="form-group col-md-6">
 						{{ Form::label('fecha_nacimiento','Cambiar Fecha de Nacimiento') }}
-						<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_nacimiento')) has-error has-feedback @endif">
+						<div id="fecha-nacimiento" class="form-group input-group date @if($errors->first('fecha_nacimiento')) has-error has-feedback @endif">
 							{{ Form::text('fecha_nacimiento',Input::old('fecha_nacimiento'),array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
@@ -126,7 +127,8 @@
 				<h3 class="panel-title">Ingrese su ubicación en el mapa</h3>
 			</div>
 			<div class="panel-body">
-			<div id="map"></div>
+				<input id="pac-input" class="controls" type="text" placeholder="Bucar lugares">
+				<div id="map"></div>
 			</div>
 		</div>
 		<div class="row">
@@ -135,4 +137,6 @@
 			</div>
 		</div>
 	{{ Form::close() }}
+<script src="{{ asset('js/gmap.js') }}"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
 @stop

@@ -111,7 +111,9 @@ class PadrinosController extends BaseController
 			        $archivo = Input::file('archivo');
 			        $rutaDestino = 'files/reportes_padrinos/';
 			        $nombreArchivo = $archivo->getClientOriginalName();
-			        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivo);
+				    $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+				    $peso = $archivo->getSize();
+			        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
 			    	/* Creo el documento */
 					$documento = new Documento;
 					$documento->titulo = $nombreArchivo;
