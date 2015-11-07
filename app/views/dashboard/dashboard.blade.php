@@ -15,7 +15,7 @@
 	@endif
 
 	{{ Form::open(array('url'=>'voluntarios/submit_repostulacion', 'role'=>'form')) }}
-		@if($user_perfil && $periodo_actual && !$usuario_ya_inscrito)
+		@if(in_array('side_mis_eventos',$permisos) && $periodo_actual && !$usuario_ya_inscrito)
 			{{ Form::hidden('user_id', $user->id) }}
 			{{ Form::hidden('idperiodos', $periodo_actual->idperiodos) }}
 			<p><font color="red" size="5">¡Aviso Importante!</font></p>

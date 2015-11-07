@@ -1,5 +1,7 @@
 $( document ).ready(function(){
 	var hoy = new Date();
+	var mañana = new Date();
+	mañana.setDate(hoy.getDate() +1);
 	$("#datetimepicker1").datetimepicker({
 		defaultDate: false,
 		format: 'DD-MM-YYYY',
@@ -10,7 +12,7 @@ $( document ).ready(function(){
 		defaultDate: false,
 		format: 'DD-MM-YYYY',
 		ignoreReadonly: true,
-		minDate: hoy
+		minDate: mañana
 	});
 	$("input[name=asistencia]").change(function(){
 		if($(this).is(':checked')){
