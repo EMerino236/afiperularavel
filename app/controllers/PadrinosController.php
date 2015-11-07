@@ -275,7 +275,7 @@ class PadrinosController extends BaseController
 	}
 
 	public function aprobar_prepadrino_ajax()
-	{
+	{o
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
@@ -316,6 +316,7 @@ class PadrinosController extends BaseController
 						$users_perfil->idusers = $user->id;
 						$users_perfil->idperfiles = $perfil;
 						$users_perfil->save();
+						}
 					}
 				}
 				
