@@ -32,7 +32,7 @@
 					<div class="form-group col-md-4">
 						<div class="form-group required @if($errors->first('nombre')) has-error has-feedback @endif">
 							{{ Form::label('nombre','Nombre de Periodo') }}
-							{{ Form::text('nombre',Input::old('nombre'),['class' => 'form-control']) }}
+							{{ Form::text('nombre',Input::old('nombre'),['class' => 'form-control','maxlength'=>'100']) }}
 						</div>
 					</div>
 				</div>

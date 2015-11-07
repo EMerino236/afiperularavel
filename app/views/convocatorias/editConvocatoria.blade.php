@@ -31,7 +31,7 @@
 					@if($convocatoria_info->deleted_at)
 						{{ Form::text('nombre',$convocatoria_info->nombre,['class' => 'form-control','readonly'=>'']) }}
 					@else
-						{{ Form::text('nombre',$convocatoria_info->nombre,['class' => 'form-control']) }}
+						{{ Form::text('nombre',$convocatoria_info->nombre,['class' => 'form-control','maxlength'=>'100']) }}
 					@endif
 				</div>
 			</div>
