@@ -33,8 +33,6 @@ function initMap() {
     if (places.length == 0) {
       return;
     }
-
-    
     markers = [];
 
     // For each place, get the icon, name and location.
@@ -49,13 +47,7 @@ function initMap() {
       };
 
       // Create a marker for each place.
-      markers.push(new google.maps.Marker({
-        map: map,
-        icon: icon,
-        title: place.name,
-        position: place.geometry.location
-      }));
-
+      marker.setPosition(place.geometry.location);
       if (place.geometry.viewport) {
         // Only geocodes have viewport.
         bounds.union(place.geometry.viewport);

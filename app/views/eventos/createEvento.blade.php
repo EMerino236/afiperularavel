@@ -73,6 +73,7 @@
 								{{ Form::text('direccion',Input::old('direccion'),array('class'=>'form-control','maxlength'=>'100')) }}
 							</div>
 							<div class="form-group col-md-12">
+								<input id="pac-input" class="controls" type="text" placeholder="Bucar lugares">
 								<div id="map-eventos"></div>
 							</div>
 						</div>
@@ -131,6 +132,6 @@
 			</div>
 		{{ Form::close() }}
 	<script src="{{ asset('js/eventos/eventos.js') }}"></script>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
 	@endif
 @stop
