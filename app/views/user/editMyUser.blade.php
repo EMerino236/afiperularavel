@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Mi Cuenta</h3> <span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
+            <h3 class="page-header">Mi Cuenta</h3><span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
         </div>
         <!-- /.col-lg-12 -->
     </div>
