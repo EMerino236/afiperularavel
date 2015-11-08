@@ -1,8 +1,8 @@
-	@extends('templates/voluntariosTemplate')
+	@extends('templates/convocatoriasTemplate')
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Información del Voluntario</h3>
+            <h3 class="page-header">Información del voluntario</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -82,7 +82,7 @@
 		</div>
 		<div class="container-fluid row">
 			<div class="form-group col-md-2">
-				<a class="btn btn-primary btn-block" href="{{URL::to('/voluntarios/list_voluntarios')}}">Regresar</a>				
+				<a class="btn btn-primary btn-block" onclick="goBack()">Regresar</a>				
 			</div>
 		</div>	
 	{{ Form::close() }}	
