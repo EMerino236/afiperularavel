@@ -45,10 +45,10 @@ class ColegiosController extends BaseController
 				$rules = array(
 							'latitud' => 'required',
 							'longitud' => 'required',
-							'nombre' => 'required|alpha_spaces|min:2|max:100',
-							'direccion' => 'required',
-							'nombre_contacto' => 'required|alpha_spaces|min:2|max:100',
-							'email_contacto' => 'email|max:45|unique:colegios',
+							'nombre' => 'required|min:2|max:100',
+							'direccion' => 'required|max:200',
+							'nombre_contacto' => 'alpha_spaces|min:2|max:100',
+							'email_contacto' => 'email|max:45',
 							'telefono_contacto' => 'min:7|max:20',
 							'interes' => 'max:100',
 						);
@@ -157,10 +157,12 @@ class ColegiosController extends BaseController
 			if(in_array('side_nuevo_colegio',$data["permisos"])){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'nombre' => 'required|alpha_spaces|min:2|max:100',
-							'direccion' => 'required',
-							'nombre_contacto' => 'required|alpha_spaces|min:2|max:100',
-							'email_contacto' => 'required|email|max:45',
+							'latitud' => 'required',
+							'longitud' => 'required',
+							'nombre' => 'required|min:2|max:100',
+							'direccion' => 'required|max:200',
+							'nombre_contacto' => 'alpha_spaces|min:2|max:100',
+							'email_contacto' => 'email|max:45',
 							'telefono_contacto' => 'min:7|max:20',
 							'interes' => 'max:100',
 						);

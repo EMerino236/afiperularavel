@@ -52,7 +52,7 @@ class NinhoController extends BaseController
 							'genero' => 'required',
 							'nombre_apoderado' => 'required|alpha_spaces|min:2|max:200',
 							'dni_apoderado' => 'required|numeric|digits_between:8,16',
-							'num_familiares' => 'numeric|min:1',
+							'num_familiares' => 'numeric|min:0',
 							'observaciones' => 'max:200',
 							'idcolegios' => 'required',
 				);
@@ -162,7 +162,7 @@ class NinhoController extends BaseController
 							'genero' => 'required',
 							'nombre_apoderado' => 'required|alpha_spaces|min:2|max:200',
 							'dni_apoderado' => 'required|numeric|digits_between:8,16',
-							'num_familiares' => 'numeric',
+							'num_familiares' => 'numeric|min:0',
 							'observaciones' => 'max:200',
 							'idcolegios' => 'required',
 				);
