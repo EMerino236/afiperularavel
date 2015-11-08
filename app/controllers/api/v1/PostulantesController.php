@@ -28,6 +28,14 @@ class PostulantesController extends \BaseController {
             $postulante->telefono = Input::get('telefono');
             $postulante->celular = Input::get('celular');
             $postulante->save();
+            
+            $periodo_actual = \Periodo::getPeriodoActual()->first();
+            $postulantexperiodo = new \PostulantesPeriodo;
+            $postulantexperiodo->idpostulantes = $postulante->idpostulantes;
+            $postulantexperiodo->idperiodos = $periodo_actual->idperiodos;
+            $postulantexperiodo->idfases = 1;
+            $postulantexperiodo->save();
+            
             return Response::json(['success' => 1], 200);
         }
         else return Response::json($validator->messages(), 200);

@@ -54,11 +54,22 @@
 				</div>
 			</div>
 		</div>
-			<div class="row">
-				<div class="form-group col-xs-8">
-					{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-				</div>
-			</div>	
-		</div>
+		<div class="row">
+			<div class="form-group col-md-1">
+				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+			</div>
 	{{ Form::close() }}
+			<div class="form-group col-md-1">
+			@if($convocatoria_info->deleted_at)
+				{{ Form::open(array('url'=>'convocatorias/submit_enable_convocatoria', 'role'=>'form')) }}
+					{{ Form::hidden('idperiodo', $convocatoria_info->idperiodos) }}
+					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+			@else
+				{{ Form::open(array('url'=>'convocatorias/submit_disable_convocatoria', 'role'=>'form')) }}
+					{{ Form::hidden('idperiodo', $convocatoria_info->idperiodos) }}
+					 {{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+			@endif
+				{{ Form::close() }}
+			</div>
+		</div>
 @stop

@@ -353,13 +353,6 @@ class PadrinosController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if((in_array('side_reporte_pagos',$data["permisos"]))){
-				/*$data["padrino_info"] = Padrino::searchPadrinoById($id)->get();
-				if($data["prepadrino_info"]->isEmpty()){
-					Session::flash('error', 'No se encontró al padrino.');
-					return Redirect::to('padrinos/list_prepadrinos');
-				}
-				$data["prepadrino_info"] = $data["prepadrino_info"][0];
-				//$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();*/
 				$data["report_rows"] = null;
 				return View::make('padrinos/pagosPadrinoReporte',$data);
 			}else{

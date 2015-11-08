@@ -82,8 +82,8 @@ class DocumentosController extends \BaseController {
                 
                 $response[] = [
                     'id' => $d->iddocumentos,
-                    'name' => $d->nombre_archivo,
-                    'url' => $d->ruta . $d->nombre_archivo,
+                    'name' => $d->titulo,
+                    'url' => $d->ruta . $d->titulo,
                     'upload_date' => 'Hace ' . $dias . ' día' . (($dias != 1) ? 's' : '') . ', ' . date('h:i A', $from->getTimestamp()),
                     'size' => $d->peso . ' KB',
                     'users' => $users
@@ -100,24 +100,36 @@ class DocumentosController extends \BaseController {
         if(!$documento)
             return \Response::json(['error' => 'No existe ningun documento con id = ' . $document_id], 200);
         
-        $rules = array('event_id' => 'required');
-        $validator = \Validator::make(\Input::all(), $rules);
-        if($validator->fails())
-            return \Response::json($validator->messages(), 200);
-        
-        $idevento = \Input::get('event_id');
-        $evento = \Evento::find($idevento);
-        if(!$evento)
-            return \Response::json(['error' => 'No existe ningun evento con id = ' . $idevento], 200);
-        
         $auth_token = \Request::header('authorization');
         $user = \User::where('auth_token', '=', $auth_token)->first();
         
-        $v = new \Visualizacion;
-        $v->idusers = $user->id;
-        $v->ideventos = $evento->ideventos;
-        $v->iddocumentos = $document_id;
-        $v->save();
+        $idevento = \Input::get('event_id');
+        
+        if($idevento)
+        {
+            $evento = \Evento::find($idevento);
+            if(!$evento)
+                return \Response::json(['error' => 'No existe ningun evento con id = ' . $idevento], 200);
+        
+            $v = new \Visualizacion;
+            $v->idusers = $user->id;
+            $v->ideventos = $evento->ideventos;
+            $v->iddocumentos = $document_id;
+            $v->save();   
+        }
+        else
+        {
+            // obtener todos los eventos asociados al documento
+            $eventos = \DocumentosEvento::where('iddocumentos', '=', $document_id)->get();
+            foreach($eventos as $evento)
+            {
+                $v = new \Visualizacion;
+                $v->idusers = $user->id;
+                $v->ideventos = $evento->ideventos;
+                $v->iddocumentos = $document_id;
+                $v->save();  
+            }
+        }
         
         return \Response::json(['success' => 1], 200);
     }

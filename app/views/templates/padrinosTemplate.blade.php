@@ -27,6 +27,7 @@
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+    <script src="{{ asset('js/padrinos/pagos.js') }}"></script>
 </head>
 
 <body>
@@ -56,6 +57,9 @@
                     @endif
                     @if(in_array('side_registrar_pago',$permisos))
                     <li><a href="{{ URL::to('#') }}"><i class="fa fa-thumb-tack fa-fw"></i> Registrar Pago</a></li>
+                    @endif
+                    @if(in_array('side_reporte_pagos',$permisos))
+                    <li><a href="{{ URL::to('padrinos/list_aprobar_pagos') }}"><i class="fa fa-thumb-tack fa-fw"></i> Aprobar Pagos</a></li>
                     @endif
                 </ul>
             </div>

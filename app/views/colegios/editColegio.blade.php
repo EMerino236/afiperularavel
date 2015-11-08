@@ -35,40 +35,50 @@
 				<h3 class="panel-title">Información Básica</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-xs-6">
-					<div class="row">
-						<div class="form-group col-xs-8 @if($errors->first('nombre')) has-error has-feedback @endif">
-							{{ Form::label('nombre','Nombre') }}
+				<div class="row">
+					<div class="form-group col-md-6 @if($errors->first('nombre')) has-error has-feedback @endif">
+						{{ Form::label('nombre','Nombre') }}
+						@if($colegio_info->deleted_at)
+							{{ Form::text('nombre',$colegio_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
+						@else
 							{{ Form::text('nombre',$colegio_info->nombre,array('class'=>'form-control')) }}
-						</div>
+						@endif
 					</div>
-					<div class="row">
-						<div class="form-group col-xs-8 @if($errors->first('nombre_contacto')) has-error has-feedback @endif">
-							{{ Form::label('nombre_contacto','Nombre Contacto') }}
-							{{ Form::text('nombre_contacto',$colegio_info->nombre_contacto,array('class'=>'form-control')) }}
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-xs-8 @if($errors->first('telefono_contacto')) has-error has-feedback @endif">
-							{{ Form::label('telefono_contacto','Telefono contacto') }}
-							{{ Form::text('telefono_contacto',$colegio_info->telefono_contacto,array('class'=>'form-control')) }}
-						</div>
-					</div>
-					
-				</div>
-				<div class="col-xs-6">
-					<div class="row">
-						<div class="form-group col-xs-8 @if($errors->first('email_contacto')) has-error has-feedback @endif">
-							{{ Form::label('email_contacto','Email contacto') }}
+					<div class="form-group col-md-6 @if($errors->first('email_contacto')) has-error has-feedback @endif">
+						{{ Form::label('email_contacto','Email contacto') }}
+						@if($colegio_info->deleted_at)
+							{{ Form::text('email_contacto',$colegio_info->email_contacto,array('class'=>'form-control','readonly'=>'')) }}
+						@else
 							{{ Form::text('email_contacto',$colegio_info->email_contacto,array('class'=>'form-control')) }}
-						</div>
+						@endif	
 					</div>
-
-					<div class="row">
-						<div class="form-group col-xs-8 @if($errors->first('interes')) has-error has-feedback @endif">
-							{{ Form::label('interes','Interes') }}
+				</div>
+				<div class="row">
+					<div class="form-group col-md-6 @if($errors->first('nombre_contacto')) has-error has-feedback @endif">
+						{{ Form::label('nombre_contacto','Nombre Contacto') }}
+						@if($colegio_info->deleted_at)
+							{{ Form::text('nombre_contacto',$colegio_info->nombre_contacto,array('class'=>'form-control','readonly'=>'')) }}
+						@else
+							{{ Form::text('nombre_contacto',$colegio_info->nombre_contacto,array('class'=>'form-control')) }}
+						@endif	
+					</div>
+					<div class="form-group col-md-6 @if($errors->first('interes')) has-error has-feedback @endif">
+						{{ Form::label('interes','Interes') }}
+						@if($colegio_info->deleted_at)
+							{{ Form::text('interes',$colegio_info->interes,array('class'=>'form-control','readonly'=>'')) }}
+						@else
 							{{ Form::text('interes',$colegio_info->interes,array('class'=>'form-control')) }}
-						</div>
+						@endif	
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-6 @if($errors->first('telefono_contacto')) has-error has-feedback @endif">
+						{{ Form::label('telefono_contacto','Telefono contacto') }}
+						@if($colegio_info->deleted_at)
+							{{ Form::text('telefono_contacto',$colegio_info->telefono_contacto,array('class'=>'form-control','readonly'=>'')) }}
+						@else
+							{{ Form::text('telefono_contacto',$colegio_info->telefono_contacto,array('class'=>'form-control')) }}
+						@endif	
 					</div>
 				</div>
 			</div>
@@ -78,28 +88,27 @@
 				<h3 class="panel-title">Ingrese la Ubicación del Evento en el Mapa</h3>
 			</div>
 			<div class="panel-body">
-				<div class="col-xs-12">
-					<div class="row">
-						<div class="form-group col-xs-8 @if($errors->first('direccion')) has-error has-feedback @endif">
-							{{ Form::label('direccion','Dirección') }}
+				<div class="row">
+					<div class="form-group col-md-6 @if($errors->first('direccion')) has-error has-feedback @endif">
+						{{ Form::label('direccion','Dirección') }}
+						@if($colegio_info->deleted_at)
+							{{ Form::text('direccion',$colegio_info->direccion,array('class'=>'form-control','readonly'=>'')) }}
+						@else
 							{{ Form::text('direccion',$colegio_info->direccion,array('class'=>'form-control')) }}
-						</div>
-					</div>	
-					<div id="map"></div>
-				</div>
-				<div class="col-xs-12">
-					<div class="row">
-						<div class="form-group col-xs-8">
-							{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
-						</div>
-					</div>	
-				</div>
+						@endif	
+					</div>
+				</div>	
+				<div id="map"></div>
 			</div>
 		</div>
-	{{ Form::close() }}
-	<div class="col-xs-12">
 		<div class="row">
-			<div class="form-group col-xs-8">
+			<div class="form-group col-md-6">
+				@if(!$colegio_info->deleted_at)
+					{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+				@endif	
+				{{ Form::close() }}
+			</div>
+			<div class="form-group col-md-6">
 			@if($colegio_info->deleted_at)
 				{{ Form::open(array('url'=>'colegios/submit_enable_colegio', 'role'=>'form')) }}
 					{{ Form::hidden('colegio_id', $colegio_info->idcolegios) }}
@@ -107,12 +116,12 @@
 			@else
 				{{ Form::open(array('url'=>'colegios/submit_disable_colegio', 'role'=>'form')) }}
 					{{ Form::hidden('colegio_id', $colegio_info->idcolegios) }}
-					 {{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
 			@endif
 				{{ Form::close() }}
 			</div>
-		</div>
-	</div>
+		</div>	
+	
 	<script src="{{ asset('js/colegio/colegios.js') }}"></script>
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
 @stop

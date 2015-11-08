@@ -49,7 +49,8 @@ class NinhosController extends \BaseController {
                        'face' => 'required',
         );
         $validator = \Validator::make(Input::all(), $rules);
-        if($validator->fails()) return Response::json($validator->messages(), 200);
+        if($validator->fails())
+            return Response::json(['error' => 'Los parámetros message y face son obligatorios.'], 200);
         
         // verificar si el usuario ya le comento al niño
         $auth_token = \Request::header('authorization');
@@ -77,7 +78,7 @@ class NinhosController extends \BaseController {
         // verificar si tiene permiso para leer todos los comentarios del niño
         $idpermisos = \User::getPermisosPorUsuarioId($user->id)->get()->lists('idpermisos');
         
-        if(!(in_array(35, $idpermisos))) return Response::json(['success' => 1], 200);
+        if(!(in_array(33, $idpermisos))) return Response::json(['success' => 1], 200);
         
         $n = \Ninho::find($asistencia_ninho->idninhos);
         // genero

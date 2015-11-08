@@ -1,9 +1,10 @@
 $( document ).ready(function(){
 	
 
-
-
-	$("#datetimepicker1").datetimepicker({
+	var date = new Date();
+    date.setDate(date.getDate());
+    date.setHours(0,0,0,0)
+	$("#datetimepicker1").datetimepicker({			
 		defaultDate: false,
 		format: 'DD-MM-YYYY',
 		ignoreReadonly: true
@@ -20,50 +21,34 @@ $( document ).ready(function(){
 			//	selected.push($(this).val());
 			//});
 			var titulo = $("input[name=titulo]").val();
-			var descripcion = $("input[name=descripcion]").val();
+			var descripcion = $("#descripcion").val();
 			var fecha_limite = $("input[name=fecha_limite]").val();
+			var dateFecha = moment(fecha_limite,"DD-MM-YYYY");
 			var confirmation=1;
 			var validTitulo=1;
-			var validDescripcion=1;
 			var validFecha =1;
 			if(fecha_limite.length ==0){
 				confirmation=0;
 				validFecha=0;
-			}
-			if(descripcion.length<2 || descripcion.length>255){
-				confirmation=0;
-				validDescripcion=0;
-			}
+			}			
 			if(titulo.length<2 || titulo.length>100){
 				confirmation=0;
 				validTitulo=0;
 			}
-			if(validTitulo ==0 && validFecha==0 &&validDescripcion ==0){
+			if(dateFecha.toDate() < date){
+				confirmation=0;
+				validFecha=0;
+			}
+			if(validTitulo ==0 && validFecha==0){
 				alert('El campo "Título" se encuentra vacío o no es válido\n' +
-					   'El campo "Descripcion" se encuentra vacío o no es válido\n' +
 					   'El campo "Fecha Límite" se encuentra vacío o no es válido');	
-			}
-			if(validTitulo ==0 && validFecha==0 &&validDescripcion ==1){
-				alert('El campo "Título" se encuentra vacío o no es válido\n' +
-					   'El campo "Fecha Límite" se encuentra vacío o no es válido');
-			}
-			if(validTitulo ==0 && validFecha==1 &&validDescripcion ==0){
-				alert('El campo "Título" se encuentra vacío o no es válido\n' +
-					   'El campo "Descripcion" se encuentra vacío o no es válido');
-			}
-			if(validTitulo ==0 && validFecha==1 &&validDescripcion ==1){
-				alert('El campo "Título" se encuentra vacío o no es válido');
-			}
-			if(validTitulo ==1 && validFecha==0 &&validDescripcion ==0){
-				alert('El campo "Descripcion" se encuentra vacío o no es válido\n' +
-					   'El campo "Fecha Límite" se encuentra vacío o no es válido');
-			}
-			if(validTitulo ==1 && validFecha==0 &&validDescripcion ==1){
-				alert('El campo "Fecha Límite" se encuentra vacío o no es válido');
-			}
-			if(validTitulo ==1 && validFecha==1 &&validDescripcion ==0){
-				alert('El campo "Descripcion" se encuentra vacío o no es válido');
 			}			
+			if(validTitulo ==0 && validFecha==1){
+				alert('El campo "Título" se encuentra vacío o no es válido\n');
+			}						
+			if(validTitulo ==1 && validFecha==0){
+				alert('El campo "Fecha Límite" se encuentra vacío o no es válido');
+			}					
 			if(confirmation){
 				var idconcursos = $("input[type=hidden][name=idconcursos]").val();
 				$.ajax({

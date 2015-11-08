@@ -22,9 +22,14 @@
 				<div class="row">
 					<div class="form-group col-xs-8 @if($errors->first('descripcion')) has-error has-feedback @endif">
 						{{ Form::label('descripcion','Descripción') }}
-						{{ Form::text('descripcion',Input::old('descripcion'),array('class'=>'form-control')) }}
+						{{ Form::textarea('descripcion',Input::old('descripcion'),array('class'=>'form-control')) }}
 					</div>
 				</div>
+				<div class="row">
+					<div class="form-group col-xs-8">
+						{{ HTML::link('','Registrar Fase',array('id'=>'submit-fase-concurso', 'class'=>'btn btn-primary')) }}	
+					</div>
+				</div>	
 			</div>
 			<div class="col-xs-6" >
 					
@@ -36,11 +41,7 @@
 	                </span>
 				</div>
 						
-				<div class="row">
-					<div class="form-group col-xs-8">
-						{{ HTML::link('','Registrar Fase',array('id'=>'submit-fase-concurso', 'class'=>'btn btn-primary')) }}	
-					</div>
-				</div>		
+					
 			</div>
 		</div>
 	</div>
