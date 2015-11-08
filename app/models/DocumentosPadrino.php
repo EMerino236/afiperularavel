@@ -10,7 +10,7 @@ class DocumentosPadrino extends Eloquent{
 
 	public function scopeGetDocumentoIdsByPadrino($query, $idpadrinos)
 	{
-		$query->join('documentos','documentos.iddocumentos','=','documentos_padrinos.documentos_iddocumentos')
+		$query->join('documentos','documentos.iddocumentos','=','documentos_padrinos.iddocumentos')
 			->where('documentos_padrinos.idpadrinos', '=', $idpadrinos)
 			->select('*');
 
