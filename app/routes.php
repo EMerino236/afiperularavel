@@ -178,12 +178,12 @@ Route::group(array('prefix'=>'sistema','before'=>'auth'),function(){
 // Route group for API versioning
 Route::group(array('prefix' => 'api/v1'), function()
 {
-    Route::post('sign_in', 'api\v1\SessionController@sign_in');
-    Route::post('prepadrinos', 'api\v1\PrepadrinosController@store');
-    Route::post('empresas', 'api\v1\EmpresasController@store');
-    Route::post('postulantes', 'api\v1\PostulantesController@store');
-    Route::post('precolegios', 'api\v1\PrecolegiosController@store');
-    Route::post('recover_password', 'api\v1\UserController@recover_password');
+    Route::post('/sign_in', 'api\v1\SessionController@sign_in');
+    Route::post('/prepadrinos', 'api\v1\PrepadrinosController@store');
+    Route::post('/empresas', 'api\v1\EmpresasController@store');
+    Route::post('/postulantes', 'api\v1\PostulantesController@store');
+    Route::post('/precolegios', 'api\v1\PrecolegiosController@store');
+    Route::post('/recover_password', 'api\v1\UserController@recover_password');
 });
 
 Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()

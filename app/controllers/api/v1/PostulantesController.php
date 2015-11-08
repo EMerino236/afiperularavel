@@ -7,26 +7,35 @@ class PostulantesController extends \BaseController {
 
 	public function store()
 	{
-		$rules = array('nombre' => 'required',
-                       'apellido_paterno' => 'required',
-                       'apellido_materno' => 'required',
-                       'dni' => 'required',
-                       'fecha_de_nacimiento' => 'required',
-                       'e_mail' => 'required',
+		$rules = array('nombres' => 'required',
+                       'apellido_pat' => 'required',
+                       'apellido_mat' => 'required',
+                       'num_documento' => 'required',
+                       'fecha_nacimiento' => 'required',
+                       'email' => 'required',
         );
         $validator = \Validator::make(Input::all(), $rules);
         if($validator->passes())
         {
             $postulante = new \Postulante;
-            $postulante->nombres = Input::get('nombre');
-            $postulante->apellido_pat = Input::get('apellido_paterno');
-            $postulante->apellido_mat = Input::get('apellido_materno');
-            $postulante->num_documento = Input::get('dni');
-            $postulante->fecha_nacimiento = date('Y-m-d',strtotime(Input::get('fecha_de_nacimiento')));
-            $postulante->email = Input::get('e_mail');
+            $postulante->nombres = Input::get('nombres');
+            $postulante->apellido_pat = Input::get('apellido_pat');
+            $postulante->apellido_mat = Input::get('apellido_mat');
+            $postulante->num_documento = Input::get('num_documento');
+            $postulante->fecha_nacimiento = date('Y-m-d',strtotime(Input::get('fecha_nacimiento')));
+            $postulante->email = Input::get('email');
             $postulante->direccion = Input::get('direccion');
             $postulante->telefono = Input::get('telefono');
             $postulante->celular = Input::get('celular');
+            $postulante->idtipo_identificacion = 1;
+            $postulante->centro_estudio_trabajo = Input::get('centro_estudio_trabajo');
+            $postulante->ciclo_grado = Input::get('ciclo_grado');
+            $postulante->carrera = Input::get('carrera');
+            $postulante->experiencia = Input::get('experiencia');
+            $postulante->aprendizaje = Input::get('aprendizaje');
+            $postulante->motivacion = Input::get('motivacion');
+            $postulante->aporte = Input::get('aporte');
+            $postulante->expectativas = Input::get('expectativas');
             $postulante->save();
             
             $periodo_actual = \Periodo::getPeriodoActual()->first();
