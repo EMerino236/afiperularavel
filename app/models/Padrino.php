@@ -51,7 +51,7 @@ class Padrino extends Eloquent{
 	{
 		$query->join('users','users.id','=','padrinos.idusers')
 			  ->where('padrinos.created_at','LIKE',$anho."%")
-			  ->select('users.email');
+			  ->select('users.email','padrinos.idpadrinos');
 		return $query;
 	}
 
