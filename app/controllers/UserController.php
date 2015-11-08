@@ -178,7 +178,8 @@ class UserController extends BaseController {
 				}
 				$data["user_info"] = $data["user_info"][0];
 				$data["tipos_identificacion"] = TipoIdentificacion::lists('nombre','idtipo_identificacion');
-				$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
+				$data["perfiles_usuario"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get()->toArray();				
+				$data["perfiles"] = Perfil::getPerfilesCreacion()->get();	
 				return View::make('user/editUser',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
