@@ -323,6 +323,13 @@ class PadrinosController extends BaseController
 						$padrino->idresponsable = $data["user"]->id;
 						$padrino->save();
 
+						//Generacion de Calendario de Pagos
+						$periodo_pago=PeriodoPago::find($padrino->idperiodo_pagos);
+						if($periodo_pago){
+							$numero_pagos=$periodo_pago->numero_pagos;
+							
+						}
+
 						//Borrado logico del prepadrino
 						$prepadrino->delete();
 
