@@ -47,4 +47,11 @@ class Periodo extends Eloquent{
 			  ->select('*');
 		return $query;
 	}
+
+	public function scopeGetPeriodosIntersectionWithDatesNewPeriod($query,$fecha)
+	{
+		$query->where('fecha_inicio','<=',$fecha)
+			  ->where('fecha_fin','>=',$fecha);
+		return $query;
+	}
 }

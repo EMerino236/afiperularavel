@@ -44,7 +44,7 @@
 				<a href="{{URL::to('/convocatorias/list_postulantes/')}}/{{$convocatoria_data->idperiodos}}">Ver Postulantes</a>
 			</td>
 			<td>
-				<a href="{{URL::to('/convocatorias/list_voluntarios/')}}/{{$convocatoria_data->idperiodos}}">Ver Voluntarios</a>
+				<a href="{{URL::to('/convocatorias/list_voluntarios_convocatoria/')}}/{{$convocatoria_data->idperiodos}}">Ver Voluntarios</a>
 			</td>
 		</tr>
 		@endforeach
