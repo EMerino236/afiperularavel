@@ -10,8 +10,7 @@ class Prepadrino extends Eloquent{
 
 	public function scopeGetPrepadrinosInfo($query)
 	{
-		$query->withTrashed()			  
-			  ->select('prepadrinos.*');
+		$query->select('prepadrinos.*');
 		return $query;
 	}
 

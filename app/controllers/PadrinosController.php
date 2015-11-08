@@ -326,8 +326,23 @@ class PadrinosController extends BaseController
 						//Generacion de Calendario de Pagos
 						$periodo_pago=PeriodoPago::find($padrino->idperiodo_pagos);
 						if($periodo_pago){
-							$numero_pagos=$periodo_pago->numero_pagos;
-							
+							$numero_pagos = $periodo_pago->numero_pagos;
+							$fecha_vencimiento = date('Y-m-d',strtotime($padrino->created_at));
+							$fecha_vencimiento = date('Y-m-t',strtotime($fecha_vencimiento.'+ 1 days'));
+							for($indice=1; $indice<=$numero_pagos; $indice++){
+								
+								$calendario_pago = new CalendarioPago;
+								$calendario_pago->vencimiento = $fecha_vencimiento;
+								$calendario_pago->num_cuota = $indice;
+								$calendario_pago->aprobacion = 0;
+								$calendario_pago->idpadrinos = $padrino->idpadrinos;
+								$calendario_pago->monto = 360/$numero_pagos;
+								$calendario_pago->save();
+
+								for($offset_mes=1; $offset_mes<=(12/$numero_pagos); $offset_mes++ ){
+									$fecha_vencimiento = date('Y-m-t',strtotime($fecha_vencimiento.'+ 1 days'));
+								}
+							}
 						}
 
 						//Borrado logico del prepadrino
