@@ -155,7 +155,7 @@ class SistemaController extends BaseController
 			if(in_array('side_nuevo_usuario',$data["permisos"])){
 				$idperfiles = Input::get('idperfiles');
 				$url = "sistema/edit_perfil/".$idperfiles;
-				$users_perfil = UsersPerfil::getUsersPorPerfil($idperfiles);
+				$users_perfil = UsersPerfil::getUsersPorPerfil($idperfiles)->get();
 				if($users_perfil->isEmpty()){
 					$perfil = Perfil::find($idperfiles);
 					$perfil->delete();
