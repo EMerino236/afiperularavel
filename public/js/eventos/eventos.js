@@ -6,12 +6,15 @@ $( document ).ready(function(){
 		sideBySide: true,
 	});
   var hoy = new Date();
+  var ayer = new Date();
+  ayer.setDate(hoy.getDate()-1);
   $("#fecha-evento").datetimepicker({
+    useCurrent: false,
     defaultDate: false,
     format: 'DD-MM-YYYY HH:ss',
     ignoreReadonly: true,
-    sideBySide: true,
-    minDate: hoy
+    minDate: ayer,
+    disabledDates: [ayer]
   });
 
 	$("input[name=seleccionar-todos-voluntarios]").change(function(){

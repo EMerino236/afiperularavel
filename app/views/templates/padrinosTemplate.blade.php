@@ -48,13 +48,13 @@
                     <li><a href="{{ URL::to('padrinos/create_reporte_padrinos') }}"><i class="fa fa-file-o fa-fw"></i> Crear Reporte a Padrinos</a></li>
                     @endif
                     @if(in_array('side_listar_reportes_padrinos',$permisos))
-                    <li><a href="{{ URL::to('padrinos/list_reporte_padrinos') }}"><i class="fa fa-files-o fa-fw"></i> Listar Reportes Creados</a></li>
+                    <li><a href="{{ URL::to('padrinos/reporte_pagos_padrinos') }}"><i class="fa fa-files-o fa-fw"></i> Listar Reportes Creados</a></li>
                     @endif
                     @if(in_array('side_calendario_pagos',$permisos))
                     <li><a href="{{ URL::to('#') }}"><i class="fa fa-calendar-o fa-fw"></i> Calendario de Pagos</a></li>
                     @endif
                     @if(in_array('side_reporte_pagos',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Pagos</a></li>
+                    <li><a href="{{ URL::to('padrinos/reporte_pagos_padrinos') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Pagos</a></li>
                     @endif
                     @if(in_array('side_registrar_pago',$permisos))
                     <li><a href="{{ URL::to('#') }}"><i class="fa fa-thumb-tack fa-fw"></i> Registrar Pago</a></li>

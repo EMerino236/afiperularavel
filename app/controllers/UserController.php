@@ -10,7 +10,7 @@ class UserController extends BaseController {
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_usuario',$data["permisos"])){
 				$data["tipos_identificacion"] = TipoIdentificacion::lists('nombre','idtipo_identificacion');
-				$data["perfiles"] = Perfil::getPerfilesCreacion()->get();	
+				$data["perfiles"] = Perfil::all();	
 				return View::make('user/createUser',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
@@ -178,8 +178,17 @@ class UserController extends BaseController {
 				}
 				$data["user_info"] = $data["user_info"][0];
 				$data["tipos_identificacion"] = TipoIdentificacion::lists('nombre','idtipo_identificacion');
-				$data["perfiles_usuario"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get()->toArray();				
-				$data["perfiles"] = Perfil::getPerfilesCreacion()->get();	
+				$perfiles_usuario = User::getPerfilesPorUsuario2($data["user_info"]->id)->get();
+				$perfiles_creacion = Perfil::all();
+				$data["perfiles_usuario"] = array();	
+				$data["perfiles"] = array();
+				foreach($perfiles_usuario as $perfil_usuario)
+					$data["perfiles_usuario"][] = $perfil_usuario->idperfiles;
+				foreach($perfiles_creacion as $perfil_creacion)
+					$data["perfiles"][] = array(
+											'idperfiles' => $perfil_creacion->idperfiles,
+											'nombre' => $perfil_creacion->nombre
+											);
 				return View::make('user/editUser',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
@@ -211,6 +220,7 @@ class UserController extends BaseController {
 							'direccion' => 'Dirección',
 							'telefono' => 'Teléfono',
 							'celular' => 'Celular',
+							'perfiles' => 'Perfiles',
 						);
 				$messages = array();
 				$rules = array(
@@ -223,6 +233,7 @@ class UserController extends BaseController {
 							'direccion' => 'required|max:150',
 							'telefono' => 'numeric|digits_between:7,20',
 							'celular' => 'numeric|digits_between:7,20',
+							'perfiles' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
@@ -254,6 +265,22 @@ class UserController extends BaseController {
 					$persona->latitud = Input::get('latitud');
 					$persona->longitud = Input::get('longitud');
 					$persona->save();
+
+					// Elimino los perfiles anteriores
+					$perfiles_usuario = User::getPerfilesPorUsuario2($user->id)->get();
+					foreach($perfiles_usuario as $perfil_usuario){
+						$p = UsersPerfil::find($perfil_usuario->idusers_perfiles);
+						$p->delete();
+					}
+
+					// Registro los perfiles seleccionados
+					$perfiles = Input::get('perfiles');
+					foreach($perfiles as $perfil){
+						$users_perfil = new UsersPerfil;
+						$users_perfil->idusers = $user->id;
+						$users_perfil->idperfiles = $perfil;
+						$users_perfil->save();
+					}
 
 					// Llamo a la función para registrar el log de auditoria
 					$descripcion_log = "Se editó el usuario con id {{$user->id}}";

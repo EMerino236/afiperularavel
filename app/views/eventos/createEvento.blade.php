@@ -77,21 +77,26 @@
 								<div id="map-eventos"></div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="form-group col-md-12">
-								
-								@if($puntos_reunion->isEmpty())
+						@if($puntos_reunion->isEmpty())
+							<div class="row">
+								<div class="form-group col-md-4">
 									{{ Form::label('puntos_reunion','No existen puntos de reunión creados') }}
-								@else
-									{{ Form::label('puntos_reunion','Seleccione los Puntos de Reunión') }}
-									@foreach($puntos_reunion as $punto_reunion)
-									<div class="form-group col-xs-4">
-										<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}"> {{$punto_reunion->direccion}}<br>
-									</div>
-									@endforeach
-								@endif
+								</div>
 							</div>
-						</div>
+						@else
+							<div class="row">
+								<div class="form-group col-md-4">
+									{{ Form::label('puntos_reunion','Seleccione los Puntos de Reunión') }}
+								</div>
+							</div>
+							<div class="row">
+								@foreach($puntos_reunion as $punto_reunion)
+								<div class="form-group col-md-4">
+									<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}"> {{$punto_reunion->direccion}}<br>
+								</div>
+								@endforeach
+							</div>
+						@endif
 				</div>
 			</div>
 			<div class="panel panel-default">

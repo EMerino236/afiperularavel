@@ -53,10 +53,7 @@
 			</div>
 		</div>
 	{{ Form::close() }}</br>
-
-    <div class="row">
-    	<div id="grafico-logs" style="height: 350px;"></div>
-    </div>
+	
 	<table class="table">
 		<tr class="info">
 			<th>No. Documento</th>

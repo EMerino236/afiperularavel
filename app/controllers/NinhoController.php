@@ -11,6 +11,8 @@ class NinhoController extends BaseController
 			if(in_array('nav_colegios',$data["permisos"])){
 				return View::make('ninhos/home',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -28,6 +30,8 @@ class NinhoController extends BaseController
 				$data["colegios"] = Colegio::lists('nombre','idcolegios');
 				return View::make('ninhos/createNinho',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -52,7 +56,7 @@ class NinhoController extends BaseController
 							'genero' => 'required',
 							'nombre_apoderado' => 'required|alpha_spaces|min:2|max:200',
 							'dni_apoderado' => 'required|numeric|digits_between:8,16',
-							'num_familiares' => 'numeric|min:1',
+							'num_familiares' => 'numeric|min:0',
 							'observaciones' => 'max:200',
 							'idcolegios' => 'required',
 				);
@@ -75,10 +79,16 @@ class NinhoController extends BaseController
 					$ninho->idcolegios = Input::get('idcolegios');
 					$ninho->observaciones = Input::get('observaciones');
 					$ninho->save();
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se creó el niño con id {{$ninho->idninhos}}";
+					Helpers::registrarLog(3,$descripcion_log);	
+
 					Session::flash('message', 'Se registró correctamente al niño.');
 					return Redirect::to('ninhos/create_ninho');
 				}
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 
@@ -98,6 +108,8 @@ class NinhoController extends BaseController
 				$data["ninhos_data"] = Ninho::getNinhosInfo()->paginate(20);
 				return View::make('ninhos/listNinhos',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 
@@ -117,6 +129,8 @@ class NinhoController extends BaseController
 				$data["ninhos_data"] = Ninho::searchNinhos($data["search"])->paginate(20);
 				return View::make('ninhos/listNinhos',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -139,6 +153,8 @@ class NinhoController extends BaseController
 				$data["colegios"] = Colegio::orderBy('nombre','asc')->lists('nombre','idcolegios');
 				return View::make('ninhos/editNinho',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -162,7 +178,7 @@ class NinhoController extends BaseController
 							'genero' => 'required',
 							'nombre_apoderado' => 'required|alpha_spaces|min:2|max:200',
 							'dni_apoderado' => 'required|numeric|digits_between:8,16',
-							'num_familiares' => 'numeric',
+							'num_familiares' => 'numeric|min:0',
 							'observaciones' => 'max:200',
 							'idcolegios' => 'required',
 				);
@@ -186,10 +202,14 @@ class NinhoController extends BaseController
 					$ninho->idcolegios = Input::get('idcolegios');
 					$ninho->observaciones = Input::get('observaciones');
 					$ninho->save();
+					$descripcion_log = "Se editó el niño con id {{$ninho->idninhos}}";
+					Helpers::registrarLog(4,$descripcion_log);
 					Session::flash('message', 'Se editó correctamente al niño.');
 					return Redirect::to($url);
 				}
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 
@@ -209,9 +229,13 @@ class NinhoController extends BaseController
 				$url = "ninhos/edit_ninho/".$ninho_id;
 				$ninho = Ninho::find($ninho_id);
 				$ninho->delete();
+				$descripcion_log = "Se eliminó el niño con id {{$ninho_id}}";
+				Helpers::registrarLog(5,$descripcion_log);
 				Session::flash('message', 'Se inhabilitó correctamente al niño.');
 				return Redirect::to($url);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -230,9 +254,13 @@ class NinhoController extends BaseController
 				$url = "ninhos/edit_ninho/".$ninho_id;
 				$ninho = Ninho::withTrashed()->find($ninho_id);
 				$ninho->restore();
+				$descripcion_log = "Se habilitó el niño con id {{$ninho_id}}";
+				Helpers::registrarLog(6,$descripcion_log);
 				Session::flash('message', 'Se habilitó correctamente al niño.');
 				return Redirect::to($url);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{

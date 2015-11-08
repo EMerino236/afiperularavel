@@ -20,6 +20,7 @@
 			<p><strong>{{ $errors->first('email') }}</strong></p>
 			<p><strong>{{ $errors->first('password') }}</strong></p>
 			<p><strong>{{ $errors->first('password_confirmation') }}</strong></p>
+			<p><strong>{{ $errors->first('perfiles') }}</strong></p>
 		</div>
 	@endif
 
@@ -71,24 +72,27 @@
 				</div>
 				<div class="row">
 					<div class="form-group col-md-12">
-						{{ Form::label('perfiles','Seleccione el/los perfiles') }}
-						@foreach($perfiles as $perfil)
 						<div class="row">
-							<div class="form-group col-md-4 @if($errors->first('perfiles')) has-error has-feedback @endif">
-								@if(in_array($perfil->idperfiles,$perfiles_usuario))
-									{{ Form::checkbox('perfiles[]',$perfil->idperfiles) }} {{$perfil->nombre}}
-								@else
-									{{ Form::checkbox('perfiles[]',$perfil->idperfiles,true) }} {{$perfil->nombre}}
-								@endif
+							<div class="form-group col-md-6">
+								{{ Form::label('perfiles','Perfiles') }}
 							</div>
 						</div>
-						@endforeach
-						<!--
-						<ul>
+						<div class="row">
 							@foreach($perfiles as $perfil)
-							<li>{{$perfil->nombre}}</li>
+								<div class="form-group col-md-3 @if($errors->first('perfiles')) has-error has-feedback @endif">
+									@if(in_array($perfil["idperfiles"],$perfiles_usuario))
+										{{ Form::checkbox('perfiles[]',$perfil["idperfiles"],true) }} {{$perfil["nombre"]}}
+									@else
+										{{ Form::checkbox('perfiles[]',$perfil["idperfiles"]) }} {{$perfil["nombre"]}}
+									@endif
+								</div>
 							@endforeach
-						</ul>-->
+						</div>
+						<div class="row">
+							<div class="form-group col-md-12">
+								<p>El cambio de perfiles puede tener implicaciones de seguridad.</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
