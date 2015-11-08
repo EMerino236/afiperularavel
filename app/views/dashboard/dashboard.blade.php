@@ -49,7 +49,7 @@
 	                </div>
 	                <a href="#">
 	                    <div class="panel-footer">
-	                    	<a class="pull-left" href="{{ URL::to('convocatorias/list_postulantes') }}">Ir a aprobar padrinos</a>
+	                    	<a class="pull-left" href="{{ URL::to('padrinos/list_prepadrinos') }}">Ir a aprobar padrinos</a>
 	                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 	                        <div class="clearfix"></div>
 	                    </div>

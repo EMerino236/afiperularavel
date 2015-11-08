@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2015 a las 01:41:14
+-- Tiempo de generación: 07-11-2015 a las 22:27:20
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -227,6 +227,21 @@ CREATE TABLE IF NOT EXISTS `documentos_eventos` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `ideventos` int(11) NOT NULL,
   `iddocumentos` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `documentos_padrinos`
+--
+
+CREATE TABLE IF NOT EXISTS `documentos_padrinos` (
+  `iddocumentos_padrinos` int(11) NOT NULL,
+  `idpadrinos` int(11) NOT NULL,
+  `documentos_iddocumentos` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -481,12 +496,12 @@ CREATE TABLE IF NOT EXISTS `periodo_pagos` (
 --
 
 INSERT INTO `periodo_pagos` (`idperiodo_pagos`, `nombre`, `numero_pagos`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Mensual', 12, '2015-11-05 23:14:33', NULL, NULL),
-(2, 'Bimestral', 6, '2015-11-05 23:14:33', NULL, NULL),
-(3, 'Trimestral', 4, '2015-11-05 23:14:56', NULL, NULL),
-(4, 'Cuatrimestral', 3, '2015-11-05 23:14:56', NULL, NULL),
-(5, 'Semestral', 2, '2015-11-05 23:15:42', NULL, NULL),
-(6, 'Anual', 1, '2015-11-05 23:15:42', NULL, NULL);
+(1, 'Mensual', 12, '2015-11-06 04:14:33', NULL, NULL),
+(2, 'Bimestral', 6, '2015-11-06 04:14:33', NULL, NULL),
+(3, 'Trimestral', 4, '2015-11-06 04:14:56', NULL, NULL),
+(4, 'Cuatrimestral', 3, '2015-11-06 04:14:56', NULL, NULL),
+(5, 'Semestral', 2, '2015-11-06 04:15:42', NULL, NULL),
+(6, 'Anual', 1, '2015-11-06 04:15:42', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1147,6 +1162,14 @@ ALTER TABLE `documentos_eventos`
   ADD KEY `fk_documentos_eventos_documentos1_idx` (`iddocumentos`);
 
 --
+-- Indices de la tabla `documentos_padrinos`
+--
+ALTER TABLE `documentos_padrinos`
+  ADD PRIMARY KEY (`iddocumentos_padrinos`),
+  ADD KEY `fk_documentos_padrinos_padrinos1_idx` (`idpadrinos`),
+  ADD KEY `fk_documentos_padrinos_documentos1_idx` (`documentos_iddocumentos`);
+
+--
 -- Indices de la tabla `documentos_proyectos`
 --
 ALTER TABLE `documentos_proyectos`
@@ -1457,6 +1480,11 @@ ALTER TABLE `documentos_concursos`
 ALTER TABLE `documentos_eventos`
   MODIFY `iddocumentos_eventos` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT de la tabla `documentos_padrinos`
+--
+ALTER TABLE `documentos_padrinos`
+  MODIFY `iddocumentos_padrinos` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `documentos_proyectos`
 --
 ALTER TABLE `documentos_proyectos`
@@ -1686,6 +1714,13 @@ ALTER TABLE `documentos_concursos`
 ALTER TABLE `documentos_eventos`
   ADD CONSTRAINT `fk_documentos_eventos_documentos1` FOREIGN KEY (`iddocumentos`) REFERENCES `documentos` (`iddocumentos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_documentos_eventos_eventos1` FOREIGN KEY (`ideventos`) REFERENCES `eventos` (`ideventos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `documentos_padrinos`
+--
+ALTER TABLE `documentos_padrinos`
+  ADD CONSTRAINT `fk_documentos_padrinos_documentos1` FOREIGN KEY (`documentos_iddocumentos`) REFERENCES `documentos` (`iddocumentos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_documentos_padrinos_padrinos1` FOREIGN KEY (`idpadrinos`) REFERENCES `padrinos` (`idpadrinos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `documentos_proyectos`
