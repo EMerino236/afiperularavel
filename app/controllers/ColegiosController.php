@@ -10,6 +10,8 @@ class ColegiosController extends BaseController
 			if(in_array('nav_colegios',$data["permisos"])){
 				return View::make('colegios/home',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -26,6 +28,8 @@ class ColegiosController extends BaseController
 			if(in_array('side_nuevo_colegio',$data["permisos"])){
 				return View::make('colegios/createColegio',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -68,6 +72,9 @@ class ColegiosController extends BaseController
 					$colegio->latitud = Input::get('latitud');
 					$colegio->longitud = Input::get('longitud');
 					$colegio->save();
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se creó el colegio con id {{$colegio->idcolegios}}";
+					Helpers::registrarLog(3,$descripcion_log);
 					$emails = array();
 					$emails[] = $colegio->email_contacto;
 					Mail::send('emails.colegioRegistration',array('colegio'=> $colegio),function($message) use ($emails,$colegio)
@@ -80,6 +87,8 @@ class ColegiosController extends BaseController
 					return Redirect::to('colegios/create_colegio');
 				}
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 
@@ -99,6 +108,8 @@ class ColegiosController extends BaseController
 				$data["colegios_data"] = Colegio::getColegiosInfo()->paginate(10);
 				return View::make('colegios/listColegios',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 
@@ -118,6 +129,8 @@ class ColegiosController extends BaseController
 				$data["colegios_data"] = Colegio::searchColegios($data["search"])->paginate(10);
 				return View::make('colegios/listColegios',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -141,6 +154,8 @@ class ColegiosController extends BaseController
 				$data["colegio_info"] = $data["colegio_info"][0];
 				return View::make('colegios/editColegio',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -184,12 +199,16 @@ class ColegiosController extends BaseController
 					$colegio->latitud = Input::get('latitud');
 					$colegio->longitud = Input::get('longitud');
 					$colegio->save();
+					$descripcion_log = "Se editó el colegio con id {{$colegio->idcolegios}}";
+					Helpers::registrarLog(4,$descripcion_log);
 					
 					Session::flash('message', 'Se editó correctamente al colegio.');
 					
 					return Redirect::to($url);
 				}
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 
@@ -209,9 +228,13 @@ class ColegiosController extends BaseController
 				$url = "colegios/edit_colegio/".$colegio_id;
 				$colegio = Colegio::find($colegio_id);
 				$colegio->delete();
+				$descripcion_log = "Se eliminó el colegio con id {{$colegio_id}}";
+				Helpers::registrarLog(5,$descripcion_log);
 				Session::flash('message', 'Se inhabilitó correctamente al colegio.');
 				return Redirect::to($url);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -230,9 +253,13 @@ class ColegiosController extends BaseController
 				$url = "colegios/edit_colegio/".$colegio_id;
 				$colegio = Colegio::withTrashed()->find($colegio_id);
 				$colegio->restore();
+				$descripcion_log = "Se habilitó el colegio con id {{$colegio_id}}";
+				Helpers::registrarLog(6,$descripcion_log);
 				Session::flash('message', 'Se habilitó correctamente al colegio.');
 				return Redirect::to($url);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -254,6 +281,8 @@ class ColegiosController extends BaseController
 				$data["precolegios_data"] = Precolegio::getPreColegiosInfo()->paginate(10);
 				return View::make('colegios/listPreColegios',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 
@@ -278,6 +307,8 @@ class ColegiosController extends BaseController
 				//$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
 				return View::make('colegios/editPreColegios',$data);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
@@ -319,6 +350,8 @@ class ColegiosController extends BaseController
 				Session::flash('message', 'Se aprobó correctamente al colegio.');
 				return Redirect::to($url);
 			}else{
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
 				return View::make('error/error');
 			}
 		}else{
