@@ -23,7 +23,8 @@ class UsersPerfil extends Eloquent{
 				  			 join users_periodos on users_periodos.idusers = users.id
 				  			 join periodos on users_periodos.idperiodos = periodos.idperiodos
 				  			 join personas on personas.idpersonas = users.idpersona
-				  where users_perfiles.idperfiles = 3';
+				  where users_perfiles.idperfiles = 3
+				  		and users_perfiles.deleted_at = NULL';
 		$query = DB::select(DB::raw($sql));
 		return $query;
 	}
@@ -37,6 +38,7 @@ class UsersPerfil extends Eloquent{
 				  			 join periodos on users_periodos.idperiodos = periodos.idperiodos
 				  			 join personas on personas.idpersonas = users.idpersona
 				  where users_perfiles.idperfiles = 3
+				  		and users_perfiles.deleted_at = NULL
 				  		and users_periodos.idperiodos = '.$idperiodo;
 		$query = DB::select(DB::raw($sql));
 		return $query;
@@ -51,6 +53,7 @@ class UsersPerfil extends Eloquent{
 				  			 join periodos on users_periodos.idperiodos = periodos.idperiodos
 				  			 join personas on personas.idpersonas = users.idpersona
 				  where users_perfiles.idperfiles = 3
+				  		and users_perfiles.deleted_at = NULL
 				  		and (users.num_documento LIKE \'%'.$search.'%\'
 				  			 or periodos.nombre LIKE \'%'.$search.'%\'
 				  			 or personas.nombres LIKE \'%'.$search.'%\'
