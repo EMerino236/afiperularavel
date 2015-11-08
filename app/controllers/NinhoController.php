@@ -49,7 +49,7 @@ class NinhoController extends BaseController
 			if(in_array('side_nuevo_ninho',$data["permisos"])){
 				$rules = array(
 							'dni' => 'required|numeric|digits_between:8,16|unique:ninhos',
-							'nombres' => 'required|min:2|max:45',
+							'nombres' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
 							'fecha_nacimiento' => 'required',
@@ -171,7 +171,7 @@ class NinhoController extends BaseController
 			if(in_array('side_nuevo_ninho',$data["permisos"])){
 				$rules = array(
 							'dni' => 'required|numeric|digits_between:8,16',
-							'nombres' => 'required|min:2|max:45',
+							'nombres' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
 							'fecha_nacimiento' => 'required',

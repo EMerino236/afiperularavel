@@ -91,7 +91,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="form-group col-md-6 required @if($errors->first('direccion')) has-error has-feedback @endif">
-						{{ Form::label('direccion','Dirección') }}
+						{{ Form::label('direccion','Dirección exacta') }}
 						@if($colegio_info->deleted_at)
 							{{ Form::text('direccion',$colegio_info->direccion,array('class'=>'form-control','readonly'=>'')) }}
 						@else

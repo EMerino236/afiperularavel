@@ -71,7 +71,7 @@
 			
 				<div class="row">
 					<div class="form-group col-md-6 required @if($errors->first('direccion')) has-error has-feedback @endif">
-						{{ Form::label('direccion','Dirección') }}
+						{{ Form::label('direccion','Dirección exacta') }}
 						{{ Form::text('direccion',Input::old('direccion'),array('class'=>'form-control')) }}
 					</div>
 				</div>	
