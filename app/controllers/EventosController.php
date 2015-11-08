@@ -61,18 +61,25 @@ class EventosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_evento',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'nombre' => 'Título del Evento',
+							'fecha_evento' => 'Fecha del Evento',
+							'idcolegios' => 'Colegio',
+							'direccion' => 'Dirección Exacta',
+							'voluntarios' => 'Voluntarios',
+							'latitud' => 'Punto en el Mapa',
+						);
+				$messages = array();
 				$rules = array(
 							'nombre' => 'required|alpha_spaces|min:2|max:100',
-							//'idtipo_eventos' => 'required',
 							'fecha_evento' => 'required',
 							'idcolegios' => 'required',
-							'direccion' => 'required',
+							'direccion' => 'required|max:100',
 							'voluntarios' => 'required',
 							'latitud' => 'required',
-							'voluntarios' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('eventos/create_evento')->withErrors($validator)->withInput(Input::all());
@@ -241,13 +248,19 @@ class EventosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_evento',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'nombre' => 'Título del Evento',
+							'direccion' => 'Dirección Exacta',
+							'latitud' => 'Punto en el Mapa',
+						);
+				$messages = array();
 				$rules = array(
 							'nombre' => 'required|alpha_spaces|min:2|max:100',
-							'direccion' => 'required',
+							'direccion' => 'required|max:100',
 							'latitud' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				$ideventos = Input::get('ideventos');
 				if($validator->fails()){
@@ -317,20 +330,11 @@ class EventosController extends BaseController
 				foreach($emails_voluntarios as $email_voluntario){
 					$emails[] = $email_voluntario->email;
 				}
-
 				Mail::send('emails.eventCancellation',array('evento'=> $evento),function($message) use ($emails,$evento)
 				{
 					$message->to($emails)
 							->subject('Cancelación de evento de AFI Perú.');
 				});
-				/* Elimino los registros de asistencia */
-				DB::table('asistencias')->where('ideventos', '=', $ideventos)->delete();
-				/* Elimino los registros de asistencia de niños */
-				DB::table('asistencia_ninhos')->where('ideventos', '=', $ideventos)->delete();
-				/* Elimino los puntos de reunion */
-				DB::table('puntos_eventos')->where('ideventos', '=', $ideventos)->delete();
-				/* Elimino las visualizaciones */
-				DB::table('visualizaciones')->where('ideventos', '=', $ideventos)->delete();
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se eliminó el evento con id {{$ideventos}}";
 				Helpers::registrarLog(5,$descripcion_log);
@@ -394,11 +398,15 @@ class EventosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_evento',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'archivo' => 'Documento',
+						);
+				$messages = array();
 				$rules = array(
 							'archivo' => 'required|max:15360|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx',			
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				$ideventos = Input::get('ideventos');
 				if($validator->fails()){
@@ -408,13 +416,14 @@ class EventosController extends BaseController
 				        $archivo = Input::file('archivo');
 				        $rutaDestino = 'files/eventos/';
 				        $nombreArchivo = $archivo->getClientOriginalName();
+				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $peso = $archivo->getSize();
-				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivo);
+				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
 				    	/* Creo el documento */
 						$documento = new Documento;
 						$documento->titulo = $nombreArchivo;
 						$documento->idtipo_documentos = 1; // ¡Que viva el hardcode!
-						$documento->nombre_archivo = Hash::make($nombreArchivo);
+						$documento->nombre_archivo = $nombreArchivoEncriptado;
 						$documento->ruta = $rutaDestino;
 						$documento->peso = $peso;
 						$documento->save();
@@ -436,7 +445,7 @@ class EventosController extends BaseController
 									->subject('Se subió un nuevo documento de AFI Perú.');
 						});
 						// Llamo a la función para registrar el log de auditoria
-						$descripcion_log = "Se subió el documento {{$documento->nombre_archivo}} con id {{$documento->iddocumentos}}";
+						$descripcion_log = "Se subió el documento con id {{$documento->iddocumentos}}";
 						Helpers::registrarLog(7,$descripcion_log);
 				    }
 					
@@ -480,7 +489,7 @@ class EventosController extends BaseController
 					$documentos_evento->delete();
 					Session::flash('message', 'Se eliminó correctamente el archivo.');
 					// Llamo a la función para registrar el log de auditoria
-					$descripcion_log = "Se eliminó el documento {{$documento->nombre_archivo}} con id {{$documento->iddocumentos}}";
+					$descripcion_log = "Se eliminó el documento con id {{$documento->iddocumentos}}";
 					Helpers::registrarLog(8,$descripcion_log);			
 					return Redirect::to('eventos/upload_file/'.$ideventos);
 				}
@@ -835,10 +844,14 @@ class EventosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_punto_reunion',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'direccion' => 'Dirección Exacta',
+							'latitud' => 'Punto en el Mapa',
+						);
+				$messages = array();
 				$rules = array(
 							'direccion' => 'required|max:100',
 							'latitud' => 'required',
-							'longitud' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);

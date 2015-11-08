@@ -85,6 +85,7 @@ Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
 	Route::get('/list_prepadrinos','PadrinosController@list_prepadrinos');
 	Route::get('/edit_prepadrino/{id}','PadrinosController@render_edit_prepadrino');
 	Route::post('/submit_aprove_prepadrino','PadrinosController@submit_aprove_prepadrino');
+	Route::post('/aprobar_prepadrino_ajax','PadrinosController@aprobar_prepadrino_ajax');
 	/* Reporte a Padrinos */
 	Route::get('/create_reporte_padrinos','PadrinosController@render_create_reporte_padrinos');
 	Route::post('/submit_create_reporte_padrinos','PadrinosController@submit_create_reporte_padrinos');
@@ -147,7 +148,7 @@ Route::group(array('prefix'=>'user', 'before'=>'auth'),function(){
 	Route::get('/list_users','UserController@list_users');
 	Route::get('/search_user','UserController@search_user');
 	Route::get('/edit_user/{id}','UserController@render_edit_user');
-	//Route::post('/submit_edit_user','UserController@submit_edit_user');
+	Route::post('/submit_edit_user','UserController@submit_edit_user');
 	Route::post('/submit_disable_user','UserController@submit_disable_user');
 	Route::post('/submit_enable_user','UserController@submit_enable_user');
 	Route::get('/mi_cuenta','UserController@render_mi_cuenta');
@@ -191,6 +192,7 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::get('documents', 'api\v1\DocumentosController@index');
     Route::post('documents/{document_id}/visualizations', 'api\v1\DocumentosController@register_visualization');
     Route::get('children/{id}', 'api\v1\NinhosController@show');
+    Route::get('activity_reports', 'api\v1\SponsorController@activity_reports');
 });
 
 /* Rutas para el juego */

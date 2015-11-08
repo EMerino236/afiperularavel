@@ -11,7 +11,11 @@ class ConvocatoriasController extends BaseController
 			if(in_array('nav_convocatorias',$data["permisos"])){
 				return View::make('convocatorias/home',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -27,7 +31,11 @@ class ConvocatoriasController extends BaseController
 			if(in_array('side_nueva_convocatoria',$data["permisos"])){
 				return View::make('convocatorias/createConvocatoria',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -42,13 +50,20 @@ class ConvocatoriasController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nueva_convocatoria',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'nombre' => 'Nombre de Convocatoria',
+							'fecha_inicio' => 'Fecha de Inicio',
+							'fecha_fin' => 'Fecha de Fin',
+						);
+				$messages = array();
+
 				$rules = array(
-							'nombre' => 'required|min:2|max:45|unique:periodos',
+							'nombre' => 'required|alpha_num_dash|min:2|max:100|unique:periodos',
 							'fecha_inicio' => 'required',
 							'fecha_fin' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('convocatorias/create_convocatoria')->withErrors($validator)->withInput(Input::all());
@@ -63,6 +78,11 @@ class ConvocatoriasController extends BaseController
 						$convocatoria->fecha_fin = $fecha_fin;
 						$convocatoria->save();
 						Session::flash('message', 'Se registró correctamente la convocatoria.');
+
+						// Llamo a la función para registrar el log de auditoria
+						$descripcion_log = "Se creó el periodo con id {{$convocatoria->idperiodos}}";
+						Helpers::registrarLog(3,$descripcion_log);
+
 						
 						return Redirect::to('convocatorias/create_convocatoria');
 					}
@@ -72,7 +92,11 @@ class ConvocatoriasController extends BaseController
 					}
 				}
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -91,7 +115,11 @@ class ConvocatoriasController extends BaseController
 				$data["convocatorias_data"] = Periodo::getPeriodosInfo()->paginate(10);
 				return View::make('convocatorias/listConvocatorias',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -110,7 +138,11 @@ class ConvocatoriasController extends BaseController
 				$data["convocatorias_data"] = Periodo::searchPeriodos($data["search"])->paginate(10);
 				return View::make('convocatorias/listConvocatorias',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -132,7 +164,11 @@ class ConvocatoriasController extends BaseController
 				$data["convocatoria_info"] = $data["convocatoria_info"][0];
 				return View::make('convocatorias/editConvocatoria',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -147,13 +183,20 @@ class ConvocatoriasController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nueva_convocatoria',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'nombre' => 'Nombre de Convocatoria',
+							'fecha_inicio' => 'Fecha de Inicio',
+							'fecha_fin' => 'Fecha Fin',
+						);
+				$messages = array();
+
 				$rules = array(
-							'nombre' => 'required|alpha_dash|min:2|max:45',
+							'nombre' => 'required|alpha_dash|min:2|max:100',
 							'fecha_inicio' => 'required',
 							'fecha_fin' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				$convocatoria_id = Input::get('convocatoria_id');
 				$url = "convocatorias/edit_convocatoria"."/".$convocatoria_id;
@@ -169,6 +212,10 @@ class ConvocatoriasController extends BaseController
 						$convocatoria->fecha_fin = $fecha_fin;
 						$convocatoria->save();
 						Session::flash('message', 'Se editó correctamente la convocatoria.');
+
+						// Llamo a la función para registrar el log de auditoria
+						$descripcion_log = "Se editó el periodo con id {{$convocatoria->idperiodos}}";
+						Helpers::registrarLog(4,$descripcion_log);
 						
 						return Redirect::to($url);
 					}
@@ -178,7 +225,11 @@ class ConvocatoriasController extends BaseController
 					}
 				}
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -201,7 +252,11 @@ class ConvocatoriasController extends BaseController
 				$data["select_aprobacion"] = '';
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -227,7 +282,11 @@ class ConvocatoriasController extends BaseController
 				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase(Input::get('idperiodos'),Input::get('idfases'),$data["estado_aprobacion"])->paginate(10);	
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -258,6 +317,10 @@ class ConvocatoriasController extends BaseController
 							$postulante_periodo->aprobacion = $aprobaciones[$i];
 							$postulante_periodo->save();
 
+							// Llamo a la función para registrar el log de auditoria
+							$descripcion_log = "Se aprobó / desaprobó al postulante por periodo con id {{$postulante_periodo->idpostulantes_periodos}}";
+							Helpers::registrarLog(4,$descripcion_log);
+
 							$postulante = Postulante::searchPostulanteById($postulante_periodo->idpostulantes)->get();
 							$postulante = $postulante[0];
 							if($aprobaciones[$i] == 1 && $estado_aprobacion_anterior != 1){
@@ -265,13 +328,18 @@ class ConvocatoriasController extends BaseController
 								$postulante_periodo_nuevo->idpostulantes = $postulante_periodo->idpostulantes;
 								$postulante_periodo_nuevo->idperiodos = $postulante_periodo->idperiodos;
 								$postulante_periodo_nuevo->idfases = $idfase + 1;
-								$postulante_periodo_nuevo->save();
+								$postulante_periodo_nuevo->save();								
 
 								Mail::send('emails.aprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
 									{
 										$message->to($postulante->email)
 												->subject('Primera Fase de Postulación - AFI Perú.');
 									});
+
+								// Llamo a la función para registrar el log de auditoria
+								// Llamo a la función para registrar el log de auditoria
+							$descripcion_log = "Se creó al postulante por periodo con id {{$postulante_periodo_nuevo->idpostulantes_periodos}}";
+							Helpers::registrarLog(3,$descripcion_log);
 							}
 							else{
 								Mail::send('emails.desaprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
@@ -293,6 +361,10 @@ class ConvocatoriasController extends BaseController
 							$postulante_periodo->aprobacion = $aprobaciones[$i];
 							$postulante_periodo->save();
 
+							// Llamo a la función para registrar el log de auditoria
+							$descripcion_log = "Se aprobó / desaprobó al postulante por periodo con id {{$postulante_periodo->idpostulantes_periodos}}";
+							Helpers::registrarLog(4,$descripcion_log);
+
 							$postulante = Postulante::searchPostulanteById($postulante_periodo->idpostulantes)->get();
 							$postulante = $postulante[0];
 							if($aprobaciones[$i] == 1){
@@ -305,14 +377,18 @@ class ConvocatoriasController extends BaseController
 								Mail::send('emails.aprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
 									{
 										$message->to($postulante->email)
-												->subject('Primera Fase de Postulación - AFI Perú.');
+												->subject('Segunda Fase de Postulación - AFI Perú.');
 									});
+
+								// Llamo a la función para registrar el log de auditoria
+								$descripcion_log = "Se creó al postulante por periodo con id {{$postulante_periodo_nuevo->idpostulantes_periodos}}";
+								Helpers::registrarLog(3,$descripcion_log);
 							}
 							else{
 								Mail::send('emails.desaprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
 									{
 										$message->to($postulante->email)
-												->subject('Primera Fase de Postulación - AFI Perú.');
+												->subject('Segunda Fase de Postulación - AFI Perú.');
 									});
 							}
 						}
@@ -327,6 +403,10 @@ class ConvocatoriasController extends BaseController
 							$postulante_periodo->comentario = $comentarios[$i];
 							$postulante_periodo->aprobacion = $aprobaciones[$i];
 							$postulante_periodo->save();
+
+							// Llamo a la función para registrar el log de auditoria
+							$descripcion_log = "Se aprobó / desaprobó al postulante por periodo con id {{$postulante_periodo->idpostulantes_periodos}}";
+							Helpers::registrarLog(4,$descripcion_log);
 						
 							$postulante = Postulante::searchPostulanteById($postulante_periodo->idpostulantes)->get();
 							$postulante = $postulante[0];
@@ -340,6 +420,11 @@ class ConvocatoriasController extends BaseController
 								$persona->telefono = $postulante->telefono;
 								$persona->celular = $postulante->celular;
 								$persona->save();
+
+								// Llamo a la función para registrar el log de auditoria
+								$descripcion_log = "Se creó la persdona  con id {{$persona->idpersonas}}";
+								Helpers::registrarLog(3,$descripcion_log);
+
 								// Creo al usuario y le asigno su información de persona
 								$password = Str::random(8);
 								$user = new User;
@@ -350,17 +435,30 @@ class ConvocatoriasController extends BaseController
 								$user->idpersona = $persona->idpersonas;
 								$user->auth_token = Str::random(32);
 								$user->save();
+
+								// Llamo a la función para registrar el log de auditoria
+								$descripcion_log = "Se creó el usuario con id {{$user->id}}";
+								Helpers::registrarLog(3,$descripcion_log);
 								// Registro los perfiles seleccionados
 								$perfil = 3;
 								$users_perfil = new UsersPerfil;
 								$users_perfil->idusers = $user->id;
 								$users_perfil->idperfiles = $perfil;
 								$users_perfil->save();
+
+								// Llamo a la función para registrar el log de auditoria
+								$descripcion_log = "Se creó el usuario por perfil con id {{$users_perfil->idusers_perfiles}}";
+								Helpers::registrarLog(3,$descripcion_log);
+
 								// Registro el usuario en el periodo correspondiente
 								$users_periodo = new UsersPeriodo;
 								$users_periodo->idusers = $user->id;
 								$users_periodo->idperiodos = $postulante_periodo->idperiodos;
 								$users_periodo->save();
+
+								// Llamo a la función para registrar el log de auditoria
+								$descripcion_log = "Se creó el usuario por periodo con id {{$users_periodo->idusers_periodos}}";
+								Helpers::registrarLog(3,$descripcion_log);
 
 								Mail::send('emails.aprobacionFinalPostulacion',array('user'=> $user,'persona'=>$persona,'password'=>$password),function($message) use ($user,$persona)
 								{
@@ -372,7 +470,7 @@ class ConvocatoriasController extends BaseController
 								Mail::send('emails.desaprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
 											{
 												$message->to($postulante->email)
-														->subject('Primera Fase de Postulación - AFI Perú.');
+														->subject('Tercera Fase de Postulación - AFI Perú.');
 											});
 							}
 						}
@@ -382,7 +480,11 @@ class ConvocatoriasController extends BaseController
 				Session::flash('message', 'Se registró correctamente la aprobación de postulantes..');				
 				return Redirect::to('convocatorias/list_postulantes/'.$idperiodos)->withInput(Input::all());
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -407,7 +509,11 @@ class ConvocatoriasController extends BaseController
 				$data["postulante_info"]  = $data["postulante_info"] [0];
 				return View::make('convocatorias/viewPostulante',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -424,7 +530,11 @@ class ConvocatoriasController extends BaseController
 				$data["voluntarios_data"] = UsersPerfil::getVoluntariosByIdPeriodo($id);
 				return View::make('convocatorias/listVoluntarios',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -447,14 +557,22 @@ class ConvocatoriasController extends BaseController
 					$periodo = Periodo::find($idperiodo);
 					$periodo->delete();
 
-				Session::flash('message', 'Se inhabilitó correctamente la convocatoria.');
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se inhabilitó el periodo con id {{$periodo->idperiodos}}";
+					Helpers::registrarLog(5,$descripcion_log);
+
+					Session::flash('message', 'Se inhabilitó correctamente la convocatoria.');
 				}
 				else{
 					Session::flash('error', 'Existe al menos un evento, postulante o usuario asociado a esta convocatoria. No es posible inhbailitar.');
 				}
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -472,10 +590,19 @@ class ConvocatoriasController extends BaseController
 				$url = "convocatorias/edit_convocatoria/".$idperiodo;
 				$periodo = Periodo::withTrashed()->find($idperiodo);
 				$periodo->restore();
+
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se habilitó el periodo con id {{$periodo->idperiodos}}";
+				Helpers::registrarLog(6,$descripcion_log);
+
 				Session::flash('message', 'Se habilitó correctamente la convocatoria.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');

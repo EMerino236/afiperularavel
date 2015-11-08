@@ -2,3 +2,7 @@
   content:"*";
   color:red;
 }
+
+.campos-obligatorios{
+	color:red;
+}

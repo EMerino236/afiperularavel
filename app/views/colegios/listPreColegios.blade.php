@@ -29,4 +29,7 @@
 		</tr>
 		@endforeach
 	</table>
+	@if($precolegios_data)
+		{{ $precolegios_data->links() }}
+	@endif
 @stop

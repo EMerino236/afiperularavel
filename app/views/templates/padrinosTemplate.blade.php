@@ -28,6 +28,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/padrinos/pagos.js') }}"></script>
+    <script src="{{ asset('js/padrinos/padrinos.js') }}"></script>
 </head>
 
 <body>
