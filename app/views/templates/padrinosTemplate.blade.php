@@ -51,7 +51,7 @@
                     <li><a href="{{ URL::to('padrinos/reporte_pagos_padrinos') }}"><i class="fa fa-files-o fa-fw"></i> Listar Reportes Creados</a></li>
                     @endif
                     @if(in_array('side_calendario_pagos',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-calendar-o fa-fw"></i> Calendario de Pagos</a></li>
+                    <li><a href="{{ URL::to('padrinos/view_calendario_pagos') }}"><i class="fa fa-calendar-o fa-fw"></i> Calendario de Pagos</a></li>
                     @endif
                     @if(in_array('side_reporte_pagos',$permisos))
                     <li><a href="{{ URL::to('padrinos/reporte_pagos_padrinos') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Pagos</a></li>

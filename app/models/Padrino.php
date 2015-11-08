@@ -58,7 +58,7 @@ class Padrino extends Eloquent{
 	public function scopeGetPadrinoByUserId($query, $idusers)
 	{
 		$query->where('idusers', '=', $idusers)
-			->select('*');
+			->select('padrinos.*');
 
 		return $query;
 	}

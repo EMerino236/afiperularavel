@@ -86,6 +86,7 @@ Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
 	Route::get('/edit_prepadrino/{id}','PadrinosController@render_edit_prepadrino');
 	Route::post('/submit_aprove_prepadrino','PadrinosController@submit_aprove_prepadrino');
 	Route::post('/aprobar_prepadrino_ajax','PadrinosController@aprobar_prepadrino_ajax');
+	Route::get('/view_calendario_pagos','PadrinosController@render_view_calendario_pagos');
 	/* Reporte a Padrinos */
 	Route::get('/create_reporte_padrinos','PadrinosController@render_create_reporte_padrinos');
 	Route::post('/submit_create_reporte_padrinos','PadrinosController@submit_create_reporte_padrinos');
