@@ -47,9 +47,9 @@ class ColegiosController extends BaseController
 							'longitud' => 'required',
 							'nombre' => 'required|min:2|max:100',
 							'direccion' => 'required|max:200',
-							'nombre_contacto' => 'alpha_spaces|min:2|max:100',
-							'email_contacto' => 'email|max:45',
-							'telefono_contacto' => 'min:7|max:20',
+							'nombre_contacto' => 'required|alpha_spaces|min:2|max:100',
+							'email_contacto' => 'required|email|max:45',
+							'telefono_contacto' => 'numeric|min:7|max:20',
 							'interes' => 'max:100',
 						);
 				// Run the validation rules on the inputs from the form
@@ -161,9 +161,9 @@ class ColegiosController extends BaseController
 							'longitud' => 'required',
 							'nombre' => 'required|min:2|max:100',
 							'direccion' => 'required|max:200',
-							'nombre_contacto' => 'alpha_spaces|min:2|max:100',
-							'email_contacto' => 'email|max:45',
-							'telefono_contacto' => 'min:7|max:20',
+							'nombre_contacto' => 'required|alpha_spaces|min:2|max:100',
+							'email_contacto' => 'required|email|max:45',
+							'telefono_contacto' => 'numeric|min:7|max:20',
 							'interes' => 'max:100',
 						);
 				

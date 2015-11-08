@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Información del Niño</h3>
+            <h3 class="page-header">Información del Niño</h3><span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
         </div>
     </div>
 
@@ -13,6 +13,7 @@
 			<p><strong>{{ $errors->first('apellido_pat') }}</strong></p>
 			<p><strong>{{ $errors->first('apellido_mat') }}</strong></p>
 			<p><strong>{{ $errors->first('fecha_nacimiento') }}</strong></p>
+			<p><strong>{{ $errors->first('genero') }}</strong></p>
 			<p><strong>{{ $errors->first('nombre_apoderado') }}</strong></p>
 			<p><strong>{{ $errors->first('dni_apoderado') }}</strong></p>
 			<p><strong>{{ $errors->first('num_familiares') }}</strong></p>
@@ -30,7 +31,7 @@
 	{{ Form::open(array('url'=>'ninhos/submit_edit_ninho', 'role'=>'form')) }}
 		{{ Form::hidden('idninhos', $ninho_info->idninhos) }}
 			<div class="row">
-				<div class="form-group col-md-6 @if($errors->first('dni')) has-error has-feedback @endif">
+				<div class="form-group col-md-6 required @if($errors->first('dni')) has-error has-feedback @endif">
 					{{ Form::label('dni','Número de Documento') }}
 					@if($ninho_info->deleted_at)
 						{{ Form::text('dni',$ninho_info->dni,array('class'=>'form-control','readonly'=>'')) }}
@@ -38,7 +39,7 @@
 						{{ Form::text('dni',$ninho_info->dni,array('class'=>'form-control')) }}
 					@endif	
 				</div>
-				<div class="form-group col-md-6 @if($errors->first('nombre_apoderado')) has-error has-feedback @endif">
+				<div class="form-group col-md-6 required @if($errors->first('nombre_apoderado')) has-error has-feedback @endif">
 					{{ Form::label('nombre_apoderado','Nombre Apoderado') }}
 					@if($ninho_info->deleted_at)
 						{{ Form::text('nombre_apoderado',$ninho_info->nombre_apoderado,array('class'=>'form-control','readonly'=>'')) }}
@@ -48,7 +49,7 @@
 				</div>	
 			</div>
 			<div class="row">
-				<div class="form-group col-md-6 @if($errors->first('nombres')) has-error has-feedback @endif">
+				<div class="form-group col-md-6 required @if($errors->first('nombres')) has-error has-feedback @endif">
 					{{ Form::label('nombres','Nombres') }}
 					@if($ninho_info->deleted_at)
 						{{ Form::text('nombres',$ninho_info->nombres,array('class'=>'form-control','readonly'=>'')) }}
@@ -56,7 +57,7 @@
 						{{ Form::text('nombres',$ninho_info->nombres,array('class'=>'form-control')) }}	
 					@endif	
 				</div>
-				<div class="form-group col-md-6 @if($errors->first('dni_apoderado')) has-error has-feedback @endif">
+				<div class="form-group col-md-6 required @if($errors->first('dni_apoderado')) has-error has-feedback @endif">
 					{{ Form::label('dni_apoderado','DNI Apoderado') }}
 					@if($ninho_info->deleted_at)
 						{{ Form::text('dni_apoderado',$ninho_info->dni_apoderado,array('class'=>'form-control','readonly'=>'')) }}
@@ -66,7 +67,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-md-6 @if($errors->first('apellido_pat')) has-error has-feedback @endif">
+				<div class="form-group col-md-6 required @if($errors->first('apellido_pat')) has-error has-feedback @endif">
 					{{ Form::label('apellido_pat','Apellido Paterno') }}
 					@if($ninho_info->deleted_at)	
 						{{ Form::text('apellido_pat',$ninho_info->apellido_pat,array('class'=>'form-control','readonly'=>'')) }}
@@ -84,7 +85,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-md-6 @if($errors->first('apellido_mat')) has-error has-feedback @endif">
+				<div class="form-group col-md-6 required @if($errors->first('apellido_mat')) has-error has-feedback @endif">
 					{{ Form::label('apellido_mat','Apellido Materno') }}
 					@if($ninho_info->deleted_at)
 						{{ Form::text('apellido_mat',$ninho_info->apellido_mat,array('class'=>'form-control','readonly'=>'')) }}
@@ -102,7 +103,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-6 required">
 					{{ Form::label('fecha_nacimiento','Fecha de nacimiento') }}
 					@if(!$ninho_info->deleted_at)
 					<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_nacimiento')) has-error has-feedback @endif">
@@ -115,7 +116,7 @@
 						{{ Form::text('fecha_nacimiento',$ninho_info->fecha_nacimiento,array('class'=>'form-control','readonly'=>'')) }}
 	                @endif
 				</div>
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-6 required">
 					{{ Form::label('idcolegios','Colegio') }}
 					@if($ninho_info->deleted_at)
 						{{ Form::select('idcolegios',$colegios,$ninho_info->idcolegios,['class' => 'form-control','disabled'=>'']) }}

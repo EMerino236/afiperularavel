@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Información del Colegio</h3>
+            <h3 class="page-header">Información del Colegio</h3><span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
         </div>
     </div>
 
@@ -13,6 +13,7 @@
 			<p><strong>{{ $errors->first('nombre_contacto') }}</strong></p>
 			<p><strong>{{ $errors->first('email_contacto') }}</strong></p>
 			<p><strong>{{ $errors->first('telefono_contacto') }}</strong></p>
+			<p><strong>{{ $errors->first('interes') }}</strong></p>
 			@if($errors->first('latitud'))
 				<p><strong>Mueva el punto en el mapa a una ubicación diferente</strong></p>
 			@endif
@@ -36,7 +37,7 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-6 @if($errors->first('nombre')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 required @if($errors->first('nombre')) has-error has-feedback @endif">
 						{{ Form::label('nombre','Nombre') }}
 						@if($colegio_info->deleted_at)
 							{{ Form::text('nombre',$colegio_info->nombre,array('class'=>'form-control','readonly'=>'')) }}
@@ -44,7 +45,7 @@
 							{{ Form::text('nombre',$colegio_info->nombre,array('class'=>'form-control')) }}
 						@endif
 					</div>
-					<div class="form-group col-md-6 @if($errors->first('email_contacto')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 required @if($errors->first('email_contacto')) has-error has-feedback @endif">
 						{{ Form::label('email_contacto','Email contacto') }}
 						@if($colegio_info->deleted_at)
 							{{ Form::text('email_contacto',$colegio_info->email_contacto,array('class'=>'form-control','readonly'=>'')) }}
@@ -54,7 +55,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="form-group col-md-6 @if($errors->first('nombre_contacto')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 required @if($errors->first('nombre_contacto')) has-error has-feedback @endif">
 						{{ Form::label('nombre_contacto','Nombre Contacto') }}
 						@if($colegio_info->deleted_at)
 							{{ Form::text('nombre_contacto',$colegio_info->nombre_contacto,array('class'=>'form-control','readonly'=>'')) }}
@@ -62,7 +63,7 @@
 							{{ Form::text('nombre_contacto',$colegio_info->nombre_contacto,array('class'=>'form-control')) }}
 						@endif	
 					</div>
-					<div class="form-group col-md-6 @if($errors->first('interes')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 required @if($errors->first('interes')) has-error has-feedback @endif">
 						{{ Form::label('interes','Interes') }}
 						@if($colegio_info->deleted_at)
 							{{ Form::text('interes',$colegio_info->interes,array('class'=>'form-control','readonly'=>'')) }}
@@ -72,7 +73,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="form-group col-md-6 @if($errors->first('telefono_contacto')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 required @if($errors->first('telefono_contacto')) has-error has-feedback @endif">
 						{{ Form::label('telefono_contacto','Telefono contacto') }}
 						@if($colegio_info->deleted_at)
 							{{ Form::text('telefono_contacto',$colegio_info->telefono_contacto,array('class'=>'form-control','readonly'=>'')) }}
@@ -85,11 +86,11 @@
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Ingrese la Ubicación del Evento en el Mapa</h3>
+				<h3 class="panel-title">Ingrese la Ubicación del Colegio en el Mapa</h3>
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="form-group col-md-6 @if($errors->first('direccion')) has-error has-feedback @endif">
+					<div class="form-group col-md-6 required @if($errors->first('direccion')) has-error has-feedback @endif">
 						{{ Form::label('direccion','Dirección') }}
 						@if($colegio_info->deleted_at)
 							{{ Form::text('direccion',$colegio_info->direccion,array('class'=>'form-control','readonly'=>'')) }}
