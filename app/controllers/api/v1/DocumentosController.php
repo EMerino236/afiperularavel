@@ -103,13 +103,13 @@ class DocumentosController extends \BaseController {
         $auth_token = \Request::header('authorization');
         $user = \User::where('auth_token', '=', $auth_token)->first();
         
-        $idevento = \Input::get('event_id');
+        $idevento = \Input::get('session_id');
         
         if($idevento)
         {
             $evento = \Evento::find($idevento);
             if(!$evento)
-                return \Response::json(['error' => 'No existe ningun evento con id = ' . $idevento], 200);
+                return \Response::json(['error' => 'No existe ninguna sesión con id = ' . $idevento], 200);
         
             $v = new \Visualizacion;
             $v->idusers = $user->id;

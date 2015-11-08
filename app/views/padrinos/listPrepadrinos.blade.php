@@ -7,14 +7,13 @@
         <!-- /.col-lg-12 -->
     </div>
 
-    {{ Form::open(array('url'=>'padrinos/submit_aprove_prepadrino', 'role'=>'form')) }}
     <table class="table">
 		<tr class="info">
 			<th>DNI</th>
 			<th>Nombres</th>
 			<th>Apellido Paterno</th>
 			<th>Apellido Materno</th>
-			<th>Seleccionar <input type="checkbox" name="seleccionar-todos-prepadrinos" value=""></th>
+			<th>Seleccionar <input type="checkbox" name="seleccionar-todos-prepadrinos" value="0"></th>
 		</tr>
 		@foreach($prepadrinos_data as $prepadrino_data)
 		<tr class="@if($prepadrino_data->deleted_at) bg-danger @endif">
@@ -30,9 +29,9 @@
 				</td>
 				<td>
 					{{$prepadrino_data->apellido_mat}}
-				</td>
-				<td class="text-center">
-					<input type="checkbox" class="checkbox-prepadrinos" name="prepadrinos[]" value="{{$prepadrino_data->idprepadrinos}}">
+				</td>				
+				<td class="text-center" style="vertical-align:middle">
+					<input type="checkbox" name="aprobacion" class="checkbox-aprobacion" value="{{$prepadrino_data->idprepadrinos}}"  @if($prepadrino_data->deleted_at) checked @endif>
 				</td>
 			@endif
 		</tr>
@@ -46,12 +45,10 @@
 	<div class="col-xs-12">
 		<div class="row">
 			<div class="form-group col-xs-8">	
-			@if(!$prepadrino_data->deleted_at)						
-				{{ Form::submit('Aprobar',array('class'=>'btn btn-primary')) }}				
+			@if(!$prepadrinos_data->isEmpty())					
+				{{ HTML::link('','Aprobar',array('id'=>'submit-aprobar-prepadrinos', 'class'=>'btn btn-primary')) }}
 			@endif
 			</div>
 		</div>
 	</div>
-	{{ Form::close() }}
-	<script src="{{ asset('js/padrinos/padrinos.js') }}"></script>
 @stop

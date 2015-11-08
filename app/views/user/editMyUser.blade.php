@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Mi Cuenta</h3> <span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
+            <h3 class="page-header">Mi Cuenta</h3><span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -45,7 +45,7 @@
 					</div>
 					<div class="form-group col-md-6">
 						{{ Form::label('num_documento','Cambiar Número de Documento') }}
-						{{ Form::text('num_documento',null,array('class'=>'form-control')) }}
+						{{ Form::text('num_documento',null,array('class'=>'form-control','maxlength'=>'16')) }}
 					</div>
 				</div>
 				<div class="row">
@@ -68,41 +68,41 @@
 				<div class="row">
 					<div class="form-group col-md-6 required @if($errors->first('nombres')) has-error has-feedback @endif">
 						{{ Form::label('nombres','Nombres') }}
-						{{ Form::text('nombres',$user_info->nombres,array('class'=>'form-control')) }}
+						{{ Form::text('nombres',$user_info->nombres,array('class'=>'form-control','maxlength'=>'100')) }}
 					</div>
 					<div class="form-group col-md-6 required @if($errors->first('direccion')) has-error has-feedback @endif">
 						{{ Form::label('direccion','Dirección') }}
-						{{ Form::text('direccion',$user_info->direccion,array('class'=>'form-control')) }}
+						{{ Form::text('direccion',$user_info->direccion,array('class'=>'form-control','maxlength'=>'150')) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-6 required @if($errors->first('apellido_pat')) has-error has-feedback @endif">
 						{{ Form::label('apellido_pat','Apellido Paterno') }}
-						{{ Form::text('apellido_pat',$user_info->apellido_pat,array('class'=>'form-control')) }}
+						{{ Form::text('apellido_pat',$user_info->apellido_pat,array('class'=>'form-control','maxlength'=>'100')) }}
 					</div>
 					<div class="form-group col-md-6 @if($errors->first('telefono')) has-error has-feedback @endif">
 						{{ Form::label('telefono','Teléfono') }}
-						{{ Form::text('telefono',$user_info->telefono,array('class'=>'form-control')) }}
+						{{ Form::text('telefono',$user_info->telefono,array('class'=>'form-control','maxlength'=>'20')) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-6 required @if($errors->first('apellido_mat')) has-error has-feedback @endif">
 						{{ Form::label('apellido_mat','Apellido Materno') }}
-						{{ Form::text('apellido_mat',$user_info->apellido_mat,array('class'=>'form-control')) }}
+						{{ Form::text('apellido_mat',$user_info->apellido_mat,array('class'=>'form-control','maxlength'=>'100')) }}
 					</div>
 					<div class="form-group col-md-6 @if($errors->first('celular')) has-error has-feedback @endif">
 						{{ Form::label('celular','Celular') }}
-						{{ Form::text('celular',$user_info->celular,array('class'=>'form-control')) }}
+						{{ Form::text('celular',$user_info->celular,array('class'=>'form-control','maxlength'=>'20')) }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-md-6">
 						{{ Form::label('fecha_nac','Fecha de Nacimiento Registrada') }}
-						{{ Form::text('fecha_nac',date('d-m-Y',strtotime($user_info->fecha_nacimiento)),array('class'=>'form-control')) }}
+						{{ Form::text('fecha_nac',date('d-m-Y',strtotime($user_info->fecha_nacimiento)),array('class'=>'form-control','readonly'=>'')) }}
 					</div>
 					<div class="form-group col-md-6">
 						{{ Form::label('email_reg','E-mail Registrado') }}
-						{{ Form::text('email_reg',$user_info->email,array('class'=>'form-control')) }}
+						{{ Form::text('email_reg',$user_info->email,array('class'=>'form-control','readonly'=>'')) }}
 					</div>
 				</div>
 				<div class="row">
@@ -117,7 +117,7 @@
 					</div>
 					<div class="form-group col-md-6 @if($errors->first('email')) has-error has-feedback @endif">
 						{{ Form::label('email','Cambiar E-mail') }}
-						{{ Form::text('email','',array('class'=>'form-control')) }}
+						{{ Form::text('email','',array('class'=>'form-control','maxlength'=>'100')) }}
 					</div>
 				</div>
 			</div>

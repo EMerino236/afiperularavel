@@ -32,7 +32,7 @@
 				{{$pago_data->monto}}
 			</td>
 			<td>
-				{{$pago_data->fecha_pago}}
+				{{date('d/m/Y',strtotime($pago_data->fecha_pago))}}
 			</td>
 			<td class="text-center" style="vertical-align:middle">
 					@if($pago_data->aprobacion === 0)

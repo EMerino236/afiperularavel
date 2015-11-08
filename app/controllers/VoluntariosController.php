@@ -91,6 +91,11 @@ class VoluntariosController extends BaseController
 				$user_periodo->idusers = Input::get('user_id');
 				$user_periodo->idperiodos = Input::get('idperiodos');
 				$user_periodo->save();
+
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se creó el usuario por periodo con id {{$user_periodo->idusers_periodos}}";
+				Helpers::registrarLog(3,$descripcion_log);
+
 				Session::flash('message',"Se ha registrado correctamente su postulación al nuevo período.");
 				return Redirect::to('/dashboard');
 			}else{

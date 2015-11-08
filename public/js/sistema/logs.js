@@ -10,4 +10,5 @@ $( document ).ready(function(){
 		format: 'DD-MM-YYYY',
 		ignoreReadonly: true
 	});
+
 });

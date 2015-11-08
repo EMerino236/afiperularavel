@@ -65,7 +65,7 @@ class EventosController extends BaseController
 							'nombre' => 'Título del Evento',
 							'fecha_evento' => 'Fecha del Evento',
 							'idcolegios' => 'Colegio',
-							'direccion' => 'Dirección',
+							'direccion' => 'Dirección Exacta',
 							'voluntarios' => 'Voluntarios',
 							'latitud' => 'Punto en el Mapa',
 						);
@@ -248,13 +248,19 @@ class EventosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_evento',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'nombre' => 'Título del Evento',
+							'direccion' => 'Dirección Exacta',
+							'latitud' => 'Punto en el Mapa',
+						);
+				$messages = array();
 				$rules = array(
 							'nombre' => 'required|alpha_spaces|min:2|max:100',
 							'direccion' => 'required|max:100',
 							'latitud' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				$ideventos = Input::get('ideventos');
 				if($validator->fails()){
@@ -392,11 +398,15 @@ class EventosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_evento',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'archivo' => 'Documento',
+						);
+				$messages = array();
 				$rules = array(
 							'archivo' => 'required|max:15360|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx',			
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				$ideventos = Input::get('ideventos');
 				if($validator->fails()){
@@ -435,7 +445,7 @@ class EventosController extends BaseController
 									->subject('Se subió un nuevo documento de AFI Perú.');
 						});
 						// Llamo a la función para registrar el log de auditoria
-						$descripcion_log = "Se subió el documento {{$documento->nombre_archivo}} con id {{$documento->iddocumentos}}";
+						$descripcion_log = "Se subió el documento con id {{$documento->iddocumentos}}";
 						Helpers::registrarLog(7,$descripcion_log);
 				    }
 					
@@ -479,7 +489,7 @@ class EventosController extends BaseController
 					$documentos_evento->delete();
 					Session::flash('message', 'Se eliminó correctamente el archivo.');
 					// Llamo a la función para registrar el log de auditoria
-					$descripcion_log = "Se eliminó el documento {{$documento->nombre_archivo}} con id {{$documento->iddocumentos}}";
+					$descripcion_log = "Se eliminó el documento con id {{$documento->iddocumentos}}";
 					Helpers::registrarLog(8,$descripcion_log);			
 					return Redirect::to('eventos/upload_file/'.$ideventos);
 				}
@@ -834,10 +844,14 @@ class EventosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_punto_reunion',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'direccion' => 'Dirección Exacta',
+							'latitud' => 'Punto en el Mapa',
+						);
+				$messages = array();
 				$rules = array(
 							'direccion' => 'required|max:100',
 							'latitud' => 'required',
-							'longitud' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
