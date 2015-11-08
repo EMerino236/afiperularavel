@@ -43,18 +43,15 @@
 					<table class="table" style ="width:100%;word-wrap:break-word;table-layout: fixed;">
 						<tr class="info">
 							<th>Titulo</th>
-							<th>Nombre Archivo</th>
 							<th>Tamaño</th>
 							<th>Descargar</th>
+							<th>Eliminar</th>
 						</tr>
 						@foreach($documentos as $documento)
 						<tr class="@if($documento->deleted_at) bg-danger @endif">			
 							<td>
 								{{$documento->titulo}}
-							</td>
-							<td>
-								{{$documento->nombre_archivo}}
-							</td>	
+							</td>							
 							<td>
 								@if(($documento->peso)/1024 >1000)
 									{{round(($documento->peso)/(1024*1024),2)}} <span> MB</span>
@@ -64,15 +61,22 @@
 							</td>					
 							<td >
 							@if(!$documento->deleted_at)
-							{{ Form::open(array('url'=>'concursos/descargar_documento', 'role'=>'form')) }}
+								{{ Form::open(array('url'=>'concursos/descargar_documento', 'role'=>'form')) }}
 								{{ Form::hidden('idconcursos', $concurso_info->idconcursos) }}
 								{{ Form::hidden('iddocumentos', $documento->iddocumentos) }}
 								<button type="submit" class="btn btn-primary">
 								  <span class="fa fa-download"> Descargar</span> 
-								</button>	
+								</button>
+								{{ Form::close() }}	
 							@endif
 							</td>
-							
+							<td>
+								{{ Form::open(array('url'=>'concursos/submit_delete_file', 'role'=>'form')) }}
+								{{ Form::hidden('idconcursos', $concurso_info->idconcursos) }}
+								{{ Form::hidden('iddocumentos_concursos', $documento->iddocumentos_concursos) }}
+								{{ Form::submit('X',array('class'=>'btn btn-danger','title'=>'Eliminar Documento')) }}								
+								{{ Form::close() }}
+							</td>
 						</tr>
 						@endforeach
 					</table>

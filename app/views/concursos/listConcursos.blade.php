@@ -7,6 +7,13 @@
         <!-- /.col-lg-12 -->
     </div>
 
+    @if (Session::has('message'))
+		<div class="alert alert-success">{{ Session::get('message') }}</div>
+	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+	@endif
+
     {{ Form::open(array('url'=>'/concursos/search_concurso','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-inline')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">

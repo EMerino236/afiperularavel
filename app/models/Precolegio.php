@@ -12,8 +12,7 @@ class Precolegio extends Eloquent{
 
 	public function scopeGetPreColegiosInfo($query)
 	{
-		$query->withTrashed()
-			  ->select('precolegios.*');
+		$query->select('precolegios.*');
 		return $query;
 	}
 

@@ -93,6 +93,10 @@ Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
 	Route::post('/descargar_reporte_padrino','PadrinosController@submit_descargar_reporte_padrino');
 	Route::get('/reporte_pagos_padrinos','PadrinosController@render_reporte_pagos_padrinos');
 	Route::post('/submit_reporte_pagos_padrinos','PadrinosController@submit_reporte_pagos_padrinos');
+	Route::get('/list_aprobar_pagos','PadrinosController@list_aprobar_pagos');
+	Route::post('/aprobar_pago_ajax','PadrinosController@aprobar_pago_ajax');
+	Route::get('/view_pago/{id}','PadrinosController@render_view_pago');
+	Route::post('/submit_aprove_pago','PadrinosController@submit_aprove_pago');
 });
 /* Colegios */
 Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){
@@ -140,6 +144,7 @@ Route::group(array('prefix'=>'concursos','before'=>'auth'),function(){
 	Route::get('/fases_concurso/{id}','ConcursosController@render_fases_concurso');
 	Route::get('/edit_concurso/{id}','ConcursosController@render_edit_concurso');
 	Route::post('/submit_edit_concurso','ConcursosController@submit_edit_concurso');
+	Route::post('/submit_aprove_precolegio','ColegiosController@submit_aprove_precolegio');
 });
 /* Users */
 Route::group(array('prefix'=>'user', 'before'=>'auth'),function(){

@@ -207,7 +207,7 @@ class ConcursosController extends BaseController
 				        $nombreArchivo = $archivo->getClientOriginalName();
 				        $nombreArchivoEncriptado = Str::random(27).'.'.pathinfo($nombreArchivo, PATHINFO_EXTENSION);
 				        $peso = $archivo->getSize();
-				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivo);
+				        $uploadSuccess = $archivo->move($rutaDestino, $nombreArchivoEncriptado);
 				    	/* Creo el documento */
 						$documento = new Documento;
 						$documento->titulo = $nombreArchivo;
@@ -262,8 +262,8 @@ class ConcursosController extends BaseController
 					/* Elimino el documento y la relación con el concurso */
 					$documentos_concurso = DocumentosConcurso::find(Input::get('iddocumentos_concursos'));
 					$documento = Documento::find($documentos_concurso->iddocumentos);
-					$documento->delete();
 					$documentos_concurso->delete();
+					$documento->delete();					
 					// Llamo a la función para registrar el log de auditoria
 					$descripcion_log = "Se eliminó el archivo con id {{$documento->iddocumentos}} para el concurso con id {{$documentos_concurso->idconcursos}}";
 					Helpers::registrarLog(8,$descripcion_log);
@@ -473,6 +473,34 @@ class ConcursosController extends BaseController
 				return Redirect::to('/dashboard');
 			}
 
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_disable_concurso()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_concurso',$data["permisos"])){
+				$concurso_id = Input::get('idconcursos');
+				$url = "concursos/list_concursos";
+				$concurso = Concurso::find($concurso_id);
+				$concurso->delete();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se eliminó el concurso con id {{$concurso->idconcursos}}";
+				Helpers::registrarLog(5,$descripcion_log);
+				Session::flash('message', 'Se eliminó correctamente al concurso.');
+				return Redirect::to($url);
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
 		}else{
 			return View::make('error/error');
 		}

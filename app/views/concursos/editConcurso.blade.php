@@ -38,8 +38,15 @@
 			</div>
 		</div>			
 		<div class="row">
-			<div class="form-group col-xs-8">
-				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+			<div class="form-group col-xs-1">
+				{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}
+				{{Form::close()}}	
+			</div>
+			<div class="form-group col-xs-1">
+				{{ Form::open(array('url'=>'concursos/submit_disable_concurso', 'role'=>'form')) }}
+					{{ Form::hidden('idconcursos', $concurso_info->idconcursos) }}
+					 {{ Form::submit('Eliminar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}
+				{{Form::close()}}	
 			</div>
 		</div>		
 		
