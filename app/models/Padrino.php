@@ -62,4 +62,16 @@ class Padrino extends Eloquent{
 
 		return $query;
 	}
+
+	public function scopeSearchPadrinoByNumDoc($query,$search_criteria)
+	{
+		$query->withTrashed()
+			  ->join('users','users.id','=','padrinos.idusers')
+			  ->join('personas','personas.idpersonas','=','users.idpersona')
+			  ->join('tipo_identificacion','tipo_identificacion.idtipo_identificacion','=','users.idtipo_identificacion')
+			  ->join('periodo_pagos','periodo_pagos.idperiodo_pagos','=','padrinos.idperiodo_pagos')
+			  ->where('users.num_documento','=',$search_criteria)
+			  ->select('tipo_identificacion.nombre as nombre_tipo_identificacion','periodo_pagos.nombre','personas.*','users.*','padrinos.idpadrinos');
+		return $query;
+	}
 }

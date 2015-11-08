@@ -39,5 +39,20 @@ class CalendarioPago extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetCalendarioByPadrinoPendientes($query, $idpadrinos)
+	{
+		$query->where('idpadrinos', '=', $idpadrinos)
+			->whereNull('calendario_pagos.fecha_pago')	
+			->select('*');
+		return $query;
+	}
+
+	public function scopeGetCalendarioByPadrinoPagados($query, $idpadrinos)
+	{
+		$query->where('idpadrinos', '=', $idpadrinos)
+			->whereNotNull('calendario_pagos.fecha_pago')	
+			->select('*');
+		return $query;
+	}
 
 }

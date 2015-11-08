@@ -378,6 +378,7 @@ class PadrinosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if((in_array('side_reporte_pagos',$data["permisos"]))){
 				$data["report_rows"] = null;
+				$data["nomb_padrino"] = null;
 				return View::make('padrinos/pagosPadrinoReporte',$data);
 			}else{
 				return View::make('error/error');
@@ -405,10 +406,19 @@ class PadrinosController extends BaseController
 				return Redirect::to('padrinos/reporte_pagos_padrinos')->withErrors($validator)->withInput(Input::all()); 
 			}else{
 				$data["num_doc"] = Input::get('num_doc');
+				$data["rad"] = Input::get('rad');
 				$padrino = Padrino::searchPadrinoByNumDoc($data["num_doc"])->first(); //buscar funcion
 				if($padrino){
-					$data["report_rows"] = CalendarioPago::getCalendarioByPadrino($padrino->idpadrinos)->get(); 
-					return View::make('padrinos/pagoPadrinoReporte',$data);
+					$data["nomb_padrino"] = $padrino->nombres.' '.$padrino->apellido_pat.' '.$padrino->apellido_mat; //agregar apellido
+					if ($data["rad"]=='todos'){
+						$data["report_rows"] = CalendarioPago::getCalendarioByPadrino($padrino->idpadrinos)->get(); 
+					}else if ($data["rad"]=='pendientes'){
+						$data["report_rows"] = CalendarioPago::getCalendarioByPadrinoPendientes($padrino->idpadrinos)->get(); 
+					}else{
+						$data["report_rows"] = CalendarioPago::getCalendarioByPadrinoPagados($padrino->idpadrinos)->get(); 
+					}
+						
+					return View::make('padrinos/pagosPadrinoReporte',$data);
 				}
 				else{
 					Session::flash('danger','No existe un padrino asociado a dicho número de documento.'); 
