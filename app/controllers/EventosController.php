@@ -850,11 +850,11 @@ class EventosController extends BaseController
 						);
 				$messages = array();
 				$rules = array(
-							'direccion' => 'required|max:100',
+							'direccion' => 'required|direction|max:100',
 							'latitud' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('eventos/create_punto_reunion')->withErrors($validator)->withInput(Input::all());

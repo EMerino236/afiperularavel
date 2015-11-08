@@ -35,6 +35,7 @@ return array(
 	"different"        => "El :attribute y :other deben ser diferentes.",
 	"digits"           => "El :attribute debe tener :digits digitos.",
 	"digits_between"   => "El :attribute debe estar entre :min y :max digitos.",
+	"direction"        => "La :attribute tiene un formato inválido",
 	"email"            => "El :attribute tiene un formato inválido.",
 	"exists"           => "La selección :attribute es inválida.",
 	"image"            => "El :attribute debe ser una imagen.",
