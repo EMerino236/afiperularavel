@@ -31,14 +31,14 @@
 				<div class="row">
 					<div class="form-group col-md-4">
 						<div class="form-group required @if($errors->first('nombre')) has-error has-feedback @endif">
-							{{ Form::label('nombre','Nombre de Periodo') }}
+							{{ Form::label('nombre','Nombre de Convocatoria') }}
 							{{ Form::text('nombre',Input::old('nombre'),['class' => 'form-control','maxlength'=>'100']) }}
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group required col-md-4">
-						{{ Form::label('fecha_inicio','Fecha de inicio del Periodo') }}
+						{{ Form::label('fecha_inicio','Fecha de inicio') }}
 						<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_inicio')) has-error has-feedback @endif">
 							{{ Form::text('fecha_inicio',Input::old('fecha_inicio'),array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
@@ -49,7 +49,7 @@
 				</div>
 				<div class="row">
 					<div class="form-group required col-md-4">
-						{{ Form::label('fecha_fin','Fecha de fin del Periodo') }}
+						{{ Form::label('fecha_fin','Fecha de fin') }}
 						<div id="datetimepicker2" class="form-group input-group date @if($errors->first('fecha_fin')) has-error has-feedback @endif">
 							{{ Form::text('fecha_fin',Input::old('fecha_fin'),array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">

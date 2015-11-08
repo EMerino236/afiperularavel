@@ -3,16 +3,18 @@ $( document ).ready(function(){
 	var mañana = new Date();
 	mañana.setDate(hoy.getDate() +1);
 	$("#datetimepicker1").datetimepicker({
+		useCurrent: false,
 		defaultDate: false,
 		format: 'DD-MM-YYYY',
 		ignoreReadonly: true,
-		minDate: hoy
+		minDate : hoy
 	});
 	$("#datetimepicker2").datetimepicker({
+		useCurrent: false,
 		defaultDate: false,
 		format: 'DD-MM-YYYY',
 		ignoreReadonly: true,
-		minDate: mañana
+		minDate : mañana
 	});
 	$("input[name=asistencia]").change(function(){
 		if($(this).is(':checked')){

@@ -53,17 +53,17 @@ class ConvocatoriasController extends BaseController
 				$attributes = array(
 							'nombre' => 'Nombre de Convocatoria',
 							'fecha_inicio' => 'Fecha de Inicio',
-							'fecha_fin' => 'Fecha Fin',
+							'fecha_fin' => 'Fecha de Fin',
 						);
 				$messages = array();
 
 				$rules = array(
-							'nombre' => 'required|min:2|max:100|unique:periodos',
+							'nombre' => 'required|alpha_num_dash|min:2|max:100|unique:periodos',
 							'fecha_inicio' => 'required',
 							'fecha_fin' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('convocatorias/create_convocatoria')->withErrors($validator)->withInput(Input::all());
@@ -196,7 +196,7 @@ class ConvocatoriasController extends BaseController
 							'fecha_fin' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				$convocatoria_id = Input::get('convocatoria_id');
 				$url = "convocatorias/edit_convocatoria"."/".$convocatoria_id;

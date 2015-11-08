@@ -27,7 +27,7 @@
 		<div class="row">
 			<div class="form-group col-md-4">
 				<div class="form-group required @if($errors->first('nombre')) has-error has-feedback @endif">
-					{{ Form::label('nombre','Nombre de Periodo') }}
+					{{ Form::label('nombre','Nombre de Convocatoria') }}
 					@if($convocatoria_info->deleted_at)
 						{{ Form::text('nombre',$convocatoria_info->nombre,['class' => 'form-control','readonly'=>'']) }}
 					@else
@@ -38,7 +38,7 @@
 		</div>
 		<div class="row">
 			<div class="form-group col-md-4 required">
-				{{ Form::label('fecha_inicio','Fecha de inicio del Periodo') }}
+				{{ Form::label('fecha_inicio','Fecha de inicio') }}
 				@if($convocatoria_info->deleted_at)
 					{{ Form::text('fecha_inicio',date('d-m-Y',strtotime($convocatoria_info->fecha_inicio)),array('class'=>'form-control','readonly'=>'')) }}
 				@else
@@ -53,7 +53,7 @@
 		</div>
 		<div class="row">
 			<div class="form-group col-md-4 required">
-				{{ Form::label('fecha_fin','Fecha de fin del Periodo') }}
+				{{ Form::label('fecha_fin','Fecha de fin') }}
 				@if($convocatoria_info->deleted_at)
 					{{ Form::text('fecha_fin',date('d-m-Y',strtotime($convocatoria_info->fecha_fin)),array('class'=>'form-control','readonly'=>'')) }}
 				@else
