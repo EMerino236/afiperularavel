@@ -22,9 +22,6 @@ class EventosController extends \BaseController {
 	 */
 	public function sesiones()
 	{   
-        // obtener sesiones
-        $sesiones = Evento::all();
-        
         // obtener usuario que esta haciendo la peticion
         $auth_token = \Request::header('authorization');
         $user = User::where('auth_token', '=', $auth_token)->first();
@@ -54,21 +51,14 @@ class EventosController extends \BaseController {
             }
         }
         
+        // obtener las sesiones asignadas al usuario
+        $sesiones = [];
+        if($es_webmaster || $es_miembroafi) $sesiones = Evento::all();
+        elseif($es_voluntario) $sesiones = Asistencia::getEventosPorUser($user->id)->get();
+        
         $response = [];
-        //verificar si el usuario tiene permiso para ver las sesiones
-        $puede_ver = 0;
-        if($es_webmaster || $es_miembroafi) $puede_ver = 1;
         foreach($sesiones as $sesion)
         {
-            if((!$puede_ver) && ($es_voluntario))
-            {
-                //validar si el voluntario esta asignado a la sesion
-                $validar = Asistencia::validarAsistencia($user->id, $sesion->ideventos)->first();
-                $puede_ver = ($validar) ? 1 : 0;
-            }
-            
-            if($puede_ver)
-            {
                 //obtener los puntos de reunion de la sesion
                 //$idpuntos = PuntoEvento::where('ideventos', '=', $sesion->ideventos)->get()->lists('idpuntos_reunion');
                 //$puntos_reunion = PuntoReunion::whereIn('idpuntos_reunion', $idpuntos)->get();
@@ -227,7 +217,6 @@ class EventosController extends \BaseController {
                     'attendance_children' => $lista_ninhos,
                     'attendance_volunteers' => $lista_voluntarios
                 ];
-            }
         }
         
         return Response::json($response, 200);
