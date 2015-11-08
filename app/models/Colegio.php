@@ -17,7 +17,7 @@ class Colegio extends Eloquent{
 
 	public function scopeGetActiveColegiosInfo($query)
 	{
-		$query->select('colegios.idcolegios','colegios.nombre');
+		$query->select('*');
 		return $query;
 	}
 
