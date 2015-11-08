@@ -52,7 +52,7 @@ class ConcursosController extends BaseController
 			if(in_array('side_nuevo_concurso',$data["permisos"])){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'titulo' => 'required|min:2|max:100'
+							'titulo' => 'required|min:2|max:100|unique:concursos'
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
