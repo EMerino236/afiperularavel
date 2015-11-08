@@ -52,10 +52,10 @@
                     <li><a href="{{ URL::to('concursos/list_concursos') }}"><i class="fa fa-list fa-fw"></i> Listar Concursos</a></li>
                     @endif
                     @if(in_array('side_nuevo_proyecto',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-plus fa-fw"></i> Registrar Proyecto</a></li>
+                    <li><a href="{{ URL::to('concursos/create_proyecto') }}"><i class="fa fa-plus fa-fw"></i> Registrar Proyecto</a></li>
                     @endif
                     @if(in_array('side_listar_proyectos',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-list fa-fw"></i> Listar Proyectos</a></li>
+                    <li><a href="{{ URL::to('concursos/list_proyectos') }}"><i class="fa fa-list fa-fw"></i> Listar Proyectos</a></li>
                     @endif
                 </ul>
             </div>

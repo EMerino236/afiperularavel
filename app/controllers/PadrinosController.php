@@ -121,16 +121,22 @@ class PadrinosController extends BaseController
 					$documento->nombre_archivo = $nombreArchivo;
 					$documento->ruta = $rutaDestino;
 					$documento->save();
-					/* Envio las notificaciones via e-mail a los padrinos */
+
 					$emails = array();
 					foreach($padrinos as $padrino){
+						/* Creo la relación del documento con el padrino */
+						$documentos_padrino = new DocumentosPadrino;
+						$documentos_padrino->idpadrinos = $padrino->idpadrinos;
+						$documentos_padrino->iddocumentos = $documento->iddocumentos;
+						$documentos_padrino->save();
 						$emails[] = $padrino->email;
 					}
-					Mail::send('emails.reportePadrinos',array('archivo'=>$archivo),function($message) use ($emails,$rutaDestino,$nombreArchivo)
+					
+					/* Envio las notificaciones via e-mail a los padrinos */
+					Mail::send('emails.reportePadrinos',array('archivo'=>$archivo),function($message) use ($emails)
 					{
 						$message->to($emails)
-								->subject('Te queremos informar la labor de AFI PERÚ.')
-								->attach(asset($rutaDestino).'/'.$nombreArchivo);
+								->subject('Te queremos informar la labor de AFI PERÚ.');
 					});
 					Session::flash('message', 'Se envió el reporte correctamente por correo a los padrinos.');
 					return Redirect::to('padrinos/create_reporte_padrinos');

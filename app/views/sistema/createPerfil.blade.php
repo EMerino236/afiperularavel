@@ -52,6 +52,7 @@
 						<br>
 						<br>
 						<br>
+						<br>
 					</div>
 				</div>
 			</div>
@@ -68,6 +69,7 @@
 						<input class="eventos-child" type="checkbox" name="permisos[]" value="15" @if(Input::old('permisos') && in_array("15",Input::old('permisos'))) checked @endif> Ver Mis Eventos<br>						
 						<br>
 						<br>
+						<br>
 					</div>
 				</div>
 			</div>
@@ -79,6 +81,7 @@
 					<div class="panel-body">
 						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="16" @if(Input::old('permisos') && in_array("16",Input::old('permisos'))) checked @endif> Listar Voluntarios<br>
 						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="17" @if(Input::old('permisos') && in_array("17",Input::old('permisos'))) checked @endif> Reporte de Asistencia<br>
+						<br>
 						<br>
 						<br>
 						<br>
@@ -100,6 +103,7 @@
 						<input class="padrinos-child" type="checkbox" name="permisos[]" value="22" @if(Input::old('permisos') && in_array("22",Input::old('permisos'))) checked @endif> Ver Calendario de Pagos<br>
 						<input class="padrinos-child" type="checkbox" name="permisos[]" value="23" @if(Input::old('permisos') && in_array("23",Input::old('permisos'))) checked @endif> Reporte de Pagos<br>
 						<input class="padrinos-child" type="checkbox" name="permisos[]" value="24" @if(Input::old('permisos') && in_array("24",Input::old('permisos'))) checked @endif> Registrar Pago<br>
+						<input class="padrinos-child" type="checkbox" name="permisos[]" value="39" @if(Input::old('permisos') && in_array("39",Input::old('permisos'))) checked @endif> Mis Reportes<br>
 					</div>
 				</div>
 			</div>

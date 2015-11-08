@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2015 a las 22:27:20
+-- Tiempo de generación: 08-11-2015 a las 16:40:44
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -63,12 +63,12 @@ CREATE TABLE IF NOT EXISTS `calendario_pagos` (
   `idcalendario_pagos` int(11) NOT NULL,
   `vencimiento` date DEFAULT NULL,
   `fecha_pago` date DEFAULT NULL,
-  `num_cuota` int(11) NOT NULL,
+  `num_cuota` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `aprobacion` tinyint(1) NOT NULL,
-  `num_comprobante` varchar(45) NOT NULL,
+  `aprobacion` tinyint(1) DEFAULT NULL,
+  `num_comprobante` varchar(45) DEFAULT NULL,
   `idpadrinos` int(11) NOT NULL,
   `monto` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `documentos_eventos` (
 CREATE TABLE IF NOT EXISTS `documentos_padrinos` (
   `iddocumentos_padrinos` int(11) NOT NULL,
   `idpadrinos` int(11) NOT NULL,
-  `documentos_iddocumentos` int(11) NOT NULL,
+  `iddocumentos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -377,7 +377,15 @@ CREATE TABLE IF NOT EXISTS `logs` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `users_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `logs`
+--
+
+INSERT INTO `logs` (`idlogs`, `descripcion`, `idtipo_logs`, `created_at`, `updated_at`, `deleted_at`, `users_id`) VALUES
+(1, 'Se cerró sesión', 2, '2015-11-09 02:08:40', '2015-11-09 02:08:40', NULL, 1),
+(2, 'Se inició sesión', 1, '2015-11-09 02:09:00', '2015-11-09 02:09:00', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -515,7 +523,7 @@ CREATE TABLE IF NOT EXISTS `permisos` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `permisos`
@@ -559,7 +567,8 @@ INSERT INTO `permisos` (`idpermisos`, `nombre`, `created_at`, `updated_at`, `del
 (35, 'side_listar_usuarios', '2015-10-07 09:33:10', '2015-10-07 09:33:10', NULL),
 (36, 'side_nuevo_perfil', '2015-10-07 14:19:36', '2015-10-07 14:19:36', NULL),
 (37, 'side_listar_perfiles', '2015-10-07 14:19:36', '2015-10-07 14:19:36', NULL),
-(38, 'side_reporte_log', '2015-10-07 14:19:36', '2015-10-07 14:19:36', NULL);
+(38, 'side_reporte_log', '2015-10-07 14:19:36', '2015-10-07 14:19:36', NULL),
+(39, 'side_mis_reportes', '2015-11-08 21:04:09', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -574,7 +583,7 @@ CREATE TABLE IF NOT EXISTS `permisos_perfiles` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `permisos_perfiles`
@@ -651,7 +660,9 @@ INSERT INTO `permisos_perfiles` (`idpermisos_perfiles`, `idpermisos`, `idperfile
 (68, 15, 3, '2015-10-16 01:26:45', '2015-10-16 01:26:45', NULL),
 (69, 4, 4, '2015-10-16 01:27:03', '2015-10-16 01:27:03', NULL),
 (70, 22, 4, '2015-10-16 01:27:03', '2015-10-16 01:27:03', NULL),
-(71, 24, 4, '2015-10-16 01:27:11', '2015-10-16 01:27:11', NULL);
+(71, 24, 4, '2015-10-16 01:27:11', '2015-10-16 01:27:11', NULL),
+(72, 39, 4, '2015-11-08 21:05:34', NULL, NULL),
+(73, 39, 1, '2015-11-08 21:09:55', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -985,7 +996,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `num_documento`, `password`, `email`, `idtipo_identificacion`, `idpersona`, `auth_token`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `push_eventos`, `push_pagos`) VALUES
-(1, 'afi_webmaster', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', 'h6Ev4vzPEVuDY5gVCJI5mSieHiMAtQYQXiudQZeS7xA7kDGYdETOC5cYzpS2', '2015-10-06 14:22:09', '2015-10-28 14:17:59', NULL, 1, 1);
+(1, '00000000', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', '6MBzb6FI3BqztWrUqDwbJ6o4XOND05yqGZhOvyzW3aZiM8qsDr8ZCSeR0Guu', '2015-10-06 14:22:09', '2015-11-09 02:08:40', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1167,7 +1178,7 @@ ALTER TABLE `documentos_eventos`
 ALTER TABLE `documentos_padrinos`
   ADD PRIMARY KEY (`iddocumentos_padrinos`),
   ADD KEY `fk_documentos_padrinos_padrinos1_idx` (`idpadrinos`),
-  ADD KEY `fk_documentos_padrinos_documentos1_idx` (`documentos_iddocumentos`);
+  ADD KEY `fk_documentos_padrinos_documentos1_idx` (`iddocumentos`);
 
 --
 -- Indices de la tabla `documentos_proyectos`
@@ -1518,7 +1529,7 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT de la tabla `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `idlogs` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idlogs` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `ninhos`
 --
@@ -1548,12 +1559,12 @@ ALTER TABLE `periodo_pagos`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermisos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=39;
+  MODIFY `idpermisos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT de la tabla `permisos_perfiles`
 --
 ALTER TABLE `permisos_perfiles`
-  MODIFY `idpermisos_perfiles` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=72;
+  MODIFY `idpermisos_perfiles` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=74;
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
@@ -1719,7 +1730,7 @@ ALTER TABLE `documentos_eventos`
 -- Filtros para la tabla `documentos_padrinos`
 --
 ALTER TABLE `documentos_padrinos`
-  ADD CONSTRAINT `fk_documentos_padrinos_documentos1` FOREIGN KEY (`documentos_iddocumentos`) REFERENCES `documentos` (`iddocumentos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_documentos_padrinos_documentos1` FOREIGN KEY (`iddocumentos`) REFERENCES `documentos` (`iddocumentos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_documentos_padrinos_padrinos1` FOREIGN KEY (`idpadrinos`) REFERENCES `padrinos` (`idpadrinos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

@@ -32,8 +32,13 @@ Route::group(array('prefix'=>'convocatorias','before'=>'auth'),function(){
 	Route::post('/submit_edit_convocatoria','ConvocatoriasController@submit_edit_convocatoria');
 	Route::get('/list_postulantes/{id}','ConvocatoriasController@list_postulantes');
 	Route::get('/search_postulantes','ConvocatoriasController@search_postulantes');
+	Route::get('/search_convocatorias','ConvocatoriasController@search_convocatorias');
 	Route::post('/submit_aprobacion_postulantes','ConvocatoriasController@submit_aprobacion_postulantes');
 	Route::get('/view_postulante/{id}','ConvocatoriasController@render_view_postulante');
+	Route::post('/submit_disable_convocatoria','ConvocatoriasController@submit_disable_convocatoria');
+	Route::post('/submit_enable_convocatoria','ConvocatoriasController@submit_enable_convocatoria');
+	Route::get('/list_voluntarios_convocatoria/{id}','ConvocatoriasController@list_voluntarios');
+	Route::get('/view_voluntario_convocatoria/{id}','ConvocatoriasController@render_view_voluntario_convocatoria');
 });
 /* Eventos */
 Route::group(array('prefix'=>'eventos','before'=>'auth'),function(){
@@ -174,12 +179,12 @@ Route::group(array('prefix'=>'sistema','before'=>'auth'),function(){
 // Route group for API versioning
 Route::group(array('prefix' => 'api/v1'), function()
 {
-    Route::post('sign_in', 'api\v1\SessionController@sign_in');
-    Route::post('prepadrinos', 'api\v1\PrepadrinosController@store');
-    Route::post('empresas', 'api\v1\EmpresasController@store');
-    Route::post('postulantes', 'api\v1\PostulantesController@store');
-    Route::post('precolegios', 'api\v1\PrecolegiosController@store');
-    Route::post('recover_password', 'api\v1\UserController@recover_password');
+    Route::post('/sign_in', 'api\v1\SessionController@sign_in');
+    Route::post('/prepadrinos', 'api\v1\PrepadrinosController@store');
+    Route::post('/empresas', 'api\v1\EmpresasController@store');
+    Route::post('/postulantes', 'api\v1\PostulantesController@store');
+    Route::post('/precolegios', 'api\v1\PrecolegiosController@store');
+    Route::post('/recover_password', 'api\v1\UserController@recover_password');
 });
 
 Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()

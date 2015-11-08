@@ -47,6 +47,7 @@
 						<br>
 						<br>
 						<br>
+						<br>
 					</div>
 				</div>
 			</div>
@@ -64,6 +65,7 @@
 						<input class="eventos-child" type="checkbox" name="permisos[]" value="15" @if($permisos_data && in_array("15",$permisos_data)) checked @endif disabled> Ver Mis Eventos<br>						
 						<br>
 						<br>
+						<br>
 					</div>
 				</div>
 			</div>
@@ -76,6 +78,7 @@
 						<input class="voluntarios-parent" type="checkbox" name="permisos[]" value="3" @if($permisos_data && in_array("3",$permisos_data)) checked @endif disabled> Menú Voluntarios<br>
 						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="16" @if($permisos_data && in_array("16",$permisos_data)) checked @endif disabled> Listar Voluntarios<br>
 						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="17" @if($permisos_data && in_array("17",$permisos_data)) checked @endif disabled> Reporte de Asistencia<br>
+						<br>
 						<br>
 						<br>
 						<br>
@@ -98,6 +101,7 @@
 						<input class="padrinos-child" type="checkbox" name="permisos[]" value="22" @if($permisos_data && in_array("22",$permisos_data)) checked @endif disabled> Ver Calendario Pagos<br>
 						<input class="padrinos-child" type="checkbox" name="permisos[]" value="23" @if($permisos_data && in_array("23",$permisos_data)) checked @endif disabled> Reporte de Pagos<br>
 						<input class="padrinos-child" type="checkbox" name="permisos[]" value="24" @if($permisos_data && in_array("24",$permisos_data)) checked @endif disabled> Registrar Pago<br>
+						<input class="padrinos-child" type="checkbox" name="permisos[]" value="39" @if($permisos_data && in_array("39",$permisos_data)) checked @endif disabled> Mis Reportes<br>
 					</div>
 				</div>
 			</div>

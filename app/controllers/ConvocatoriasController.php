@@ -69,22 +69,31 @@ class ConvocatoriasController extends BaseController
 					return Redirect::to('convocatorias/create_convocatoria')->withErrors($validator)->withInput(Input::all());
 				}else{
 					// Creo primero a la persona
-					$fecha_inicio = date('Y-m-d H:i:s',strtotime(Input::get('fecha_inicio')));
-					$fecha_fin = date('Y-m-d H:i:s',strtotime(Input::get('fecha_fin')));
+					$fecha_inicio = date('Y-m-d',strtotime(Input::get('fecha_inicio')));
+					$fecha_fin = date('Y-m-d',strtotime(Input::get('fecha_fin')));
+					$interseccion_fecha_inicio = Periodo::getPeriodosIntersectionWithDatesNewPeriod($fecha_inicio)->get();
+					$interseccion_fecha_fin = Periodo::getPeriodosIntersectionWithDatesNewPeriod($fecha_fin)->get();
+
 					if($fecha_inicio < $fecha_fin){
-						$convocatoria = new Periodo;
-						$convocatoria->nombre = Input::get('nombre');
-						$convocatoria->fecha_inicio = $fecha_inicio;
-						$convocatoria->fecha_fin = $fecha_fin;
-						$convocatoria->save();
-						Session::flash('message', 'Se registró correctamente la convocatoria.');
+						if($interseccion_fecha_inicio->isEmpty() && $interseccion_fecha_fin->isEmpty()){
+							$convocatoria = new Periodo;
+							$convocatoria->nombre = Input::get('nombre');
+							$convocatoria->fecha_inicio = $fecha_inicio;
+							$convocatoria->fecha_fin = $fecha_fin;
+							$convocatoria->save();
+							Session::flash('message', 'Se registró correctamente la convocatoria.');
 
-						// Llamo a la función para registrar el log de auditoria
-						$descripcion_log = "Se creó el periodo con id {{$convocatoria->idperiodos}}";
-						Helpers::registrarLog(3,$descripcion_log);
+							// Llamo a la función para registrar el log de auditoria
+							$descripcion_log = "Se creó el periodo con id {{$convocatoria->idperiodos}}";
+							Helpers::registrarLog(3,$descripcion_log);
 
-						
-						return Redirect::to('convocatorias/create_convocatoria');
+							
+							return Redirect::to('convocatorias/create_convocatoria');
+						}
+						else{
+							Session::flash('error', 'Las fechas de inicio o fin se intersectan con las fechas de otra convocatoria.');
+							return Redirect::to('convocatorias/create_convocatoria')->withInput(Input::all());
+						}
 					}
 					else{
 						Session::flash('error', 'La Fecha de Inicio debe ser menor a la Fecha Fin.');
@@ -528,13 +537,37 @@ class ConvocatoriasController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nueva_convocatoria',$data["permisos"])){
 				$data["voluntarios_data"] = UsersPerfil::getVoluntariosByIdPeriodo($id);
-				return View::make('convocatorias/listVoluntarios',$data);
+				$data["convocatoria_info"] = Periodo::searchPeriodoById($id)->get()[0];
+				return View::make('convocatorias/listVoluntariosConvocatoria',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
 				Helpers::registrarLog(10,$descripcion_log);
 				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
 				return Redirect::to('/dashboard');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_view_voluntario_convocatoria($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_nueva_convocatoria',$data["permisos"])) && $id){
+				$data["user_info"] = User::searchUserById($id)->get();
+				if($data["user_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró al voluntario.');
+					return Redirect::to('convocatorias/listVoluntarios');
+				}
+				$data["user_info"] = $data["user_info"][0];
+				$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
+				return View::make('convocatorias/viewVoluntarioConvocatoria',$data);
+			}else{
+				return View::make('error/error');
 			}
 		}else{
 			return View::make('error/error');
@@ -564,7 +597,7 @@ class ConvocatoriasController extends BaseController
 					Session::flash('message', 'Se inhabilitó correctamente la convocatoria.');
 				}
 				else{
-					Session::flash('error', 'Existe al menos un evento, postulante o usuario asociado a esta convocatoria. No es posible inhbailitar.');
+					Session::flash('error', 'Existe al menos un evento, postulante o usuario asociado a esta convocatoria. No es posible inhabilitar.');
 				}
 				return Redirect::to($url);
 			}else{
