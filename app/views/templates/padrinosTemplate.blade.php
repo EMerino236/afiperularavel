@@ -60,7 +60,10 @@
                     <li><a href="{{ URL::to('#') }}"><i class="fa fa-thumb-tack fa-fw"></i> Registrar Pago</a></li>
                     @endif
                     @if(in_array('side_reporte_pagos',$permisos))
-                    <li><a href="{{ URL::to('padrinos/list_aprobar_pagos') }}"><i class="fa fa-thumb-tack fa-fw"></i> Aprobar Pagos</a></li>
+                    <li><a href="{{ URL::to('padrinos/list_aprobar_pagos') }}"><i class="fa fa-check fa-fw"></i> Aprobar Pagos</a></li>
+                    @endif
+                    @if(in_array('side_mis_reportes',$permisos))
+                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-paperclip fa-fw"></i> Mis Reportes</a></li>
                     @endif
                 </ul>
             </div>
