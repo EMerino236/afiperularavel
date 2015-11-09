@@ -35,6 +35,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			  ->join('permisos','permisos.idpermisos','=','permisos_perfiles.idpermisos')
 			  ->where('users.id','=',$id)
 			  ->where('permisos_perfiles.deleted_at','=',$null)
+			  ->where('perfiles.deleted_at','=',$null)
+			  ->where('users_perfiles.deleted_at','=',$null)
 			  ->select('permisos.nombre');
 		return $query;
 	}

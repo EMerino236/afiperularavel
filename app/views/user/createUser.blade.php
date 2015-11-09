@@ -49,13 +49,13 @@
 				<div class="row">
 					<div class="form-group col-md-12 required">
 						{{ Form::label('perfiles','Seleccione el/los perfiles') }}
-						@foreach($perfiles as $perfil)
 						<div class="row">
-							<div class="form-group col-md-4 @if($errors->first('perfiles')) has-error has-feedback @endif">
-								{{ Form::checkbox('perfiles[]',$perfil->idperfiles) }} {{$perfil->nombre}}
-							</div>
+							@foreach($perfiles as $perfil)
+								<div class="form-group col-md-3 @if($errors->first('perfiles')) has-error has-feedback @endif">
+									{{ Form::checkbox('perfiles[]',$perfil->idperfiles) }} {{$perfil->nombre}}
+								</div>
+							@endforeach
 						</div>
-						@endforeach
 					</div>
 				</div>
 				<div class="row">

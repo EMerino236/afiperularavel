@@ -73,9 +73,11 @@
 	                </div>
 	                <a href="#">
 	                    <div class="panel-footer">
-	                        <a class="pull-left" href="{{ URL::to('convocatorias/list_postulantes') }}/{{$idperiodos}}">Ver postulantes</a>
-	                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-	                        <div class="clearfix"></div>
+	                    	@if($idperiodos != NULL)
+		                        <a class="pull-left" href="{{ URL::to('convocatorias/list_postulantes') }}/{{$idperiodos}}">Ver postulantes</a>
+		                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+		                        <div class="clearfix"></div>
+		                    @endif
 	                    </div>
 	                </a>
 	            </div>

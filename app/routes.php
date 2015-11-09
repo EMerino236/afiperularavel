@@ -175,6 +175,7 @@ Route::group(array('prefix'=>'sistema','before'=>'auth'),function(){
 	Route::post('/submit_create_perfil','SistemaController@submit_create_perfil');
 	Route::get('/list_perfiles','SistemaController@list_perfiles');
 	Route::get('/edit_perfil/{id}','SistemaController@render_edit_perfil');
+	Route::post('/submit_edit_perfil','SistemaController@submit_edit_perfil');
 	Route::post('/submit_disable_perfil','SistemaController@submit_disable_perfil');
 	Route::get('/list_logs','SistemaController@list_logs');
 	Route::get('/search_logs','SistemaController@search_logs');

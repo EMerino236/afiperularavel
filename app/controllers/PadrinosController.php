@@ -212,7 +212,7 @@ class PadrinosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_listar_reportes_padrinos',$data["permisos"])){
+			if(in_array('side_listar_reportes_padrinos',$data["permisos"]) || in_array('side_mis_reportes',$data["permisos"])){
 				$iddocumentos = Input::get('iddocumentos');
 				$documento = Documento::find($iddocumentos);
 				$rutaDestino = $documento->ruta.$documento->nombre_archivo;

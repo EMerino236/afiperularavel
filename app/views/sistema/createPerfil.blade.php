@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Registrar Perfil</h3>
+            <h3 class="page-header">Registrar Perfil</h3><span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -23,18 +23,26 @@
 	@endif
 
 	{{ Form::open(array('url'=>'sistema/submit_create_perfil', 'role'=>'form')) }}
-		<div class="row">
-			<div class="form-group col-md-6 required @if($errors->first('nombre')) has-error has-feedback @endif">
-				{{ Form::label('nombre','Nombre del Perfil') }}
-				{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Información básica</h3>
 			</div>
-			<div class="form-group col-md-6 required @if($errors->first('descripcion')) has-error has-feedback @endif">
-				{{ Form::label('descripcion','Breve Descripción') }}
-				{{ Form::text('descripcion',Input::old('descripcion'),array('class'=>'form-control')) }}
+			<div class="panel-body">
+				<div class="row">
+					<div class="form-group col-md-6 required @if($errors->first('nombre')) has-error has-feedback @endif">
+						{{ Form::label('nombre','Nombre del Perfil') }}
+						{{ Form::text('nombre',Input::old('nombre'),array('class'=>'form-control')) }}
+					</div>
+					<div class="form-group col-md-6 required @if($errors->first('descripcion')) has-error has-feedback @endif">
+						{{ Form::label('descripcion','Breve Descripción') }}
+						{{ Form::text('descripcion',Input::old('descripcion'),array('class'=>'form-control')) }}
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="form-group col-md-8">
+			<div class="form-group col-md-8 required">
 			{{ Form::label('permisos[]','Seleccione los Permisos del Nuevo Perfil') }}
 			</div>
 		</div>

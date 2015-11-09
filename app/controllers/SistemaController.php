@@ -51,13 +51,19 @@ class SistemaController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_perfil',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'nombre' => 'Nombre del Perfil',
+							'descripcion' => 'Breve Descripción',
+							'permisos' => 'Permisos',
+						);
+				$messages = array();
 				$rules = array(
-							'nombre' => 'required|alpha_spaces|max:45|unique:perfiles',
+							'nombre' => 'required|alpha_spaces|max:45|unique:perfiles,nombre,NULL,idperfiles,deleted_at,NULL',
 							'descripcion' => 'required|alpha_spaces|max:45',
 							'permisos' => 'required',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('sistema/create_perfil')->withErrors($validator)->withInput(Input::all());
@@ -146,6 +152,72 @@ class SistemaController extends BaseController
 		}
 	}
 
+	public function submit_edit_perfil()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_perfil',$data["permisos"])){
+				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'nombre' => 'Nombre del Perfil',
+							'descripcion' => 'Breve Descripción',
+							'permisos' => 'Permisos',
+						);
+				$messages = array();
+				$rules = array(
+							'nombre' => 'alpha_spaces|max:45|unique:perfiles,nombre,NULL,idperfiles,deleted_at,NULL',
+							'descripcion' => 'required|alpha_spaces|max:45',
+							'permisos' => 'required',
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
+				// If the validator fails, redirect back to the form
+				$idperfiles = Input::get("idperfiles");
+				if($validator->fails()){
+					return Redirect::to('sistema/edit_perfil/'.$idperfiles)->withErrors($validator)->withInput(Input::all());
+				}else{
+					// Creo primero al perfil
+					$perfil = Perfil::find($idperfiles);
+					if(!empty(Input::get('nombre')))
+						$perfil->nombre = Input::get('nombre');
+					$perfil->descripcion = Input::get('descripcion');
+					$perfil->save();
+					// Elimino los permisos anteriores del perfil
+					$permisos_perfil_eliminables = PermisosPerfil::getPermisosPorPerfil($idperfiles)->get();
+					foreach($permisos_perfil_eliminables as $permiso_perfil_eliminable){
+						$p = PermisosPerfil::find($permiso_perfil_eliminable->idpermisos_perfiles);
+						$p->delete();
+					}
+					// Creo los permisos que tendrá el perfil
+					$permisos = Input::get('permisos');
+					foreach($permisos as $permiso){
+						$permisos_perfil = new PermisosPerfil;
+						$permisos_perfil->idperfiles = $perfil->idperfiles;
+						$permisos_perfil->idpermisos = $permiso;
+						$permisos_perfil->save();
+					}
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se editó el perfil con id {{$perfil->idperfiles}}";
+					Helpers::registrarLog(4,$descripcion_log);
+					Session::flash('message', 'Se editó correctamente el perfil.');
+					
+					return Redirect::to('sistema/edit_perfil/'.$idperfiles);
+				}
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
 	public function submit_disable_perfil()
 	{
 		if(Auth::check()){
@@ -166,6 +238,8 @@ class SistemaController extends BaseController
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se eliminó el perfil con id {{$perfil->idperfiles}}";
 				Helpers::registrarLog(5,$descripcion_log);
+
+				Session::flash('message', 'Se eliminó correctamente el perfil.');
 				return Redirect::to($url);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
