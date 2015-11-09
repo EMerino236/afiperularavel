@@ -7,16 +7,20 @@
         <!-- /.col-lg-12 -->
     </div>
 
-    {{ Form::open(array('url'=>'/convocatorias/search_convocatorias','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-inline')) }}
+    {{ Form::open(array('url'=>'/convocatorias/search_convocatorias','method'=>'get' ,'role'=>'form', 'id'=>'search-form')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Búsqueda</h3>
 			</div>
 			<div class="panel-body">
-			<div class="search_bar">
-				{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Periodo')) }}
-				{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
-			</div>	
+				<div class="row">
+					<div class="col-md-8">
+						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Nombre de Convocatoria')) }}
+					</div>
+					<div class="col-md-4">
+						{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
+					</div>
+				</div>	
 			</div>
 		</div>
 	{{ Form::close() }}</br>

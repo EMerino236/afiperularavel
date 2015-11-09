@@ -199,8 +199,9 @@ class ConvocatoriasController extends BaseController
 						);
 				$messages = array();
 
+				$convocatoria_id = Input::get('convocatoria_id');
 				$rules = array(
-							'nombre' => 'required|alpha_dash|min:2|max:100',
+							'nombre' => 'required|alpha_num_dash|min:2|max:100|unique:periodos,nombre,'.$convocatoria_id.',idperiodos',
 							'fecha_inicio' => 'required',
 							'fecha_fin' => 'required',
 						);
@@ -214,19 +215,27 @@ class ConvocatoriasController extends BaseController
 				}else{
 					$fecha_inicio = date('Y-m-d H:i:s',strtotime(Input::get('fecha_inicio')));
 					$fecha_fin = date('Y-m-d H:i:s',strtotime(Input::get('fecha_fin')));
+					$interseccion_fecha_inicio = Periodo::getPeriodosIntersectionWithDatesNewPeriodEdit($fecha_inicio,$convocatoria_id)->get();
+					$interseccion_fecha_fin = Periodo::getPeriodosIntersectionWithDatesNewPeriodEdit($fecha_fin,$convocatoria_id)->get();
 					if($fecha_inicio < $fecha_fin){
-						$convocatoria = Periodo::find($convocatoria_id);
-						$convocatoria->nombre = Input::get('nombre');
-						$convocatoria->fecha_inicio = $fecha_inicio;
-						$convocatoria->fecha_fin = $fecha_fin;
-						$convocatoria->save();
-						Session::flash('message', 'Se editó correctamente la convocatoria.');
+						if($interseccion_fecha_inicio->isEmpty() && $interseccion_fecha_fin->isEmpty()){
+							$convocatoria = Periodo::find($convocatoria_id);
+							$convocatoria->nombre = Input::get('nombre');
+							$convocatoria->fecha_inicio = $fecha_inicio;
+							$convocatoria->fecha_fin = $fecha_fin;
+							$convocatoria->save();
+							Session::flash('message', 'Se editó correctamente la convocatoria.');
 
-						// Llamo a la función para registrar el log de auditoria
-						$descripcion_log = "Se editó el periodo con id {{$convocatoria->idperiodos}}";
-						Helpers::registrarLog(4,$descripcion_log);
-						
-						return Redirect::to($url);
+							// Llamo a la función para registrar el log de auditoria
+							$descripcion_log = "Se editó el periodo con id {{$convocatoria->idperiodos}}";
+							Helpers::registrarLog(4,$descripcion_log);
+							
+							return Redirect::to($url);
+						}
+						else{
+							Session::flash('error', 'Las fechas de inicio o fin se intersectan con las fechas de otra convocatoria.');
+							return Redirect::to('convocatorias/create_convocatoria')->withInput(Input::all());
+						}
 					}
 					else{
 						Session::flash('error', 'La Fecha de Inicio debe ser menor a la Fecha Fin.');
