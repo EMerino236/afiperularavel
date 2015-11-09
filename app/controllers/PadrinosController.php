@@ -679,4 +679,33 @@ class PadrinosController extends BaseController
 
 	}
 
+	public function list_registrar_pagos(){
+
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_calendario_pagos',$data["permisos"])){
+				$data["search"] = null;
+				$data["error"] = true;
+				$data["padrino"] = Padrino::getPadrinoByUserId($data["user"]->id)->get();
+				if($data["padrino"]->isEmpty()){
+					Session::flash('error', 'No se encontró calendario de pagos.');
+					return View::make('padrinos/listRegistrarPagos',$data);
+				}else{
+					$data["error"] = false;
+					$padrino = $data["padrino"][0];
+					$idpadrinos = $padrino->idpadrinos;
+					$data["calendario_pagos"] = CalendarioPago::getCalendarioByPadrino($idpadrinos)->paginate(10);
+					return View::make('padrinos/listRegistrarPagos',$data);
+				}				
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+
+	}
+
 }

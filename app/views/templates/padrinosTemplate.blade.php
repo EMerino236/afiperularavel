@@ -63,7 +63,7 @@
                     <li><a href="{{ URL::to('padrinos/reporte_pagos_padrinos') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Pagos</a></li>
                     @endif
                     @if(in_array('side_registrar_pago',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-thumb-tack fa-fw"></i> Registrar Pago</a></li>
+                    <li><a href="{{ URL::to('padrinos/list_registrar_pagos') }}"><i class="fa fa-thumb-tack fa-fw"></i> Registrar Pago</a></li>
                     @endif
                     @if(in_array('side_reporte_pagos',$permisos))
                     <li><a href="{{ URL::to('padrinos/list_aprobar_pagos') }}"><i class="fa fa-check fa-fw"></i> Aprobar Pagos</a></li>
