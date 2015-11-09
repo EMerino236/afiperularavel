@@ -71,15 +71,17 @@
 	                        </div>
 	                    </div>
 	                </div>
-	                <a href="#">
-	                    <div class="panel-footer">
-	                    	@if($idperiodos != NULL)
-		                        <a class="pull-left" href="{{ URL::to('convocatorias/list_postulantes') }}/{{$idperiodos}}">Ver postulantes</a>
-		                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-		                        <div class="clearfix"></div>
-		                    @endif
-	                    </div>
-	                </a>
+                    <div class="panel-footer">
+                    	@if($idperiodos != NULL)
+	                        <a class="pull-left" href="{{ URL::to('convocatorias/list_postulantes') }}/{{$idperiodos}}">Ver postulantes</a>
+	                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                        <div class="clearfix"></div>
+	                    @else
+	                        No hay un período actual
+	                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                        <div class="clearfix"></div>
+	                    @endif
+                    </div>
 	            </div>
 	        </div>
 		@endif
