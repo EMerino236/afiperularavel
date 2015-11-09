@@ -15,4 +15,16 @@ class Documento extends Eloquent{
 		return $query;
 	}
 
+	public function scopeSearchDocumentosPorTipo($query,$idtipo_documentos,$search,$fecha_ini,$fecha_fin)
+	{
+		$query->where('idtipo_documentos','=',$idtipo_documentos)
+			  ->where('titulo','LIKE',"%$search%");
+			  if($fecha_ini != "")
+				  $query->where('created_at','>=',date('Y-m-d H:i:s',strtotime($fecha_ini)));
+			  if($fecha_fin != "")
+				  $query->where('created_at','<=',date('Y-m-d H:i:s',strtotime($fecha_fin.' + 1 days')));
+		$query->orderBy('created_at','desc');
+		return $query;
+	}
+
 }

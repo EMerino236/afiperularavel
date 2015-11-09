@@ -87,7 +87,11 @@ class PadrinosController extends BaseController
 			if(in_array('side_nuevo_reporte_padrinos',$data["permisos"])){
 				return View::make('padrinos/reportePadrinos',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -118,7 +122,8 @@ class PadrinosController extends BaseController
 					$documento = new Documento;
 					$documento->titulo = $nombreArchivo;
 					$documento->idtipo_documentos = 2; // ¡Que viva el hardcode!
-					$documento->nombre_archivo = $nombreArchivo;
+					$documento->nombre_archivo = $nombreArchivoEncriptado;
+					$documento->peso = $peso;
 					$documento->ruta = $rutaDestino;
 					$documento->save();
 
@@ -142,7 +147,11 @@ class PadrinosController extends BaseController
 					return Redirect::to('padrinos/create_reporte_padrinos');
 				}
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -156,12 +165,42 @@ class PadrinosController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_listar_reportes_padrinos',$data["permisos"])){
+				$data["search"] = null;
+				$data["fecha_ini"] = null;
+				$data["fecha_fin"] = null;
 				$data["reportes_padrinos"] = Documento::getDocumentosPorTipo(2)->paginate(10);
 				return View::make('padrinos/listReportePadrinos',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
+		}else{
+			return View::make('error/error');
+		}
+	}
 
+	public function search_reporte_padrinos()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_listar_reportes_padrinos',$data["permisos"])){
+				$data["search"] = Input::get("search");
+				$data["fecha_ini"] = Input::get("fecha_ini");
+				$data["fecha_fin"] = Input::get("fecha_fin");
+				$data["reportes_padrinos"] = Documento::searchDocumentosPorTipo(2,$data["search"],$data["fecha_ini"],$data["fecha_fin"])->paginate(10);
+				return View::make('padrinos/listReportePadrinos',$data);
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
 		}else{
 			return View::make('error/error');
 		}
@@ -180,9 +219,74 @@ class PadrinosController extends BaseController
 		        $headers = array(
 		              'Content-Type',mime_content_type($rutaDestino),
 		            );
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se descargó el documento con id {{$documento->iddocumentos}}";
+				Helpers::registrarLog(9,$descripcion_log);	
 		        return Response::download($rutaDestino,basename($rutaDestino),$headers);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function list_mis_reportes()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_mis_reportes',$data["permisos"])){
+				$data["search"] = null;
+				$data["fecha_ini"] = null;
+				$data["fecha_fin"] = null;
+				$padrino_info = Padrino::getPadrinoByUserId($data["user"]->id)->get();
+				if($padrino_info->isEmpty()){
+					Session::flash('error', 'No se le encontró información de padrino.');
+					return Redirect::to('/dashboard');
+				}
+				$data["reportes_padrinos"] = DocumentosPadrino::getDocumentosPorUsuarioPorTipo(2,$padrino_info[0]->idpadrinos)->paginate(10);
+				return View::make('padrinos/listMisReportes',$data);
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function search_mis_reportes()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_mis_reportes',$data["permisos"])){
+				$data["search"] = Input::get("search");
+				$data["fecha_ini"] = Input::get("fecha_ini");
+				$data["fecha_fin"] = Input::get("fecha_fin");
+				$padrino_info = Padrino::getPadrinoByUserId($data["user"]->id)->get();
+				if($padrino_info->isEmpty()){
+					Session::flash('error', 'No se le encontró información de padrino.');
+					return Redirect::to('/dashboard');
+				}
+				$data["reportes_padrinos"] = DocumentosPadrino::searchDocumentosPorUsuarioPorTipo(2,$padrino_info[0]->idpadrinos,$data["search"],$data["fecha_ini"],$data["fecha_fin"])->paginate(10);
+				return View::make('padrinos/listMisReportes',$data);
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');

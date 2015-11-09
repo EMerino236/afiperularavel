@@ -702,7 +702,7 @@ class EventosController extends BaseController
 		              'Content-Type',mime_content_type($rutaDestino),
 		            );
 				// Llamo a la función para registrar el log de auditoria
-				$descripcion_log = "Se descargó el documento {{$documento->nombre_archivo}} con id {{$documento->iddocumentos}}";
+				$descripcion_log = "Se descargó el documento con id {{$documento->iddocumentos}}";
 				Helpers::registrarLog(9,$descripcion_log);	
 		        return Response::download($rutaDestino,basename($rutaDestino),$headers);
 			}else{

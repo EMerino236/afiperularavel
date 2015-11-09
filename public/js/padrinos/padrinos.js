@@ -1,5 +1,12 @@
 $( document ).ready(function(){	
 
+
+	$(".fecha-busqueda").datetimepicker({
+	    defaultDate: false,
+	    format: 'DD-MM-YYYY',
+	    ignoreReadonly: true
+	});
+
 	$("input[name=seleccionar-todos-prepadrinos]").change(function(){
 		if($(this).is(':checked')){
 			$(".checkbox-aprobacion").prop('checked',true);

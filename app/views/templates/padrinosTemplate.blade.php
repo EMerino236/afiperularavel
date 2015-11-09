@@ -8,6 +8,8 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Datepicker CSS-->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
     <!-- MetisMenu CSS -->
     <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
     <!-- Custom CSS -->
@@ -23,6 +25,10 @@
     <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <!-- Moment JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
+    <!-- Bootstrap Datepicker JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
@@ -63,7 +69,7 @@
                     <li><a href="{{ URL::to('padrinos/list_aprobar_pagos') }}"><i class="fa fa-check fa-fw"></i> Aprobar Pagos</a></li>
                     @endif
                     @if(in_array('side_mis_reportes',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-paperclip fa-fw"></i> Mis Reportes</a></li>
+                    <li><a href="{{ URL::to('padrinos/list_mis_reportes') }}"><i class="fa fa-paperclip fa-fw"></i> Mis Reportes</a></li>
                     @endif
                 </ul>
             </div>

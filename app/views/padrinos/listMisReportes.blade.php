@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Historial de Reportes a Padrinos</h3>
+            <h3 class="page-header">Historial de Mis Reportes</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -13,7 +13,7 @@
 	@if (Session::has('error'))
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
-	{{ Form::open(array('url'=>'/padrinos/search_reporte_padrinos','method'=>'get' ,'role'=>'form', 'id'=>'search-form')) }}
+	{{ Form::open(array('url'=>'/padrinos/search_mis_reportes','method'=>'get' ,'role'=>'form', 'id'=>'search-form')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Búsqueda</h3>

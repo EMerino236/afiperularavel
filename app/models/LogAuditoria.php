@@ -37,7 +37,7 @@ class LogAuditoria extends Eloquent{
 		if($fecha_ini != "")
 			$query->where('logs.created_at','>=',date('Y-m-d H:i:s',strtotime($fecha_ini)));
 		if($fecha_fin != "")
-			$query->where('logs.created_at','<=',date('Y-m-d H:i:s',strtotime($fecha_fin)));
+			$query->where('logs.created_at','<=',date('Y-m-d H:i:s',strtotime($fecha_fin.' + 1 days')));
 		$query->orderBy('idlogs','desc')
 			  ->select('personas.nombres','personas.apellido_pat','personas.apellido_mat','users.num_documento','users.email','tipo_logs.nombre as tipo_log','logs.*');
 		return $query;
