@@ -29,16 +29,16 @@
 						<th>Asistió <input type="checkbox" name="seleccionar-todos-asistio" value="0"></th>
 					</tr>
 					@foreach($voluntarios as $voluntario)
-					<tr>
+					<tr class="{{$voluntario->idasistencias}}">
 						{{ Form::hidden('idasistencias[]', $voluntario->idasistencias) }}
 						<td style="vertical-align:middle">{{$voluntario->num_documento}}</td>
 						<td style="vertical-align:middle">{{$voluntario->nombres}} {{$voluntario->apellido_pat}} {{$voluntario->apellido_mat}}</td>
-						<td style="vertical-align:middle"><input name="calificaciones[]" type="number" value="{{$voluntario->calificacion}}" class="calificacion" min=0 max=5 step=1.0 data-size="sm"></td>
+						<td style="vertical-align:middle"><input name="calificaciones[]" type="number" value="{{$voluntario->calificacion}}" class="calificacion {{$voluntario->idasistencias}}" min=0 max=5 step=1.0 data-size="sm"></td>
 						<td style="vertical-align:middle">
-							{{Form::textarea('comentarios[]', $voluntario->comentario,array('rows'=>'3','cols'=>'70','maxlength'=>'200'))}}
+							{{Form::textarea('comentarios[]', $voluntario->comentario,array('class'=>$voluntario->idasistencias,'rows'=>'3','cols'=>'70','maxlength'=>'200','disabled'=>''))}}
 						</td>
 						<td class="text-center" style="vertical-align:middle">
-							<input type="checkbox" name="asistio" class="checkbox-asistio" value="0" @if($voluntario->asistio == 1) checked @endif>
+							<input type="checkbox" name="asistio" class="checkbox-asistio" data-id="{{$voluntario->idasistencias}}" value="0" @if($voluntario->asistio == 1) checked @endif>
 							{{ Form::hidden('asistencias[]', $voluntario->asistio,array('class'=>'hidden-asistencia')) }}
 						</td>
 					</tr>

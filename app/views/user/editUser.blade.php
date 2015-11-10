@@ -10,6 +10,7 @@
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('idtipo_identificacion') }}</strong></p>
+			<p><strong>{{ $errors->first('num_documento') }}</strong></p>
 			<p><strong>{{ $errors->first('nombres') }}</strong></p>
 			<p><strong>{{ $errors->first('apellido_pat') }}</strong></p>
 			<p><strong>{{ $errors->first('apellido_mat') }}</strong></p>

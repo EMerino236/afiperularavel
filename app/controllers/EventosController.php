@@ -329,6 +329,8 @@ class EventosController extends BaseController
 				$emails = array();
 				foreach($emails_voluntarios as $email_voluntario){
 					$emails[] = $email_voluntario->email;
+					$asistencia = Asistencia::find($email_voluntario->idasistencias);
+					$asistencia->delete();
 				}
 				Mail::send('emails.eventCancellation',array('evento'=> $evento),function($message) use ($emails,$evento)
 				{
@@ -548,8 +550,13 @@ class EventosController extends BaseController
 				for($i=0;$i<$count;$i++){
 					$asistencia = Asistencia::find($idasistencias[$i]);
 					$asistencia->asistio = $asistencias[$i];
-					$asistencia->calificacion = $calificaciones[$i];
-					$asistencia->comentario = $comentarios[$i];
+					if($asistencias[$i]==0){
+					$asistencia->calificacion = 0;
+					$asistencia->comentario = "";
+					}else{						
+						$asistencia->calificacion = $calificaciones[$i];
+						$asistencia->comentario = $comentarios[$i];
+					}
 					$asistencia->save();
 				}
 				$ideventos = Input::get('ideventos');

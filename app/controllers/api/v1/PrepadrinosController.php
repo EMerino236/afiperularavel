@@ -30,6 +30,7 @@ class PrepadrinosController extends \BaseController {
             $prepadrino->idperiodo_pagos = Input::get('idperiodo_pagos');
             $prepadrino->telefono = Input::get('telefono');
             $prepadrino->celular = Input::get('celular');
+            $prepadrino->direccion = Input::get('direccion');
             $prepadrino->save();
             return Response::json(['success' => 1], 200);
         }
