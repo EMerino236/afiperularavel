@@ -221,4 +221,6 @@ Route::group(array('prefix' => 'game'), function()
     Route::post('level/clear', 'api\juego\JuegoController@levelClear');
     Route::post('level/defeat', 'api\juego\JuegoController@levelDefeat');
     Route::get('pu', 'api\juego\JuegoController@pu');
+    Route::post('level/continue', 'api\juego\JuegoController@levelContinue');
+    Route::post('level/purchase', 'api\juego\JuegoController@levelPurchase');
 });
