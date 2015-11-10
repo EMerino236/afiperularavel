@@ -27,7 +27,7 @@
 			<h3 class="panel-title">Subir Documentos</h3>
 		</div>
 		<div class="panel-body">
-			<div class="col-xs-8">
+			<div class="col-md-8">
 				<label class="control-label">Seleccione un Documento</label>(pdf,doc,docx,xls,xlsx,ppt,pptx)
 				<input name="archivo" id="input-1" type="file" class="file file-loading" data-allowed-file-extensions='["pdf","doc","docx","xls","xlsx","ppt","pptx"]'>
 			</div>
@@ -41,17 +41,19 @@
 		</div>
 		<div class="panel-body">
 			@foreach($documentos as $documento)
-				<div class="col-xs-12">
-					<div class="row">
+				<div class="row">
+					<div class="col-md-6">
+						<strong>Documento:</strong> {{$documento['documento']->titulo}}
+					</div>
+					<div class="col-md-6 text-right">
 						@if($hoy < $evento_info->fecha_evento)
 						{{ Form::open(array('url'=>'eventos/submit_delete_file', 'role'=>'form')) }}
 							{{ Form::hidden('ideventos', $evento_info->ideventos) }}
 							{{ Form::hidden('iddocumentos_eventos', $documento['documento']->iddocumentos_eventos) }}
-							{{ Form::submit('X',array('class'=>'btn btn-danger','title'=>'Eliminar Documento')) }}
-							<strong>Documento:</strong> {{$documento['documento']->titulo}}
+							<button type="submit" class="btn btn-danger">
+							  <i class="fa fa-trash-o"></i> Eliminar
+							</button>
 						{{ Form::close() }}
-						@else
-							<strong>Documento:</strong> {{$documento['documento']->titulo}}
 						@endif
 					</div>
 				</div>

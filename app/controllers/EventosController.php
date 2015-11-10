@@ -37,7 +37,7 @@ class EventosController extends BaseController
 				}
 				//$data["tipos_eventos"] = TipoEvento::lists('nombre','idtipo_eventos');
 				$data["colegios"] = Colegio::lists('nombre','idcolegios');
-				$data["puntos_reunion"] = PuntoReunion::all();
+				$data["puntos_reunion"] = PuntoReunion::orderBy('direccion','asc')->get();
 				$data["voluntarios"] = UsersPeriodo::getUsersPorPeriodo($periodo[0]->idperiodos)->get();
 				$data["periodo"] = $periodo[0]->idperiodos;
 				return View::make('eventos/createEvento',$data);
@@ -221,9 +221,10 @@ class EventosController extends BaseController
 				}
 				$data["evento_info"] = $data["evento_info"][0];
 				$data["voluntarios"] = Asistencia::getUsersPorEvento($data["evento_info"]->ideventos)->get();
-				$data["puntos_reunion"] = PuntoReunion::all();
+				$data["puntos_reunion"] = PuntoReunion::orderBy('direccion','asc')->get();
 				$puntos_reunion_seleccionados = PuntoEvento::getPuntosPorEvento($data["evento_info"]->ideventos)->get()->toArray();
 				$data["hoy"] = date("Y-m-d H:i:s");
+				$data["puntos_reunion_seleccionados"] = array();
 				foreach($puntos_reunion_seleccionados as $punto_reunion_seleccionado){
 					$data["puntos_reunion_seleccionados"][] = $punto_reunion_seleccionado['idpuntos_reunion'];
 				}
@@ -711,7 +712,7 @@ class EventosController extends BaseController
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se descargó el documento con id {{$documento->iddocumentos}}";
 				Helpers::registrarLog(9,$descripcion_log);	
-		        return Response::download($rutaDestino,basename($rutaDestino),$headers);
+		        return Response::download($rutaDestino,basename($documento->titulo),$headers);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
