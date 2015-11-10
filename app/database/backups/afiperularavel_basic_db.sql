@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-11-2015 a las 16:40:44
+-- Tiempo de generación: 10-11-2015 a las 02:23:19
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -797,8 +797,8 @@ CREATE TABLE IF NOT EXISTS `precolegios` (
   `email_contacto` varchar(100) NOT NULL,
   `telefono_contacto` varchar(45) NOT NULL,
   `interes` varchar(100) NOT NULL,
-  `latitud` varchar(45) NOT NULL,
-  `longitud` varchar(45) NOT NULL,
+  `latitud` varchar(45) DEFAULT NULL,
+  `longitud` varchar(45) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
