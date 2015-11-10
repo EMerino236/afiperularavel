@@ -298,6 +298,7 @@ class JuegoController extends \BaseController {
     public function puPurchase()
     {
         $rules = array('idPlayer' => 'required',
+                       'idLevel' => 'required',
                        'idPowerup' => 'required'
         );
         
@@ -308,10 +309,22 @@ class JuegoController extends \BaseController {
         $jugador = Jugador::find($idJugador);
         if(!$jugador) return Response::json(['error' => 'No existe el jugador con id = ' . $idJugador], 200);
         
+        $idNivel = Input::get('idLevel');
+        $nivel = Nivel::find($idNivel);
+        if(!$nivel) return Response::json(['error' => 'No existe el nivel con id = ' . $idNivel], 200);
+        
         $idPowerup = Input::get('idPowerup');
         $pu = Powerup::find($idPowerup);
         if(!$pu) return Response::json(['error' => 'No existe el powerup con id = ' . $idPowerup], 200);
         
+        $puxnivel = PowerupxNivel::where('idPowerup', '=', $idPowerup)->where('idLevel', '=', $idNivel)->first();
+        if(!$puxnivel) return Response::json(['error' => 'No existe un registro del powerup en el nivel.'], 200);
         
+        $jugador->coins = $jugador->coins - $puxnivel->cost;
+        if($jugador->coins < 0) return Response::json(['error' => 'El jugador no posee suficientes monedas para comprar el powerup'], 200);
+        
+        $jugador->save();
+        
+        return Response::json(['success' => 1], 200);
     }
 }

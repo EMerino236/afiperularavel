@@ -223,4 +223,5 @@ Route::group(array('prefix' => 'game'), function()
     Route::get('pu', 'api\juego\JuegoController@pu');
     Route::post('level/continue', 'api\juego\JuegoController@levelContinue');
     Route::post('level/purchase', 'api\juego\JuegoController@levelPurchase');
+    Route::post('pu/purchase', 'api\juego\JuegoController@puPurchase');
 });
