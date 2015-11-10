@@ -34,7 +34,14 @@ class PrepadrinosController extends \BaseController {
             $prepadrino->save();
             return Response::json(['success' => 1], 200);
         }
-        else return Response::json($validator->messages(), 200);
+        else{
+          $log = new LogAuditoria;
+          $log->idtipo_logs = 1;
+          $log->descripcion = $validator->messages();
+          $log->users_id = 1;
+          $log->save(); 
+          return Response::json($validator->messages(), 200);
+        } 
 	}
 
 }
