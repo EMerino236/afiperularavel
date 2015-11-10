@@ -11,4 +11,12 @@ $( document ).ready(function(){
 		ignoreReadonly: true
 	});
 
+	var hoy = new Date();
+	$(".fecha-log").datetimepicker({
+		defaultDate: false,
+		format: 'DD-MM-YYYY',
+		ignoreReadonly: true,
+		maxDate: hoy
+	});
+
 });
