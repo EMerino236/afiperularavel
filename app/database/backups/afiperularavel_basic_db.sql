@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-11-2015 a las 02:23:19
+-- Tiempo de generación: 10-11-2015 a las 20:56:46
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -523,7 +523,7 @@ CREATE TABLE IF NOT EXISTS `permisos` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `permisos`
@@ -568,7 +568,9 @@ INSERT INTO `permisos` (`idpermisos`, `nombre`, `created_at`, `updated_at`, `del
 (36, 'side_nuevo_perfil', '2015-10-07 14:19:36', '2015-10-07 14:19:36', NULL),
 (37, 'side_listar_perfiles', '2015-10-07 14:19:36', '2015-10-07 14:19:36', NULL),
 (38, 'side_reporte_log', '2015-10-07 14:19:36', '2015-10-07 14:19:36', NULL),
-(39, 'side_mis_reportes', '2015-11-08 21:04:09', NULL, NULL);
+(39, 'side_mis_reportes', '2015-11-08 21:04:09', NULL, NULL),
+(40, 'side_aprobar_pagos', '2015-11-11 01:14:48', NULL, NULL),
+(41, 'side_mapa_calor', '2015-11-11 01:14:48', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -583,7 +585,7 @@ CREATE TABLE IF NOT EXISTS `permisos_perfiles` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `permisos_perfiles`
@@ -604,16 +606,16 @@ INSERT INTO `permisos_perfiles` (`idpermisos_perfiles`, `idpermisos`, `idperfile
 (12, 12, 1, '2015-10-07 04:04:28', '2015-10-07 04:04:28', NULL),
 (13, 13, 1, '2015-10-07 04:04:38', '2015-10-07 04:04:38', NULL),
 (14, 14, 1, '2015-10-07 04:04:38', '2015-10-07 04:04:38', NULL),
-(15, 15, 1, '2015-10-07 04:04:47', '2015-10-07 04:04:47', NULL),
+(15, 15, 1, '2015-10-07 04:04:47', '2015-10-07 04:04:47', '2015-11-10 05:00:00'),
 (16, 16, 1, '2015-10-07 04:04:47', '2015-10-07 04:04:47', NULL),
 (17, 17, 1, '2015-10-07 04:04:55', '2015-10-07 04:04:55', NULL),
 (18, 18, 1, '2015-10-07 04:04:55', '2015-10-07 04:04:55', NULL),
 (19, 19, 1, '2015-10-07 04:04:55', '2015-10-07 04:04:55', NULL),
 (20, 20, 1, '2015-10-07 04:05:05', '2015-10-07 04:05:05', NULL),
 (21, 21, 1, '2015-10-07 04:05:05', '2015-10-07 04:05:05', NULL),
-(22, 22, 1, '2015-10-07 04:05:17', '2015-10-07 04:05:17', NULL),
+(22, 22, 1, '2015-10-07 04:05:17', '2015-10-07 04:05:17', '2015-11-10 05:00:00'),
 (23, 23, 1, '2015-10-07 04:05:17', '2015-10-07 04:05:17', NULL),
-(24, 24, 1, '2015-10-07 04:05:17', '2015-10-07 04:05:17', NULL),
+(24, 24, 1, '2015-10-07 04:05:17', '2015-10-07 04:05:17', '2015-11-10 05:00:00'),
 (25, 25, 1, '2015-10-07 04:05:29', '2015-10-07 04:05:29', NULL),
 (26, 26, 1, '2015-10-07 04:05:29', '2015-10-07 04:05:29', NULL),
 (27, 27, 1, '2015-10-07 04:05:42', '2015-10-07 04:05:42', NULL),
@@ -662,7 +664,11 @@ INSERT INTO `permisos_perfiles` (`idpermisos_perfiles`, `idpermisos`, `idperfile
 (70, 22, 4, '2015-10-16 01:27:03', '2015-10-16 01:27:03', NULL),
 (71, 24, 4, '2015-10-16 01:27:11', '2015-10-16 01:27:11', NULL),
 (72, 39, 4, '2015-11-08 21:05:34', NULL, NULL),
-(73, 39, 1, '2015-11-08 21:09:55', NULL, NULL);
+(73, 39, 1, '2015-11-08 21:09:55', NULL, NULL),
+(74, 40, 1, '2015-11-11 01:16:02', NULL, '2015-11-10 05:00:00'),
+(75, 40, 2, '2015-11-11 01:16:02', NULL, NULL),
+(76, 41, 1, '2015-11-11 01:16:35', NULL, NULL),
+(77, 41, 2, '2015-11-11 01:16:35', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1559,12 +1565,12 @@ ALTER TABLE `periodo_pagos`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermisos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
+  MODIFY `idpermisos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT de la tabla `permisos_perfiles`
 --
 ALTER TABLE `permisos_perfiles`
-  MODIFY `idpermisos_perfiles` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=74;
+  MODIFY `idpermisos_perfiles` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=78;
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
