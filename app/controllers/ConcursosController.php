@@ -441,12 +441,12 @@ class ConcursosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_concurso',$data["permisos"])){
 				// Validate the info, create rules for the inputs
-
+				$concurso_id = Input::get('concurso_id');
 				$rules = array(
-							'titulo' => 'required|min:2|max:100'							
+							'titulo' => 'required|min:2|max:100|unique:concursos,titulo,'.$concurso_id.',idconcursos'							
 						);
 				// Run the validation rules on the inputs from the form
-				$concurso_id = Input::get('concurso_id');
+				
 				$url = "concursos/edit_concurso"."/".$concurso_id;
 				$validator = Validator::make(Input::all(), $rules);
 				
@@ -493,6 +493,250 @@ class ConcursosController extends BaseController
 				$descripcion_log = "Se eliminó el concurso con id {{$concurso->idconcursos}}";
 				Helpers::registrarLog(5,$descripcion_log);
 				Session::flash('message', 'Se eliminó correctamente al concurso.');
+				return Redirect::to($url);
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+
+	public function render_create_proyecto()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_proyecto',$data["permisos"])){
+				$data["concursos_data"] = Concurso::getLatestConcursos()->lists('titulo','idconcursos');
+				return View::make('concursos/createProyectos',$data);
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_create_proyecto()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_proyecto',$data["permisos"])){
+				// Validate the info, create rules for the inputs
+				$rules = array(
+							'nombre' => 'required|min:2|max:100|unique:proyectos',
+							'jefe_proyecto' => 'required|min:2|max:100'
+						);
+				// Run the validation rules on the inputs from the form
+				$validator = Validator::make(Input::all(), $rules);
+				// If the validator fails, redirect back to the form
+				if($validator->fails()){
+					return Redirect::to('concursos/create_proyecto')->withErrors($validator)->withInput(Input::all());
+				}else{
+					// Creo primero a la persona
+					$proyecto = new Proyecto;
+					$proyecto->nombre = Input::get('nombre');
+					$proyecto->resenha = Input::get('resenha');
+					$proyecto->idconcursos = Input::get('concursos');
+					$proyecto->jefe_proyecto = Input::get('jefe_proyecto');
+					$proyecto->aprobacion = 0;
+
+					$proyecto->save();
+					// Creo al usuario y le asigno su información de persona
+
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se creó el proyecto con id {{$proyecto->idproyectos}}";
+					Helpers::registrarLog(3,$descripcion_log);
+					Session::flash('message', 'Se registró correctamente el proyecto.');
+					
+					return Redirect::to('concursos/create_proyecto');
+				}
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function list_proyectos()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_listar_proyectos',$data["permisos"])){
+				$data["search"] = null;
+				//$data["concursos_data"] = Concurso::getConcursosInfo()->paginate(10);
+
+				$sortby = Input::get('sortby');
+			    $order = Input::get('order');
+			    $data["sortby"] = $sortby;
+			    $data["order"] = $order;
+			    if ($sortby && $order) {
+			        $data["proyectos_data"] =Proyecto::getProyectosInfo()->orderBy($sortby, $order)->paginate(10);
+			    } else {
+			        $data["proyectos_data"] = Proyecto::getProyectosInfo()->paginate(10);
+			    }
+
+				return View::make('concursos/listProyectos',$data);
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function search_proyecto()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_listar_proyectos',$data["permisos"])){
+				$data["search"] = Input::get('search');
+				//$data["concursos_data"] = Concurso::searchConcursos($data["search"])->paginate(10);
+				$sortby = Input::get('sortby');
+			    $order = Input::get('order');
+			    $data["sortby"] = $sortby;
+			    $data["order"] = $order;
+			    if ($sortby && $order) {
+			        $data["proyectos_data"] = Proyecto::searchProyectos($data["search"])->orderBy($sortby, $order)->paginate(10);
+			    } else {
+			       $data["proyectos_data"] = Proyecto::searchProyectos($data["search"])->paginate(10);
+			    }
+				return View::make('concursos/listProyectos',$data);
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function render_edit_proyecto($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_nuevo_proyecto',$data["permisos"])) && $id){
+				$data["proyecto_info"] = Proyecto::searchProyectosById($id)->get();
+				if($data["proyecto_info"]->isEmpty()){
+					Session::flash('error', 'No se encontró el proyecto.');
+					return Redirect::to('concursos/list_proyectos');
+				}
+				$data["concursos_data"] = Concurso::getLatestConcursos()->lists('titulo','idconcursos');
+				$data["proyecto_info"] = $data["proyecto_info"][0];
+				return View::make('concursos/editProyecto',$data);
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_edit_proyecto()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_proyecto',$data["permisos"])){
+				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'nombre' => 'Nombre Proyecto',
+							'jefe_proyecto' => 'Nombre Jefe Proyecto'							
+						);
+				$messages = array();
+				$proyecto_id = Input::get('proyecto_id');
+				$rules = array(
+							'nombre' => 'required|min:2|max:100|unique:proyectos,nombre,'.$proyecto_id.',idproyectos',
+							'jefe_proyecto' => 'required|min:2|max:100'							
+						);
+				// Run the validation rules on the inputs from the form
+				
+				$url = "concursos/edit_proyecto"."/".$proyecto_id;
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
+				
+				if($validator->fails()){
+					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
+				}else{	
+					$proyecto = Proyecto::find($proyecto_id);
+					$proyecto->nombre = Input::get('nombre');
+					$proyecto->jefe_proyecto = Input::get('jefe_proyecto');
+					$proyecto->idconcursos = Input::get('concursos');
+					$proyecto->resenha = Input::get('resenha');
+					
+					$proyecto->save();
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se editó el proyecto con id {{$proyecto->idproyectos}}";
+					Helpers::registrarLog(4,$descripcion_log);
+					Session::flash('message', 'Se editó correctamente el proyecto.');
+					
+					return Redirect::to($url);
+				}
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function submit_disable_proyecto()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_nuevo_proyecto',$data["permisos"])){
+				$proyecto_id = Input::get('proyecto_id');
+				$url = "concursos/list_proyectos";
+				$proyecto = Proyecto::find($proyecto_id);
+				$proyecto->delete();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se eliminó el proyecto con id {{$proyecto->idproyectos}}";
+				Helpers::registrarLog(5,$descripcion_log);
+				Session::flash('message', 'Se eliminó correctamente el proyecto.');
 				return Redirect::to($url);
 			}else{
 				// Llamo a la función para registrar el log de auditoria

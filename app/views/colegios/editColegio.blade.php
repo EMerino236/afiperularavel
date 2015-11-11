@@ -99,6 +99,7 @@
 						@endif	
 					</div>
 				</div>	
+				<input id="pac-input" class="controls" type="text" placeholder="Buscar lugares">
 				<div id="map"></div>
 			</div>
 		</div>
@@ -124,5 +125,5 @@
 		</div>	
 	
 	<script src="{{ asset('js/colegio/colegios.js') }}"></script>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
 @stop
