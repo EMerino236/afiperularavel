@@ -349,13 +349,13 @@ class ConvocatoriasController extends BaseController
 								$postulante_periodo_nuevo->idperiodos = $postulante_periodo->idperiodos;
 								$postulante_periodo_nuevo->idfases = $idfase + 1;
 								$postulante_periodo_nuevo->save();								
-/*
+
 								Mail::send('emails.aprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
 									{
 										$message->to($postulante->email)
 												->subject('Primera Fase de Postulación - AFI Perú.');
 									});
-*/
+
 								// Llamo a la función para registrar el log de auditoria
 								// Llamo a la función para registrar el log de auditoria
 							$descripcion_log = "Se creó al postulante por periodo con id {{$postulante_periodo_nuevo->idpostulantes_periodos}}";
