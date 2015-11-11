@@ -15,9 +15,11 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/general.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/star-rating.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
 	</script>
+    <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
 </head>
 
 <body>
@@ -31,8 +33,8 @@
                     <li><a href="{{ URL::to('voluntarios/list_voluntarios') }}"><i class="fa fa-list fa-fw"></i> Listar Voluntarios</a></li>
                     @endif
                     @if(in_array('side_reporte_asistencia',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Asistencia</a></li>
-                    @endif
+                    <li><a href="{{ URL::to('voluntarios/list_reporte_calificaciones') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Asistencia</a></li>
+                    @endif                    
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -51,5 +53,7 @@
 <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
 <!-- Custom Theme JavaScript -->
 <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+<script  src="{{ asset('js/star-rating.min.js') }}"></script>
+<script  src="{{ asset('js/voluntarios/calificacion.js') }}"></script>
 </body>
 </html>

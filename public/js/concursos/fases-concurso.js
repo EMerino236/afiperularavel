@@ -3,11 +3,17 @@ $( document ).ready(function(){
 
 	var date = new Date();
     date.setDate(date.getDate());
-    date.setHours(0,0,0,0)
+    date.setHours(0,0,0,0);
+    var hoy = new Date();
+    var ayer = new Date();
+  	ayer.setDate(hoy.getDate()-1);
 	$("#datetimepicker1").datetimepicker({			
-		defaultDate: false,
-		format: 'DD-MM-YYYY',
-		ignoreReadonly: true
+		useCurrent: false,
+	    defaultDate: false,
+	    format: 'DD-MM-YYYY',
+	    ignoreReadonly: true,
+	    minDate: ayer,
+	    disabledDates: [ayer]
 	});
 
 
