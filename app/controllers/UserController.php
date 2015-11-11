@@ -397,11 +397,10 @@ class UserController extends BaseController {
 			$rules = array(
 						'idtipo_identificacion' => 'required',
 						'num_documento' => 'numeric|digits_between:8,16|unique:users',
-						'email' => 'required|email|max:100|unique:users',
+						'email' => 'email|max:100|unique:users',
 						'nombres' => 'required|alpha_spaces|min:2|max:100',
 						'apellido_pat' => 'required|alpha_spaces|min:2|max:100',
 						'apellido_mat' => 'required|alpha_spaces|min:2|max:100',
-						'fecha_nacimiento' => 'required',
 						'direccion' => 'required|max:150',
 						'telefono' => 'numeric|digits_between:7,20',
 						'celular' => 'numeric|digits_between:7,20',
