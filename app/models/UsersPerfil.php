@@ -94,4 +94,44 @@ class UsersPerfil extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetVoluntariosReporteInfo($query)
+	{
+		$sql = 'select users.id, users.num_documento, users.email,users.deleted_at,periodos.nombre as nombre_periodo, personas.nombres as nombre_persona, personas.apellido_pat,
+				  personas.apellido_mat, personas.direccion, personas.telefono, personas.celular, avg(asistencias.calificacion) as prom_calificaciones
+				  from users join users_perfiles on users_perfiles.idusers = users.id
+				  			 join users_periodos on users_periodos.idusers = users.id
+				  			 join periodos on users_periodos.idperiodos = periodos.idperiodos
+				  			 join personas on personas.idpersonas = users.idpersona
+				  			 join asistencias on asistencias.idusers = users.id
+				  where users_perfiles.idperfiles = 3
+				  		and users_perfiles.deleted_at is NULL
+				  group by  users.id, users.num_documento, users.email,users.deleted_at, periodos.nombre, personas.nombres, personas.apellido_pat,
+				  			personas.apellido_mat, personas.direccion, personas.telefono, personas.celular';
+		$query = DB::select(DB::raw($sql));
+		return $query;
+	}
+
+	public function scopeSearchVoluntariosReporteInfo($query,$search)
+	{
+		$sql = 'select users.id, users.num_documento, users.email,users.deleted_at,periodos.nombre as nombre_periodo, personas.nombres as nombre_persona, personas.apellido_pat,
+				  personas.apellido_mat, personas.direccion, personas.telefono, personas.celular, avg(asistencias.calificacion) as prom_calificaciones
+				  from users join users_perfiles on users_perfiles.idusers = users.id
+				  			 join users_periodos on users_periodos.idusers = users.id
+				  			 join periodos on users_periodos.idperiodos = periodos.idperiodos
+				  			 join personas on personas.idpersonas = users.idpersona
+				  			 join asistencias on asistencias.idusers = users.id
+				  where users_perfiles.idperfiles = 3
+				  		and users_perfiles.deleted_at is NULL
+				  		and (users.num_documento LIKE \'%'.$search.'%\'
+				  			 or periodos.nombre LIKE \'%'.$search.'%\'
+				  			 or personas.nombres LIKE \'%'.$search.'%\'
+				  			 or personas.apellido_pat LIKE \'%'.$search.'%\'
+				  			 or personas.apellido_mat LIKE \'%'.$search.'%\'
+				  			 )
+				  group by  users.id, users.num_documento, users.email,users.deleted_at, periodos.nombre, personas.nombres, personas.apellido_pat,
+				  			personas.apellido_mat, personas.direccion, personas.telefono, personas.celular';
+		$query = DB::select(DB::raw($sql));
+		return $query;
+	}
+
 }
