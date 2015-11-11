@@ -708,4 +708,43 @@ class PadrinosController extends BaseController
 
 	}
 
+	public function submit_registrar_pagos(){
+
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_registrar_pago',$data["permisos"])){
+				
+				$rules = array( 
+					'comprobante' => 'required|numeric'
+				); 
+
+				$validator = Validator::make(Input::all(), $rules); 
+				$url = "padrinos/list_registrar_pagos";
+				if($validator->fails()){ 
+					return Redirect::to($url)->withErrors($validator); 
+				}else{
+					$data["search"] = null;													
+
+					$idcalendario_pagos = Input::get('idcalendario_pagos');
+					$num_comprobante = Input::get('comprobante');
+
+					$pago=CalendarioPago::find($idcalendario_pagos);			
+					$pago->fecha_pago = date("Y-m-d");
+					$pago->num_comprobante = $num_comprobante;
+					$pago->save();
+
+				return Redirect::to($url);
+				}
+				
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+
+	}
+
 }

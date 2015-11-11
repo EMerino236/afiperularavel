@@ -6,11 +6,17 @@
 </div> 
 </div> 
 
+
+
+	@if ($errors->has())
+		<div class="alert alert-danger" role="alert">
+			<p><strong>{{ $errors->first('comprobante') }}</strong></p>			
+		</div>
+	@endif
+
 @if (Session::has('danger')) 
 	<div class="alert alert-danger">{{ Session::get('danger') }}</div> 
 @endif 
-
-{{ Form::open(array('url'=>'padrinos/list_registrar_pagos', 'role'=>'form')) }} 	
 	
 	<table class="table">
 		
@@ -26,8 +32,10 @@
 				<th><center>Num. Comprobante</center></th>
 				<th><center>Estado</center></th>
 				<th><center>Aprobación AFI</center></th>
+				<th><center>Registo</center></th>
 			</tr>
 			@foreach($calendario_pagos as $calendario_pago)
+			{{ Form::open(array('url'=>'padrinos/submit_registrar_pagos', 'role'=>'form')) }}
 			<tr class="@if($calendario_pago->deleted_at) bg-danger @endif">			
 				<td>
 					<center>{{$calendario_pago->num_cuota}}</center>
@@ -47,7 +55,13 @@
 					@endif
 				</td>
 				<td>
-					{{ Form::text('comprobante',$calendario_pago->num_comprobante,array('class'=>'form-control','maxlength'=>'100')) }}						
+					@if($calendario_pago->fecha_pago)
+						{{ Form::text('comprobante',$calendario_pago->num_comprobante,array('class'=>'form-control','maxlength'=>'100','disabled'=>'disabled')) }}
+					@endif
+					@if($calendario_pago->fecha_pago === null)
+						{{ Form::text('comprobante',$calendario_pago->num_comprobante,array('class'=>'form-control','maxlength'=>'100')) }}
+						{{ Form::hidden('num_comprobante', $calendario_pago->num_comprobante) }}
+					@endif
 				</td>
 				<td class="text-center" style="vertical-align:middle">
 					@if($calendario_pago->fecha_pago)				
@@ -57,7 +71,7 @@
 					@if($calendario_pago->fecha_pago === null)					
 						{{ Form::hidden('aprobaciones[]', -1) }}
 						Por Pagar
-					@endif				
+					@endif
 				</td>
 				<td class="text-center" style="vertical-align:middle">
 					@if($calendario_pago->aprobacion === 0)
@@ -67,10 +81,19 @@
 						Aprobado
 					@endif				
 				</td>
+				<td class"=text-center" style="vertical-align:middle">
+					@if($calendario_pago->fecha_pago)
+						<center>{{ Form::submit('Pagar',array('class'=>'btn btn-primary','disabled'=>'disabled')) }}</center>
+					@endif
+					@if($calendario_pago->fecha_pago === null)
+						<center>{{ Form::submit('Pagar',array('class'=>'btn btn-primary')) }}</center>
+						{{ Form::hidden('idcalendario_pagos', $calendario_pago->idcalendario_pagos) }}
+					@endif
+				</td>
 			</tr>
+			{{ Form::close() }} 
 			@endforeach
 		@endif		
 	</table>
 
-{{ Form::close() }} 
 @stop	
