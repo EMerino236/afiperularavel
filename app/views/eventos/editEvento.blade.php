@@ -54,12 +54,17 @@
 				<div class="row">
 					<div class="form-group col-md-6">
 						{{ Form::label('fecha_evento','Cambiar Fecha del Evento') }}
-						<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_evento')) has-error has-feedback @endif">
+						<div id="fecha-evento" class="form-group input-group date @if($errors->first('fecha_evento')) has-error has-feedback @endif">
 							{{ Form::text('fecha_evento',null,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                    </span>
 						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-12">
+						<span class="campos-obligatorios">La modificación o cancelación de un evento será informado vía e-mail a los asistentes.</span>
 					</div>
 				</div>
 				@endif
@@ -79,18 +84,24 @@
 							{{ Form::text('direccion',$evento_info->direccion,array('class'=>'form-control','readonly'=>'')) }}
 						@endif
 					</div>
-					<div class="form-group col-md-12">
-						<div id="map-eventos"></div>
-					</div>
 				</div>
 				<div class="row">
-					<div class="form-group col-md-12">
+					<div class="form-group col-md-8">
+						<input id="pac-input" class="controls" type="text" placeholder="Buscar lugares">
+						<div id="map-eventos"></div>
+					</div>
+
+					<div class="form-group col-md-4 seleccionar-puntos-reunion">
 						@if($puntos_reunion->isEmpty())
-							{{ Form::label('puntos_reunion','No existen puntos de reunión creados') }}
+							<div class="row">
+								{{ Form::label('puntos_reunion','No existen puntos de reunión creados') }}
+							</div>
 						@else
-							{{ Form::label('puntos_reunion','Puntos de Reunión') }}
+							<div class="row">
+								{{ Form::label('puntos_reunion','Puntos de Reunión') }}
+							</div>
 							@foreach($puntos_reunion as $punto_reunion)
-							<div class="form-group col-md-4">
+							<div class="row">
 								<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}" @if(in_array($punto_reunion->idpuntos_reunion,$puntos_reunion_seleccionados)) checked @endif @if($hoy >= $evento_info->fecha_evento) disabled @endif> {{$punto_reunion->direccion}}<br>
 							</div>
 							@endforeach
@@ -126,28 +137,23 @@
 				</table>
 			</div>
 		</div>
+		<div class="row">
 		@if($hoy < $evento_info->fecha_evento)
-		<div class="col-md-6">
-			<div class="row">
-				<div class="form-group col-md-8">
-					{{ Form::submit('Guardar',array('class'=>'btn btn-primary')) }}	
-				</div>
+			<div class="form-group col-md-6">
+				{{ Form::submit('Guardar',array('class'=>'btn btn-primary')) }}	
 			</div>
-		</div>
 		@endif
-	{{ Form::close() }}
+		{{ Form::close() }}
+
 		@if($hoy < $evento_info->fecha_evento)
-		<div class="col-md-6">
-			<div class="row">
-				<div class="form-group col-md-8">
-					{{ Form::open(array('url'=>'eventos/submit_delete_evento', 'role'=>'form')) }}
-					{{ Form::hidden('ideventos', $evento_info->ideventos) }}
-					{{ Form::submit('Cancelar Evento',array('class'=>'btn btn-danger')) }}
-					{{ Form::close() }}
-				</div>
+			<div class="form-group col-md-6">
+				{{ Form::open(array('url'=>'eventos/submit_delete_evento', 'role'=>'form')) }}
+				{{ Form::hidden('ideventos', $evento_info->ideventos) }}
+				{{ Form::submit('Cancelar Evento',array('class'=>'btn btn-danger')) }}
+				{{ Form::close() }}
 			</div>
-		</div>
 		@endif
+		</div>
 <script src="{{ asset('js/eventos/edit-eventos.js') }}"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
 @stop

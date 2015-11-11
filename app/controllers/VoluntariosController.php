@@ -105,4 +105,40 @@ class VoluntariosController extends BaseController
 			return View::make('error/error');
 		}
 	}
+
+	public function list_reporte_calificaciones()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"]= Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_reporte_asistencia',$data["permisos"])){
+				$data["search"] = null;
+				$data["voluntarios_data"] = UsersPerfil::getVoluntariosReporteInfo();
+				return View::make('voluntarios/reporteCalificaciones',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function search_reporte_calificaciones()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_reporte_asistencia',$data["permisos"])){
+				$data["search"] = Input::get('search');
+				$data["voluntarios_data"] = UsersPerfil::searchVoluntariosReporteInfo($data["search"]);
+				return View::make('voluntarios/reporteCalificaciones',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
 }

@@ -72,31 +72,29 @@
 								{{ Form::label('direccion','Dirección Exacta') }}
 								{{ Form::text('direccion',Input::old('direccion'),array('class'=>'form-control','maxlength'=>'100')) }}
 							</div>
-							<div class="form-group col-md-12">
-								<input id="pac-input" class="controls" type="text" placeholder="Bucar lugares">
+						</div>
+						<div class="row">
+							<div class="form-group col-md-8">
+								<input id="pac-input" class="controls" type="text" placeholder="Buscar lugares">
 								<div id="map-eventos"></div>
 							</div>
+							<div class="form-group col-md-4 seleccionar-puntos-reunion">
+								@if($puntos_reunion->isEmpty())
+									<div class="row">
+										{{ Form::label('puntos_reunion','No existen puntos de reunión creados') }}
+									</div>
+								@else
+									<div class="row">
+										{{ Form::label('puntos_reunion','Seleccione los Puntos de Reunión') }}
+									</div>
+									<div class="row">
+										@foreach($puntos_reunion as $punto_reunion)
+											<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}"> {{$punto_reunion->direccion}}<br>
+										@endforeach
+									</div>
+								@endif
+							</div>
 						</div>
-						@if($puntos_reunion->isEmpty())
-							<div class="row">
-								<div class="form-group col-md-4">
-									{{ Form::label('puntos_reunion','No existen puntos de reunión creados') }}
-								</div>
-							</div>
-						@else
-							<div class="row">
-								<div class="form-group col-md-4">
-									{{ Form::label('puntos_reunion','Seleccione los Puntos de Reunión') }}
-								</div>
-							</div>
-							<div class="row">
-								@foreach($puntos_reunion as $punto_reunion)
-								<div class="form-group col-md-4">
-									<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}"> {{$punto_reunion->direccion}}<br>
-								</div>
-								@endforeach
-							</div>
-						@endif
 				</div>
 			</div>
 			<div class="panel panel-default">

@@ -222,7 +222,7 @@ class PadrinosController extends BaseController
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se descargó el documento con id {{$documento->iddocumentos}}";
 				Helpers::registrarLog(9,$descripcion_log);	
-		        return Response::download($rutaDestino,basename($rutaDestino),$headers);
+		        return Response::download($rutaDestino,basename($documento->titulo),$headers);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";

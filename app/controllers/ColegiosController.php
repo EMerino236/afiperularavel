@@ -45,19 +45,27 @@ class ColegiosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_colegio',$data["permisos"])){
 				// Validate the info, create rules for the inputs
-
+				$attributes = array(
+							'nombre' => 'Nombre',
+							'direccion' => 'Dirección',
+							'nombre_contacto' => 'Nombre de contacto',
+							'email_contacto' => 'Email de contacto',
+							'telefono_contacto' => 'Teléfono de contacto',
+							'interes' => 'interés',
+						);
+				$messages = array();
 				$rules = array(
-							'latitud' => 'required',
+							'latitud' => 'required|',
 							'longitud' => 'required',
-							'nombre' => 'required|min:2|max:100',
+							'nombre' => 'required|min:2|max:100|alpha_num_dash',	
 							'direccion' => 'required|direction|max:200',
 							'nombre_contacto' => 'required|alpha_spaces|min:2|max:100',
 							'email_contacto' => 'required|email|max:45',
-							'telefono_contacto' => 'numeric|digits_between:7,20',
-							'interes' => 'max:100',
+							'telefono_contacto' => 'required|numeric|digits_between:7,20',
+							'interes' => 'required|max:100',
 						);
 				// Run the validation rules on the inputs from the form
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				// If the validator fails, redirect back to the form
 				if($validator->fails()){
 					return Redirect::to('colegios/create_colegio')->withErrors($validator)->withInput(Input::all());
@@ -171,6 +179,15 @@ class ColegiosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_colegio',$data["permisos"])){
 				// Validate the info, create rules for the inputs
+				$attributes = array(
+							'nombre' => 'Nombre',
+							'direccion' => 'Dirección',
+							'nombre_contacto' => 'Nombre de contacto',
+							'email_contacto' => 'Email de contacto',
+							'telefono_contacto' => 'Teléfono de contacto',
+							'interes' => 'interés',
+						);
+				$messages = array();
 				$rules = array(
 							'latitud' => 'required',
 							'longitud' => 'required',
@@ -179,12 +196,12 @@ class ColegiosController extends BaseController
 							'nombre_contacto' => 'required|alpha_spaces|min:2|max:100',
 							'email_contacto' => 'required|email|max:45',
 							'telefono_contacto' => 'required|numeric|digits_between:7,20',
-							'interes' => 'max:100',
+							'interes' => 'required|max:100',
 						);
 				
 				$colegio_id = Input::get('idcolegios');
 				$url = "colegios/edit_colegio"."/".$colegio_id;
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 				
 				if($validator->fails()){
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());

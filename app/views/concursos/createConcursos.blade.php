@@ -23,25 +23,30 @@
 	@endif
 
 	{{ Form::open(array('url'=>'concursos/submit_create_concurso', 'role'=>'form')) }}
-		
-		<div class="row">
-			<div class="form-group col-xs-6 required @if($errors->first('titulo')) has-error has-feedback @endif">
-				{{ Form::label('titulo','Título') }}
-				{{ Form::text('titulo',Input::old('titulo'),array('class'=>'form-control','maxlength'=>100)) }}
-			</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Datos Generales</h3>
 		</div>
-		<div class="row">
-			<div class="form-group col-xs-6 ">
-				{{ Form::label('resenha','Reseña') }}
-				{{ Form::textarea('resenha',Input::old('resenha'),array('class'=>'form-control','maxlength'=>255)) }}
+		<div class="panel-body">	
+			<div class="row">
+				<div class="form-group col-md-6 required @if($errors->first('titulo')) has-error has-feedback @endif">
+					{{ Form::label('titulo','Título') }}
+					{{ Form::text('titulo',Input::old('titulo'),array('class'=>'form-control','maxlength'=>100)) }}
+				</div>
 			</div>
-		</div>			
-		<div class="row">
-			<div class="form-group col-xs-8">
-				{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
-			</div>
-		</div>		
-		
+			<div class="row">
+				<div class="form-group col-md-6 ">
+					{{ Form::label('resenha','Reseña') }}
+					{{ Form::textarea('resenha',Input::old('resenha'),array('class'=>'form-control','maxlength'=>255)) }}
+				</div>
+			</div>			
+			<div class="row">
+				<div class="form-group col-md-8">
+					{{ Form::submit('Crear',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+				</div>
+			</div>		
+		</div>
+	</div>	
 		
 	{{ Form::close() }}
 @stop

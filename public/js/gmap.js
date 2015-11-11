@@ -48,6 +48,8 @@ function initMap() {
 
       // Create a marker for each place.
       marker.setPosition(place.geometry.location);
+      $("input[name=latitud]").val(place.geometry.location.lat());
+      $("input[name=longitud]").val(place.geometry.location.lng());
       if (place.geometry.viewport) {
         // Only geocodes have viewport.
         bounds.union(place.geometry.viewport);

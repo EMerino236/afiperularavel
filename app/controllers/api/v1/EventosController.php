@@ -25,36 +25,21 @@ class EventosController extends \BaseController {
         // obtener usuario que esta haciendo la peticion
         $auth_token = \Request::header('authorization');
         $user = User::where('auth_token', '=', $auth_token)->first();
-        // obtener los perfiles del usuario
-        $perfiles = User::getPerfilesPorUsuario2($user->id)->get();
-        $es_webmaster = 0;
-        $es_miembroafi = 0;
-        $es_voluntario = 0;
-        $es_padrino = 0;
-        foreach($perfiles as $p)
-        {
-            switch ($p->idperfiles) {
-                case 1:
-                    $es_webmaster = 1;
-                    break;
-                case 2:
-                    $es_miembroafi = 1;
-                    break;
-                case 3:
-                    $es_voluntario = 1;
-                    break;
-                case 4:
-                    $es_padrino = 1;
-                    break;
-                default:
-                    break;
-            }
-        }
+        // obtener los permisos del usuario
+        $idpermisos = User::getPermisosPorUsuarioId($user->id)->get()->lists('idpermisos');
         
-        // obtener las sesiones asignadas al usuario
+        // obtener las sesiones de acuerdo a los permisos del usuario
         $sesiones = [];
-        if($es_webmaster || $es_miembroafi) $sesiones = Evento::all();
-        elseif($es_voluntario) $sesiones = Asistencia::getEventosPorUser($user->id)->get();
+        if(in_array(12, $idpermisos))
+        {
+            // tiene el permiso "listar (todos los) eventos"
+            $sesiones = \Evento::all();
+        }
+        elseif(in_array(15, $idpermisos))
+        {
+            // tiene el permiso "mis eventos"
+            $sesiones = \Asistencia::getEventosPorUser($user->id)->get();
+        }
         
         $response = [];
         foreach($sesiones as $sesion)

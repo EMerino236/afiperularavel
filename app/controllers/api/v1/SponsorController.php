@@ -123,38 +123,72 @@ class SponsorController extends \BaseController {
 
         if ($user)
         {
-            $sponsor = Padrino::getPadrinoByUserId($user->id)->first();
-            if ($sponsor)
+            $responseReports = []; $reports = [];
+            $allReports = false; $myReports = false;
+            $actions = User::getPermisosPorUsuarioId($user->id)->get();
+            foreach ($actions as $a)
             {
-                $reports = DocumentosPadrino::getDocumentoIdsByPadrino($sponsor->idpadrinos)->get();
-
-                $responseReports = [];
-                foreach ($reports as $r)
+                if ($a->idpermisos == 21)
                 {
-                    $responseReports_element['id'] = $r->iddocumentos;
-                    $responseReports_element['name'] = $r->titulo;
-                    $responseReports_element['url'] = $r->ruta . $r->titulo;
-                    $responseReports_element['size'] = $r->peso . ' KB';
-
-                    $from = new DateTime();
-                    $from->setTimestamp(strtotime($r->created_at));
-                    $to = new DateTime('today');
-                    $dias = $from->diff($to)->d;
-                    $responseReports_element['upload_date'] = 'Hace ' . $dias . ' día' . (($dias != 1) ? 's' : '') . ', ' . date('h:i A', $from->getTimestamp());
-
-                    $responseReports[] = $responseReports_element;
+                    $allReports = true;
+                    break;
                 }
-
-                $response = $responseReports;
-                $status_code = 200;
-                return Response::json($response, $status_code);
+            }
+            if ($allReports)
+            {
+                $reports = Documento::getDocumentosPorTipo(2)->get();
             }
             else
             {
-                $response = [ 'error' => 'El usuario no es un padrino.'];
-                $status_code = 404;
-                return Response::json($response, $status_code);
+                foreach ($actions as $a)
+                {
+                    if ($a->idpermisos == 39)
+                    {
+                        $myReports = true;
+                        break;
+                    }
+                }
+                if ($myReports)
+                {
+                    $sponsor = Padrino::getPadrinoByUserId($user->id)->first();
+                    if ($sponsor)
+                    {
+                        $reports = DocumentosPadrino::getDocumentoIdsByPadrino($sponsor->idpadrinos)->get();
+                    }
+                    else
+                    {
+                        $response = [ 'error' => 'El usuario no tiene información de padrino registrada.'];
+                        $status_code = 404;
+                        return Response::json($response, $status_code);
+                    }
+                }
+                else
+                {
+                    $response = [ 'error' => 'El usuario no tiene permiso para ver reportes.'];
+                    $status_code = 404;
+                    return Response::json($response, $status_code);
+                }
             }
+
+            foreach ($reports as $r)
+            {
+                $responseReports_element['id'] = $r->iddocumentos;
+                $responseReports_element['name'] = $r->titulo;
+                $responseReports_element['url'] = $r->ruta . $r->titulo;
+                $responseReports_element['size'] = $r->peso . ' KB';
+
+                $from = new DateTime();
+                $from->setTimestamp(strtotime($r->created_at));
+                $to = new DateTime('today');
+                $dias = $from->diff($to)->d;
+                $responseReports_element['upload_date'] = 'Hace ' . $dias . ' día' . (($dias != 1) ? 's' : '') . ', ' . date('h:i A', $from->getTimestamp());
+
+                $responseReports[] = $responseReports_element;
+            }
+
+            $response = $responseReports;
+            $status_code = 200;
+            return Response::json($response, $status_code);
         }
 
         $response = [ 'error' => 'Error en la autenticación.'];

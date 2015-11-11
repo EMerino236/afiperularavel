@@ -229,4 +229,102 @@ class JuegoController extends \BaseController {
         $pus = Powerup::all();
         return Response::json(['powerups' => $pus], 200);
     }
+    
+    // Registrar un gasto de continue
+    public function levelContinue()
+    {
+        $rules = array('idPlayer' => 'required',
+                       'idLevel' => 'required'
+        );
+        
+        $validator = \Validator::make(Input::all(), $rules);
+        if($validator->fails()) return Response::json($validator->messages(), 200);
+        
+        $idJugador = Input::get('idPlayer');
+        $jugador = Jugador::find($idJugador);
+        if(!$jugador) return Response::json(['error' => 'No existe el jugador con id = ' . $idJugador], 200);
+        
+        $idNivel = Input::get('idLevel');
+        $nivel = Nivel::find($idNivel);
+        if(!$nivel) return Response::json(['error' => 'No existe el nivel con id = ' . $idNivel], 200);
+        
+        $score = Puntaje::where('idPlayer', '=', $idJugador)->where('idLevel', '=', $idNivel)->first();
+        if(!$score) return Response::json(['error' => 'No se econtró el registro de score con idPlayer = ' . $idJugador . ' y idLevel = ' . $idNivel], 200);
+        
+        $jugador->continues = $jugador->continues - 1;
+        $jugador->save();
+        
+        // resetear score
+        $score->defeatPosX = -1;
+        $score->defeatPosY = -1;
+        $score->defeated = 0;
+        $score->save();
+        
+        return Response::json(['success' => 1], 200);
+    }
+    
+    // Registrar compra de nivel
+    public function levelPurchase()
+    {
+        $rules = array('idPlayer' => 'required',
+                       'idLevel' => 'required'
+        );
+        
+        $validator = \Validator::make(Input::all(), $rules);
+        if($validator->fails()) return Response::json($validator->messages(), 200);
+        
+        $idJugador = Input::get('idPlayer');
+        $jugador = Jugador::find($idJugador);
+        if(!$jugador) return Response::json(['error' => 'No existe el jugador con id = ' . $idJugador], 200);
+        
+        $idNivel = Input::get('idLevel');
+        $nivel = Nivel::find($idNivel);
+        if(!$nivel) return Response::json(['error' => 'No existe el nivel con id = ' . $idNivel], 200);
+        
+        // disminuir monedas del jugador
+        $jugador->coins = $jugador->coins - $nivel->cost;
+        if($jugador->coins < 0) return Response::json(['error' => 'El jugador no posee suficientes monedas para comprar el nivel'], 200);
+        
+        $estadoNivel = EstadoNivel::where('idPlayer', '=', $idJugador)->where('idLevel', '=', $idNivel)->first();
+        $estadoNivel->bought = 1;
+        $estadoNivel->save();
+        
+        $jugador->save();
+        
+        return Response::json(['success' => 1], 200);
+    }
+    
+    // Compra de powerup
+    public function puPurchase()
+    {
+        $rules = array('idPlayer' => 'required',
+                       'idLevel' => 'required',
+                       'idPowerup' => 'required'
+        );
+        
+        $validator = \Validator::make(Input::all(), $rules);
+        if($validator->fails()) return Response::json($validator->messages(), 200);
+        
+        $idJugador = Input::get('idPlayer');
+        $jugador = Jugador::find($idJugador);
+        if(!$jugador) return Response::json(['error' => 'No existe el jugador con id = ' . $idJugador], 200);
+        
+        $idNivel = Input::get('idLevel');
+        $nivel = Nivel::find($idNivel);
+        if(!$nivel) return Response::json(['error' => 'No existe el nivel con id = ' . $idNivel], 200);
+        
+        $idPowerup = Input::get('idPowerup');
+        $pu = Powerup::find($idPowerup);
+        if(!$pu) return Response::json(['error' => 'No existe el powerup con id = ' . $idPowerup], 200);
+        
+        $puxnivel = PowerupxNivel::where('idPowerup', '=', $idPowerup)->where('idLevel', '=', $idNivel)->first();
+        if(!$puxnivel) return Response::json(['error' => 'No existe un registro del powerup en el nivel.'], 200);
+        
+        $jugador->coins = $jugador->coins - $puxnivel->cost;
+        if($jugador->coins < 0) return Response::json(['error' => 'El jugador no posee suficientes monedas para comprar el powerup'], 200);
+        
+        $jugador->save();
+        
+        return Response::json(['success' => 1], 200);
+    }
 }

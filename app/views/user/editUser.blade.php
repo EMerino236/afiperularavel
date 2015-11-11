@@ -10,6 +10,7 @@
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
 			<p><strong>{{ $errors->first('idtipo_identificacion') }}</strong></p>
+			<p><strong>{{ $errors->first('num_documento') }}</strong></p>
 			<p><strong>{{ $errors->first('nombres') }}</strong></p>
 			<p><strong>{{ $errors->first('apellido_pat') }}</strong></p>
 			<p><strong>{{ $errors->first('apellido_mat') }}</strong></p>
@@ -165,7 +166,7 @@
 				<h3 class="panel-title">Ingrese su ubicación en el mapa</h3>
 			</div>
 			<div class="panel-body">
-				<input id="pac-input" class="controls" type="text" placeholder="Bucar lugares">
+				<input id="pac-input" class="controls" type="text" placeholder="Buscar lugares">
 				<div id="map"></div>
 			</div>
 		</div>

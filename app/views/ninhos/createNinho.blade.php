@@ -46,7 +46,7 @@
 					{{ Form::text('nombres',Input::old('nombres'),array('class'=>'form-control')) }}
 				</div>
 				<div class="form-group col-md-6 required @if($errors->first('dni_apoderado')) has-error has-feedback @endif">
-					{{ Form::label('dni_apoderado','DNI Apoderado') }}
+					{{ Form::label('dni_apoderado','Número de documento de apoderado') }}
 					{{ Form::text('dni_apoderado',Input::old('dni_apoderado'),array('class'=>'form-control')) }}
 				</div>
 			</div>
@@ -80,9 +80,9 @@
 	                    </span>
 					</div>
 				</div> 
-				<div class="form-group col-md-6 required @if($errors->first('idcolegios')) has-error has-feedback @endif">
-					{{ Form::label('idcolegios','Colegio') }}
-					{{ Form::select('idcolegios', $colegios,Input::old('colegios'),['class' => 'form-control']) }}
+				<div class="form-group col-md-6 required @if($errors->first('colegio')) has-error has-feedback @endif">
+					{{ Form::label('colegio','Colegio') }}
+					{{ Form::select('colegio', $colegios,Input::old('colegios'),['class' => 'form-control']) }}
 				</div>
 			</div>
 			<div class="row">

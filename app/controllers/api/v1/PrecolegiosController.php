@@ -13,8 +13,8 @@ class PrecolegiosController extends \BaseController {
                        'email_contacto' => 'required',
                        'telefono_contacto' => 'required',
                        'interes' => 'required',
-                       'latitud' => 'required',
-                       'longitud' => 'required',
+                       //'latitud' => 'required',
+                       //'longitud' => 'required',
         );
         $validator = \Validator::make(Input::all(), $rules);
         if($validator->passes())
@@ -26,8 +26,8 @@ class PrecolegiosController extends \BaseController {
             $precolegio->email_contacto = Input::get('email_contacto');
             $precolegio->telefono_contacto = Input::get('telefono_contacto');
             $precolegio->interes = Input::get('interes');
-            $precolegio->latitud = Input::get('latitud');
-            $precolegio->longitud = Input::get('longitud');
+            //$precolegio->latitud = Input::get('latitud');
+            //$precolegio->longitud = Input::get('longitud');
             $precolegio->save();
             return Response::json(['success' => 1], 200);
         }

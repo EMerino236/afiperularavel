@@ -120,7 +120,7 @@ class ConvocatoriasController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_listar_convocatorias',$data["permisos"])){
-				$data["search"] = null;
+				$data["search"] = null;				
 				$data["convocatorias_data"] = Periodo::getPeriodosInfo()->paginate(10);
 				return View::make('convocatorias/listConvocatorias',$data);
 			}else{
@@ -265,9 +265,12 @@ class ConvocatoriasController extends BaseController
 				$data["fases_postulacion"] = Fase::lists('nombre','idfases');
 				$data["convocatoria_info"] = Periodo::searchPeriodoById($id)->get();
 				$data["convocatoria_info"] = $data["convocatoria_info"][0];	
-				$data["idfase"] = null;			
-				$data["postulantes_info"] = array();
-				$data["select_aprobacion"] = '';
+				$data["idfase"] = 1;
+				$data["estado_aprobacion"] = -1;
+				if($data["estado_aprobacion"] == -1){
+					$data["estado_aprobacion"] = null;
+				}
+				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase($id,$data["idfase"],$data["estado_aprobacion"])->paginate(10);													
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
@@ -292,7 +295,6 @@ class ConvocatoriasController extends BaseController
 				$data["convocatoria_info"] = Periodo::searchPeriodoById(Input::get('idperiodos'))->get();
 				$data["convocatoria_info"] = $data["convocatoria_info"][0];
 				$data["idfase"] = Input::get('idfases');
-				$data["select_aprobacion"] = '';
 				$data["estado_aprobacion"] = Input::get('select_aprobacion');
 				if($data["estado_aprobacion"] == -1){
 					$data["estado_aprobacion"] = null;
@@ -347,24 +349,26 @@ class ConvocatoriasController extends BaseController
 								$postulante_periodo_nuevo->idperiodos = $postulante_periodo->idperiodos;
 								$postulante_periodo_nuevo->idfases = $idfase + 1;
 								$postulante_periodo_nuevo->save();								
-
+/*
 								Mail::send('emails.aprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
 									{
 										$message->to($postulante->email)
 												->subject('Primera Fase de Postulación - AFI Perú.');
 									});
-
+*/
 								// Llamo a la función para registrar el log de auditoria
 								// Llamo a la función para registrar el log de auditoria
 							$descripcion_log = "Se creó al postulante por periodo con id {{$postulante_periodo_nuevo->idpostulantes_periodos}}";
 							Helpers::registrarLog(3,$descripcion_log);
 							}
 							else{
+								/*
 								Mail::send('emails.desaprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
 									{
 										$message->to($postulante->email)
 												->subject('Primera Fase de Postulación - AFI Perú.');
 									});
+									*/
 							}
 						}
 					}
@@ -496,7 +500,7 @@ class ConvocatoriasController extends BaseController
 				}
 
 				Session::flash('message', 'Se registró correctamente la aprobación de postulantes..');				
-				return Redirect::to('convocatorias/list_postulantes/'.$idperiodos)->withInput(Input::all());
+				return Redirect::to('convocatorias/list_postulantes/'.$idperiodos);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
@@ -547,6 +551,7 @@ class ConvocatoriasController extends BaseController
 			if(in_array('side_nueva_convocatoria',$data["permisos"])){
 				$data["voluntarios_data"] = UsersPerfil::getVoluntariosByIdPeriodo($id);
 				$data["convocatoria_info"] = Periodo::searchPeriodoById($id)->get()[0];
+				$data["search"] = '';
 				return View::make('convocatorias/listVoluntariosConvocatoria',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
@@ -554,6 +559,25 @@ class ConvocatoriasController extends BaseController
 				Helpers::registrarLog(10,$descripcion_log);
 				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
 				return Redirect::to('/dashboard');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
+
+	public function search_voluntarios()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_listar_voluntarios',$data["permisos"])){
+				$data["convocatoria_info"] = Periodo::searchPeriodoById(Input::get('idperiodos'))->get()[0];
+				$data["search"] = Input::get('search');
+				$data["voluntarios_data"] = UsersPerfil::searchVoluntariosInfoByIdPeriodo(Input::get('idperiodos'),$data["search"]);
+				return View::make('convocatorias/listVoluntariosConvocatoria',$data);
+			}else{
+				return View::make('error/error');
 			}
 		}else{
 			return View::make('error/error');

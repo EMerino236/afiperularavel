@@ -15,9 +15,11 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/general.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/star-rating.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
 	</script>
+    <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
 </head>
 
 <body>
@@ -32,6 +34,9 @@
                     @endif
                     @if(in_array('side_reporte_asistencia',$permisos))
                     <li><a href="{{ URL::to('#') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Asistencia</a></li>
+                    @endif
+                    @if(in_array('side_mapa_calor',$permisos))
+                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-map-marker fa-fw"></i> Mapa de Calor</a></li>
                     @endif
                 </ul>
             </div>
@@ -51,5 +56,7 @@
 <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
 <!-- Custom Theme JavaScript -->
 <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+<script  src="{{ asset('js/star-rating.min.js') }}"></script>
+<script  src="{{ asset('js/voluntarios/calificacion.js') }}"></script>
 </body>
 </html>

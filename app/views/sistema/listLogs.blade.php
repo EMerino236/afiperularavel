@@ -27,7 +27,7 @@
 				<div class="row">
 					<div class="form-group col-md-6">
 						{{ Form::label('fecha_ini','Fecha inicial') }}
-						<div id="datetimepicker1" class="form-group input-group date">
+						<div class="fecha-log form-group input-group date">
 							{{ Form::text('fecha_ini',$fecha_ini,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
@@ -36,7 +36,7 @@
 					</div>
 					<div class="form-group col-md-6">
 						{{ Form::label('fecha_fin','Fecha final') }}
-						<div id="datetimepicker2" class="form-group input-group date">
+						<div class="fecha-log form-group input-group date">
 							{{ Form::text('fecha_fin',$fecha_fin,array('class'=>'form-control','readonly'=>'')) }}
 							<span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
