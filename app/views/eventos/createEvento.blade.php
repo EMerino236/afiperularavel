@@ -75,7 +75,7 @@
 						</div>
 						<div class="row">
 							<div class="form-group col-md-8">
-								<input id="pac-input" class="controls" type="text" placeholder="Bucar lugares">
+								<input id="pac-input" class="controls" type="text" placeholder="Buscar lugares">
 								<div id="map-eventos"></div>
 							</div>
 							<div class="form-group col-md-4 seleccionar-puntos-reunion">

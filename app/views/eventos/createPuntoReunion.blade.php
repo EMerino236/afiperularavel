@@ -37,7 +37,7 @@
 						{{ Form::text('direccion',null,array('class'=>'form-control')) }}
 					</div>
 				</div>
-				<input id="pac-input" class="controls" type="text" placeholder="Bucar lugares">
+				<input id="pac-input" class="controls" type="text" placeholder="Buscar lugares">
 				<div id="map"></div>
 			</div>
 		</div>

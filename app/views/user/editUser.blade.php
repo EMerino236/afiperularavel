@@ -166,7 +166,7 @@
 				<h3 class="panel-title">Ingrese su ubicación en el mapa</h3>
 			</div>
 			<div class="panel-body">
-				<input id="pac-input" class="controls" type="text" placeholder="Bucar lugares">
+				<input id="pac-input" class="controls" type="text" placeholder="Buscar lugares">
 				<div id="map"></div>
 			</div>
 		</div>

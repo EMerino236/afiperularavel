@@ -35,7 +35,9 @@
 						@endif
 						{{ Form::hidden('idasistencia_ninhos[]', $asistencia_ninhos[$i]->idasistencia_ninhos) }}
 						<td style="vertical-align:middle">{{$asistencia_ninhos[$i]->nombres}} {{$asistencia_ninhos[$i]->apellido_pat}} {{$asistencia_ninhos[$i]->apellido_mat}}</td>
-						<td style="vertical-align:middle"><input name="calificaciones[]" type="number" @if($comentario_ninhos[$i]) value="{{$comentario_ninhos[$i]->calificacion}}" @else value="0" @endif class="calificacion" min=0 max=5 step=1.0 data-size="sm"></td>
+						<td style="vertical-align:middle">
+							{{ Form::select('calificaciones', ['0'=>':(','1'=>':)'],$asistencia_ninhos[$i]->calificacion,array('class'=>'form-control')) }}
+						</td>
 						<td style="vertical-align:middle">
 							@if($comentario_ninhos[$i])
 								{{Form::textarea('comentarios[]', $comentario_ninhos[$i]->comentario,array('rows'=>'3','cols'=>'70','maxlength'=>'200'))}}
