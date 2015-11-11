@@ -58,7 +58,7 @@
 					@endif	
 				</div>
 				<div class="form-group col-md-6 required @if($errors->first('dni_apoderado')) has-error has-feedback @endif">
-					{{ Form::label('dni_apoderado','DNI Apoderado') }}
+					{{ Form::label('dni_apoderado','Número de documento de apoderado') }}
 					@if($ninho_info->deleted_at)
 						{{ Form::text('dni_apoderado',$ninho_info->dni_apoderado,array('class'=>'form-control','readonly'=>'')) }}
 					@else

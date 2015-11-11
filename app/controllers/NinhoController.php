@@ -47,6 +47,20 @@ class NinhoController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 
 			if(in_array('side_nuevo_ninho',$data["permisos"])){
+
+				$attributes = array(
+							'dni' => 'Número de documento',
+							'nombres' => 'Nombre',
+							'apellido_pat' => 'Apellido paterno',
+							'apellido_mat' => 'Apellido materno',
+							'fecha_nacimiento' => 'Fecha de nacimiento',
+							'genero' => 'Género',
+							'nombre_apoderado' => 'Nombre de apoderado',
+							'dni_apoderado' => 'Número de documento del apoderado',
+							'num_familiares' => 'Número de familiares',
+							'idcolegios' => 'Colegio',
+				);
+				$messages = array();
 				$rules = array(
 							'dni' => 'required|numeric|digits_between:8,16|unique:ninhos',
 							'nombres' => 'required|alpha_spaces|min:2|max:45',
@@ -56,12 +70,12 @@ class NinhoController extends BaseController
 							'genero' => 'required',
 							'nombre_apoderado' => 'required|alpha_spaces|min:2|max:200',
 							'dni_apoderado' => 'required|numeric|digits_between:8,16',
-							'num_familiares' => 'numeric|min:0',
+							'num_familiares' => 'required|numeric|min:0',
 							'observaciones' => 'max:200',
 							'idcolegios' => 'required',
 				);
 
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 
 				if($validator->fails()){
 					return Redirect::to('ninhos/create_ninho')->withErrors($validator)->withInput(Input::all());
@@ -169,8 +183,21 @@ class NinhoController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_ninho',$data["permisos"])){
+				$attributes = array(
+							'dni' => 'Número de documento',
+							'nombres' => 'Nombre',
+							'apellido_pat' => 'Apellido paterno',
+							'apellido_mat' => 'Apellido materno',
+							'fecha_nacimiento' => 'Fecha de nacimiento',
+							'genero' => 'Género',
+							'nombre_apoderado' => 'Nombre de apoderado',
+							'dni_apoderado' => 'Número de documento del apoderado',
+							'num_familiares' => 'Número de familiares',
+							'idcolegios' => 'Colegio',
+				);
+				$messages = array();
 				$rules = array(
-							'dni' => 'required|numeric|digits_between:8,16',
+							'dni' => 'required|numeric|digits_between:8,16|unique:ninhos',
 							'nombres' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
@@ -184,7 +211,7 @@ class NinhoController extends BaseController
 				);
 				$ninho_id = Input::get('idninhos');
 				$url = "ninhos/edit_ninho"."/".$ninho_id;
-				$validator = Validator::make(Input::all(), $rules);
+				$validator = Validator::make(Input::all(), $rules,$messages,$attributes);
 
 				if($validator->fails()){
 					return Redirect::to($url)->withErrors($validator)->withInput(Input::all());
