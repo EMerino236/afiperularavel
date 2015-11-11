@@ -140,7 +140,7 @@
 					</div>				
 					<div class="row">
 						<div class="form-group col-xs-4">
-							<a class="btn btn-primary btn-block" href="{{URL::to('/convocatorias/list_postulantes/')}}/{{$idperiodo}}">Regresar</a>
+							<a class="btn btn-primary btn-block" onclick="goBack()">Regresar</a>
 						</div>
 					</div>	
 				</div>

@@ -31,11 +31,11 @@
 					<div class="row">
 						<div class="form-group col-md-4 @if($errors->first('idfases')) has-error has-feedback @endif">
 							{{ Form::label('idfases','Fases de Postulación') }}
-							{{ Form::select('idfases',array(''=>'Selecicone')+$fases_postulacion,$idfase,['class' => 'form-control']) }}
+							{{ Form::select('idfases',$fases_postulacion,$idfase,['class' => 'form-control']) }}
 						</div>
 						<div class="form-group col-md-4 @if($errors->first('select_aprobacion')) has-error has-feedback @endif">
 							{{ Form::label('select_aprobacion','Estado de Aprobación') }}
-							{{ Form::select('select_aprobacion',array(''=>'Seleccione','-1'=>'Sin Revisión','1'=>'Aprobado','0'=>'Desaprobado'),$select_aprobacion,['class' => 'form-control']) }}
+							{{ Form::select('select_aprobacion',['-1'=>'Sin Revisión','1'=>'Aprobado','0'=>'Desaprobado'],$estado_aprobacion,['class' => 'form-control']) }}
 						</div>
 					</div>
 					<div class="row">
@@ -68,11 +68,11 @@
 					</td>
 				<td style="vertical-align:middle">{{$postulante_info->nombres}} {{$postulante_info->apellido_pat}} {{$postulante_info->apellido_mat}}</td>
 				<td style="vertical-align:middle">
-					{{Form::textarea('comentarios[]', $postulante_info->comentario,array('maxlength'=>'255'))}}
+					{{Form::textarea('comentarios[]', $postulante_info->comentario,array('rows'=>'4','cols'=>'60','maxlength'=>'255'))}}
 				</td>
 				<td style="vertical-align:middle">
 					@if($postulante_info->aprobacion === null)
-						No Revisado
+						Sin Revisión
 					@else
 						Revisado
 					@endif
@@ -112,6 +112,11 @@
 			</tr>
 			@endforeach
 		</table>
+		@if($idfase)
+			{{ $postulantes_info->appends(array('idfases' => $idfase,'select_aprobacion'=>$estado_aprobacion))->links() }}
+		@else
+			{{ $postulantes_info->links() }}
+		@endif
 		<div class="col-md-6">
 			<div class="row">
 				<div class="form-group col-md-8">

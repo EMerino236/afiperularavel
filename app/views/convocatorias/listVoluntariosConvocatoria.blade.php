@@ -7,23 +7,27 @@
         <!-- /.col-lg-12 -->
     </div>
 
-    {{ Form::open(array('url'=>'/voluntarios/search_voluntarios','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-inline')) }}		
-
+    {{ Form::open(array('url'=>'/convocatorias/search_voluntarios','method'=>'get' ,'role'=>'form', 'id'=>'search-form')) }}		
+    	{{ Form::hidden('idperiodos', $convocatoria_info->idperiodos) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Búsqueda</h3>
 			</div>
 			<div class="panel-body">
-				<div class="search_bar">
-					{{ Form::text('search','',array('class'=>'form-control','placeholder'=>'Ingrese Periodo, N° Documento, Nombre')) }}
-					{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
+				<div class="row">
+					<div class="col-md-8">
+						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Doc. de Identidad, Nombre')) }}
+					</div>
+					<div class="col-md-4">
+						{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
+					</div>
 				</div>	
 			</div>
 		</div>
 
 		<table class="table">
 			<tr class="info">
-				<th>Doc. de identidad</th>
+				<th>Doc. de Identidad</th>
 				<th>Nombre</th>
 				<th>E-mail</th>
 				<th>Teléfono</th>
