@@ -21,10 +21,9 @@ class SponsorController extends \BaseController {
     	{
     		$idcalendario_pagos = Input::get('fee_id');
     		$opcode = (int)Input::get('voucher_code');
-    		$amount = (double)Input::get('amount');
     		$date = Input::get('date');
 
-    		if ($idcalendario_pagos && $opcode && $amount && $date)
+    		if ($idcalendario_pagos && $opcode && $date)
     		{
     			$cuota = CalendarioPago::find($idcalendario_pagos);
     			$cuota->num_comprobante = $opcode;
@@ -106,7 +105,7 @@ class SponsorController extends \BaseController {
             else
             {
                 $response = [ 'error' => 'El usuario no es un padrino.'];
-                $status_code = 404;
+                $status_code = 200;
                 return Response::json($response, $status_code);
             }
         }
@@ -158,14 +157,14 @@ class SponsorController extends \BaseController {
                     else
                     {
                         $response = [ 'error' => 'El usuario no tiene información de padrino registrada.'];
-                        $status_code = 404;
+                        $status_code = 200;
                         return Response::json($response, $status_code);
                     }
                 }
                 else
                 {
                     $response = [ 'error' => 'El usuario no tiene permiso para ver reportes.'];
-                    $status_code = 404;
+                    $status_code = 200;
                     return Response::json($response, $status_code);
                 }
             }
