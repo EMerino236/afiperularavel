@@ -49,7 +49,7 @@ class JuegoController extends \BaseController {
                 $estadoNivel = new EstadoNivel;
                 $estadoNivel->idPlayer = $jugador->idPlayer;
                 $estadoNivel->idLevel = $n->idLevel;
-                $estadoNivel->unlocked = 0;
+                $estadoNivel->unlocked = ($n->idPredLevel) ? 0 : null;
                 $estadoNivel->bought = 0;
                 $estadoNivel->save();
             }
