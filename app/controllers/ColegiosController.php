@@ -113,7 +113,17 @@ class ColegiosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_listar_colegios',$data["permisos"])){
 				$data["search"] = null;
-				$data["colegios_data"] = Colegio::getColegiosInfo()->paginate(10);
+				$sortby = Input::get('sortby');
+			    $order = Input::get('order');
+			    $data["sortby"] = $sortby;
+			    $data["order"] = $order;
+
+			    if ($sortby && $order){
+			    	$data["colegios_data"] = Colegio::getColegiosInfo()->orderBy($sortby, $order)->paginate(10);
+			    }else{
+			    	$data["colegios_data"] = Colegio::getColegiosInfo()->paginate(10);
+			    }
+			    
 				return View::make('colegios/listColegios',$data);
 			}else{
 				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
@@ -134,7 +144,15 @@ class ColegiosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_listar_colegios',$data["permisos"])){
 				$data["search"] = Input::get('search');
-				$data["colegios_data"] = Colegio::searchColegios($data["search"])->paginate(10);
+				$sortby = Input::get('sortby');
+			    $order = Input::get('order');
+			    $data["sortby"] = $sortby;
+			    $data["order"] = $order;
+			    if ($sortby && $order) {
+			    	$data["colegios_data"] = Colegio::searchColegios($data["search"])->orderBy($sortby, $order)->paginate(10);
+			    }else{
+			    	$data["colegios_data"] = Colegio::searchColegios($data["search"])->paginate(10);
+			    }
 				return View::make('colegios/listColegios',$data);
 			}else{
 				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
@@ -191,7 +209,7 @@ class ColegiosController extends BaseController
 				$rules = array(
 							'latitud' => 'required',
 							'longitud' => 'required',
-							'nombre' => 'required|min:2|max:100',
+							'nombre' => 'required|min:2|max:100|alpha_num_dash',
 							'direccion' => 'required|max:200',
 							'nombre_contacto' => 'required|alpha_spaces|min:2|max:100',
 							'email_contacto' => 'required|email|max:45',

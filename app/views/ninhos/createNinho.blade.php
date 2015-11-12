@@ -81,8 +81,8 @@
 					</div>
 				</div> 
 				<div class="form-group col-md-6 required @if($errors->first('colegio')) has-error has-feedback @endif">
-					{{ Form::label('colegio','Colegio') }}
-					{{ Form::select('colegio', $colegios,Input::old('colegios'),['class' => 'form-control']) }}
+					{{ Form::label('idcolegios','Colegio') }}
+					{{ Form::select('idcolegios', $colegios,Input::old('idcolegios'),['class' => 'form-control']) }}
 				</div>
 			</div>
 			<div class="row">

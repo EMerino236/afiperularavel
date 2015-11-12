@@ -23,7 +23,29 @@
 
     <table class="table">
 		<tr class="info">
-			<th>Nombre</th>
+			<th>@if ($sortby == 'nombre' && $order == 'asc') {{
+                        link_to_action(
+                            'ColegiosController@search_colegio',
+                            'Nombre',
+                            array(
+                            	'search' => $search,
+                                'sortby' => 'nombre',
+                                'order' => 'desc'
+                            )
+                        )
+                    }}
+                    @else {{              
+                    	link_to_action(
+                            'ColegiosController@search_colegio',
+                            'Nombre',
+                            array(
+                            	'search' => $search,
+                                'sortby' => 'nombre',
+                                'order' => 'asc'
+                            )
+                        )
+                    }}
+                    @endif</th>
 			<th>Dirección</th>
 			<th>Nombre contacto</th>
 		</tr>
