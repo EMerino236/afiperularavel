@@ -68,7 +68,7 @@ class DocumentosController extends \BaseController {
                 $response[] = [
                     'id' => $d->iddocumentos,
                     'name' => $d->titulo,
-                    'url' => $d->ruta . $d->titulo,
+                    'url' => $d->ruta . $d->nombre_archivo,
                     'upload_date' => 'Hace ' . $dias . ' día' . (($dias != 1) ? 's' : '') . ', ' . date('h:i A', $from->getTimestamp()),
                     'size' => $d->peso . ' KB',
                     'users' => $users
