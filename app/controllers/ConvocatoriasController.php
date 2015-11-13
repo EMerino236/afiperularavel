@@ -271,9 +271,6 @@ class ConvocatoriasController extends BaseController
 					$data["estado_aprobacion"] = null;
 				}				
 				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase($id,$data["idfase"],$data["estado_aprobacion"])->paginate(10);													
-				echo "<pre>";
-				print_r(PostulantesPeriodo::getPostulantesPorPeriodoFase($id,$data["idfase"],$data["estado_aprobacion"])->get());
-				exit;
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
