@@ -102,7 +102,7 @@
 							</div>
 							@foreach($puntos_reunion as $punto_reunion)
 							<div class="row">
-								<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}" @if(in_array($punto_reunion->idpuntos_reunion,$puntos_reunion_seleccionados)) checked @endif @if($hoy >= $evento_info->fecha_evento) disabled @endif> {{$punto_reunion->direccion}}<br>
+								<input class="puntos-reunion-evento" type="checkbox" name="puntos_reunion[]" data-latitud="{{ $punto_reunion->latitud }}" data-longitud="{{ $punto_reunion->longitud }}" data-direccion="{{$punto_reunion->direccion}}" value="{{$punto_reunion->idpuntos_reunion}}" @if(in_array($punto_reunion->idpuntos_reunion,$puntos_reunion_seleccionados)) checked @endif @if($hoy > $evento_info->fecha_evento) disabled @endif> {{$punto_reunion->direccion}}<br>
 							</div>
 							@endforeach
 						@endif
