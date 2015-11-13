@@ -12,6 +12,7 @@
 			<th>Nombre</th>
 			<th>Dirección</th>
 			<th>Nombre contacto</th>
+			<th>Seleccionar <input type="checkbox" name="seleccionar-todos-precolegios" value="0"></th>
 		</tr>
 		@foreach($precolegios_data as $precolegio_data)
 		<tr class="@if($precolegio_data->deleted_at) bg-danger @endif">
@@ -25,10 +26,22 @@
 				<td>
 					{{$precolegio_data->nombre_contacto}}
 				</td>
+				<td class="text-center" style="vertical-align:middle">
+					<input type="checkbox" name="aprobacion" class="checkbox-aprobacion" value="{{$precolegio_data->idprecolegios}}"  @if($precolegio_data->deleted_at) checked @endif>
+				</td>
 			@endif
 		</tr>
 		@endforeach
 	</table>
+	<div class="col-md-12">
+		<div class="row">
+			<div class="form-group col-md-8">	
+			@if(!$precolegios_data->isEmpty())					
+				{{ HTML::link('','Aprobar',array('id'=>'submit-aprobar-precolegios', 'class'=>'btn btn-primary')) }}
+			@endif
+			</div>
+		</div>
+	</div>
 	@if($precolegios_data)
 		{{ $precolegios_data->links() }}
 	@endif

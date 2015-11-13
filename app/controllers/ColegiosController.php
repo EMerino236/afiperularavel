@@ -353,45 +353,46 @@ class ColegiosController extends BaseController
 
 	public function submit_aprove_precolegio()
 	{
+
 		if(Auth::check()){
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if(in_array('side_nuevo_colegio',$data["permisos"])){
-				$precolegio_id = Input::get('precolegio_id');
-				$url = "colegios/edit_precolegio/".$precolegio_id;
-				$precolegio = Precolegio::withTrashed()->find($precolegio_id);
+				
+				$selected_ids = Input::get('selected_id');
 
-				//Se inserta el colegio
+				foreach($selected_ids as $selected_id){
+					$precolegio = Precolegio::withTrashed()->find($selected_id);
+					if($precolegio){
+						//Se inserta el colegio
 
-				$colegio = new Colegio;
-				$colegio->nombre = $precolegio->nombre;
-				$colegio->direccion = $precolegio->direccion;
-				$colegio->nombre_contacto = $precolegio->nombre_contacto;
-				$colegio->email_contacto = $precolegio->email_contacto;
-				$colegio->telefono_contacto = $precolegio->telefono_contacto;
-				$colegio->interes = $precolegio->interes;
-				$colegio->save();
-				//Se borra el precolegio				
-				$precolegio->delete();
-				$emails = array();
-				$emails[] = $colegio->email_contacto;
-				Mail::send('emails.colegioRegistration',array('colegio'=> $colegio),function($message) use ($emails,$colegio)
-					{
-						$message->to($emails)
-								->subject('Aprobación de colegio en AFI Perú.');
-					});
-
-				Session::flash('message', 'Se aprobó correctamente al colegio.');
-				return Redirect::to($url);
+						$colegio = new Colegio;
+						$colegio->nombre = $precolegio->nombre;
+						$colegio->direccion = $precolegio->direccion;
+						$colegio->nombre_contacto = $precolegio->nombre_contacto;
+						$colegio->email_contacto = $precolegio->email_contacto;
+						$colegio->telefono_contacto = $precolegio->telefono_contacto;
+						$colegio->interes = $precolegio->interes;
+						$colegio->save();
+						//Se borra el precolegio				
+						$precolegio->delete();
+						$emails = array();
+						$emails[] = $colegio->email_contacto;
+						Mail::send('emails.colegioRegistration',array('colegio'=> $colegio),function($message) use ($emails,$colegio)
+							{
+								$message->to($emails)
+										->subject('Aprobación de colegio en AFI Perú.');
+							});
+					}
+				}
+				return Response::json(array( 'success' => true,'precolegio'=>$precolegio),200);
 			}else{
-				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
-				Helpers::registrarLog(10,$descripcion_log);
-				return View::make('error/error');
+				return Response::json(array( 'success' => false ),200);
 			}
 		}else{
-			return View::make('error/error');
-		}
+			return Response::json(array( 'success' => false ),200);
+		}	
 	}
 
 }

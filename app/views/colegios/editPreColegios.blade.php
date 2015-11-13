@@ -13,7 +13,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'colegios/submit_create_colegio', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'colegios/list_precolegios','method'=>'get','role'=>'form')) }}
 		{{ Form::hidden('precolegio_id', $precolegio_info->idprecolegios) }}
 		
 		<div class="row">
@@ -48,9 +48,13 @@
 			</div>
 		</div>
 		
-		
+		<div class="row">
+			<div class="form-group col-md-6">	
+				{{ Form::submit('Regresar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+			</div>
+		</div>
 	{{ Form::close() }}
-	
+	<!--
 	<div class="row">
 		<div class="form-group col-md-6">	
 		@if(!$precolegio_info->deleted_at)		
@@ -61,5 +65,5 @@
 		{{ Form::close() }}
 		</div>
 	</div>
-	
+	-->	
 @stop

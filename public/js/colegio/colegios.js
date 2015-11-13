@@ -1,3 +1,63 @@
+$( document ).ready(function(){ 
+
+  $("input[name=seleccionar-todos-precolegios]").change(function(){
+    if($(this).is(':checked')){
+      $(".checkbox-aprobacion").prop('checked',true);
+      $(".hidden-aprobacion").val('1');
+    }else{
+      $(".checkbox-aprobacion").prop('checked',false);
+      $(".hidden-aprobacion").val('0');
+    }
+  });
+  
+  var aprobar_precolegios = true;
+  $("#submit-aprobar-precolegios").click(function(e){
+    e.preventDefault();
+    if(aprobar_precolegios){
+      aprobar_precolegios = false;
+      var selected = [];
+      $("input[type=checkbox][name=aprobacion]:checked").each(function(){
+        if(!$(this).val().length==0){
+          selected.push($(this).val());
+        }
+      });
+      if(selected.length > 0){
+        var confirmation = confirm("¿Está seguro que desea aprobar a los precolegios seleccionados?");
+        if(confirmation){
+          
+          $.ajax({
+            url: inside_url+'colegios/submit_aprove_precolegio',
+            type: 'POST',
+            data: { 'selected_id' : selected },
+            beforeSend: function(){
+            },
+            complete: function(){
+              aprobar_precolegios = true;
+            },
+            success: function(response){
+              var url = inside_url + "colegios/list_precolegios";
+              if(response.success){
+                window.location = url;
+              }else{
+                alert('La petición no se pudo completar, inténtelo de nuevo.');
+              }
+            },
+            error: function(){
+              alert('La petición no se pudo completar, inténtelo de nuevo.');
+            }
+          });
+        }else{
+          aprobar_precolegios = true;
+        }
+      }else{
+        aprobar_precolegios = true;
+        alert('Seleccione alguna casilla.');
+      }
+    }
+  });
+
+});
+
 function initMap() {
   var geocoder = new google.maps.Geocoder();
   var myLatlng = {lat: -12.0693537, lng: -77.0800482};
