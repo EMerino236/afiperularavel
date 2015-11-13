@@ -45,10 +45,18 @@
 				{{$convocatoria_data->fecha_fin}}
 			</td>
 			<td>
-				<a href="{{URL::to('/convocatorias/list_postulantes/')}}/{{$convocatoria_data->idperiodos}}">Ver Postulantes</a>
+				@if($convocatoria_data->deleted_at)
+					Ver Postulantes
+				@else
+					<a href="{{URL::to('/convocatorias/list_postulantes/')}}/{{$convocatoria_data->idperiodos}}">Ver Postulantes</a>
+				@endif
 			</td>
 			<td>
-				<a href="{{URL::to('/convocatorias/list_voluntarios_convocatoria/')}}/{{$convocatoria_data->idperiodos}}">Ver Voluntarios</a>
+				@if($convocatoria_data->deleted_at)
+					Ver Voluntarios
+				@else
+					<a href="{{URL::to('/convocatorias/list_voluntarios_convocatoria/')}}/{{$convocatoria_data->idperiodos}}">Ver Voluntarios</a>
+				@endif
 			</td>
 		</tr>
 		@endforeach

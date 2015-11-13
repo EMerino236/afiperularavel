@@ -40,7 +40,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-4">
-							{{ Form::submit('Buscar Postulantes',array('id'=>'submit-search', 'class'=>'btn btn-primary')) }}	
+							{{ Form::submit('Buscar',array('id'=>'submit-search', 'class'=>'btn btn-info')) }}	
 						</div>
 					</div>			
 				</div>
@@ -119,8 +119,11 @@
 		@endif
 		<div class="col-md-6">
 			<div class="row">
-				<div class="form-group col-md-8">
-					{{ Form::submit('Guardar',array('class'=>'btn btn-primary')) }}	
+				<div class="form-group col-md-2">
+					{{ Form::submit('Guardar',array('id'=>'submit-aprobar-postulantes','class'=>'btn btn-primary')) }}	
+				</div>
+				<div class="form-group col-md-3">
+					<a class="btn btn-default btn-block" href="{{URL::to('/convocatorias/list_convocatoria/')}}">Regresar</a>				
 				</div>
 			</div>
 		</div>

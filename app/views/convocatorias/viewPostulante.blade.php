@@ -37,7 +37,7 @@
 						<div class="form-group col-md-4">
 							<div class="form-group">
 								{{ Form::label('fecha_nacimiento','Fecha de Nacimiento') }}
-								{{ Form::text('fecha_nacimiento',date('d-m-Y',strtotime($postulante_info->fecha_nacimiento)),['class' => 'form-control','readonly'=>'']) }}
+								{{ Form::text('fecha_nacimiento',date('Y-m-d',strtotime($postulante_info->fecha_nacimiento)),['class' => 'form-control','readonly'=>'']) }}
 							</div>
 						</div>
 						<div class="form-group col-md-4">
