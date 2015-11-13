@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-11-2015 a las 20:56:46
+-- Tiempo de generación: 13-11-2015 a las 10:15:01
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -135,7 +135,18 @@ CREATE TABLE IF NOT EXISTS `concursos` (
 CREATE TABLE IF NOT EXISTS `currency` (
   `idCurrency` int(10) unsigned NOT NULL,
   `name` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `currency`
+--
+
+INSERT INTO `currency` (`idCurrency`, `name`) VALUES
+(1, 'Pelotas'),
+(2, 'Botellas'),
+(3, 'Manzanas'),
+(4, 'Libros'),
+(5, 'Cepillos');
 
 -- --------------------------------------------------------
 
@@ -148,6 +159,14 @@ CREATE TABLE IF NOT EXISTS `currencyweight` (
   `idLevel` int(10) unsigned NOT NULL,
   `weight` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `currencyweight`
+--
+
+INSERT INTO `currencyweight` (`idCurrency`, `idLevel`, `weight`) VALUES
+(1, 1, 10),
+(1, 2, 15);
 
 -- --------------------------------------------------------
 
@@ -348,7 +367,28 @@ CREATE TABLE IF NOT EXISTS `level` (
   `numOrder` tinyint(4) NOT NULL,
   `cost` int(11) NOT NULL,
   `idPredLevel` int(10) unsigned DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `level`
+--
+
+INSERT INTO `level` (`idLevel`, `numOrder`, `cost`, `idPredLevel`) VALUES
+(1, 1, 0, NULL),
+(2, 2, 0, 1),
+(3, 3, 100, 2),
+(4, 4, 0, 2),
+(5, 5, 150, 3),
+(6, 6, 0, 4),
+(7, 7, 150, 4),
+(8, 8, 250, 5),
+(9, 9, 300, 5),
+(10, 10, 0, 6),
+(11, 11, 250, 7),
+(12, 12, 400, 8),
+(13, 13, 400, 10),
+(14, 14, 0, 10),
+(15, 15, 0, 14);
 
 -- --------------------------------------------------------
 
@@ -362,6 +402,57 @@ CREATE TABLE IF NOT EXISTS `levelstatus` (
   `unlocked` tinyint(1) NOT NULL DEFAULT '0',
   `bought` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `levelstatus`
+--
+
+INSERT INTO `levelstatus` (`idPlayer`, `idLevel`, `unlocked`, `bought`) VALUES
+(2, 1, 1, 1),
+(2, 2, 1, 0),
+(2, 3, 1, 1),
+(2, 4, 1, 1),
+(2, 5, 1, 1),
+(2, 6, 1, 1),
+(2, 7, 1, 1),
+(2, 8, 1, 1),
+(2, 9, 1, 1),
+(2, 10, 1, 1),
+(2, 11, 1, 1),
+(2, 12, 1, 1),
+(2, 13, 1, 1),
+(2, 14, 1, 1),
+(2, 15, 1, 1),
+(3, 1, 1, 0),
+(3, 2, 0, 0),
+(3, 3, 0, 0),
+(3, 4, 0, 0),
+(3, 5, 0, 0),
+(3, 6, 0, 0),
+(3, 7, 0, 0),
+(3, 8, 0, 0),
+(3, 9, 0, 0),
+(3, 10, 0, 0),
+(3, 11, 0, 0),
+(3, 12, 0, 0),
+(3, 13, 0, 0),
+(3, 14, 0, 0),
+(3, 15, 0, 0),
+(4, 1, 1, 0),
+(4, 2, 0, 0),
+(4, 3, 0, 0),
+(4, 4, 0, 0),
+(4, 5, 0, 0),
+(4, 6, 0, 0),
+(4, 7, 0, 0),
+(4, 8, 0, 0),
+(4, 9, 0, 0),
+(4, 10, 0, 0),
+(4, 11, 0, 0),
+(4, 12, 0, 0),
+(4, 13, 0, 0),
+(4, 14, 0, 0),
+(4, 15, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -713,7 +804,17 @@ CREATE TABLE IF NOT EXISTS `player` (
   `hairVariation` int(11) NOT NULL DEFAULT '0',
   `clothesVariation` int(11) NOT NULL DEFAULT '0',
   `continues` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `player`
+--
+
+INSERT INTO `player` (`idPlayer`, `childName`, `idFacebook`, `coins`, `hairVariation`, `clothesVariation`, `continues`) VALUES
+(1, 'Mario', 'dummy', 30, 1, 1, 0),
+(2, 'Luis', '2', 250, 0, 0, 0),
+(3, 'Paolo', '3', 0, 0, 0, 0),
+(4, 'Kei', '4', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -775,7 +876,17 @@ CREATE TABLE IF NOT EXISTS `powerup` (
   `idPowerup` int(10) unsigned NOT NULL,
   `name` varchar(50) NOT NULL,
   `imgSource` varchar(120) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `powerup`
+--
+
+INSERT INTO `powerup` (`idPowerup`, `name`, `imgSource`) VALUES
+(1, 'Zapato con alas', '--'),
+(2, 'Reloj', '--'),
+(3, 'Antorcha', '--'),
+(4, 'Escudo', '--');
 
 -- --------------------------------------------------------
 
@@ -788,6 +899,13 @@ CREATE TABLE IF NOT EXISTS `powerupxlevel` (
   `idPowerup` int(10) unsigned NOT NULL,
   `cost` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `powerupxlevel`
+--
+
+INSERT INTO `powerupxlevel` (`idLevel`, `idPowerup`, `cost`) VALUES
+(1, 1, 50);
 
 -- --------------------------------------------------------
 
@@ -897,6 +1015,18 @@ CREATE TABLE IF NOT EXISTS `score` (
   `defeatPosY` int(11) NOT NULL DEFAULT '-1',
   `defeated` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `score`
+--
+
+INSERT INTO `score` (`idPlayer`, `idLevel`, `score`, `defeatPosX`, `defeatPosY`, `defeated`) VALUES
+(1, 1, 0, 0, 0, 1),
+(1, 2, 4700, 1, 21, 1),
+(2, 2, 0, -1, -1, 0),
+(2, 6, 0, 1, 78, 1),
+(3, 2, 3000, -1, -1, 0),
+(4, 2, 3500, -1, -1, 0);
 
 -- --------------------------------------------------------
 
@@ -1475,7 +1605,7 @@ ALTER TABLE `concursos`
 -- AUTO_INCREMENT de la tabla `currency`
 --
 ALTER TABLE `currency`
-  MODIFY `idCurrency` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `idCurrency` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `detalle_proyectos`
 --
@@ -1530,7 +1660,7 @@ ALTER TABLE `fase_concursos`
 -- AUTO_INCREMENT de la tabla `level`
 --
 ALTER TABLE `level`
-  MODIFY `idLevel` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `idLevel` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT de la tabla `logs`
 --
@@ -1580,7 +1710,7 @@ ALTER TABLE `personas`
 -- AUTO_INCREMENT de la tabla `player`
 --
 ALTER TABLE `player`
-  MODIFY `idPlayer` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `idPlayer` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `postulantes`
 --
@@ -1595,7 +1725,7 @@ ALTER TABLE `postulantes_periodos`
 -- AUTO_INCREMENT de la tabla `powerup`
 --
 ALTER TABLE `powerup`
-  MODIFY `idPowerup` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `idPowerup` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `precolegios`
 --
