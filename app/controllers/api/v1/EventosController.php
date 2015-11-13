@@ -107,7 +107,7 @@ class EventosController extends \BaseController {
                     $lista_docs[] = [
                         'id' => $doc->iddocumentos,
                         'name' => $doc->titulo,
-                        'url' => $doc->ruta . $doc->nombre_archivo,
+                        'url' => $doc->ruta . $doc->titulo,
                         'upload_date' => 'Hace ' . $dias . ' día' . (($dias != 1) ? 's' : '') . ', ' . date('h:i A', $from->getTimestamp()),
                         'size' => $doc->peso . ' KB',
                         'users' => $users
@@ -195,8 +195,7 @@ class EventosController extends \BaseController {
                     'date' => strtotime($sesion->fecha_evento),
                     'location' => [
                         'latitude' => (double)$sesion->latitud,
-                        'longitude' => (double)$sesion->longitud,
-                        'address' => $sesion->direccion
+                        'longitude' => (double)$sesion->longitud
                     ],
                     'meeting_points' => $lista_puntos,
                     'documents' => $lista_docs,

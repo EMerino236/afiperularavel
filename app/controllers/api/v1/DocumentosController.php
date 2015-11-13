@@ -64,7 +64,7 @@ class DocumentosController extends \BaseController {
                         'seen' => ($visto) ? 1 : 0
                     ];
                 }
-                
+                    
                 $response[] = [
                     'id' => $d->iddocumentos,
                     'name' => $d->titulo,

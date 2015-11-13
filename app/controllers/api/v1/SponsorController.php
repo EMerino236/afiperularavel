@@ -173,7 +173,7 @@ class SponsorController extends \BaseController {
             {
                 $responseReports_element['id'] = $r->iddocumentos;
                 $responseReports_element['name'] = $r->titulo;
-                $responseReports_element['url'] = $r->ruta . $r->nombre_archivo;
+                $responseReports_element['url'] = $r->ruta . $r->titulo;
                 $responseReports_element['size'] = $r->peso . ' KB';
 
                 $from = new DateTime();
