@@ -87,7 +87,7 @@ class MeetingPointController extends \BaseController {
                     $responsepoints[] = $points_element;
                 }
 
-                return Response::json([ 'success' => 1, 'session_id' => $sessionID,'meeting_points' => $responsepoints ], 200);
+                return Response::json([ 'success' => 1, 200);
             }
             else
             {
