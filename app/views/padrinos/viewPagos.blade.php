@@ -71,12 +71,10 @@
 		</div>
 		
 		
-			
-		</div>
 	{{ Form::close() }}
 	
 	<div class="row">
-		<div class="form-group col-md-8">	
+		<div class="form-group col-md-1">	
 		@if(!$pago_data->deleted_at)
 			@if($pago_data->aprobacion ==0)		
 				{{ Form::open(array('url'=>'padrinos/submit_aprove_pago', 'role'=>'form')) }}

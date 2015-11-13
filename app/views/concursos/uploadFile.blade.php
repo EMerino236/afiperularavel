@@ -74,7 +74,9 @@
 								{{ Form::open(array('url'=>'concursos/submit_delete_file', 'role'=>'form')) }}
 								{{ Form::hidden('idconcursos', $concurso_info->idconcursos) }}
 								{{ Form::hidden('iddocumentos_concursos', $documento->iddocumentos_concursos) }}
-								{{ Form::submit('X',array('class'=>'btn btn-danger','title'=>'Eliminar Documento')) }}								
+								<button type="submit" class="btn btn-danger">
+								  	<i class="fa fa-trash-o"></i> Eliminar
+								</button>							
 								{{ Form::close() }}
 							</td>
 						</tr>

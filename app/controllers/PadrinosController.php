@@ -542,7 +542,7 @@ class PadrinosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_reporte_pagos',$data["permisos"])){
+			if(in_array('side_aprobar_pagos',$data["permisos"])){
 				$data["search"] = null;
 				$data["pagos_data"] = CalendarioPago::getPagosPendientesAprobacion()->paginate(10);
 				return View::make('padrinos/listAprobarPagos',$data);
@@ -566,7 +566,7 @@ class PadrinosController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
-			if(in_array('side_reporte_pagos',$data["permisos"])){
+			if(in_array('side_aprobar_pagos',$data["permisos"])){
 
 				$selected_ids = Input::get('selected_id');
 				
@@ -585,7 +585,7 @@ class PadrinosController extends BaseController
 												->subject('Aprobación de Pago - AFI Perú.');
 									});
 				}
-				return Response::json(array( 'success' => true,'pago_data'=>$pago),200);
+				return Response::json(array( 'success' => true ),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
 			}
@@ -601,7 +601,7 @@ class PadrinosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if((in_array('side_reporte_pagos',$data["permisos"])) && $id){
+			if((in_array('side_aprobar_pagos',$data["permisos"])) && $id){
 				$data["pago_data"] = CalendarioPago::SearchPadrinoByIdPago($id)->get();
 				if($data["pago_data"]->isEmpty()){
 					Session::flash('error', 'No se encontró el pago.');
@@ -624,7 +624,7 @@ class PadrinosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_reporte_pagos',$data["permisos"])){
+			if(in_array('side_aprobar_pagos',$data["permisos"])){
 				$idcalendario_pago = Input::get('idcalendario_pagos');
 				$url = "padrinos/view_pago/".$idcalendario_pago;
 				$pago = CalendarioPago::withTrashed()->find($idcalendario_pago);

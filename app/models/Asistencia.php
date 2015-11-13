@@ -42,4 +42,14 @@ class Asistencia extends Eloquent{
 		return $query;
 	}
 
+
+	public function scopeGetEventosAsistencia($query){
+		$query->join('users','users.id','=','asistencias.idusers')
+			  ->join('users_perfiles','users_perfiles.idusers','=','asistencias.idusers')
+			  ->join('eventos','asistencias.ideventos','=','eventos.ideventos')
+			  ->where('users_perfiles.idperfiles','=',3)
+			  ->select('eventos.nombre','asistencias.asistio','asistencias.idusers');
+		return $query;
+	}
+
 }

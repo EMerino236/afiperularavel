@@ -13,4 +13,9 @@ $( document ).ready(function(){
 		'showClear' : false
 	});
 
+	$("#submit_asistencia_excel_button").click(function(e){
+		e.preventDefault();
+		$("form#submit_asistencia_excel").submit();
+	});
+
 });

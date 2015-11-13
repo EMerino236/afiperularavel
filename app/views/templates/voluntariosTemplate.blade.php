@@ -34,7 +34,7 @@
                     <li><a href="{{ URL::to('voluntarios/list_voluntarios') }}"><i class="fa fa-list fa-fw"></i> Listar Voluntarios</a></li>
                     @endif
                     @if(in_array('side_reporte_asistencia',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Asistencia</a></li>
+                    <li><a href="{{ URL::to('voluntarios/list_reporte_calificaciones') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Asistencia</a></li>
                     @endif
                     @if(in_array('side_mapa_calor',$permisos))
                     <li><a href="{{ URL::to('voluntarios/mapa_calor') }}"><i class="fa fa-map-marker fa-fw"></i> Mapa de Calor</a></li>
