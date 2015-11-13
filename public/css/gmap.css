@@ -9,6 +9,11 @@
 	height: 460px;
 }
 
+#map-calor{
+  width: 100%;
+  height: 460px;
+}
+
 .seleccionar-puntos-reunion{
   height: 300px;
   overflow-x: hidden;

@@ -15,6 +15,7 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/general.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/gmap.css') }}" rel="stylesheet">
     <link href="{{ asset('css/star-rating.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
@@ -36,7 +37,7 @@
                     <li><a href="{{ URL::to('#') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte de Asistencia</a></li>
                     @endif
                     @if(in_array('side_mapa_calor',$permisos))
-                    <li><a href="{{ URL::to('#') }}"><i class="fa fa-map-marker fa-fw"></i> Mapa de Calor</a></li>
+                    <li><a href="{{ URL::to('voluntarios/mapa_calor') }}"><i class="fa fa-map-marker fa-fw"></i> Mapa de Calor</a></li>
                     @endif
                 </ul>
             </div>

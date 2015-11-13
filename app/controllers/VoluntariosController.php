@@ -141,4 +141,20 @@ class VoluntariosController extends BaseController
 			return View::make('error/error');
 		}
 	}
+
+	public function render_mapa_calor()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_listar_voluntarios',$data["permisos"])){
+				return View::make('voluntarios/mapaCalor',$data);
+			}else{
+				return View::make('error/error');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
 }
