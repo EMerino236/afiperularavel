@@ -29,8 +29,9 @@ class DashboardController extends BaseController
 					$data["postulantes"] = 0;
 					$data["idperiodos"] = null;
 				}else{
+					$aprobacion = null;
 					$periodo_actual = $periodo_actual[0];
-					$data["postulantes"] = PostulantesPeriodo::getPostulantesPorPeriodoFase($periodo_actual->idperiodos,1,"null")->get()->count();
+					$data["postulantes"] = PostulantesPeriodo::getPostulantesPorPeriodoFase($periodo_actual->idperiodos,1,$aprobacion)->get()->count();
 					$data["idperiodos"] = $periodo_actual->idperiodos;
 				}
 			}
