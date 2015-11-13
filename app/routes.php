@@ -83,6 +83,7 @@ Route::group(array('prefix'=>'voluntarios','before'=>'auth'),function(){
 	Route::get('/list_reporte_calificaciones','VoluntariosController@list_reporte_calificaciones');
 	Route::get('/mapa_calor','VoluntariosController@render_mapa_calor');
 	Route::post('/submit_asistencia_excel','VoluntariosController@submit_asistencia_excel');
+	Route::get('/search_voluntarios','VoluntariosController@search_voluntarios');
 });
 /* Padrinos */
 Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
