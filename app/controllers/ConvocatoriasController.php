@@ -272,7 +272,7 @@ class ConvocatoriasController extends BaseController
 				}				
 				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase($id,$data["idfase"],$data["estado_aprobacion"])->paginate(10);													
 				echo "<pre>";
-				print_r($data["postulantes_info"]);
+				print_r(PostulantesPeriodo::getPostulantesPorPeriodoFase($id,$data["idfase"],$data["estado_aprobacion"])->get()[0]);
 				exit;
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
