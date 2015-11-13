@@ -179,6 +179,15 @@ class JuegoController extends \BaseController {
         $j->coins = $j->coins + $monedas;
         $j->save();
         
+        // desbloquear los niveles siguientes
+        $niveles = Nivel::where('idPredLevel', '=', $idNivel)->get();
+        foreach($niveles as $n)
+        {
+            $estado = EstadoNivel::where('idPlayer', '=', $idJugador)->where('idLevel', '=', $n->idLevel)->first();
+            $estado->unlocked = 1;
+            $estado->save();
+        }
+        
         return Response::json(['success' => 1], 200);
     }
     
