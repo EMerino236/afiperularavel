@@ -4,7 +4,7 @@ $( document ).ready(function(){
 	$("#datetimepicker1").datetimepicker({
 		useCurrent: false,
 		defaultDate: false,
-		format: 'YYYY-MM-DD',
+		format: 'DD-MM-YYYY',
 		ignoreReadonly: true,
 		maxDate: ayer
 	});
