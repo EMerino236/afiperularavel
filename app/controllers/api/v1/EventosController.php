@@ -195,7 +195,8 @@ class EventosController extends \BaseController {
                     'date' => strtotime($sesion->fecha_evento),
                     'location' => [
                         'latitude' => (double)$sesion->latitud,
-                        'longitude' => (double)$sesion->longitud
+                        'longitude' => (double)$sesion->longitud,
+                        'address' => $sesion->direccion
                     ],
                     'meeting_points' => $lista_puntos,
                     'documents' => $lista_docs,
