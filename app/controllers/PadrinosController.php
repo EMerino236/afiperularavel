@@ -439,6 +439,9 @@ class PadrinosController extends BaseController
 						$padrino->idresponsable = $data["user"]->id;
 						$padrino->save();
 
+						$descripcion_log = "Se aprobó al padrino con id {{$padrino->idpadrinos}}";
+						Helpers::registrarLog(3,$descripcion_log);
+
 						//Generacion de Calendario de Pagos
 						$periodo_pago=PeriodoPago::find($padrino->idperiodo_pagos);
 						if($periodo_pago){
@@ -459,6 +462,8 @@ class PadrinosController extends BaseController
 									$fecha_vencimiento = date('Y-m-t',strtotime($fecha_vencimiento.'+ 1 days'));
 								}
 							}
+							$descripcion_log = "Se creó el calendario de pagos para el padrino con id {{$padrino->idpadrinos}}";
+							Helpers::registrarLog(3,$descripcion_log);		
 						}
 						//Borrado logico del prepadrino
 						$prepadrino->delete();						
@@ -468,9 +473,7 @@ class PadrinosController extends BaseController
 							$message->to($user->email, $persona->nombres)
 							->subject('Registro de nuevo padrino');
 						});
-
-						$descripcion_log = "Se aprobó al padrino con id {{$padrino->idpadrinos}}";
-						Helpers::registrarLog(3,$descripcion_log);						
+						
 					}
 				}
 				return Response::json(array( 'success' => true,'prepadrino_data'=>$prepadrino),200);
