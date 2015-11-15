@@ -454,15 +454,17 @@ class PadrinosController extends BaseController
 								}
 							}
 						}
-
 						//Borrado logico del prepadrino
-						$prepadrino->delete();
+						$prepadrino->delete();						
 
 						Mail::send('emails.userRegistration',array('user'=> $user,'persona'=>$persona,'password'=>$password),function($message) use ($user,$persona)
 						{
 							$message->to($user->email, $persona->nombres)
 							->subject('Registro de nuevo padrino');
 						});
+
+						$descripcion_log = "Se aprobó al padrino con id {{$padrino->idpadrinos}}";
+						Helpers::registrarLog(3,$descripcion_log);						
 					}
 				}
 				return Response::json(array( 'success' => true,'prepadrino_data'=>$prepadrino),200);
@@ -667,7 +669,7 @@ class PadrinosController extends BaseController
 					$data["error"] = false;
 					$padrino = $data["padrino"][0];
 					$idpadrinos = $padrino->idpadrinos;
-					$data["calendario_pagos"] = CalendarioPago::getCalendarioByPadrino($idpadrinos)->paginate(10);
+					$data["calendario_pagos"] = CalendarioPago::getCalendarioByPadrino($idpadrinos)->paginate(12);
 					return View::make('padrinos/listCalendarioPagos',$data);
 				}				
 			}else{
@@ -696,7 +698,7 @@ class PadrinosController extends BaseController
 					$data["error"] = false;
 					$padrino = $data["padrino"][0];
 					$idpadrinos = $padrino->idpadrinos;
-					$data["calendario_pagos"] = CalendarioPago::getCalendarioByPadrino($idpadrinos)->paginate(10);
+					$data["calendario_pagos"] = CalendarioPago::getCalendarioByPadrino($idpadrinos)->paginate(12);
 					return View::make('padrinos/listRegistrarPagos',$data);
 				}				
 			}else{
