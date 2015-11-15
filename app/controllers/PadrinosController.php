@@ -306,7 +306,10 @@ class PadrinosController extends BaseController
 				$padrino = Padrino::find($padrino_id);
 				$user = User::find($user_id);
 				$padrino->delete();
-				$user->delete();				
+				$user->delete();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se inhabilitó al padrino con id {{$padrino_id}}";
+				Helpers::registrarLog(5,$descripcion_log);
 				Session::flash('message', 'Se inhabilitó correctamente al padrino.');
 				return Redirect::to($url);
 			}else{
@@ -331,6 +334,9 @@ class PadrinosController extends BaseController
 				$user = User::withTrashed()->find($user_id);
 				$padrino->restore();
 				$user->restore();
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se habilitó al padrino con id {{$padrino_id}}";
+				Helpers::registrarLog(6,$descripcion_log);
 				Session::flash('message', 'Se habilitó correctamente al padrino.');
 				return Redirect::to($url);
 			}else{
