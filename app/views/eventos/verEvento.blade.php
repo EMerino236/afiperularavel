@@ -106,6 +106,7 @@
 								</button>
 							</td>
 						</tr>
+					{{ Form::close() }}
 					@endforeach
 				</table>
 			</div>

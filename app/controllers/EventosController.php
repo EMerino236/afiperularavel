@@ -693,7 +693,7 @@ class EventosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('side_mis_eventos',$data["permisos"])){
+			if(in_array('side_mis_eventos',$data["permisos"]) || in_array('side_nuevo_evento',$data["permisos"])){
 				$ideventos = Input::get('ideventos');
 				$iddocumentos = Input::get('iddocumentos');
 				$visualizacion = Visualizacion::getVisualizacionesPorUserPorEventoPorDocumento($data["user"]->id,$ideventos,$iddocumentos)->get();

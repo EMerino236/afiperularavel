@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-11-2015 a las 10:15:01
+-- Tiempo de generación: 15-11-2015 a las 22:45:53
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -70,7 +70,8 @@ CREATE TABLE IF NOT EXISTS `calendario_pagos` (
   `aprobacion` tinyint(1) DEFAULT NULL,
   `num_comprobante` varchar(45) DEFAULT NULL,
   `idpadrinos` int(11) NOT NULL,
-  `monto` float DEFAULT NULL
+  `monto` float DEFAULT NULL,
+  `banco` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -813,7 +814,7 @@ CREATE TABLE IF NOT EXISTS `player` (
 INSERT INTO `player` (`idPlayer`, `childName`, `idFacebook`, `coins`, `hairVariation`, `clothesVariation`, `continues`) VALUES
 (1, 'Mario', 'dummy', 30, 1, 1, 0),
 (2, 'Luis', '2', 250, 0, 0, 0),
-(3, 'Paolo', '3', 0, 0, 0, 0),
+(3, 'Paolo', '3', 0, 0, 0, 2),
 (4, 'Kei', '4', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
@@ -1124,15 +1125,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `push_eventos` int(11) DEFAULT '1',
-  `push_pagos` int(11) DEFAULT '1'
+  `push_pagos` int(11) DEFAULT '1',
+  `uuid` varchar(100) DEFAULT NULL,
+  `gcm_token` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `num_documento`, `password`, `email`, `idtipo_identificacion`, `idpersona`, `auth_token`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `push_eventos`, `push_pagos`) VALUES
-(1, '00000000', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', '6MBzb6FI3BqztWrUqDwbJ6o4XOND05yqGZhOvyzW3aZiM8qsDr8ZCSeR0Guu', '2015-10-06 14:22:09', '2015-11-09 02:08:40', NULL, 1, 1);
+INSERT INTO `users` (`id`, `num_documento`, `password`, `email`, `idtipo_identificacion`, `idpersona`, `auth_token`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `push_eventos`, `push_pagos`, `uuid`, `gcm_token`) VALUES
+(1, '00000000', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', '6MBzb6FI3BqztWrUqDwbJ6o4XOND05yqGZhOvyzW3aZiM8qsDr8ZCSeR0Guu', '2015-10-06 14:22:09', '2015-11-09 02:08:40', NULL, 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 

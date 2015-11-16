@@ -46,11 +46,18 @@
 						<strong>Documento:</strong> {{$documento['documento']->titulo}}
 					</div>
 					<div class="col-md-6 text-right">
+						{{ Form::open(array('url'=>'eventos/descargar_documento', 'role'=>'form')) }}
+							{{ Form::hidden('ideventos', $evento_info->ideventos) }}
+							{{ Form::hidden('iddocumentos', $documento['documento']->iddocumentos_eventos) }}
+							<button type="submit" class="btn btn-primary">
+							  <span class="fa fa-download"></span> {{$documento->titulo}}
+							</button>
+						{{ Form::close() }}
 						@if($hoy < $evento_info->fecha_evento)
 						{{ Form::open(array('url'=>'eventos/submit_delete_file', 'role'=>'form')) }}
 							{{ Form::hidden('ideventos', $evento_info->ideventos) }}
 							{{ Form::hidden('iddocumentos_eventos', $documento['documento']->iddocumentos_eventos) }}
-							<button type="submit" class="btn btn-danger">
+							<button type="submit" id="eliminar" class="btn btn-danger">
 							  <i class="fa fa-trash-o"></i> Eliminar
 							</button>
 						{{ Form::close() }}
