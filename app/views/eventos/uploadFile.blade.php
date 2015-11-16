@@ -42,17 +42,19 @@
 		<div class="panel-body">
 			@foreach($documentos as $documento)
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-8">
 						<strong>Documento:</strong> {{$documento['documento']->titulo}}
 					</div>
-					<div class="col-md-6 text-right">
+					<div class="col-md-2 text-right">
 						{{ Form::open(array('url'=>'eventos/descargar_documento', 'role'=>'form')) }}
 							{{ Form::hidden('ideventos', $evento_info->ideventos) }}
 							{{ Form::hidden('iddocumentos', $documento['documento']->iddocumentos_eventos) }}
 							<button type="submit" class="btn btn-primary">
-							  <span class="fa fa-download"></span> {{$documento->titulo}}
+							  <span class="fa fa-download"></span> Descargar
 							</button>
 						{{ Form::close() }}
+					</div>
+					<div class="col-md-2 text-right">
 						@if($hoy < $evento_info->fecha_evento)
 						{{ Form::open(array('url'=>'eventos/submit_delete_file', 'role'=>'form')) }}
 							{{ Form::hidden('ideventos', $evento_info->ideventos) }}
