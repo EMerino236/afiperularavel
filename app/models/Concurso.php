@@ -36,11 +36,14 @@ class Concurso extends Eloquent{
 
 	public function scopeGetLatestConcursos($query)
 	{
-		$hoy = date('Y-m-d');
+
+		//$matchProyecto = ['proyectos.aprobacion' => 0, 'proyectos.idproyectos' => null];
+
 		$query->join('fase_concursos','concursos.idconcursos','=','fase_concursos.idconcursos')
-			  ->where('fase_concursos.fecha_limite','>=',$hoy)			  
-			  ->select('concursos.titulo','concursos.idconcursos')
-			  ->distinct();
+			  ->leftjoin('proyectos','concursos.idconcursos','=','proyectos.idconcursos')			  
+			  //->where('proyectos.aprobacion','=',0)
+			  //->orwhere('proyectos.idproyectos','=',null)			  		  
+			  ->select('concursos.titulo','concursos.idconcursos','fase_concursos.fecha_limite','proyectos.aprobacion');
 		return $query;
 	}
 }

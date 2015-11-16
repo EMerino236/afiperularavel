@@ -170,6 +170,15 @@ Route::group(array('prefix'=>'concursos','before'=>'auth'),function(){
 	Route::get('/edit_proyecto/{id}','ConcursosController@render_edit_proyecto');
 	Route::post('/submit_edit_proyecto','ConcursosController@submit_edit_proyecto');
 	Route::post('/submit_disable_proyecto','ConcursosController@submit_disable_proyecto');
+	Route::get('/upload_file_proyecto/{id}','ConcursosController@render_upload_file_proyecto');
+	Route::post('/submit_upload_file_proyecto','ConcursosController@submit_upload_file_proyecto');
+	Route::post('/submit_delete_file_proyecto','ConcursosController@submit_delete_file_proyecto');
+	Route::post('/detalle_register_ajax','ConcursosController@detalle_register_ajax');
+	Route::post('/detalle_delete_ajax','ConcursosController@detalle_delete_ajax');
+	Route::get('/detalle_proyecto/{id}','ConcursosController@render_detalle_proyecto');	
+	Route::post('/edit_detalle_ajax','ConcursosController@edit_detalle_ajax');
+	Route::get('/list_proyectos_asociados/{id}','ConcursosController@render_list_proyectos_asociados');
+	Route::post('/submit_aprove_proyecto','ConcursosController@submit_aprove_proyecto');
 });
 /* Users */
 Route::group(array('prefix'=>'user', 'before'=>'auth'),function(){

@@ -35,7 +35,7 @@
 		<div class="row">
 			<div class="form-group col-md-6 required @if($errors->first('concursos')) has-error has-feedback @endif">
 				{{ Form::label('concursos','Concurso') }}
-				{{ Form::select('concursos',$concursos_data,$proyecto_info->idconcursos,['class' => 'form-control']) }}
+				{{ Form::select('concursos',array(""=>"Seleccione")+$concursos_data,$proyecto_info->idconcursos,['class' => 'form-control']) }}
 			</div>
 		</div>
 		<div class="row">
