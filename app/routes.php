@@ -224,6 +224,7 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::post('documents/{document_id}/visualizations', 'api\v1\DocumentosController@register_visualization');
     Route::get('children/{id}', 'api\v1\NinhosController@show');
     Route::get('activity_reports', 'api\v1\SponsorController@activity_reports');
+    Route::post('verify_payment', 'api\v1\PayPalController@verify');
 });
 
 /* Rutas para el juego */
