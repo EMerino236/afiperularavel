@@ -18,6 +18,13 @@ class Padrino extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetActivePadrinosPushInfo($query)
+	{
+		$query->join('users','users.id','=','padrinos.idusers')
+			  ->select('padrinos.idpadrinos', 'users.push_pagos', 'users.uuid');
+		return $query;
+	}
+
 	public function scopeSearchPadrinos($query,$search_criteria)
 	{
 		$query->withTrashed()

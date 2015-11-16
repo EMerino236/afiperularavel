@@ -5,6 +5,7 @@ use \Periodo;
 use \UsersPeriodo;
 use \Illuminate\Support\Facades\Input;
 use \Illuminate\Support\Facades\Response;
+use \Illuminate\Support\Facades\Request;
 
 class SessionController extends \BaseController {
 
@@ -78,4 +79,55 @@ class SessionController extends \BaseController {
     	$response = array('error' => 'El nombre de usuario no existe.');
     	return Response::json($response, 200);
 	}
+
+    public function set_uuid()
+    {
+        $auth_token = Request::header('Authorization');
+        $user = User::where('auth_token', '=', $auth_token)->first();
+
+        if ($user)
+        {
+            $uuid = Input::get('uuid');
+
+            if ($uuid)
+            {
+                $user->uuid = $uuid;
+                $user->save();
+
+                $response = [ 'success' => 1 ];
+                $status_code = 200;
+                return Response::json($response, $status_code);
+            }
+            else
+            {
+                $response = [ 'error' => 'Error en parámetros.'];
+                $status_code = 404;
+                return Response::json($response, $status_code);
+            }
+        }
+
+        $response = [ 'error' => 'Error en la autenticación.'];
+        $status_code = 401;
+        return Response::json($response, $status_code);
+    }
+
+    public function clear_uuid()
+    {
+        $auth_token = Request::header('Authorization');
+        $user = User::where('auth_token', '=', $auth_token)->first();
+
+        if ($user)
+        {
+            $user->uuid = null;
+            $user->save();
+
+            $response = [ 'success' => 1 ];
+            $status_code = 200;
+            return Response::json($response, $status_code);
+        }
+
+        $response = [ 'error' => 'Error en la autenticación.'];
+        $status_code = 401;
+        return Response::json($response, $status_code);
+    }
 }

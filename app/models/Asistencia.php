@@ -24,6 +24,15 @@ class Asistencia extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetUserPushInfoByEvento($query, $ideventos)
+	{
+		$query->join('users','users.id', '=', 'asistencias.idusers')
+			  ->where('asistencias.ideventos','=', $ideventos)
+			  ->select('users.uuid', 'users.push_eventos');
+		
+		return $query;
+	}
+
 	public function scopeGetEventosPorUser($query,$idusers)
 	{
 		$query->join('eventos','eventos.ideventos','=','asistencias.ideventos')
