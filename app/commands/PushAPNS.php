@@ -55,7 +55,7 @@ class PushAPNS extends Command {
 				if ($v->push_eventos && $v->uuid)
 				{
 					$message = 'Recordatorio de evento: ' . $e->nombre . ' - ' . $e->fecha_evento;
-					$this->push($v->uuid, $message);
+					Helpers::pushAPNS($v->uuid, $message, 1);
 				}
 			}
 		}
@@ -73,59 +73,9 @@ class PushAPNS extends Command {
 				if ($fee)
 				{
 					$message = 'Recordatorio de pago: ' . $fee->vencimiento;
-					$this->push($s->uuid, $message);
+					Helpers::pushAPNS($v->uuid, $message, 2);
 				}
 			}
 		}
 	}
-
-	private function push($deviceToken, $message)
-	{
-		echo 'push:' . $deviceToken . PHP_EOL;
-		echo 'push:' . $message . PHP_EOL;
-
-		// Put your private key's passphrase here:
-		$passphrase = 'alonso3000';
-
-		////////////////////////////////////////////////////////////////////////////////
-
-		$ctx = stream_context_create();
-		stream_context_set_option($ctx, 'ssl', 'local_cert', 'ck.pem');
-		stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
-
-		// Open a connection to the APNS server
-		$fp = stream_socket_client(
-			'ssl://gateway.sandbox.push.apple.com:2195', $err,
-			$errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
-
-		if (!$fp)
-			exit("Failed to connect: $err $errstr" . PHP_EOL);
-
-		echo 'Connected to APNS' . PHP_EOL;
-
-		// Create the payload body
-		$body['aps'] = array(
-			'alert' => $message,
-			'sound' => 'default',
-			'badge' => 1
-			);
-
-		// Encode the payload as JSON
-		$payload = json_encode($body);
-
-		// Build the binary notification
-		$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
-
-		// Send it to the server
-		$result = fwrite($fp, $msg, strlen($msg));
-
-		if (!$result)
-			echo 'Message not delivered' . PHP_EOL;
-		else
-			echo 'Message successfully delivered' . PHP_EOL;
-
-		// Close the connection to the server
-		fclose($fp);
-	}
-
 }
