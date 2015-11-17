@@ -16,9 +16,11 @@ class PayPalController extends \BaseController {
         $payment_client = json_decode(\Input::get('payment_client'));
         $fee_id = \Input::get('fee_id');
         
+        if(!$payment_client) return \Response::json(['error' => 'Error en el parámetro payment_client'], 200);
+        
         // get access token
         $credentials = 'AaojGtvv8YNz-PGOlN3B9qeKdu8UaWRDgGg5RBQgByyAaru1-kVTY4B5zQB1ZnSFqcKMBmuXsSdaHmow'. ':' . 'EOutb3ahbyP4iJsRL2NAGTfaJJZaoxqNW3Rqp-olcludUMKs0l2VB4Izo_WTt6hsTOvF0j7cjl-ABqJ6';
-        $process = curl_init('https://api.sandbox.paypal.com/v1/oauth2/token?grant_type=client_credentials');
+        $process = curl_init('https://api.sandbox.paypal.com/v1/oauth2/token');
         curl_setopt($process, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($process, CURLOPT_SSL_VERIFYPEER, 0); 
         curl_setopt($process, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Accept-Language: en_US', 'Authorization: Basic ' . base64_encode($credentials)));
@@ -31,6 +33,7 @@ class PayPalController extends \BaseController {
         $response = curl_exec($process);
         curl_close($process);
         
+        if(!$response) return \Response::json(['error' => 'No hubo respuesta en la autenticacion a paypal'], 200);
         $response_json = json_decode($response);
         $token = $response_json->access_token;
 
@@ -44,6 +47,7 @@ class PayPalController extends \BaseController {
         $response = curl_exec($process);
         curl_close($process);
         
+        if(!$response) return \Response::json(['error' => 'No hubo respuesta en la peticion del detalle del pago a paypal.'], 200);
         $payment = json_decode($response);
         //$payment = json_decode(\Input::get('payment_test'));
         //return \Response::json($payment, 200);
