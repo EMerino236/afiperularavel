@@ -74,7 +74,12 @@ $( document ).ready(function(){
 					},
 					success: function(response){
 						if(response.success){
-							location.reload();
+							if(!response.fecha_disponible){
+								location.reload();
+							}
+							else{
+								alert('Ya existe una fase con la misma "Fecha Límite"');
+							}
 						}else{
 							alert('La petición no se pudo completar, inténtelo de nuevo.');
 						}

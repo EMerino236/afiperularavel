@@ -328,7 +328,7 @@ class ConcursosController extends BaseController
 					return Redirect::to('concursos/list_concursos');
 				}
 				$data["concurso_info"] = $data["concurso_info"][0];
-				$data["faseconcursos_data"] = FasesConcurso::getFasesPorConcurso($data["concurso_info"]->idconcursos)->paginate(10);
+				$data["faseconcursos_data"] = FasesConcurso::getFasesPorConcurso($data["concurso_info"]->idconcursos)->orderBy('fecha_limite','asc')->paginate(10);
 				
 				$data["hoy"] = date("Y-m-d H:i:s");
 				return View::make('concursos/fasesConcurso',$data);
@@ -357,17 +357,21 @@ class ConcursosController extends BaseController
 			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
 			if(in_array('side_nuevo_concurso',$data["permisos"])){
 				$fecha_limite = date('Y-m-d H:i:s',strtotime(Input::get('fecha_limite')));
-
-				$fase_concursos = new FasesConcurso;
-				$fase_concursos->titulo = Input::get('titulo');
-				$fase_concursos->descripcion = Input::get('descripcion');
-				$fase_concursos->fecha_limite = $fecha_limite;
-				$fase_concursos->idconcursos = Input::get('idconcursos');
-				$fase_concursos->save();
-				// Llamo a la función para registrar el log de auditoria
-				$descripcion_log = "Se creó la fase con id {{$fase_concursos->idfase_concursos}} para el concurso con id {{$fase_concursos->idconcursos}}";
-				Helpers::registrarLog(3,$descripcion_log);
-				return Response::json(array( 'success' => true,'faseconcursos_data'=>$fase_concursos),200);
+				$idconcursos = Input::get('idconcursos');
+				$fecha_disponible = FasesConcurso::getFechaDisponible($idconcursos,$fecha_limite)->get();
+				if($fecha_disponible->isEmpty()){
+					$fecha_disponible =null;
+					$fase_concursos = new FasesConcurso;
+					$fase_concursos->titulo = Input::get('titulo');
+					$fase_concursos->descripcion = Input::get('descripcion');
+					$fase_concursos->fecha_limite = $fecha_limite;
+					$fase_concursos->idconcursos = Input::get('idconcursos');
+					$fase_concursos->save();
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se creó la fase con id {{$fase_concursos->idfase_concursos}} para el concurso con id {{$fase_concursos->idconcursos}}";
+					Helpers::registrarLog(3,$descripcion_log);
+				}
+				return Response::json(array( 'success' => true,'fecha_disponible'=>$fecha_disponible),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
 			}
@@ -1102,12 +1106,16 @@ class ConcursosController extends BaseController
 					if($proyecto->idproyectos == $selected_ids){
 						$proyecto->aprobacion = 1;
 						$proyecto->save();
+						// Llamo a la función para registrar el log de auditoria
+						$descripcion_log = "Se aprobó el proyecto con id {{$proyecto->idproyectos}}";
+						Helpers::registrarLog(4,$descripcion_log);
 					}
 					else{
 						$proyecto->aprobacion = 2;
 						$proyecto->save();
 					}
 				}
+
 				return Response::json(array( 'success' => true,'proyecto'=>$proyecto),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
