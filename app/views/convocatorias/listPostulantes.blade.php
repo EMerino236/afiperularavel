@@ -48,7 +48,7 @@
 		</div>
 	{{ Form::close() }}
 
-	{{ Form::open(array('url'=>'convocatorias/submit_aprobacion_postulantes', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'convocatorias/submit_aprobacion_postulantes', 'role'=>'form','id'=>'submitAprobacion')) }}
 		{{ Form::hidden('idperiodos', $convocatoria_info->idperiodos) }}
 		{{ Form::hidden('idfase', $idfase) }}
 		<table class="table">
@@ -120,7 +120,7 @@
 		<div class="col-md-6">
 			<div class="row">
 				<div class="form-group col-md-2">
-					{{ Form::submit('Guardar',array('id'=>'submit-aprobar-postulantes','class'=>'btn btn-primary')) }}	
+					{{ Form::submit('Guardar',array('id'=>'submit-aprobacion-postulantes','class'=>'btn btn-primary')) }}	
 				</div>
 				<div class="form-group col-md-3">
 					<a class="btn btn-default btn-block" href="{{URL::to('/convocatorias/list_convocatoria/')}}">Regresar</a>				

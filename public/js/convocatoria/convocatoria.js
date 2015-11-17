@@ -54,13 +54,15 @@ $( document ).ready(function(){
 	});
 
 	var aprobar_postulantes = true;
-	$("#submit-aprobar-postulantes").click(function(e){
+	$("#submit-aprobacion-postulantes").click(function(e){
 		e.preventDefault();
 		if(aprobar_postulantes){
 			aprobar_postulantes = false;
 			var confirmation = confirm("Los postulantes seleccionados serás aprobados y el resto serán desaprobados. ¿Está seguro que desea realizar esta acción?");
 			if(confirmation){
-				$(this).submit();
+				//$(this).submit();
+				//alert("hola");
+				document.getElementById("submitAprobacion").submit();
 			}else{
 				aprobar_postulantes = true;
 			}
