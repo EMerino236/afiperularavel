@@ -58,6 +58,7 @@
 			<th>Fecha Creación</th>
 			<th>Fases</th>
 			<th>Documentos</th>
+			<th>Proyectos</th>
 		</tr>
 		@foreach($concursos_data as $concurso_data)
 		<tr class="@if($concurso_data->deleted_at) bg-danger @endif">			
@@ -75,6 +76,9 @@
 			</td>
 			<td>
 				<a href="{{URL::to('/concursos/upload_file/')}}/{{$concurso_data->idconcursos}}">Documentos</a>
+			</td>
+			<td>
+				<a href="{{URL::to('/concursos/list_proyectos_asociados/')}}/{{$concurso_data->idconcursos}}">Proyectos</a>
 			</td>
 		</tr>
 		@endforeach

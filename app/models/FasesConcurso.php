@@ -16,4 +16,5 @@ class FasesConcurso extends Eloquent{
 		return $query;
 	}
 
+	
 }
