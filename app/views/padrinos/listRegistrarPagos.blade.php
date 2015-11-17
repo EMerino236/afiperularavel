@@ -55,10 +55,10 @@
 					@endif
 				</td>
 				<td>
-					@if($calendario_pago->fecha_pago)
+					@if($calendario_pago->fecha_pago && $calendario_pago->aprobacion !== 0)
 						{{ Form::text('comprobante',$calendario_pago->num_comprobante,array('class'=>'form-control','maxlength'=>'100','disabled'=>'disabled')) }}
 					@endif
-					@if($calendario_pago->fecha_pago === null)
+					@if($calendario_pago->fecha_pago === null || $calendario_pago->aprobacion === 0)
 						{{ Form::text('comprobante',$calendario_pago->num_comprobante,array('class'=>'form-control','maxlength'=>'100')) }}
 						{{ Form::hidden('num_comprobante', $calendario_pago->num_comprobante) }}
 					@endif
@@ -74,18 +74,22 @@
 					@endif
 				</td>
 				<td class="text-center" style="vertical-align:middle">
+					@if($calendario_pago->aprobacion === null)
+						Por Aprobar		
+					@endif
 					@if($calendario_pago->aprobacion === 0)
-						Por Aprobar
+						Rechazado<br>
+						(Volver a Registrar Pago)
 					@endif
 					@if($calendario_pago->aprobacion === 1)
 						Aprobado
 					@endif				
 				</td>
 				<td class"=text-center" style="vertical-align:middle">
-					@if($calendario_pago->fecha_pago)
+					@if($calendario_pago->fecha_pago && $calendario_pago->aprobacion !== 0)
 						<center>{{ Form::submit('Pagar',array('class'=>'btn btn-primary','disabled'=>'disabled')) }}</center>
 					@endif
-					@if($calendario_pago->fecha_pago === null)
+					@if($calendario_pago->fecha_pago === null || $calendario_pago->aprobacion === 0)
 						<center>{{ Form::submit('Pagar',array('class'=>'btn btn-primary')) }}</center>
 						{{ Form::hidden('idcalendario_pagos', $calendario_pago->idcalendario_pagos) }}
 					@endif

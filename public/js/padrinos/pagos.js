@@ -31,14 +31,14 @@ $( document ).ready(function(){
 						type: 'POST',
 						data: { 'selected_id' : selected },
 						beforeSend: function(){
-							//$("#submit-aprobar-pagos").addClass("disabled");
-							//$("#submit-aprobar-pagos").hide();
+							$("#submit-aprobar-pagos").addClass("disabled");
+							$("#submit-aprobar-pagos").hide();
 							$(".loader_container").show();
 						},
 						complete: function(){
 							$(".loader_container").hide();
-							//$("#submit-aprobar-pagos").removeClass("disabled");
-							//$("#submit-aprobar-pagos").show();
+							$("#submit-aprobar-pagos").removeClass("disabled");
+							$("#submit-aprobar-pagos").show();
 							aprobar_pagos = true;
 						},
 						success: function(response){

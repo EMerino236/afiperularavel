@@ -45,7 +45,10 @@
 	<div class="col-xs-12">
 		<div class="row">
 			<div class="form-group col-xs-8">	
-			@if(!$prepadrinos_data->isEmpty())					
+			@if(!$prepadrinos_data->isEmpty())
+				<div class="loader_container" style="display:none;">
+					{{ HTML::image('img/loading.gif') }}
+				</div>					
 				{{ HTML::link('','Aprobar',array('id'=>'submit-aprobar-prepadrinos', 'class'=>'btn btn-primary')) }}
 			@endif
 			</div>

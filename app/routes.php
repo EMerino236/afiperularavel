@@ -114,7 +114,8 @@ Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
 	Route::get('/list_aprobar_pagos','PadrinosController@list_aprobar_pagos');
 	Route::post('/aprobar_pago_ajax','PadrinosController@aprobar_pago_ajax');
 	Route::get('/view_pago/{id}','PadrinosController@render_view_pago');
-	Route::post('/submit_aprove_pago','PadrinosController@submit_aprove_pago');
+	Route::post('/submit_aprove_pago','PadrinosController@submit_aprove_pago');	
+	Route::post('/submit_rechazar_pago','PadrinosController@submit_rechazar_pago');
 });
 /* Colegios */
 Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){
