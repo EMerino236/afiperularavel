@@ -60,8 +60,6 @@ $( document ).ready(function(){
 			aprobar_postulantes = false;
 			var confirmation = confirm("Los postulantes seleccionados serás aprobados y el resto serán desaprobados. ¿Está seguro que desea realizar esta acción?");
 			if(confirmation){
-				//$(this).submit();
-				//alert("hola");
 				document.getElementById("submitAprobacion").submit();
 			}else{
 				aprobar_postulantes = true;
