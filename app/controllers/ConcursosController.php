@@ -52,7 +52,7 @@ class ConcursosController extends BaseController
 			if(in_array('side_nuevo_concurso',$data["permisos"])){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'titulo' => 'required|min:2|max:100|unique:concursos'
+							'titulo' => 'required|min:2|max:100|unique:concursos,titulo,NULL,idconcursos,deleted_at,NULL'
 						);
 				// Run the validation rules on the inputs from the form
 				$validator = Validator::make(Input::all(), $rules);
@@ -447,7 +447,7 @@ class ConcursosController extends BaseController
 				// Validate the info, create rules for the inputs
 				$concurso_id = Input::get('concurso_id');
 				$rules = array(
-							'titulo' => 'required|min:2|max:100|unique:concursos,titulo,'.$concurso_id.',idconcursos'							
+							'titulo' => 'required|min:2|max:100|unique:concursos,titulo,'.$concurso_id.',idconcursos,deleted_at,NULL'							
 						);
 				// Run the validation rules on the inputs from the form
 				
@@ -555,7 +555,7 @@ class ConcursosController extends BaseController
 			if(in_array('side_nuevo_proyecto',$data["permisos"])){
 				// Validate the info, create rules for the inputs
 				$rules = array(
-							'nombre' => 'required|min:2|max:100|unique:proyectos',
+							'nombre' => 'required|min:2|max:100|unique:proyectos,nombre,NULL,idproyectos,deleted_at,NULL',
 							'jefe_proyecto' => 'required|min:2|max:100',
 							'concursos' => 'required'
 						);
@@ -737,7 +737,7 @@ class ConcursosController extends BaseController
 				$messages = array();
 				$proyecto_id = Input::get('proyecto_id');
 				$rules = array(
-							'nombre' => 'required|min:2|max:100|unique:proyectos,nombre,'.$proyecto_id.',idproyectos',
+							'nombre' => 'required|min:2|max:100|unique:proyectos,nombre,'.$proyecto_id.',idproyectos,deleted_at,NULL',
 							'jefe_proyecto' => 'required|min:2|max:100',
 							'concurso' => 'required'						
 						);
