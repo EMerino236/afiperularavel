@@ -746,6 +746,9 @@ class PadrinosController extends BaseController
 					$pago->num_comprobante = $num_comprobante;
 					$pago->save();
 
+					$descripcion_log = "Se registró el pago con id {{$pago->idcalendario_pagos}}";
+					Helpers::registrarLog(3,$descripcion_log);
+
 				return Redirect::to($url);
 				}
 				
