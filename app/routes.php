@@ -243,7 +243,7 @@ Route::group(array('prefix' => 'game'), function()
 {
     Route::get('player', 'api\juego\JuegoController@player');
     Route::post('player', 'api\juego\JuegoController@create_player');
-    Route::get('friends/score', 'api\juego\JuegoController@friendsScore');
+    Route::post('friends/score', 'api\juego\JuegoController@friendsScore');
     Route::get('level/graph', 'api\juego\JuegoController@levelGraph');
     Route::post('level/clear', 'api\juego\JuegoController@levelClear');
     Route::post('level/defeat', 'api\juego\JuegoController@levelDefeat');
@@ -251,4 +251,6 @@ Route::group(array('prefix' => 'game'), function()
     Route::post('level/continue', 'api\juego\JuegoController@levelContinue');
     Route::post('level/purchase', 'api\juego\JuegoController@levelPurchase');
     Route::post('pu/purchase', 'api\juego\JuegoController@puPurchase');
+    Route::post('friends/helpNeeded', 'api\juego\JuegoController@friendsHelpNeeded');
+    Route::post('friends/help', 'api\juego\JuegoController@friendsHelp');
 });

@@ -63,7 +63,7 @@ class JuegoController extends \BaseController {
     // Obtener puntajes de amigos
 	public function friendsScore()
 	{
-        $facebookIDs = Input::get('idPlayers');
+        $facebookIDs = json_decode(Input::get('idPlayers'));
         $idNivel = Input::get('idLevel');
         $numJugadores = Input::get('numPlayers');
         
@@ -333,6 +333,62 @@ class JuegoController extends \BaseController {
         if($jugador->coins < 0) return Response::json(['error' => 'El jugador no posee suficientes monedas para comprar el powerup'], 200);
         
         $jugador->save();
+        
+        return Response::json(['success' => 1], 200);
+    }
+    
+    // Obtener amigos en necesidad de continues
+    public function friendsHelpNeeded()
+    {
+        $rules = array('idPlayers' => 'required');
+        $validator = \Validator::make(Input::all(), $rules);
+        if($validator->fails()) return Response::json($validator->messages(), 200);
+        
+        $facebookIDs = json_decode(Input::get('idPlayers'));
+        
+        $response = [ 'friends' => [] ];
+        
+        foreach($facebookIDs as $fid)
+        {
+            $jugador = Jugador::where('idFacebook', '=', $fid)->first();
+            if($jugador)
+            {
+                $cantidadDerrotas = Puntaje::where('idPlayer', '=', $jugador->idPlayer)
+                                            ->where('defeated', '=', 1)->count();
+                if($cantidadDerrotas > $jugador->continues)
+                {
+                    $response['friends'][] = ['idPlayer' => $jugador->idPlayer, 'idFacebook' => $jugador->idFacebook];   
+                }
+            }
+        }
+        
+        return Response::json($response, 200);
+    }
+    
+    // Regitrar una compra de continue
+    public function friendsHelp()
+    {
+        $rules = array('idPlayerBuying' => 'required',
+                       'idPlayerHelped' => 'required',
+                       'price' => 'required'
+        );
+        
+        $validator = \Validator::make(Input::all(), $rules);
+        if($validator->fails()) return Response::json($validator->messages(), 200);
+        
+        $idJugadorComprador = Input::get('idPlayerBuying');
+        $jugadorComprador = Jugador::find($idJugadorComprador);
+        if(!$jugadorComprador) return Response::json(['error' => 'No existe el jugador con id = ' . $idJugadorComprador], 200);
+        
+        $idJugadorAyudado = Input::get('idPlayerHelped');
+        $jugadorAyudado = Jugador::find($idJugadorAyudado);
+        if(!$jugadorAyudado) return Response::json(['error' => 'No existe el jugador con id = ' . $idJugadorAyudado], 200);
+        
+        $precioContinue = Input::get('price');
+        $jugadorComprador->coins = $jugadorComprador->coins - $precioContinue;
+        $jugadorComprador->save();
+        $jugadorAyudado->continues = $jugadorAyudado->continues + 1;
+        $jugadorAyudado->save();
         
         return Response::json(['success' => 1], 200);
     }
