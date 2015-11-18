@@ -115,6 +115,8 @@ class JuegoController extends \BaseController {
             $levels[] = [
                 'idLevel' => $n->idLevel,
                 'numOrder' => $n->numOrder,
+                'milestone' => $n->milestone,
+                'title' => $n->title,
                 'bought' => ($estado) ? $estado->bought : null,
                 'unlocked' => ($estado) ? $estado->unlocked : null,
                 'cost' => $n->cost,
