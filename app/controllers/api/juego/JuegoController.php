@@ -152,9 +152,9 @@ class JuegoController extends \BaseController {
         
         // verificar si ya se registro un puntaje para el jugador en el nivel
         $registro_puntaje = Puntaje::where('idPlayer', '=', $idJugador)->where('idLevel', '=', $idNivel)->first();
-        if($registro_puntaje)
+        if($registro_puntaje && ($puntaje > $registro_puntaje->score))
         {
-            // modificar puntaje
+            // si ya existe un puntaje y es menor al nuevo puntaje, se modifica
             $registro_puntaje->score = $puntaje;
             $registro_puntaje->save();
         }
