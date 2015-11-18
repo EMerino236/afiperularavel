@@ -850,7 +850,8 @@ class PadrinosController extends BaseController
 			if(in_array('side_registrar_pago',$data["permisos"])){
 				
 				$rules = array( 
-					'comprobante' => 'required|numeric'
+					'comprobante' => 'required|numeric',
+					'banco' => 'required|alpha_spaces|min:2|max:100'
 				); 
 
 				$validator = Validator::make(Input::all(), $rules); 
@@ -862,9 +863,11 @@ class PadrinosController extends BaseController
 
 					$idcalendario_pagos = Input::get('idcalendario_pagos');
 					$num_comprobante = Input::get('comprobante');
+					$banco = Input::get('banco');
 
 					$pago=CalendarioPago::find($idcalendario_pagos);			
 					$pago->fecha_pago = date("Y-m-d");
+					$pago->banco = $banco;
 					$pago->num_comprobante = $num_comprobante;
 					$pago->aprobacion =null;
 					$pago->save();
