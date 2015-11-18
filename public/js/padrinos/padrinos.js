@@ -1,11 +1,13 @@
 $( document ).ready(function(){	
 
-
+	var hoy = new Date();
 	$(".fecha-busqueda").datetimepicker({
 	    defaultDate: false,
 	    format: 'DD-MM-YYYY',
-	    ignoreReadonly: true
+	    ignoreReadonly: true,
+	    maxDate: hoy
 	});
+
 
 	$("input[name=seleccionar-todos-prepadrinos]").change(function(){
 		if($(this).is(':checked')){
