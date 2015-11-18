@@ -58,12 +58,21 @@ $( document ).ready(function(){
 		e.preventDefault();
 		if(aprobar_postulantes){
 			aprobar_postulantes = false;
-			var confirmation = confirm("Los postulantes seleccionados serás aprobados y el resto serán desaprobados. ¿Está seguro que desea realizar esta acción?");
-			if(confirmation){
-				document.getElementById("submitAprobacion").submit();
-			}else{
-				aprobar_postulantes = true;
-			}
+			BootstrapDialog.confirm({
+				title: 'Mensaje de Confirmación',
+				message: 'Los postulantes seleccionados serás aprobados y el resto serán desaprobados. ¿Está seguro que desea realizar esta acción?', 
+				type: BootstrapDialog.TYPE_INFO,
+				btnCancelLabel: 'Cancelar', 
+            	btnOKLabel: 'Aceptar', 
+				callback: function(result){
+		            if(result) {
+		                document.getElementById("submitAprobacion").submit();
+            		}
+            		else{
+            			aprobar_postulantes = true;
+            		}
+        		}
+			});
 		}
 	});
 
