@@ -13,7 +13,7 @@ class SessionController extends \BaseController {
 	{
 		$num_documento = Input::get('username');
 		$password = Input::get('password');
-		$user = User::searchUserByDocumentNumber($num_documento)->first();
+		$user = User::getUserByDocumentNumber($num_documento)->first();
     	if ($user)
     	{
     		if (\Hash::check($password, $user->password))
