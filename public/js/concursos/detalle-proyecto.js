@@ -51,7 +51,12 @@ $( document ).ready(function(){
 			}
 			if(validTitulo ==0 || validPresupuesto ==0 || validGasto ==0){
 				confirmation =0;
-				alert(tituloerror + presupuestoerror + gastoerror)
+				//alert(tituloerror + presupuestoerror + gastoerror)
+				BootstrapDialog.alert({
+                  title: 'Alerta',
+                  message: tituloerror + presupuestoerror + gastoerror, 
+                  type: BootstrapDialog.TYPE_INFO
+                });
 			}
 			if(gasto_real=="") gasto_real = undefined;
 			if(confirmation){
@@ -75,11 +80,21 @@ $( document ).ready(function(){
 						if(response.success){
 							location.reload();
 						}else{
-							alert('La petición no se pudo completar, inténtelo de nuevo.');
+							//alert('La petición no se pudo completar, inténtelo de nuevo.');
+							BootstrapDialog.alert({
+                              title: 'Alerta',
+                              message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+                              type: BootstrapDialog.TYPE_INFO
+                            });
 						}
 					},
 					error: function(){
-						alert('La petición no se pudo completar, inténtelo de nuevo.');
+						//alert('La petición no se pudo completar, inténtelo de nuevo.');
+						BootstrapDialog.alert({
+                          title: 'Alerta',
+                          message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+                          type: BootstrapDialog.TYPE_INFO
+                        });
 					}
 				});
 			}else{
@@ -123,11 +138,21 @@ $( document ).ready(function(){
 						if(response.success){
 							location.reload();
 						}else{
-							alert('La petición no se pudo completar, inténtelo de nuevo.');
+							//alert('La petición no se pudo completar, inténtelo de nuevo.');
+							BootstrapDialog.alert({
+	                          title: 'Alerta',
+	                          message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+	                          type: BootstrapDialog.TYPE_INFO
+	                        });
 						}
 					},
 					error: function(){
-						alert('La petición no se pudo completar, inténtelo de nuevo.');
+						//alert('La petición no se pudo completar, inténtelo de nuevo.');
+						BootstrapDialog.alert({
+                          title: 'Alerta',
+                          message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+                          type: BootstrapDialog.TYPE_INFO
+                        });
 					}
 				});
 			}else{
@@ -193,7 +218,12 @@ $( document ).ready(function(){
 			}
 			if(validTitulo ==0 || validPresupuesto ==0 || validGasto ==0){
 				confirmation=0;
-				alert(tituloerror + presupuestoerror + gastoerror)
+				//alert(tituloerror + presupuestoerror + gastoerror)
+				BootstrapDialog.alert({
+                  title: 'Alerta',
+                  message: tituloerror + presupuestoerror + gastoerror, 
+                  type: BootstrapDialog.TYPE_INFO
+                });
 			}
 			if(gasto_real_detalle == "") gasto_real_detalle =undefined;
 			if( confirmation ){
@@ -214,14 +244,34 @@ $( document ).ready(function(){
 					success: function(response){
 						if(response.success){
 							
-							alert('Se guardó correctamente el detalle.');
-							location.reload();
+							//alert('Se guardó correctamente el detalle.');
+							BootstrapDialog.alert({
+			                  title: 'Mensaje',
+			                  message: 'Se guardó correctamente el detalle.', 
+			                  type: BootstrapDialog.TYPE_INFO,
+			                   callback: function(result){
+				                  if(result) {
+				                  	location.reload();
+				                  }
+				              }
+			                });
+							//location.reload();
 						}else{
-							alert('La petición no se pudo completar, inténtelo de nuevo.');
+							//alert('La petición no se pudo completar, inténtelo de nuevo.');
+							BootstrapDialog.alert({
+	                          title: 'Alerta',
+	                          message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+	                          type: BootstrapDialog.TYPE_INFO
+	                        });
 						}
 					},
 					error: function(){
-						alert('La petición no se pudo completar, inténtelo de nuevo.');
+						//alert('La petición no se pudo completar, inténtelo de nuevo.');
+						BootstrapDialog.alert({
+                          title: 'Alerta',
+                          message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+                          type: BootstrapDialog.TYPE_INFO
+                        });
 					}
 				});
 			}else{

@@ -448,15 +448,15 @@ class EventosController extends BaseController
 									->subject('Se subió un nuevo documento de AFI Perú.');
 						});
 						//Enviar las push notifications a los voluntarios
-						//$voluntarios = Asistencia::getUserPushInfoByEvento($evento->ideventos)->get();
-						//foreach ($voluntarios as $voluntario)
-						//{
-						//	if ($voluntario->push_eventos && $voluntario->uuid)
-						//	{
-						//		$message = 'Se subió un nuevo documento de AFI Perú.';
-						//		Helpers::pushAPNS($voluntario->uuid, $message, 3);
-						//	}
-						//}
+						$voluntarios = Asistencia::getUserPushInfoByEvento($evento->ideventos)->get();
+						foreach ($voluntarios as $voluntario)
+						{
+							if ($voluntario->push_eventos && $voluntario->uuid)
+							{
+								$message = 'Se subió un nuevo documento de AFI Perú.';
+								Helpers::pushAPNS($voluntario->uuid, $message, 3);
+							}
+						}
                         
                         // Enviar las push notifications (android) a los voluntarios
 						$gcm_tokens = Asistencia::getUsersToNotificate($ideventos)->get()->lists('gcm_token');

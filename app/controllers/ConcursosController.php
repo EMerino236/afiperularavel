@@ -811,12 +811,14 @@ class ConcursosController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if((in_array('side_nuevo_proyecto',$data["permisos"])) && $id){
-				$data["proyecto_info"] = Proyecto::find($id)->get();
-				if($data["proyecto_info"]->isEmpty()){
-					Session::flash('error', 'No se encontró el proyecto.');
-					return Redirect::to('concursos/list_proyectos');
-				}
-				$data["proyecto_info"] = $data["proyecto_info"][0];
+				$data["proyecto_info"] = Proyecto::find($id);
+				
+				//if($data["proyecto_info"]->isEmpty()){
+				//	Session::flash('error', 'No se encontró el proyecto.');
+				//	return Redirect::to('concursos/list_proyectos');
+				//}
+				//$data["proyecto_info"] = $data["proyecto_info"][0];
+
 				$data["documentos"] = DocumentosProyecto::getDocumentosPorProyecto($data["proyecto_info"]->idproyectos)->get();
 				
 				$data["hoy"] = date("Y-m-d H:i:s");
@@ -1117,6 +1119,37 @@ class ConcursosController extends BaseController
 				}
 
 				return Response::json(array( 'success' => true,'proyecto'=>$proyecto),200);
+			}else{
+				return Response::json(array( 'success' => false ),200);
+			}
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}	
+	}
+
+	public function get_proyectos_concursos()
+	{
+
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		if(Auth::check()){
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
+			if(in_array('side_nuevo_concurso',$data["permisos"])){
+
+				$idconcursos = Input::get('idconcursos');				
+				//$selected_ids = $selected_ids[0];
+				$proyectos = Proyecto::SearchProyectosByIdConcurso($idconcursos)->get();
+				if($proyectos->isEmpty()){
+					$proyectos =null;
+				}
+				//return Response::json(array( 'success' => true ),200);
+				//$proyectos = $proyectos[0];
+
+				return Response::json(array( 'success' => true,'proyectos'=>$proyectos),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
 			}
