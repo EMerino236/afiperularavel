@@ -27,7 +27,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'colegios/submit_edit_colegio', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'colegios/submit_edit_colegio', 'role'=>'form', 'id'=>'submitEdit')) }}
 		{{ Form::hidden('idcolegios', $colegio_info->idcolegios) }}
 		{{ Form::hidden('latitud', $colegio_info->latitud) }}
 		{{ Form::hidden('longitud', $colegio_info->longitud) }}
@@ -112,11 +112,11 @@
 			</div>
 			<div class="form-group col-md-6">
 			@if($colegio_info->deleted_at)
-				{{ Form::open(array('url'=>'colegios/submit_enable_colegio', 'role'=>'form')) }}
+				{{ Form::open(array('url'=>'colegios/submit_enable_colegio', 'role'=>'form','id'=>'submitEnable')) }}
 					{{ Form::hidden('colegio_id', $colegio_info->idcolegios) }}
-					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+					{{ Form::submit('Habilitar',array('id'=>'submit-enable', 'class'=>'btn btn-success')) }}
 			@else
-				{{ Form::open(array('url'=>'colegios/submit_disable_colegio', 'role'=>'form')) }}
+				{{ Form::open(array('url'=>'colegios/submit_disable_colegio', 'role'=>'form','id'=>'submitDelete')) }}
 					{{ Form::hidden('colegio_id', $colegio_info->idcolegios) }}
 					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
 			@endif
