@@ -46,14 +46,33 @@ $( document ).ready(function(){
 				validFecha=0;
 			}
 			if(validTitulo ==0 && validFecha==0){
-				alert('El campo "Título" se encuentra vacío o no es válido\n' +
-					   'El campo "Fecha Límite" se encuentra vacío o no es válido');	
+				//alert('El campo "Título" se encuentra vacío o no es válido\n' +
+				//	   'El campo "Fecha Límite" se encuentra vacío o no es válido');
+				   BootstrapDialog.alert({          
+			          size: BootstrapDialog.SIZE_SMALL,
+			          title: 'Alerta',
+			          message: 'El campo "Título" se encuentra vacío o no es válido\n' +
+					   'El campo "Fecha Límite" se encuentra vacío o no es válido', 
+			          type: BootstrapDialog.TYPE_INFO
+			        });	
 			}			
 			if(validTitulo ==0 && validFecha==1){
-				alert('El campo "Título" se encuentra vacío o no es válido\n');
+				//alert('El campo "Título" se encuentra vacío o no es válido\n');
+					BootstrapDialog.alert({          
+			          size: BootstrapDialog.SIZE_SMALL,
+			          title: 'Alerta',
+			          message: 'El campo "Título" se encuentra vacío o no es válido\n', 
+			          type: BootstrapDialog.TYPE_INFO
+			        });	
 			}						
 			if(validTitulo ==1 && validFecha==0){
-				alert('El campo "Fecha Límite" se encuentra vacío o no es válido');
+				//alert('El campo "Fecha Límite" se encuentra vacío o no es válido');
+				BootstrapDialog.alert({          
+		          size: BootstrapDialog.SIZE_SMALL,
+		          title: 'Alerta',
+		          message: 'El campo "Fecha Límite" se encuentra vacío o no es válido', 
+		          type: BootstrapDialog.TYPE_INFO
+		        });	
 			}					
 			if(confirmation){
 				var idconcursos = $("input[type=hidden][name=idconcursos]").val();
@@ -78,14 +97,30 @@ $( document ).ready(function(){
 								location.reload();
 							}
 							else{
-								alert('Ya existe una fase con la misma "Fecha Límite"');
+								//alert('Ya existe una fase con la misma "Fecha Límite"');
+								BootstrapDialog.alert({          
+						          size: BootstrapDialog.SIZE_SMALL,
+						          title: 'Alerta',
+						          message: 'Ya existe una fase con la misma "Fecha Límite"', 
+						          type: BootstrapDialog.TYPE_INFO
+						        });	
 							}
 						}else{
-							alert('La petición no se pudo completar, inténtelo de nuevo.');
+							//alert('La petición no se pudo completar, inténtelo de nuevo.');
+							BootstrapDialog.alert({
+                              title: 'Alerta',
+                              message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+                              type: BootstrapDialog.TYPE_INFO
+                            });
 						}
 					},
 					error: function(){
-						alert('La petición no se pudo completar, inténtelo de nuevo.');
+						//alert('La petición no se pudo completar, inténtelo de nuevo.');
+						BootstrapDialog.alert({
+                          title: 'Alerta',
+                          message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+                          type: BootstrapDialog.TYPE_INFO
+                        });
 					}
 				});
 			}else{
@@ -129,11 +164,21 @@ $( document ).ready(function(){
 						if(response.success){
 							location.reload();
 						}else{
-							alert('La petición no se pudo completar, inténtelo de nuevo.');
+							//alert('La petición no se pudo completar, inténtelo de nuevo.');
+							BootstrapDialog.alert({
+                              title: 'Alerta',
+                              message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+                              type: BootstrapDialog.TYPE_INFO
+                            });
 						}
 					},
 					error: function(){
-						alert('La petición no se pudo completar, inténtelo de nuevo.');
+						//alert('La petición no se pudo completar, inténtelo de nuevo.');
+						BootstrapDialog.alert({
+                          title: 'Alerta',
+                          message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+                          type: BootstrapDialog.TYPE_INFO
+                        });
 					}
 				});
 			}else{

@@ -20,6 +20,7 @@
     <link href="{{ asset('css/gmap.css') }}" rel="stylesheet">
     <link href="{{ asset('css/fileinput.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/general.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-dialog.min.css') }}" rel="stylesheet">
     <script type="text/javascript">
         var inside_url = "{{$inside_url}}";
     </script>
@@ -34,8 +35,10 @@
     <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
-    <!-- Custom Theme JavaScript -->
+    <!-- Custom Theme JavaScript -->    
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-dialog.min.js') }}"></script>
+    <script src="{{ asset('js/concursos/concursos.js') }}"></script>
     <script src="{{ asset('js/concursos/fases-concurso.js') }}"></script>
     <script src="{{ asset('js/concursos/aprobar-proyecto.js') }}"></script>
     <script src="{{ asset('js/concursos/detalle-proyecto.js') }}"></script>
