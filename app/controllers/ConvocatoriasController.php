@@ -171,6 +171,10 @@ class ConvocatoriasController extends BaseController
 					return Redirect::to('convocatorias/list_convocatoria');
 				}
 				$data["convocatoria_info"] = $data["convocatoria_info"][0];
+				$data["periodo_comenzado"] = false;
+				if(date('Y-m-d') > $data["convocatoria_info"]->fecha_inicio){
+					$data["periodo_comenzado"] = true;
+				}
 				return View::make('convocatorias/editConvocatoria',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
@@ -271,6 +275,7 @@ class ConvocatoriasController extends BaseController
 					$data["estado_aprobacion"] = null;
 				}				
 				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase($id,$data["idfase"],$data["estado_aprobacion"])->paginate(10);													
+				$data["cantidad_postulantes"] = count($data["postulantes_info"]);
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
@@ -300,6 +305,7 @@ class ConvocatoriasController extends BaseController
 					$data["estado_aprobacion"] = null;
 				}
 				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase(Input::get('idperiodos'),Input::get('idfases'),$data["estado_aprobacion"])->paginate(10);	
+				$data["cantidad_postulantes"] = count($data["postulantes_info"]);
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
@@ -325,16 +331,28 @@ class ConvocatoriasController extends BaseController
 				$idfase = Input::get('idfase');
 				$comentarios = Input::get('comentarios');
 				$asistencias = Input::get('asistencias');
+				$no_asistencias = Input::get('no-asistencias');
 				$aprobaciones = Input::get('aprobaciones');
+				$no_aprobaciones = Input::get('no-aprobaciones');
 				$count = count($idpostulantes_periodos);
 				if($idfase==1){
 					for($i=0;$i<$count;$i++){
-						if($aprobaciones[$i] != -1){
+						if($aprobaciones[$i] == 1 || $no_aprobaciones[$i] == 1){
 							$postulante_periodo = PostulantesPeriodo::find($idpostulantes_periodos[$i]);
 							$estado_aprobacion_anterior = $postulante_periodo->aprobacion;
-							$postulante_periodo->asistencia = $asistencias[$i];
+							if($asistencias[$i] == 1){
+								$postulante_periodo->asistencia = 1;
+							}
+							else{
+								$postulante_periodo->asistencia = 0;	
+							}
 							$postulante_periodo->comentario = $comentarios[$i];
-							$postulante_periodo->aprobacion = $aprobaciones[$i];
+							if($aprobaciones[$i] == 1){
+								$postulante_periodo->aprobacion = 1;
+							}
+							else{
+								$postulante_periodo->aprobacion = 0;	
+							}
 							$postulante_periodo->save();
 
 							// Llamo a la función para registrar el log de auditoria
@@ -376,11 +394,21 @@ class ConvocatoriasController extends BaseController
 
 				if($idfase==2){
 					for($i=0;$i<$count;$i++){
-						if($aprobaciones[$i] != -1){
+						if($aprobaciones[$i] == 1 || $no_aprobaciones[$i] == 1){
 							$postulante_periodo = PostulantesPeriodo::find($idpostulantes_periodos[$i]);
-							$postulante_periodo->asistencia = $asistencias[$i];
+							if($asistencias[$i] == 1){
+								$postulante_periodo->asistencia = 1;
+							}
+							else{
+								$postulante_periodo->asistencia = 0;	
+							}
 							$postulante_periodo->comentario = $comentarios[$i];
-							$postulante_periodo->aprobacion = $aprobaciones[$i];
+							if($aprobaciones[$i] == 1){
+								$postulante_periodo->aprobacion = 1;
+							}
+							else{
+								$postulante_periodo->aprobacion = 0;	
+							}
 							$postulante_periodo->save();
 
 							// Llamo a la función para registrar el log de auditoria
@@ -407,11 +435,13 @@ class ConvocatoriasController extends BaseController
 								Helpers::registrarLog(3,$descripcion_log);
 							}
 							else{
+								/*
 								Mail::send('emails.desaprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
 									{
 										$message->to($postulante->email)
 												->subject('Segunda Fase de Postulación - AFI Perú.');
 									});
+									*/
 							}
 						}
 					}
@@ -419,11 +449,21 @@ class ConvocatoriasController extends BaseController
 
 				if($idfase==3){
 					for($i=0;$i<$count;$i++){
-						if($aprobaciones[$i] != -1){
+						if($aprobaciones[$i] == 1 || $no_aprobaciones[$i] == 1){
 							$postulante_periodo = PostulantesPeriodo::find($idpostulantes_periodos[$i]);
-							$postulante_periodo->asistencia = $asistencias[$i];
+							if($asistencias[$i] == 1){
+								$postulante_periodo->asistencia = 1;
+							}
+							else{
+								$postulante_periodo->asistencia = 0;	
+							}
 							$postulante_periodo->comentario = $comentarios[$i];
-							$postulante_periodo->aprobacion = $aprobaciones[$i];
+							if($aprobaciones[$i] == 1){
+								$postulante_periodo->aprobacion = 1;
+							}
+							else{
+								$postulante_periodo->aprobacion = 0;	
+							}
 							$postulante_periodo->save();
 
 							// Llamo a la función para registrar el log de auditoria
@@ -489,11 +529,13 @@ class ConvocatoriasController extends BaseController
 								});
 							}
 							else{
+								/*
 								Mail::send('emails.desaprobacionFasePostulacion',array('postulante'=> $postulante),function($message) use ($postulante)
-											{
-												$message->to($postulante->email)
-														->subject('Tercera Fase de Postulación - AFI Perú.');
-											});
+									{
+										$message->to($postulante->email)
+												->subject('Tercera Fase de Postulación - AFI Perú.');
+									});
+									*/
 							}
 						}
 					}
