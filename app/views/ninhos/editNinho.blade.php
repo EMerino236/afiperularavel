@@ -28,7 +28,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'ninhos/submit_edit_ninho', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'ninhos/submit_edit_ninho', 'role'=>'form','id'=>'submitEdit')) }}
 		{{ Form::hidden('idninhos', $ninho_info->idninhos) }}
 			<div class="row">
 				<div class="form-group col-md-6 required @if($errors->first('dni')) has-error has-feedback @endif">
@@ -152,13 +152,13 @@
 				</div>
 				<div class="form-group col-md-6">
 				@if($ninho_info->deleted_at)
-					{{ Form::open(array('url'=>'ninhos/submit_enable_ninho', 'role'=>'form')) }}
+					{{ Form::open(array('url'=>'ninhos/submit_enable_ninho', 'role'=>'form','id'=>'submitEnableNinho')) }}
 						{{ Form::hidden('ninho_id', $ninho_info->idninhos) }}
-						{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+						{{ Form::submit('Habilitar',array('id'=>'submit-enable-ninho', 'class'=>'btn btn-success')) }}
 				@else
-					{{ Form::open(array('url'=>'ninhos/submit_disable_ninho', 'role'=>'form')) }}
+					{{ Form::open(array('url'=>'ninhos/submit_disable_ninho', 'role'=>'form','id'=>'submitDeleteNinho')) }}
 						{{ Form::hidden('ninho_id', $ninho_info->idninhos) }}
-						 {{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
+						 {{ Form::submit('Inhabilitar',array('id'=>'submit-delete-ninho', 'class'=>'btn btn-danger')) }}	
 				@endif
 					{{ Form::close() }}
 				</div>
