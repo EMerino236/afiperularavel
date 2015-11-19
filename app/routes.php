@@ -180,6 +180,7 @@ Route::group(array('prefix'=>'concursos','before'=>'auth'),function(){
 	Route::post('/edit_detalle_ajax','ConcursosController@edit_detalle_ajax');
 	Route::get('/list_proyectos_asociados/{id}','ConcursosController@render_list_proyectos_asociados');
 	Route::post('/submit_aprove_proyecto','ConcursosController@submit_aprove_proyecto');
+	Route::post('/get_proyectos_concursos','ConcursosController@get_proyectos_concursos');
 });
 /* Users */
 Route::group(array('prefix'=>'user', 'before'=>'auth'),function(){
