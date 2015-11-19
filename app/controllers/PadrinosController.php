@@ -161,15 +161,15 @@ class PadrinosController extends BaseController
 					});
 
 					//Enviar las push notifications a los padrinos y madrinas
-					$padrinos_push = Padrino::getActivePadrinosPushInfo()->get();
-					foreach ($padrinos_push as $padrino_push)
-					{
-						if ($padrino_push->push_pagos && $padrino_push->uuid)
-						{
-							$message = 'Te queremos informar la labor de AFI PERÚ.';
-							Helpers::pushAPNS($padrino_push->uuid, $message, 4);
-						}
-					}
+					//$padrinos_push = Padrino::getActivePadrinosPushInfo()->get();
+					//foreach ($padrinos_push as $padrino_push)
+					//{
+					//	if ($padrino_push->push_pagos && $padrino_push->uuid)
+					//	{
+					//		$message = 'Te queremos informar la labor de AFI PERÚ.';
+					//		Helpers::pushAPNS($padrino_push->uuid, $message, 4);
+					//	}
+					//}
 					// Llamo a la función para registrar el log de auditoria
 					$descripcion_log = "Se envió el reporte con id {{$documento->iddocumentos}}";
 					Helpers::registrarLog(7,$descripcion_log);
