@@ -161,7 +161,7 @@ class PadrinosController extends BaseController
 					});
 
 					//Enviar las push notifications a los padrinos y madrinas
-					//$padrinos_push = Padrino::getActivePadrinosPushInfo()->get();
+					$padrinos_push = Padrino::getActivePadrinosPushInfo()->get();
 					foreach ($padrinos_push as $padrino_push)
 					{
 						if ($padrino_push->push_pagos && $padrino_push->uuid)
