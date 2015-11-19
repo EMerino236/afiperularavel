@@ -23,10 +23,13 @@ class Helpers extends BaseController{
 		// Put your private key's passphrase here:
 		$passphrase = "alonso3000";
 
+		$cert_path = base_path() . '\ck.pem';
+		echo 'pushAPNS:' . $cert_path . PHP_EOL;
+
 		////////////////////////////////////////////////////////////////////////////////
 
 		$ctx = stream_context_create();
-		stream_context_set_option($ctx, 'ssl', 'local_cert', 'ck.pem');
+		stream_context_set_option($ctx, 'ssl', 'local_cert', $cert_path);
 		stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
 
 		// Open a connection to the APNS server
