@@ -30,12 +30,20 @@ class Helpers extends BaseController{
 		stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
 
 		// Open a connection to the APNS server
-		$fp = stream_socket_client(
-			'ssl://gateway.sandbox.push.apple.com:2195', $err,
-			$errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+		try
+		{
+			$fp = stream_socket_client(
+				'ssl://gateway.sandbox.push.apple.com:2195', $err,
+				$errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+		}
+		catch (Exception $e)
+		{
+			echo 'Connection caused fatal error.';
+			return Response::json(['error' => 'Connection caused fatal error.'], 200);
+		}
 
 		if (!$fp)
-			exit("Failed to connect: $err $errstr" . PHP_EOL);
+			return Response::json(['error' => 'Could not establish connection with APNS: $err $errstr'], 200);
 
 		echo 'Connected to APNS' . PHP_EOL;
 
