@@ -2,7 +2,12 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Información de la Convocatoria</h3><span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
+            <h3 class="page-header">Información de la Convocatoria</h3>
+            @if($periodo_comenzado)
+            	<span class="campos-obligatorios">La convocatoria ya ha iniciado o ha finalizado. No es posible editar la información.</span>
+            @else
+            	<span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
+        	@endif
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -28,7 +33,7 @@
 			<div class="form-group col-md-4">
 				<div class="form-group required @if($errors->first('nombre')) has-error has-feedback @endif">
 					{{ Form::label('nombre','Nombre de Convocatoria') }}
-					@if($convocatoria_info->deleted_at)
+					@if($convocatoria_info->deleted_at || $periodo_comenzado)
 						{{ Form::text('nombre',$convocatoria_info->nombre,['class' => 'form-control','readonly'=>'']) }}
 					@else
 						{{ Form::text('nombre',$convocatoria_info->nombre,['class' => 'form-control','maxlength'=>'100']) }}
@@ -39,10 +44,10 @@
 		<div class="row">
 			<div class="form-group col-md-4 required">
 				{{ Form::label('fecha_inicio','Fecha de inicio') }}
-				@if($convocatoria_info->deleted_at)
+				@if($convocatoria_info->deleted_at || $periodo_comenzado)
 					{{ Form::text('fecha_inicio',date('d-m-Y',strtotime($convocatoria_info->fecha_inicio)),array('class'=>'form-control','readonly'=>'')) }}
 				@else
-					<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_inicio')) has-error has-feedback @endif">
+					<div id="datetimepicker1_edit" class="form-group input-group date @if($errors->first('fecha_inicio')) has-error has-feedback @endif">
 						{{ Form::text('fecha_inicio',date('d-m-Y',strtotime($convocatoria_info->fecha_inicio)),array('class'=>'form-control','readonly'=>'')) }}
 						<span class="input-group-addon">
 	                        <span class="glyphicon glyphicon-calendar"></span>
@@ -54,10 +59,10 @@
 		<div class="row">
 			<div class="form-group col-md-4 required">
 				{{ Form::label('fecha_fin','Fecha de fin') }}
-				@if($convocatoria_info->deleted_at)
+				@if($convocatoria_info->deleted_at || $periodo_comenzado)
 					{{ Form::text('fecha_fin',date('d-m-Y',strtotime($convocatoria_info->fecha_fin)),array('class'=>'form-control','readonly'=>'')) }}
 				@else
-					<div id="datetimepicker2" class="form-group input-group date @if($errors->first('fecha_fin')) has-error has-feedback @endif">
+					<div id="datetimepicker2_edit" class="form-group input-group date @if($errors->first('fecha_fin')) has-error has-feedback @endif">
 						{{ Form::text('fecha_fin',date('d-m-Y',strtotime($convocatoria_info->fecha_fin)),array('class'=>'form-control','readonly'=>'')) }}
 						<span class="input-group-addon">
 	                        <span class="glyphicon glyphicon-calendar"></span>
@@ -67,7 +72,7 @@
 			</div>
 		</div>
 		<div class="row">
-			@if(!$convocatoria_info->deleted_at)
+			@if(!$convocatoria_info->deleted_at  && !$periodo_comenzado)
 				<div class="form-group col-md-1">
 					{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
 				</div>
