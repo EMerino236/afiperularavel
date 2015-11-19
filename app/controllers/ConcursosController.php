@@ -811,12 +811,14 @@ class ConcursosController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if((in_array('side_nuevo_proyecto',$data["permisos"])) && $id){
-				$data["proyecto_info"] = Proyecto::find($id)->get();
-				if($data["proyecto_info"]->isEmpty()){
-					Session::flash('error', 'No se encontró el proyecto.');
-					return Redirect::to('concursos/list_proyectos');
-				}
-				$data["proyecto_info"] = $data["proyecto_info"][0];
+				$data["proyecto_info"] = Proyecto::find($id);
+				
+				//if($data["proyecto_info"]->isEmpty()){
+				//	Session::flash('error', 'No se encontró el proyecto.');
+				//	return Redirect::to('concursos/list_proyectos');
+				//}
+				//$data["proyecto_info"] = $data["proyecto_info"][0];
+
 				$data["documentos"] = DocumentosProyecto::getDocumentosPorProyecto($data["proyecto_info"]->idproyectos)->get();
 				
 				$data["hoy"] = date("Y-m-d H:i:s");
