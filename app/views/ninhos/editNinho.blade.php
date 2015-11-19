@@ -107,13 +107,13 @@
 					{{ Form::label('fecha_nacimiento','Fecha de nacimiento') }}
 					@if(!$ninho_info->deleted_at)
 					<div id="datetimepicker1" class="form-group input-group date @if($errors->first('fecha_nacimiento')) has-error has-feedback @endif">
-						{{ Form::text('fecha_nacimiento',$ninho_info->fecha_nacimiento,array('class'=>'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_nacimiento',date('d/m/Y',strtotime($ninho_info->fecha_nacimiento)),array('class'=>'form-control','readonly'=>'')) }}
 						<span class="input-group-addon">
 	                        <span class="glyphicon glyphicon-calendar"></span>
 	                    </span>
 					</div>
 					@else
-						{{ Form::text('fecha_nacimiento',$ninho_info->fecha_nacimiento,array('class'=>'form-control','readonly'=>'')) }}
+						{{ Form::text('fecha_nacimiento',date('d/m/Y',strtotime($ninho_info->fecha_nacimiento)),array('class'=>'form-control','readonly'=>'')) }}
 	                @endif
 				</div>
 				<div class="form-group col-md-6 required">

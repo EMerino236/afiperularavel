@@ -62,14 +62,14 @@ class NinhoController extends BaseController
 				);
 				$messages = array();
 				$rules = array(
-							'dni' => 'required|numeric|digits_between:8,16|unique:ninhos',
+							'dni' => 'required|regex:/(^[0-9])/|numeric|digits_between:8,16|unique:ninhos',
 							'nombres' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
 							'fecha_nacimiento' => 'required',
 							'genero' => 'required',
 							'nombre_apoderado' => 'required|alpha_spaces|min:2|max:200',
-							'dni_apoderado' => 'required|numeric|digits_between:8,16',
+							'dni_apoderado' => 'required|regex:/(^[0-9])/|numeric|digits_between:8,16',
 							'num_familiares' => 'required|numeric|min:0',
 							'observaciones' => 'max:200',
 							'idcolegios' => 'required',
@@ -85,7 +85,7 @@ class NinhoController extends BaseController
 					$ninho->nombres = Input::get('nombres');
 					$ninho->apellido_pat = Input::get('apellido_pat');
 					$ninho->apellido_mat = Input::get('apellido_mat');
-					$ninho->fecha_nacimiento = Input::get('fecha_nacimiento');
+					$ninho->fecha_nacimiento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_nacimiento')));
 					$ninho->genero = Input::get('genero');
 					$ninho->nombre_apoderado = Input::get('nombre_apoderado');
 					$ninho->dni_apoderado = Input::get('dni_apoderado');
@@ -197,14 +197,14 @@ class NinhoController extends BaseController
 				);
 				$messages = array();
 				$rules = array(
-							'dni' => 'required|numeric|digits_between:8,16|unique:ninhos',
+							'dni' => 'required|regex:/(^[0-9])/|numeric|digits_between:8,16',
 							'nombres' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_pat' => 'required|alpha_spaces|min:2|max:45',
 							'apellido_mat' => 'required|alpha_spaces|min:2|max:45',
 							'fecha_nacimiento' => 'required',
 							'genero' => 'required',
 							'nombre_apoderado' => 'required|alpha_spaces|min:2|max:200',
-							'dni_apoderado' => 'required|numeric|digits_between:8,16',
+							'dni_apoderado' => 'required|regex:/(^[0-9])/|numeric|digits_between:8,16',
 							'num_familiares' => 'required|numeric|min:0',
 							'observaciones' => 'max:200',
 							'idcolegios' => 'required',
@@ -221,7 +221,7 @@ class NinhoController extends BaseController
 					$ninho->nombres = Input::get('nombres');
 					$ninho->apellido_pat = Input::get('apellido_pat');
 					$ninho->apellido_mat = Input::get('apellido_mat');
-					$ninho->fecha_nacimiento = Input::get('fecha_nacimiento');
+					$ninho->fecha_nacimiento = date('Y-m-d H:i:s',strtotime(Input::get('fecha_nacimiento')));
 					$ninho->genero = Input::get('genero');
 					$ninho->nombre_apoderado = Input::get('nombre_apoderado');
 					$ninho->dni_apoderado = Input::get('dni_apoderado');
