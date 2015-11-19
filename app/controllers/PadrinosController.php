@@ -170,6 +170,12 @@ class PadrinosController extends BaseController
 					//		Helpers::pushAPNS($padrino_push->uuid, $message, 4);
 					//	}
 					//}
+                    
+                    //Enviar las push notifications (android) a los padrinos y madrinas
+                    $gcm_tokens = Padrino::getPadrinosToNotificateReport()->get()->lists('gcm_token');
+                    $message = 'Te queremos informar la labor de AFI PERÚ.';
+				    Helpers::pushGCM($gcm_tokens, $message);
+                    
 					// Llamo a la función para registrar el log de auditoria
 					$descripcion_log = "Se envió el reporte con id {{$documento->iddocumentos}}";
 					Helpers::registrarLog(7,$descripcion_log);

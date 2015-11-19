@@ -12,3 +12,4 @@
 */
 
 Artisan::add(new PushAPNS);
+Artisan::add(new PushGCM);

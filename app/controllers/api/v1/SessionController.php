@@ -130,4 +130,55 @@ class SessionController extends \BaseController {
         $status_code = 401;
         return Response::json($response, $status_code);
     }
+    
+    public function set_gcm_token()
+    {
+        $auth_token = Request::header('Authorization');
+        $user = User::where('auth_token', '=', $auth_token)->first();
+
+        if ($user)
+        {
+            $gcm_token = Input::get('gcm_token');
+
+            if ($gcm_token)
+            {
+                $user->gcm_token = $gcm_token;
+                $user->save();
+
+                $response = [ 'success' => 1 ];
+                $status_code = 200;
+                return Response::json($response, $status_code);
+            }
+            else
+            {
+                $response = [ 'error' => 'Error en parámetros.'];
+                $status_code = 404;
+                return Response::json($response, $status_code);
+            }
+        }
+
+        $response = [ 'error' => 'Error en la autenticación.'];
+        $status_code = 401;
+        return Response::json($response, $status_code);
+    }
+
+    public function clear_gcm_token()
+    {
+        $auth_token = Request::header('Authorization');
+        $user = User::where('auth_token', '=', $auth_token)->first();
+
+        if ($user)
+        {
+            $user->gcm_token = null;
+            $user->save();
+
+            $response = [ 'success' => 1 ];
+            $status_code = 200;
+            return Response::json($response, $status_code);
+        }
+
+        $response = [ 'error' => 'Error en la autenticación.'];
+        $status_code = 401;
+        return Response::json($response, $status_code);
+    }
 }

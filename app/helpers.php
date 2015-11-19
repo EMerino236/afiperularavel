@@ -64,5 +64,57 @@ class Helpers extends BaseController{
 		// Close the connection to the server
 		fclose($fp);
 	}
+    
+    //Enviar una notificación a app en Android
+	public static function pushGCM($reg_ids, $m)
+	{
+        $GOOGLE_API_KEY = 'AIzaSyD_5fDPVn61JqNwdcMDpolwTf-1UaSh7vo';
+        
+        $message = ['message' => $m];
+        
+		// Set POST variables
+        $url = 'https://android.googleapis.com/gcm/send';
+ 
+        $fields = array(
+            'registration_ids' => $reg_ids,
+            'data' => $message,
+        );
+ 
+        $headers = array(
+            'Authorization: key=' . $GOOGLE_API_KEY,
+            'Content-Type: application/json'
+        );
+        
+        // Open connection
+        $ch = curl_init();
+ 
+        // Set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, $url);
+ 
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+ 
+        // Disabling SSL Certificate support temporarly
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+ 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+ 
+        // Execute post
+        $result = curl_exec($ch);
+        
+        // Close connection
+        curl_close($ch);
+        
+        if ($result === FALSE)
+            return Response::json(['error' => 'Curl failed: ' . curl_error($ch)], 200);
+ 
+        
+        $result_json = json_decode($result);
+        if($result_json == FALSE)
+            return $result;
+        
+        return Response::json($result_json, 200);
+	}
 }
 ?>
