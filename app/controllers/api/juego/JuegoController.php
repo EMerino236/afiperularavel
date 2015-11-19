@@ -63,9 +63,10 @@ class JuegoController extends \BaseController {
     // Obtener puntajes de amigos
 	public function friendsScore()
 	{
-        $facebookIDs = json_decode(Input::get('idPlayers'));
-        $idNivel = Input::get('idLevel');
-        $numJugadores = Input::get('numPlayers');
+        $input = Input::json();
+        $facebookIDs = $input->get('idPlayers');
+        $idNivel = $input->get('idLevel');
+        $numJugadores = $input->get('numPlayers');
         
         $jugadores = Jugador::whereIn('idFacebook', $facebookIDs)->get();
         $idJugadores = $jugadores->lists('idPlayer');
@@ -342,11 +343,8 @@ class JuegoController extends \BaseController {
     // Obtener amigos en necesidad de continues
     public function friendsHelpNeeded()
     {
-        $rules = array('idPlayers' => 'required');
-        $validator = \Validator::make(Input::all(), $rules);
-        if($validator->fails()) return Response::json($validator->messages(), 200);
-        
-        $facebookIDs = json_decode(Input::get('idPlayers'));
+        $input = Input::json();
+        $facebookIDs = $input->get('idPlayers');
         
         $response = [ 'friends' => [] ];
         
