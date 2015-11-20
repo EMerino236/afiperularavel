@@ -62,10 +62,14 @@
 			</div>
 			<div class="form-group col-md-5 @if($errors->first('estado')) has-error has-feedback @endif">
 				{{ Form::label('estado','Estado') }}
-				@if($pago_data->aprobacion ==1)
+				@if($pago_data->aprobacion ===1)
 					{{ Form::text('estado','Aprobado',array('class'=>'form-control','readonly' => 'true')) }}					
-				@else
+				@endif
+				@if($pago_data->aprobacion ===null)
 					{{ Form::text('estado','Pendiente',array('class'=>'form-control','readonly' => 'true')) }}					
+				@endif
+				@if($pago_data->aprobacion ===0)
+					{{ Form::text('estado','Rechazado',array('class'=>'form-control','readonly' => 'true')) }}					
 				@endif
 			</div>
 		</div>
@@ -74,16 +78,25 @@
 	{{ Form::close() }}
 	
 	<div class="row">
-		<div class="form-group col-md-1">	
+			
 		@if(!$pago_data->deleted_at)
-			@if($pago_data->aprobacion ==0)		
+			@if($pago_data->aprobacion ===null)
+		<div class="form-group col-md-1">		
 				{{ Form::open(array('url'=>'padrinos/submit_aprove_pago', 'role'=>'form')) }}
 				{{ Form::hidden('idcalendario_pagos', $pago_data->idcalendario_pagos) }}
-				{{ Form::submit('Aprobar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}	
+				{{ Form::submit('Aprobar',array('id'=>'submit-aprove', 'class'=>'btn btn-success')) }}
+				{{ Form::close() }}
+		</div>
+		<div class="form-group col-md-1">	
+				{{ Form::open(array('url'=>'padrinos/submit_rechazar_pago', 'role'=>'form')) }}
+				{{ Form::hidden('idcalendario_pagos', $pago_data->idcalendario_pagos) }}
+				{{ Form::submit('Rechazar',array('id'=>'submit-reject', 'class'=>'btn btn-danger')) }}
+				{{ Form::close() }}	
+		</div>
 			@endif						
 		@endif
 		{{ Form::close() }}
-		</div>
+		
 	</div>
 	
 @stop

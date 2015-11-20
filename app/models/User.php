@@ -62,6 +62,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $query;
 	}
 
+	public function scopeGetUserByDocumentNumber($query, $num_documento)
+	{
+		$query->join('personas','personas.idpersonas','=','users.idpersona')
+			  ->join('tipo_identificacion','tipo_identificacion.idtipo_identificacion','=','users.idtipo_identificacion')
+			  ->where('users.num_documento','=', $num_documento)
+			  ->select('tipo_identificacion.nombre as nombre_tipo_identificacion','personas.*','users.*');
+
+		return $query;
+	}
+
 	public function scopeGetActiveUsersInfo($query)
 	{
 		$query->join('personas','personas.idpersonas','=','users.idpersona')

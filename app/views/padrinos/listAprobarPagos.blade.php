@@ -35,9 +35,14 @@
 				{{date('d/m/Y',strtotime($pago_data->fecha_pago))}}
 			</td>
 			<td class="text-center" style="vertical-align:middle">
-					@if($pago_data->aprobacion === 0)
-						<input type="checkbox"  name="aprobacion" class="checkbox-aprobacion" value="{{$pago_data->idcalendario_pagos}}" @if($pago_data->aprobacion == 1) checked @endif>
+					@if($pago_data->aprobacion === null)
+						<input type="checkbox"  name="aprobacion" class="checkbox-aprobacion" value="{{$pago_data->idcalendario_pagos}}" @if($pago_data->aprobacion === 1) checked @endif>
 						{{ Form::hidden('aprobaciones[]', $pago_data->aprobacion,array('class'=>'hidden-aprobacion')) }}
+					@endif
+					@if($pago_data->aprobacion === 0)
+						<input hidden type="checkbox" name="aprobacion" class="checkbox-aprobacion" value="">
+						{{ Form::hidden('aprobaciones[]', -1) }}
+						Rechazado
 					@endif
 					@if($pago_data->aprobacion === 1)
 						<input hidden type="checkbox" name="aprobacion" class="checkbox-aprobacion" value="">
@@ -49,13 +54,18 @@
 		</tr>
 		@endforeach
 	</table>
-	@if($pagos_data)
-		@if(!$pagos_data->isEmpty())
-			<div class="text-right">				
-				{{ HTML::link('','Aprobar Pagos',array('id'=>'submit-aprobar-pagos', 'class'=>'btn btn-primary')) }}
-			</div>
-		@endif
-	@endif
+	<div class="row">
+		<div class="form-group col-xs-8">	
+			@if($pagos_data)
+				@if(!$pagos_data->isEmpty())
+					<div class="loader_container" style="display:none;">
+						{{ HTML::image('img/loading.gif') }}
+					</div>				
+					{{ HTML::link('','Aprobar Pagos',array('id'=>'submit-aprobar-pagos', 'class'=>'btn btn-primary')) }}			
+				@endif
+			@endif
+		</div>
+	</div>
 	{{ $pagos_data->links() }}
 	
 @stop

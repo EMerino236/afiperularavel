@@ -16,4 +16,11 @@ class FasesConcurso extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetFechaDisponible($query,$idconcursos,$fecha_limite)
+	{
+		$query->where('fase_concursos.idconcursos','=',$idconcursos)
+			  ->where('fase_concursos.fecha_limite','=',$fecha_limite)
+			  ->select('fase_concursos.*');
+		return $query;
+	}
 }

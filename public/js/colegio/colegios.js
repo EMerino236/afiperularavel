@@ -10,6 +10,123 @@ $( document ).ready(function(){
     }
   });
   
+  var aprobar_edit = true;
+  $("#submit-edit").click(function(e){
+    e.preventDefault();
+    if(aprobar_edit){
+      aprobar_edit = false;
+      BootstrapDialog.confirm({
+        title: 'Mensaje de Confirmación',
+        message: '¿Está seguro que desea realizar esta acción?', 
+        type: BootstrapDialog.TYPE_INFO,
+        btnCancelLabel: 'Cancelar', 
+              btnOKLabel: 'Aceptar', 
+        callback: function(result){
+                if(result) {
+                    document.getElementById("submitEdit").submit();
+                }
+                else{
+                  aprobar_edit = true;
+                }
+            }
+      });
+    }
+  });
+
+  var aprobar_delete = true;
+  $("#submit-delete").click(function(e){
+    e.preventDefault();
+    if(aprobar_delete){
+      aprobar_delete = false;
+      BootstrapDialog.confirm({
+        title: 'Mensaje de Confirmación',
+        message: 'El colegio será eliminado ¿Está seguro que desea realizar esta acción?', 
+        type: BootstrapDialog.TYPE_INFO,
+        btnCancelLabel: 'Cancelar', 
+              btnOKLabel: 'Aceptar', 
+        callback: function(result){
+                if(result) {
+                    document.getElementById("submitDelete").submit();
+                }
+                else{
+                  aprobar_delete = true;
+                }
+            }
+      });
+    }
+  });
+
+  var aprobar_enable = true;
+  $("#submit-enable").click(function(e){
+    e.preventDefault();
+    if(aprobar_enable){
+      aprobar_enable = false;
+      BootstrapDialog.confirm({
+        title: 'Mensaje de Confirmación',
+        message: 'El colegio será habilitado ¿Está seguro que desea realizar esta acción?', 
+        type: BootstrapDialog.TYPE_INFO,
+        btnCancelLabel: 'Cancelar', 
+              btnOKLabel: 'Aceptar', 
+        callback: function(result){
+                if(result) {
+                    document.getElementById("submitEnable").submit();
+                }
+                else{
+                  aprobar_enable= true;
+                }
+            }
+      });
+    }
+  });
+
+
+  var aprobar_delete = true;
+  $("#submit-delete-ninho").click(function(e){
+    e.preventDefault();
+    if(aprobar_delete){
+      aprobar_delete = false;
+      BootstrapDialog.confirm({
+        title: 'Mensaje de Confirmación',
+        message: 'El niño será eliminado del sistema ¿Está seguro que desea realizar esta acción?', 
+        type: BootstrapDialog.TYPE_INFO,
+        btnCancelLabel: 'Cancelar', 
+              btnOKLabel: 'Aceptar', 
+        callback: function(result){
+                if(result) {
+                    document.getElementById("submitDeleteNinho").submit();
+                }
+                else{
+                  aprobar_delete = true;
+                }
+            }
+      });
+    }
+  });
+
+  var aprobar_enable = true;
+  $("#submit-enable-ninho").click(function(e){
+    e.preventDefault();
+    if(aprobar_enable){
+      aprobar_enable = false;
+      BootstrapDialog.confirm({
+        title: 'Mensaje de Confirmación',
+        message: 'El niño será habilitado nuevamente ¿Está seguro que desea realizar esta acción?', 
+        type: BootstrapDialog.TYPE_INFO,
+        btnCancelLabel: 'Cancelar', 
+              btnOKLabel: 'Aceptar', 
+        callback: function(result){
+                if(result) {
+                    document.getElementById("submitEnableNinho").submit();
+                }
+                else{
+                  aprobar_enable= true;
+                }
+            }
+      });
+    }
+  });
+
+
   var aprobar_precolegios = true;
   $("#submit-aprobar-precolegios").click(function(e){
     e.preventDefault();
@@ -133,4 +250,5 @@ function initMap() {
     });
     */
   });
+
 }

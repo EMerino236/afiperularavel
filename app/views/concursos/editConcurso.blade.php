@@ -43,9 +43,9 @@
 				{{Form::close()}}	
 			</div>
 			<div class="form-group col-md-1">
-				{{ Form::open(array('url'=>'concursos/submit_disable_concurso', 'role'=>'form')) }}
+				{{ Form::open(array('url'=>'concursos/submit_disable_concurso', 'role'=>'form', 'id'=>'submitDeleteConcurso')) }}
 					{{ Form::hidden('idconcursos', $concurso_info->idconcursos) }}
-					 {{ Form::submit('Eliminar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}
+					 {{ Form::submit('Eliminar',array('id'=>'submit-delete-concurso', 'class'=>'btn btn-danger')) }}
 				{{Form::close()}}	
 			</div>
 		</div>		

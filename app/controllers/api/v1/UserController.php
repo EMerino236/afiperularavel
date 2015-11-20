@@ -17,6 +17,8 @@ class UserController extends \BaseController {
     	{
     		$current_password = Input::get('current_password');
 	    	$new_password = Input::get('new_password');
+            if(strlen($new_password) < 8)
+                return Response::json(['error' => 'La nueva contraseña debe contener al menos 8 caracteres'], 200);
 
 	    	if (\Hash::check($current_password, $user->password))
 	    	{

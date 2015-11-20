@@ -447,7 +447,25 @@ class EventosController extends BaseController
 							$message->to($emails)
 									->subject('Se subió un nuevo documento de AFI Perú.');
 						});
-						// Llamo a la función para registrar el log de auditoria
+						//Enviar las push notifications a los voluntarios
+						$voluntarios = Asistencia::getUserPushInfoByEvento($evento->ideventos)->get();
+						foreach ($voluntarios as $voluntario)
+						{
+							if ($voluntario->push_eventos && $voluntario->uuid)
+							{
+								$message = 'Se subió un nuevo documento de AFI Perú.';
+								Helpers::pushAPNS($voluntario->uuid, $message, 3);
+							}
+						}
+                        
+                        // Enviar las push notifications (android) a los voluntarios
+						$gcm_tokens = Asistencia::getUsersToNotificate($ideventos)->get()->lists('gcm_token');
+                        $title = 'AFI Perú - Nuevo documento';
+                        $message = 'Se subió un nuevo documento de AFI Perú: ' . $documento->titulo;
+                        $m = ['title' => $title, 'message' => $message];
+                        Helpers::pushGCM($gcm_tokens, $m);
+                        
+                        // Llamo a la función para registrar el log de auditoria
 						$descripcion_log = "Se subió el documento con id {{$documento->iddocumentos}}";
 						Helpers::registrarLog(7,$descripcion_log);
 				    }

@@ -17,6 +17,7 @@
     <!-- Custom Fonts -->
     <link href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/gmap.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-dialog.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/general.css') }}" rel="stylesheet">
     <script type="text/javascript">
 		var inside_url = "{{$inside_url}}";
@@ -35,6 +36,7 @@
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
     <script src="{{ asset('js/colegio/colegios.js') }}"></script>
     <script src="{{ asset('js/ninho/ninho.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-dialog.min.js') }}"></script>
 </head>
 
 <body>

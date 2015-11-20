@@ -11,7 +11,11 @@ class PadrinosController extends BaseController
 			if(in_array('nav_padrinos',$data["permisos"])){
 				return View::make('padrinos/home',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -29,7 +33,11 @@ class PadrinosController extends BaseController
 				$data["padrinos_data"] = Padrino::getPadrinosInfo()->paginate(10);
 				return View::make('padrinos/listPadrinos',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -48,7 +56,11 @@ class PadrinosController extends BaseController
 				$data["padrinos_data"] = Padrino::searchPadrinos($data["search"])->paginate(10);
 				return View::make('padrinos/listPadrinos',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -70,7 +82,11 @@ class PadrinosController extends BaseController
 				$data["padrino_info"] = $data["padrino_info"][0];
 				return View::make('padrinos/editPadrino',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -143,7 +159,30 @@ class PadrinosController extends BaseController
 						$message->to($emails)
 								->subject('Te queremos informar la labor de AFI PERÚ.');
 					});
+
+					//Enviar las push notifications a los padrinos y madrinas
+					$padrinos_push = Padrino::getActivePadrinosPushInfo()->get();
+					foreach ($padrinos_push as $padrino_push)
+					{
+						if ($padrino_push->push_pagos && $padrino_push->uuid)
+						{
+							$message = 'Te queremos informar la labor de AFI PERÚ.';
+							Helpers::pushAPNS($padrino_push->uuid, $message, 4);
+						}
+					}
+                    
+                    //Enviar las push notifications (android) a los padrinos y madrinas
+                    $gcm_tokens = Padrino::getPadrinosToNotificateReport()->get()->lists('gcm_token');
+                    $message = 'Te queremos informar la labor de AFI PERÚ.';
+                    $m = ['title' => $title, 'message' => $message];
+				    Helpers::pushGCM($gcm_tokens, $m);
+                    
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se envió el reporte con id {{$documento->iddocumentos}}";
+					Helpers::registrarLog(7,$descripcion_log);
 					Session::flash('message', 'Se envió el reporte correctamente por correo a los padrinos.');
+
+					
 					return Redirect::to('padrinos/create_reporte_padrinos');
 				}
 			}else{
@@ -313,7 +352,11 @@ class PadrinosController extends BaseController
 				Session::flash('message', 'Se inhabilitó correctamente al padrino.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -340,7 +383,11 @@ class PadrinosController extends BaseController
 				Session::flash('message', 'Se habilitó correctamente al padrino.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -359,7 +406,11 @@ class PadrinosController extends BaseController
 				$data["prepadrinos_data"] = Prepadrino::getPrepadrinosInfo()->paginate(10);
 				return View::make('padrinos/listPrepadrinos',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -383,7 +434,11 @@ class PadrinosController extends BaseController
 				//$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
 				return View::make('padrinos/editPrepadrinos',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -453,7 +508,7 @@ class PadrinosController extends BaseController
 								$calendario_pago = new CalendarioPago;
 								$calendario_pago->vencimiento = $fecha_vencimiento;
 								$calendario_pago->num_cuota = $indice;
-								$calendario_pago->aprobacion = 0;
+								//$calendario_pago->aprobacion = 0;
 								$calendario_pago->idpadrinos = $padrino->idpadrinos;
 								$calendario_pago->monto = 360/$numero_pagos;
 								$calendario_pago->save();
@@ -496,7 +551,11 @@ class PadrinosController extends BaseController
 				$data["nomb_padrino"] = null;
 				return View::make('padrinos/pagosPadrinoReporte',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -505,46 +564,52 @@ class PadrinosController extends BaseController
 
 	public function submit_reporte_pagos_padrinos() 
 	{ 
-	if(Auth::check()){ 
-		$data["inside_url"] = Config::get('app.inside_url'); 
-		$data["user"] = Session::get('user'); 
-		$data["permisos"] = Session::get('permisos'); 
-		if((in_array('side_reporte_pagos',$data["permisos"]))){ 
+		if(Auth::check()){ 
+			$data["inside_url"] = Config::get('app.inside_url'); 
+			$data["user"] = Session::get('user'); 
+			$data["permisos"] = Session::get('permisos'); 
+			if((in_array('side_reporte_pagos',$data["permisos"]))){ 
 
-			$rules = array( 
-				'num_doc' => 'required|numeric' 
-			); 
+				$rules = array( 
+					'num_doc' => 'required|numeric' 
+				); 
 
-			$validator = Validator::make(Input::all(), $rules); 
+				$validator = Validator::make(Input::all(), $rules); 
 
-			if($validator->fails()){ 
-				return Redirect::to('padrinos/reporte_pagos_padrinos')->withErrors($validator)->withInput(Input::all()); 
-			}else{
-				$data["num_doc"] = Input::get('num_doc');
-				$data["rad"] = Input::get('rad');
-				$padrino = Padrino::searchPadrinoByNumDoc($data["num_doc"])->first(); //buscar funcion
-				if($padrino){
-					$data["nomb_padrino"] = $padrino->nombres.' '.$padrino->apellido_pat.' '.$padrino->apellido_mat; //agregar apellido
-					if ($data["rad"]=='todos'){
-						$data["report_rows"] = CalendarioPago::getCalendarioByPadrino($padrino->idpadrinos)->get(); 
-					}else if ($data["rad"]=='pendientes'){
-						$data["report_rows"] = CalendarioPago::getCalendarioByPadrinoPendientes($padrino->idpadrinos)->get(); 
-					}else{
-						$data["report_rows"] = CalendarioPago::getCalendarioByPadrinoPagados($padrino->idpadrinos)->get(); 
+				if($validator->fails()){ 
+					return Redirect::to('padrinos/reporte_pagos_padrinos')->withErrors($validator)->withInput(Input::all()); 
+				}else{
+					$data["num_doc"] = Input::get('num_doc');
+					$data["rad"] = Input::get('rad');
+					$padrino = Padrino::searchPadrinoByNumDoc($data["num_doc"])->first(); //buscar funcion
+					if($padrino){
+						$data["nomb_padrino"] = $padrino->nombres.' '.$padrino->apellido_pat.' '.$padrino->apellido_mat; //agregar apellido
+						if ($data["rad"]=='todos'){
+							$data["report_rows"] = CalendarioPago::getCalendarioByPadrino($padrino->idpadrinos)->get(); 
+						}else if ($data["rad"]=='pendientes'){
+							$data["report_rows"] = CalendarioPago::getCalendarioByPadrinoPendientes($padrino->idpadrinos)->get(); 
+						}else{
+							$data["report_rows"] = CalendarioPago::getCalendarioByPadrinoPagados($padrino->idpadrinos)->get(); 
+						}
+							
+						return View::make('padrinos/pagosPadrinoReporte',$data);
 					}
-						
-					return View::make('padrinos/pagosPadrinoReporte',$data);
+					else{
+						Session::flash('danger','No existe un padrino asociado a dicho número de documento.'); 
+						return Redirect::to('padrinos/reporte_pagos_padrinos'); 
+					}
 				}
-				else{
-					Session::flash('danger','No existe un padrino asociado a dicho número de documento.'); 
-					return Redirect::to('padrinos/reporte_pagos_padrinos'); 
-				}
+			}	
+			else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
-		}	
-		else{
-			return View::make('error/error');
-		}
-	}	
+		}else{
+				return View::make('error/error');
+			}	
 	}
 
 	public function list_aprobar_pagos()
@@ -558,7 +623,11 @@ class PadrinosController extends BaseController
 				$data["pagos_data"] = CalendarioPago::getPagosPendientesAprobacion()->paginate(10);
 				return View::make('padrinos/listAprobarPagos',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 
 		}else{
@@ -595,6 +664,9 @@ class PadrinosController extends BaseController
 										$message->to($padrinoPago->email)
 												->subject('Aprobación de Pago - AFI Perú.');
 									});
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se aprobó el pago con id {{$pago->idcalendario_pagos}} para el padrino con id {{$padrinoPago->idpadrinos}}";
+					Helpers::registrarLog(4,$descripcion_log);
 				}
 				return Response::json(array( 'success' => true ),200);
 			}else{
@@ -622,7 +694,11 @@ class PadrinosController extends BaseController
 				//$data["perfiles"] = User::getPerfilesPorUsuario($data["user_info"]->id)->get();
 				return View::make('padrinos/viewPagos',$data);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -650,16 +726,61 @@ class PadrinosController extends BaseController
 										$message->to($padrinoPago->email)
 												->subject('Aprobación de Pago - AFI Perú.');
 									});
-
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se aprobó el pago con id {{$pago->idcalendario_pagos}} para el padrino con id {{$padrinoPago->idpadrinos}}";
+				Helpers::registrarLog(4,$descripcion_log);
 				Session::flash('message', 'Se aprobó correctamente el pago.');
 				return Redirect::to($url);
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
 		}
 	}	
+
+
+	public function submit_rechazar_pago()
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if(in_array('side_aprobar_pagos',$data["permisos"])){
+				$idcalendario_pago = Input::get('idcalendario_pagos');
+				$url = "padrinos/view_pago/".$idcalendario_pago;
+				$pago = CalendarioPago::withTrashed()->find($idcalendario_pago);
+				$padrinoPago = CalendarioPago::SearchPadrinoByIdPago($idcalendario_pago)->get();
+				$padrinoPago = $padrinoPago[0];
+				//Se rechaza
+				//$pago->fecha_pago = null;
+				$pago->aprobacion = 0;	
+				$pago->save();
+				Mail::send('emails.rechazoPago',array('padrinoPago'=> $padrinoPago),function($message) use ($padrinoPago)
+									{
+										$message->to($padrinoPago->email)
+												->subject('Rechazo de Pago - AFI Perú.');
+									});
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se aprobó el pago con id {{$pago->idcalendario_pagos}} para el padrino con id {{$padrinoPago->idpadrinos}}";
+				Helpers::registrarLog(4,$descripcion_log);
+				Session::flash('message', 'Se rechazó correctamente el pago.');
+				return Redirect::to($url);
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+		}else{
+			return View::make('error/error');
+		}
+	}
 
 	public function render_view_calendario_pagos(){
 
@@ -682,7 +803,11 @@ class PadrinosController extends BaseController
 					return View::make('padrinos/listCalendarioPagos',$data);
 				}				
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -711,7 +836,11 @@ class PadrinosController extends BaseController
 					return View::make('padrinos/listRegistrarPagos',$data);
 				}				
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');
@@ -728,7 +857,8 @@ class PadrinosController extends BaseController
 			if(in_array('side_registrar_pago',$data["permisos"])){
 				
 				$rules = array( 
-					'comprobante' => 'required|numeric'
+					'comprobante' => 'required|numeric',
+					'banco' => 'required|alpha_spaces|min:2|max:100'
 				); 
 
 				$validator = Validator::make(Input::all(), $rules); 
@@ -740,17 +870,27 @@ class PadrinosController extends BaseController
 
 					$idcalendario_pagos = Input::get('idcalendario_pagos');
 					$num_comprobante = Input::get('comprobante');
+					$banco = Input::get('banco');
 
 					$pago=CalendarioPago::find($idcalendario_pagos);			
 					$pago->fecha_pago = date("Y-m-d");
+					$pago->banco = $banco;
 					$pago->num_comprobante = $num_comprobante;
+					$pago->aprobacion =null;
 					$pago->save();
+
+					$descripcion_log = "Se registró el pago con id {{$pago->idcalendario_pagos}}";
+					Helpers::registrarLog(3,$descripcion_log);
 
 				return Redirect::to($url);
 				}
 				
 			}else{
-				return View::make('error/error');
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');

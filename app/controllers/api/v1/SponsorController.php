@@ -22,12 +22,14 @@ class SponsorController extends \BaseController {
     		$idcalendario_pagos = Input::get('fee_id');
     		$opcode = (int)Input::get('voucher_code');
     		$date = Input::get('date');
+            $bank = Input::get('bank');
 
-    		if ($idcalendario_pagos && $opcode && $date)
+    		if ($idcalendario_pagos && $opcode && $date && $bank)
     		{
     			$cuota = CalendarioPago::find($idcalendario_pagos);
     			$cuota->num_comprobante = $opcode;
     			$cuota->fecha_pago = date('Y-m-d H:i:s', $date);
+                $cuota->banco = $bank;
 
     			$cuota->save();
 

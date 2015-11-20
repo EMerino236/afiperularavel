@@ -10,7 +10,8 @@
 
 	@if ($errors->has())
 		<div class="alert alert-danger" role="alert">
-			<p><strong>{{ $errors->first('comprobante') }}</strong></p>			
+			<p><strong>{{ $errors->first('comprobante') }}</strong></p>	
+			<p><strong>{{ $errors->first('banco') }}</strong></p>		
 		</div>
 	@endif
 
@@ -29,6 +30,7 @@
 				<th><center>Monto (Soles)</center></th>
 				<th><center>Fecha Vencimiento</center></th>
 				<th><center>Fecha Pago</center></th>
+				<th><center>Banco</center></th>
 				<th><center>Num. Comprobante</center></th>
 				<th><center>Estado</center></th>
 				<th><center>Aprobación AFI</center></th>
@@ -55,10 +57,19 @@
 					@endif
 				</td>
 				<td>
-					@if($calendario_pago->fecha_pago)
+					@if($calendario_pago->fecha_pago)						
+						{{ Form::text('banco',$calendario_pago->banco,array('class'=>'form-control','maxlength'=>'100','disabled'=>'disabled')) }}
+					@endif
+					@if($calendario_pago->fecha_pago === null)											
+						{{ Form::text('banco',$calendario_pago->banco,array('class'=>'form-control','maxlength'=>'100')) }}
+						{{ Form::hidden('bank', $calendario_pago->banco) }}
+					@endif
+				</td>
+				<td>
+					@if($calendario_pago->fecha_pago && $calendario_pago->aprobacion !== 0)
 						{{ Form::text('comprobante',$calendario_pago->num_comprobante,array('class'=>'form-control','maxlength'=>'100','disabled'=>'disabled')) }}
 					@endif
-					@if($calendario_pago->fecha_pago === null)
+					@if($calendario_pago->fecha_pago === null || $calendario_pago->aprobacion === 0)
 						{{ Form::text('comprobante',$calendario_pago->num_comprobante,array('class'=>'form-control','maxlength'=>'100')) }}
 						{{ Form::hidden('num_comprobante', $calendario_pago->num_comprobante) }}
 					@endif
@@ -74,18 +85,22 @@
 					@endif
 				</td>
 				<td class="text-center" style="vertical-align:middle">
+					@if($calendario_pago->aprobacion === null)
+						Por Aprobar		
+					@endif
 					@if($calendario_pago->aprobacion === 0)
-						Por Aprobar
+						Rechazado<br>
+						(Volver a Registrar Pago)
 					@endif
 					@if($calendario_pago->aprobacion === 1)
 						Aprobado
 					@endif				
 				</td>
 				<td class"=text-center" style="vertical-align:middle">
-					@if($calendario_pago->fecha_pago)
+					@if($calendario_pago->fecha_pago && $calendario_pago->aprobacion !== 0)
 						<center>{{ Form::submit('Pagar',array('class'=>'btn btn-primary','disabled'=>'disabled')) }}</center>
 					@endif
-					@if($calendario_pago->fecha_pago === null)
+					@if($calendario_pago->fecha_pago === null || $calendario_pago->aprobacion === 0)
 						<center>{{ Form::submit('Pagar',array('class'=>'btn btn-primary')) }}</center>
 						{{ Form::hidden('idcalendario_pagos', $calendario_pago->idcalendario_pagos) }}
 					@endif

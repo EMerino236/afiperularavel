@@ -114,7 +114,8 @@ Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
 	Route::get('/list_aprobar_pagos','PadrinosController@list_aprobar_pagos');
 	Route::post('/aprobar_pago_ajax','PadrinosController@aprobar_pago_ajax');
 	Route::get('/view_pago/{id}','PadrinosController@render_view_pago');
-	Route::post('/submit_aprove_pago','PadrinosController@submit_aprove_pago');
+	Route::post('/submit_aprove_pago','PadrinosController@submit_aprove_pago');	
+	Route::post('/submit_rechazar_pago','PadrinosController@submit_rechazar_pago');
 });
 /* Colegios */
 Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){
@@ -170,6 +171,16 @@ Route::group(array('prefix'=>'concursos','before'=>'auth'),function(){
 	Route::get('/edit_proyecto/{id}','ConcursosController@render_edit_proyecto');
 	Route::post('/submit_edit_proyecto','ConcursosController@submit_edit_proyecto');
 	Route::post('/submit_disable_proyecto','ConcursosController@submit_disable_proyecto');
+	Route::get('/upload_file_proyecto/{id}','ConcursosController@render_upload_file_proyecto');
+	Route::post('/submit_upload_file_proyecto','ConcursosController@submit_upload_file_proyecto');
+	Route::post('/submit_delete_file_proyecto','ConcursosController@submit_delete_file_proyecto');
+	Route::post('/detalle_register_ajax','ConcursosController@detalle_register_ajax');
+	Route::post('/detalle_delete_ajax','ConcursosController@detalle_delete_ajax');
+	Route::get('/detalle_proyecto/{id}','ConcursosController@render_detalle_proyecto');	
+	Route::post('/edit_detalle_ajax','ConcursosController@edit_detalle_ajax');
+	Route::get('/list_proyectos_asociados/{id}','ConcursosController@render_list_proyectos_asociados');
+	Route::post('/submit_aprove_proyecto','ConcursosController@submit_aprove_proyecto');
+	Route::post('/get_proyectos_concursos','ConcursosController@get_proyectos_concursos');
 });
 /* Users */
 Route::group(array('prefix'=>'user', 'before'=>'auth'),function(){
@@ -224,6 +235,9 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::post('documents/{document_id}/visualizations', 'api\v1\DocumentosController@register_visualization');
     Route::get('children/{id}', 'api\v1\NinhosController@show');
     Route::get('activity_reports', 'api\v1\SponsorController@activity_reports');
+    Route::post('verify_payment', 'api\v1\PayPalController@verify');
+    Route::post('set_uuid', 'api\v1\SessionController@set_uuid');
+    Route::post('clear_uuid', 'api\v1\SessionController@clear_uuid');
 });
 
 /* Rutas para el juego */
@@ -231,7 +245,7 @@ Route::group(array('prefix' => 'game'), function()
 {
     Route::get('player', 'api\juego\JuegoController@player');
     Route::post('player', 'api\juego\JuegoController@create_player');
-    Route::get('friends/score', 'api\juego\JuegoController@friendsScore');
+    Route::post('friends/score', 'api\juego\JuegoController@friendsScore');
     Route::get('level/graph', 'api\juego\JuegoController@levelGraph');
     Route::post('level/clear', 'api\juego\JuegoController@levelClear');
     Route::post('level/defeat', 'api\juego\JuegoController@levelDefeat');
@@ -239,4 +253,6 @@ Route::group(array('prefix' => 'game'), function()
     Route::post('level/continue', 'api\juego\JuegoController@levelContinue');
     Route::post('level/purchase', 'api\juego\JuegoController@levelPurchase');
     Route::post('pu/purchase', 'api\juego\JuegoController@puPurchase');
+    Route::post('friends/helpNeeded', 'api\juego\JuegoController@friendsHelpNeeded');
+    Route::post('friends/help', 'api\juego\JuegoController@friendsHelp');
 });

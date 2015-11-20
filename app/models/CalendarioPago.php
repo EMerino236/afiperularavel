@@ -55,4 +55,14 @@ class CalendarioPago extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetCalendarioPagoPendienteNextDayByPadrino($query, $idpadrinos)
+	{
+		$query->where('idpadrinos', '=', $idpadrinos)
+			->whereNull('calendario_pagos.fecha_pago')
+			->where('vencimiento', '<=', new \DateTime('tomorrow'))
+			->where('vencimiento', '>', new \DateTime('today'));
+
+		return $query;
+	}
+
 }

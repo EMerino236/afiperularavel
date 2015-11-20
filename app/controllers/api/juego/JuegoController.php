@@ -63,9 +63,10 @@ class JuegoController extends \BaseController {
     // Obtener puntajes de amigos
 	public function friendsScore()
 	{
-        $facebookIDs = Input::get('idPlayers');
-        $idNivel = Input::get('idLevel');
-        $numJugadores = Input::get('numPlayers');
+        $input = Input::json();
+        $facebookIDs = $input->get('idPlayers');
+        $idNivel = $input->get('idLevel');
+        $numJugadores = $input->get('numPlayers');
         
         $jugadores = Jugador::whereIn('idFacebook', $facebookIDs)->get();
         $idJugadores = $jugadores->lists('idPlayer');
@@ -115,6 +116,8 @@ class JuegoController extends \BaseController {
             $levels[] = [
                 'idLevel' => $n->idLevel,
                 'numOrder' => $n->numOrder,
+                'milestone' => $n->milestone,
+                'title' => $n->title,
                 'bought' => ($estado) ? $estado->bought : null,
                 'unlocked' => ($estado) ? $estado->unlocked : null,
                 'cost' => $n->cost,
@@ -152,9 +155,12 @@ class JuegoController extends \BaseController {
         $registro_puntaje = Puntaje::where('idPlayer', '=', $idJugador)->where('idLevel', '=', $idNivel)->first();
         if($registro_puntaje)
         {
-            // modificar puntaje
-            $registro_puntaje->score = $puntaje;
-            $registro_puntaje->save();
+            if($puntaje > $registro_puntaje->score)
+            {
+                // si ya existe un puntaje y es menor al nuevo puntaje, se modifica
+                $registro_puntaje->score = $puntaje;
+                $registro_puntaje->save();
+            }
         }
         else
         {
@@ -333,6 +339,59 @@ class JuegoController extends \BaseController {
         if($jugador->coins < 0) return Response::json(['error' => 'El jugador no posee suficientes monedas para comprar el powerup'], 200);
         
         $jugador->save();
+        
+        return Response::json(['success' => 1], 200);
+    }
+    
+    // Obtener amigos en necesidad de continues
+    public function friendsHelpNeeded()
+    {
+        $input = Input::json();
+        $facebookIDs = $input->get('idPlayers');
+        
+        $response = [ 'friends' => [] ];
+        
+        foreach($facebookIDs as $fid)
+        {
+            $jugador = Jugador::where('idFacebook', '=', $fid)->first();
+            if($jugador)
+            {
+                $cantidadDerrotas = Puntaje::where('idPlayer', '=', $jugador->idPlayer)
+                                            ->where('defeated', '=', 1)->count();
+                if($cantidadDerrotas > $jugador->continues)
+                {
+                    $response['friends'][] = ['idPlayer' => $jugador->idPlayer, 'idFacebook' => $jugador->idFacebook];   
+                }
+            }
+        }
+        
+        return Response::json($response, 200);
+    }
+    
+    // Regitrar una compra de continue
+    public function friendsHelp()
+    {
+        $rules = array('idPlayerBuying' => 'required',
+                       'idPlayerHelped' => 'required',
+                       'price' => 'required'
+        );
+        
+        $validator = \Validator::make(Input::all(), $rules);
+        if($validator->fails()) return Response::json($validator->messages(), 200);
+        
+        $idJugadorComprador = Input::get('idPlayerBuying');
+        $jugadorComprador = Jugador::find($idJugadorComprador);
+        if(!$jugadorComprador) return Response::json(['error' => 'No existe el jugador con id = ' . $idJugadorComprador], 200);
+        
+        $idJugadorAyudado = Input::get('idPlayerHelped');
+        $jugadorAyudado = Jugador::find($idJugadorAyudado);
+        if(!$jugadorAyudado) return Response::json(['error' => 'No existe el jugador con id = ' . $idJugadorAyudado], 200);
+        
+        $precioContinue = Input::get('price');
+        $jugadorComprador->coins = $jugadorComprador->coins - $precioContinue;
+        $jugadorComprador->save();
+        $jugadorAyudado->continues = $jugadorAyudado->continues + 1;
+        $jugadorAyudado->save();
         
         return Response::json(['success' => 1], 200);
     }
