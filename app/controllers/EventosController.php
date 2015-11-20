@@ -523,6 +523,10 @@ class EventosController extends BaseController
 				$data["evento_info"] = $data["evento_info"][0];
 				$data["voluntarios"] = Asistencia::getUsersPorEvento($data["evento_info"]->ideventos)->get();
 				$data["hoy"] = date("Y-m-d H:i:s");
+				if($data["hoy"]<$data["evento_info"]->fecha_evento){
+					Session::flash('error', 'No puedes tomar asistencia sobre un evento que aún no se lleva a cabo.');
+					return Redirect::to('eventos/list_evento');
+				}
 				return View::make('eventos/tomarAsistencia',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
@@ -744,6 +748,10 @@ class EventosController extends BaseController
 				}
 				$data["evento_info"] = $data["evento_info"][0];
 				$data["hoy"] = date("Y-m-d H:i:s");
+				if($data["hoy"]<$data["evento_info"]->fecha_evento){
+					Session::flash('error', 'No puedes registrar comentarios sobre un evento que aún no se lleva a cabo.');
+					return Redirect::to('eventos/mis_eventos');
+				}
 				$data["asistencia_ninhos"] = AsistenciaNinho::getNinhosPorEvento($data["evento_info"]->ideventos)->get();
 				$data["comentario_ninhos"] = array();
 				foreach($data["asistencia_ninhos"] as $ninho){

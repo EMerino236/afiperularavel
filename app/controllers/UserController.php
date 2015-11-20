@@ -311,6 +311,18 @@ class UserController extends BaseController {
 				$url = "user/edit_user/".$user_id;
 				$user = User::find($user_id);
 				$user->delete();
+				// Elimino su información de voluntario
+				$v = Voluntario::getVoluntarioPorUser($user_id)->get();
+				if(!$v->isEmpty()){
+					$voluntario = Voluntario::find($v[0]->idvoluntarios);
+					$voluntario->delete();
+				}
+				// Elimino su información de padrino
+				$p = Padrino::getPadrinoPorUser($user_id)->get();
+				if(!$p->isEmpty()){
+					$padrino = Padrino::find($p[0]->idpadrinos);
+					$padrino->delete();
+				}
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se inhabilitó al usuario con id {{$user_id}}";
 				Helpers::registrarLog(5,$descripcion_log);
@@ -339,6 +351,18 @@ class UserController extends BaseController {
 				$url = "user/edit_user/".$user_id;
 				$user = User::withTrashed()->find($user_id);
 				$user->restore();
+				// Elimino su información de voluntario
+				$v = Voluntario::getVoluntarioPorUserTrashed($user_id)->get();
+				if(!$v->isEmpty()){
+					$voluntario = Voluntario::withTrashed()->find($v[0]->idvoluntarios);
+					$voluntario->restore();
+				}
+				// Elimino su información de padrino
+				$p = Padrino::getPadrinoPorUserTrashed($user_id)->get();
+				if(!$p->isEmpty()){
+					$padrino = Padrino::withTrashed()->find($p[0]->idpadrinos);
+					$padrino->restore();
+				}
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se habilitó al usuario con id {{$user_id}}";
 				Helpers::registrarLog(6,$descripcion_log);

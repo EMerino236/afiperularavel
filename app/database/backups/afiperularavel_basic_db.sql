@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-11-2015 a las 22:45:53
+-- Tiempo de generación: 18-11-2015 a las 09:58:44
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -367,29 +367,31 @@ CREATE TABLE IF NOT EXISTS `level` (
   `idLevel` int(10) unsigned NOT NULL,
   `numOrder` tinyint(4) NOT NULL,
   `cost` int(11) NOT NULL,
-  `idPredLevel` int(10) unsigned DEFAULT NULL
+  `idPredLevel` int(10) unsigned DEFAULT NULL,
+  `milestone` varchar(300) DEFAULT NULL,
+  `title` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `level`
 --
 
-INSERT INTO `level` (`idLevel`, `numOrder`, `cost`, `idPredLevel`) VALUES
-(1, 1, 0, NULL),
-(2, 2, 0, 1),
-(3, 3, 100, 2),
-(4, 4, 0, 2),
-(5, 5, 150, 3),
-(6, 6, 0, 4),
-(7, 7, 150, 4),
-(8, 8, 250, 5),
-(9, 9, 300, 5),
-(10, 10, 0, 6),
-(11, 11, 250, 7),
-(12, 12, 400, 8),
-(13, 13, 400, 10),
-(14, 14, 0, 10),
-(15, 15, 0, 14);
+INSERT INTO `level` (`idLevel`, `numOrder`, `cost`, `idPredLevel`, `milestone`, `title`) VALUES
+(1, 1, 0, NULL, NULL, NULL),
+(2, 2, 0, 1, NULL, NULL),
+(3, 3, 100, 2, NULL, NULL),
+(4, 4, 0, 2, NULL, NULL),
+(5, 5, 150, 3, NULL, NULL),
+(6, 6, 0, 4, NULL, NULL),
+(7, 7, 150, 4, NULL, NULL),
+(8, 8, 250, 5, NULL, NULL),
+(9, 9, 300, 5, NULL, NULL),
+(10, 10, 0, 6, NULL, NULL),
+(11, 11, 250, 7, NULL, NULL),
+(12, 12, 400, 8, NULL, NULL),
+(13, 13, 400, 10, NULL, NULL),
+(14, 14, 0, 10, NULL, NULL),
+(15, 15, 0, 14, NULL, NULL);
 
 -- --------------------------------------------------------
 
