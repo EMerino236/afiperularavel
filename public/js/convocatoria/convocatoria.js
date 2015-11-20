@@ -25,12 +25,16 @@ $( document ).ready(function(){
 		defaultDate: false,
 		format: 'DD-MM-YYYY',
 		ignoreReadonly: true,
+		minDate : ayer,
+		disabledDates: [ayer]
 	});
 	$("#datetimepicker2_edit").datetimepicker({
 		useCurrent: false,
 		defaultDate: false,
 		format: 'DD-MM-YYYY',
 		ignoreReadonly: true,
+		minDate : hoy,
+		disabledDates: [hoy]
 	});
 	$("input[name=asistencia]").change(function(){
 		if($(this).is(':checked')){
