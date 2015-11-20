@@ -536,14 +536,14 @@ class EventosController extends BaseController
 				$data["evento_info"] = Evento::searchEventosById($id)->get();
 				if($data["evento_info"]->isEmpty()){
 					Session::flash('error', 'No se encontró el evento.');
-					return Redirect::to('eventos/list_evento');
+					return Redirect::to('eventos/list_eventos');
 				}
 				$data["evento_info"] = $data["evento_info"][0];
 				$data["voluntarios"] = Asistencia::getUsersPorEvento($data["evento_info"]->ideventos)->get();
 				$data["hoy"] = date("Y-m-d H:i:s");
 				if($data["hoy"]<$data["evento_info"]->fecha_evento){
 					Session::flash('error', 'No puedes tomar asistencia sobre un evento que aún no se lleva a cabo.');
-					return Redirect::to('eventos/list_evento');
+					return Redirect::to('eventos/list_eventos');
 				}
 				return View::make('eventos/tomarAsistencia',$data);
 			}else{
