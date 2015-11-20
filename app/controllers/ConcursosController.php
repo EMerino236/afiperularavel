@@ -359,8 +359,10 @@ class ConcursosController extends BaseController
 				$fecha_limite = date('Y-m-d H:i:s',strtotime(Input::get('fecha_limite')));
 				$idconcursos = Input::get('idconcursos');
 				$fecha_disponible = FasesConcurso::getFechaDisponible($idconcursos,$fecha_limite)->get();
-				if($fecha_disponible->isEmpty()){
-					$fecha_disponible =null;
+				$nombre_disponible = FasesConcurso::getNombreDisponible($idconcursos,Input::get('titulo'))->get();
+				
+				if($fecha_disponible->isEmpty() && $nombre_disponible->isEmpty()){
+					
 					$fase_concursos = new FasesConcurso;
 					$fase_concursos->titulo = Input::get('titulo');
 					$fase_concursos->descripcion = Input::get('descripcion');
@@ -370,8 +372,11 @@ class ConcursosController extends BaseController
 					// Llamo a la función para registrar el log de auditoria
 					$descripcion_log = "Se creó la fase con id {{$fase_concursos->idfase_concursos}} para el concurso con id {{$fase_concursos->idconcursos}}";
 					Helpers::registrarLog(3,$descripcion_log);
+					
 				}
-				return Response::json(array( 'success' => true,'fecha_disponible'=>$fecha_disponible),200);
+				if($fecha_disponible->isEmpty()) $fecha_disponible =null;
+				if($nombre_disponible->isEmpty()) $nombre_disponible =null;
+				return Response::json(array( 'success' => true,'fecha_disponible'=>$fecha_disponible,'nombre_disponible'=>$nombre_disponible),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
 			}
@@ -1158,4 +1163,31 @@ class ConcursosController extends BaseController
 		}	
 	}
 
+
+	public function get_proyecto_aprobado()
+	{
+
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		if(Auth::check()){
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
+			if(in_array('side_nuevo_concurso',$data["permisos"])){
+
+				$idproyectos = Input::get('idproyectos');				
+				//$selected_ids = $selected_ids[0];
+				$proyectos = Proyecto::find($idproyectos);
+			
+
+				return Response::json(array( 'success' => true,'aprobacion'=>$proyectos->aprobacion),200);
+			}else{
+				return Response::json(array( 'success' => false ),200);
+			}
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}	
+	}
 } 

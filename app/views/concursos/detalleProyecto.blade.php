@@ -61,7 +61,7 @@
 				{{$detalle_proyecto->gasto_real}}
 			</td>			
 			<td>
-				{{ HTML::link('','Eliminar',array('class'=>'btn btn-danger delete-detalle-proyecto','data-detalle'=>$detalle_proyecto->iddetalle_proyectos)) }}
+				{{ HTML::link('',' Eliminar',array('class'=>'btn btn-danger delete-detalle-proyecto fa fa-trash-o','data-detalle'=>$detalle_proyecto->iddetalle_proyectos)) }}
 			</td>
 		</tr>
 		@endforeach
