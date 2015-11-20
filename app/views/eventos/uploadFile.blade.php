@@ -66,7 +66,9 @@
 						@endif
 					</div>
 				</div>
-				<table class="table">
+				<a href='#' id="label{{$documento['documento']->iddocumentos_eventos}}" data-id="{{$documento['documento']->iddocumentos_eventos}}" class="label_visualizaciones">Ver visualizaciones</a>
+				<br></br>
+				<table class="table" id="table{{$documento['documento']->iddocumentos_eventos}}" hidden>
 					<tr class="info">
 						<th>Nombres</th>
 						<th>Apellidos</th>

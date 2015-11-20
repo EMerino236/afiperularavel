@@ -22,4 +22,16 @@ $( document ).ready(function(){
 			});
 		}
 	});
+
+	$(".label_visualizaciones").click(function(e){
+		var id = $(this).data("id");
+		if($("#table"+id).is(":visible")){
+            $("#table"+id).slideToggle();
+            $("#label"+id).text("Ver visualizaciones")
+        }
+        else{
+            $("#table"+id).slideToggle();
+            $("#label"+id).text("Ocultar visualizaciones")
+        }
+	});
 });
