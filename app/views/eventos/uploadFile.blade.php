@@ -56,10 +56,10 @@
 					</div>
 					<div class="col-md-2 text-right">
 						@if($hoy < $evento_info->fecha_evento)
-						{{ Form::open(array('url'=>'eventos/submit_delete_file', 'role'=>'form')) }}
+						{{ Form::open(array('url'=>'eventos/submit_delete_file', 'role'=>'form','id'=>'form-eliminar-'.$documento['documento']->iddocumentos_eventos)) }}
 							{{ Form::hidden('ideventos', $evento_info->ideventos) }}
 							{{ Form::hidden('iddocumentos_eventos', $documento['documento']->iddocumentos_eventos) }}
-							<button type="submit" id="eliminar" class="btn btn-danger">
+							<button type="submit eliminar" data-id="{{$documento['documento']->iddocumentos_eventos}}" class="btn btn-danger">
 							  <i class="fa fa-trash-o"></i> Eliminar
 							</button>
 						{{ Form::close() }}
@@ -103,4 +103,5 @@
 	</div>
 
     <script src="{{ asset('js/fileinput.min.js') }}"></script>
+    <script src="{{ asset('js/uploadFile.js') }}"></script>
 @stop
