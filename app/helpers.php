@@ -81,14 +81,12 @@ class Helpers extends BaseController{
 	{
         $GOOGLE_API_KEY = 'AIzaSyD_5fDPVn61JqNwdcMDpolwTf-1UaSh7vo';
         
-        $message = ['message' => $m];
-        
 		// Set POST variables
         $url = 'https://android.googleapis.com/gcm/send';
  
         $fields = array(
             'registration_ids' => $reg_ids,
-            'data' => $message,
+            'data' => $m,
         );
  
         $headers = array(
