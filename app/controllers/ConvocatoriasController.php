@@ -541,7 +541,7 @@ class ConvocatoriasController extends BaseController
 					}
 				}
 
-				Session::flash('message', 'Se registró correctamente la aprobación de postulantes..');				
+				Session::flash('message', 'Los datos se guardaron correctamente.');				
 				return Redirect::to('convocatorias/list_postulantes/'.$idperiodos);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
