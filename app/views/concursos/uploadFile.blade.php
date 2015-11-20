@@ -71,10 +71,10 @@
 							@endif
 							</td>
 							<td>
-								{{ Form::open(array('url'=>'concursos/submit_delete_file', 'role'=>'form')) }}
+								{{ Form::open(array('url'=>'concursos/submit_delete_file', 'role'=>'form','id'=>'form-eliminar-docconcurso-'.$documento->iddocumentos_concursos)) }}
 								{{ Form::hidden('idconcursos', $concurso_info->idconcursos) }}
 								{{ Form::hidden('iddocumentos_concursos', $documento->iddocumentos_concursos) }}
-								<button type="submit" class="btn btn-danger">
+								<button type="submit" data-id="{{$documento->iddocumentos_concursos}}" class="eliminar-concurso btn btn-danger">
 								  	<i class="fa fa-trash-o"></i> Eliminar
 								</button>							
 								{{ Form::close() }}
