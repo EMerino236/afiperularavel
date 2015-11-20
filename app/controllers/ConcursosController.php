@@ -977,17 +977,20 @@ class ConcursosController extends BaseController
 			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
 			if(in_array('side_nuevo_proyecto',$data["permisos"])){
 				
-
-				$detalle_proyecto = new DetalleProyecto;
-				$detalle_proyecto->titulo = Input::get('titulo');
-				$detalle_proyecto->presupuesto = Input::get('presupuesto');				
-				$detalle_proyecto->gasto_real = Input::get('gasto_real');
-				$detalle_proyecto->idproyectos = Input::get('idproyectos');
-				$detalle_proyecto->save();
-				// Llamo a la función para registrar el log de auditoria
-				$descripcion_log = "Se creó el detalle con id {{$detalle_proyecto->iddetalle_proyectos}} para el proyecto con id {{$detalle_proyecto->idproyectos}}";
-				Helpers::registrarLog(3,$descripcion_log);
-				return Response::json(array( 'success' => true,'detalleproyecto_data'=>$detalle_proyecto),200);
+				$nombre_disponible = DetalleProyecto::getNombreDisponible(Input::get('idproyectos'),Input::get('titulo'))->get();
+				if($nombre_disponible->isEmpty()){
+					$nombre_disponible = null;
+					$detalle_proyecto = new DetalleProyecto;
+					$detalle_proyecto->titulo = Input::get('titulo');
+					$detalle_proyecto->presupuesto = Input::get('presupuesto');				
+					$detalle_proyecto->gasto_real = Input::get('gasto_real');
+					$detalle_proyecto->idproyectos = Input::get('idproyectos');
+					$detalle_proyecto->save();
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se creó el detalle con id {{$detalle_proyecto->iddetalle_proyectos}} para el proyecto con id {{$detalle_proyecto->idproyectos}}";
+					Helpers::registrarLog(3,$descripcion_log);
+				}
+				return Response::json(array( 'success' => true,'nombre_disponible'=>$nombre_disponible),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
 			}
@@ -1040,15 +1043,19 @@ class ConcursosController extends BaseController
 				
 				$iddetalle_proyectos = Input::get('iddetalle');
 				$detalle_proyecto = DetalleProyecto::find($iddetalle_proyectos);
-				$detalle_proyecto->titulo = Input::get('titulo_detalle');
-				$detalle_proyecto->presupuesto = Input::get('presupuesto_detalle');				
-				$detalle_proyecto->gasto_real = Input::get('gasto_real_detalle');								 
-				$detalle_proyecto->save();
+				$nombre_disponible = DetalleProyecto::getNombreDisponibleEdit($detalle_proyecto->iddetalle_proyectos,$detalle_proyecto->idproyectos,Input::get('titulo_detalle'))->get();
+				if($nombre_disponible->isEmpty()){
+					$nombre_disponible =null;
+					$detalle_proyecto->titulo = Input::get('titulo_detalle');
+					$detalle_proyecto->presupuesto = Input::get('presupuesto_detalle');				
+					$detalle_proyecto->gasto_real = Input::get('gasto_real_detalle');								 
+					$detalle_proyecto->save();
 
-				// Llamo a la función para registrar el log de auditoria
-				$descripcion_log = "Se editó el detalle con id {{$detalle_proyecto->iddetalle_proyectos}} para el proyecto con id {{$detalle_proyecto->idproyectos}}";
-				Helpers::registrarLog(4,$descripcion_log);
-				return Response::json(array( 'success' => true,'detalleproyecto_data'=>$detalle_proyecto),200);
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se editó el detalle con id {{$detalle_proyecto->iddetalle_proyectos}} para el proyecto con id {{$detalle_proyecto->idproyectos}}";
+					Helpers::registrarLog(4,$descripcion_log);
+				}
+				return Response::json(array( 'success' => true,'nombre_disponible'=>$nombre_disponible),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
 			}

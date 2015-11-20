@@ -78,7 +78,17 @@ $( document ).ready(function(){
 					},
 					success: function(response){
 						if(response.success){
-							location.reload();
+							if(!response.nombre_disponible){
+								location.reload();
+							}
+							else{
+								BootstrapDialog.alert({          
+						          size: BootstrapDialog.SIZE_SMALL,
+						          title: 'Alerta',
+						          message: 'Ya existe un detalle con el mismo "Título"', 
+						          type: BootstrapDialog.TYPE_INFO
+						        });	
+							}
 						}else{
 							//alert('La petición no se pudo completar, inténtelo de nuevo.');
 							BootstrapDialog.alert({
@@ -239,22 +249,33 @@ $( document ).ready(function(){
 						$(".loader_container").hide();
 						$("a#submit-edit-detalle-form").show();
 						submit_detalle = true;
-						$("div#edit-detalle-form").modal('hide');
+						//$("div#edit-detalle-form").modal('hide');
 					},
 					success: function(response){
 						if(response.success){
 							
 							//alert('Se guardó correctamente el detalle.');
-							BootstrapDialog.alert({
-			                  title: 'Mensaje',
-			                  message: 'Se guardó correctamente el detalle.', 
-			                  type: BootstrapDialog.TYPE_INFO,
-			                   callback: function(result){
-				                  if(result) {
-				                  	location.reload();
-				                  }
-				              }
-			                });
+							if(!response.nombre_disponible){
+								$("div#edit-detalle-form").modal('hide');
+								BootstrapDialog.alert({
+				                  title: 'Mensaje',
+				                  message: 'Se guardó correctamente el detalle.', 
+				                  type: BootstrapDialog.TYPE_INFO,
+				                   callback: function(result){
+					                  if(result) {
+					                  	location.reload();
+					                  }
+					              }
+				                });
+							}
+							else{
+								BootstrapDialog.alert({          
+						          size: BootstrapDialog.SIZE_SMALL,
+						          title: 'Alerta',
+						          message: 'Ya existe un detalle con el mismo "Título"', 
+						          type: BootstrapDialog.TYPE_INFO
+						        });	
+							}
 							//location.reload();
 						}else{
 							//alert('La petición no se pudo completar, inténtelo de nuevo.');
