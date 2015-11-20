@@ -8,7 +8,11 @@ class EventosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"]= Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('nav_eventos',$data["permisos"])){
+			if(in_array('side_mis_eventos',$data["permisos"])){
+				return Redirect::to('/eventos/mis_eventos');
+			}else if(in_array('side_listar_eventos',$data["permisos"])){
+				return Redirect::to('/eventos/list_eventos');
+			}else if(in_array('nav_eventos',$data["permisos"])){
 				return View::make('eventos/home',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria

@@ -40,7 +40,7 @@
     <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('dist/js/sb-admin-2.js') }}"></script>
-<script src="{{ asset('js/bootstrap-dialog.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-dialog.min.js') }}"></script>
 </head>
 
 <body>
