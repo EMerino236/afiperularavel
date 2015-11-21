@@ -466,7 +466,8 @@ class EventosController extends BaseController
 						$gcm_tokens = Asistencia::getUsersToNotificate($ideventos)->get()->lists('gcm_token');
                         $title = 'AFI Perú - Nuevo documento';
                         $message = 'Se subió un nuevo documento de AFI Perú: ' . $documento->titulo;
-                        $m = ['title' => $title, 'message' => $message];
+                        $type = 'Nuevo documento';
+                        $m = ['title' => $title, 'message' => $message, 'type' => $type];
                         Helpers::pushGCM($gcm_tokens, $m);
                         
                         // Llamo a la función para registrar el log de auditoria
