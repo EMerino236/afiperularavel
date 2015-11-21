@@ -359,8 +359,10 @@ class ConcursosController extends BaseController
 				$fecha_limite = date('Y-m-d H:i:s',strtotime(Input::get('fecha_limite')));
 				$idconcursos = Input::get('idconcursos');
 				$fecha_disponible = FasesConcurso::getFechaDisponible($idconcursos,$fecha_limite)->get();
-				if($fecha_disponible->isEmpty()){
-					$fecha_disponible =null;
+				$nombre_disponible = FasesConcurso::getNombreDisponible($idconcursos,Input::get('titulo'))->get();
+				
+				if($fecha_disponible->isEmpty() && $nombre_disponible->isEmpty()){
+					
 					$fase_concursos = new FasesConcurso;
 					$fase_concursos->titulo = Input::get('titulo');
 					$fase_concursos->descripcion = Input::get('descripcion');
@@ -370,8 +372,11 @@ class ConcursosController extends BaseController
 					// Llamo a la función para registrar el log de auditoria
 					$descripcion_log = "Se creó la fase con id {{$fase_concursos->idfase_concursos}} para el concurso con id {{$fase_concursos->idconcursos}}";
 					Helpers::registrarLog(3,$descripcion_log);
+					
 				}
-				return Response::json(array( 'success' => true,'fecha_disponible'=>$fecha_disponible),200);
+				if($fecha_disponible->isEmpty()) $fecha_disponible =null;
+				if($nombre_disponible->isEmpty()) $nombre_disponible =null;
+				return Response::json(array( 'success' => true,'fecha_disponible'=>$fecha_disponible,'nombre_disponible'=>$nombre_disponible),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
 			}
@@ -811,12 +816,14 @@ class ConcursosController extends BaseController
 			$data["user"] = Session::get('user');
 			$data["permisos"] = Session::get('permisos');
 			if((in_array('side_nuevo_proyecto',$data["permisos"])) && $id){
-				$data["proyecto_info"] = Proyecto::find($id)->get();
-				if($data["proyecto_info"]->isEmpty()){
-					Session::flash('error', 'No se encontró el proyecto.');
-					return Redirect::to('concursos/list_proyectos');
-				}
-				$data["proyecto_info"] = $data["proyecto_info"][0];
+				$data["proyecto_info"] = Proyecto::find($id);
+				
+				//if($data["proyecto_info"]->isEmpty()){
+				//	Session::flash('error', 'No se encontró el proyecto.');
+				//	return Redirect::to('concursos/list_proyectos');
+				//}
+				//$data["proyecto_info"] = $data["proyecto_info"][0];
+
 				$data["documentos"] = DocumentosProyecto::getDocumentosPorProyecto($data["proyecto_info"]->idproyectos)->get();
 				
 				$data["hoy"] = date("Y-m-d H:i:s");
@@ -970,17 +977,20 @@ class ConcursosController extends BaseController
 			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
 			if(in_array('side_nuevo_proyecto',$data["permisos"])){
 				
-
-				$detalle_proyecto = new DetalleProyecto;
-				$detalle_proyecto->titulo = Input::get('titulo');
-				$detalle_proyecto->presupuesto = Input::get('presupuesto');				
-				$detalle_proyecto->gasto_real = Input::get('gasto_real');
-				$detalle_proyecto->idproyectos = Input::get('idproyectos');
-				$detalle_proyecto->save();
-				// Llamo a la función para registrar el log de auditoria
-				$descripcion_log = "Se creó el detalle con id {{$detalle_proyecto->iddetalle_proyectos}} para el proyecto con id {{$detalle_proyecto->idproyectos}}";
-				Helpers::registrarLog(3,$descripcion_log);
-				return Response::json(array( 'success' => true,'detalleproyecto_data'=>$detalle_proyecto),200);
+				$nombre_disponible = DetalleProyecto::getNombreDisponible(Input::get('idproyectos'),Input::get('titulo'))->get();
+				if($nombre_disponible->isEmpty()){
+					$nombre_disponible = null;
+					$detalle_proyecto = new DetalleProyecto;
+					$detalle_proyecto->titulo = Input::get('titulo');
+					$detalle_proyecto->presupuesto = Input::get('presupuesto');				
+					$detalle_proyecto->gasto_real = Input::get('gasto_real');
+					$detalle_proyecto->idproyectos = Input::get('idproyectos');
+					$detalle_proyecto->save();
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se creó el detalle con id {{$detalle_proyecto->iddetalle_proyectos}} para el proyecto con id {{$detalle_proyecto->idproyectos}}";
+					Helpers::registrarLog(3,$descripcion_log);
+				}
+				return Response::json(array( 'success' => true,'nombre_disponible'=>$nombre_disponible),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
 			}
@@ -1033,15 +1043,19 @@ class ConcursosController extends BaseController
 				
 				$iddetalle_proyectos = Input::get('iddetalle');
 				$detalle_proyecto = DetalleProyecto::find($iddetalle_proyectos);
-				$detalle_proyecto->titulo = Input::get('titulo_detalle');
-				$detalle_proyecto->presupuesto = Input::get('presupuesto_detalle');				
-				$detalle_proyecto->gasto_real = Input::get('gasto_real_detalle');								 
-				$detalle_proyecto->save();
+				$nombre_disponible = DetalleProyecto::getNombreDisponibleEdit($detalle_proyecto->iddetalle_proyectos,$detalle_proyecto->idproyectos,Input::get('titulo_detalle'))->get();
+				if($nombre_disponible->isEmpty()){
+					$nombre_disponible =null;
+					$detalle_proyecto->titulo = Input::get('titulo_detalle');
+					$detalle_proyecto->presupuesto = Input::get('presupuesto_detalle');				
+					$detalle_proyecto->gasto_real = Input::get('gasto_real_detalle');								 
+					$detalle_proyecto->save();
 
-				// Llamo a la función para registrar el log de auditoria
-				$descripcion_log = "Se editó el detalle con id {{$detalle_proyecto->iddetalle_proyectos}} para el proyecto con id {{$detalle_proyecto->idproyectos}}";
-				Helpers::registrarLog(4,$descripcion_log);
-				return Response::json(array( 'success' => true,'detalleproyecto_data'=>$detalle_proyecto),200);
+					// Llamo a la función para registrar el log de auditoria
+					$descripcion_log = "Se editó el detalle con id {{$detalle_proyecto->iddetalle_proyectos}} para el proyecto con id {{$detalle_proyecto->idproyectos}}";
+					Helpers::registrarLog(4,$descripcion_log);
+				}
+				return Response::json(array( 'success' => true,'nombre_disponible'=>$nombre_disponible),200);
 			}else{
 				return Response::json(array( 'success' => false ),200);
 			}
@@ -1156,4 +1170,31 @@ class ConcursosController extends BaseController
 		}	
 	}
 
+
+	public function get_proyecto_aprobado()
+	{
+
+		if(!Request::ajax() || !Auth::check()){
+			return Response::json(array( 'success' => false ),200);
+		}
+
+		if(Auth::check()){
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
+			if(in_array('side_nuevo_concurso',$data["permisos"])){
+
+				$idproyectos = Input::get('idproyectos');				
+				//$selected_ids = $selected_ids[0];
+				$proyectos = Proyecto::find($idproyectos);
+			
+
+				return Response::json(array( 'success' => true,'aprobacion'=>$proyectos->aprobacion),200);
+			}else{
+				return Response::json(array( 'success' => false ),200);
+			}
+		}else{
+			return Response::json(array( 'success' => false ),200);
+		}	
+	}
 } 

@@ -11,10 +11,11 @@ $( document ).ready(function(){
   });
   
   var aprobar_edit = true;
-  $("#submit-edit").click(function(e){
+  $("#submit-create").click(function(e){
     e.preventDefault();
     if(aprobar_edit){
       aprobar_edit = false;
+      console.log(1);
       BootstrapDialog.confirm({
         title: 'Mensaje de Confirmación',
         message: '¿Está seguro que desea realizar esta acción?', 
@@ -23,7 +24,7 @@ $( document ).ready(function(){
               btnOKLabel: 'Aceptar', 
         callback: function(result){
                 if(result) {
-                    document.getElementById("submitEdit").submit();
+                    document.getElementById("form-create").submit();
                 }
                 else{
                   aprobar_edit = true;

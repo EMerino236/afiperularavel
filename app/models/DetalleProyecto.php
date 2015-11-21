@@ -16,4 +16,20 @@ class DetalleProyecto extends Eloquent{
 		return $query;
 	}
 
+	public function scopeGetNombreDisponible($query,$idproyectos,$titulo)
+	{
+		$query->where('detalle_proyectos.idproyectos','=',$idproyectos)
+			  ->where('detalle_proyectos.titulo','=',$titulo)
+			  ->select('detalle_proyectos.*');
+		return $query;
+	}
+
+	public function scopeGetNombreDisponibleEdit($query,$iddetalle,$idproyectos,$titulo)
+	{
+		$query->where('detalle_proyectos.idproyectos','=',$idproyectos)
+			  ->where('detalle_proyectos.iddetalle_proyectos','!=',$iddetalle)
+			  ->where('detalle_proyectos.titulo','=',$titulo)			  
+			  ->select('detalle_proyectos.*');
+		return $query;
+	}
 }

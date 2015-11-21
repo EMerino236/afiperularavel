@@ -23,4 +23,12 @@ class FasesConcurso extends Eloquent{
 			  ->select('fase_concursos.*');
 		return $query;
 	}
+
+	public function scopeGetNombreDisponible($query,$idconcursos,$titulo)
+	{
+		$query->where('fase_concursos.idconcursos','=',$idconcursos)
+			  ->where('fase_concursos.titulo','=',$titulo)
+			  ->select('fase_concursos.*');
+		return $query;
+	}
 }

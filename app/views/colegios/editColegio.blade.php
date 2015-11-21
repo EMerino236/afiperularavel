@@ -123,7 +123,5 @@
 				{{ Form::close() }}
 			</div>
 		</div>	
-	
-	<script src="{{ asset('js/colegio/colegios.js') }}"></script>
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
 @stop

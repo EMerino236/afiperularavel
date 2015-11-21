@@ -56,17 +56,19 @@
 					</div>
 					<div class="col-md-2 text-right">
 						@if($hoy < $evento_info->fecha_evento)
-						{{ Form::open(array('url'=>'eventos/submit_delete_file', 'role'=>'form')) }}
+						{{ Form::open(array('url'=>'eventos/submit_delete_file', 'role'=>'form','id'=>'form-eliminar-'.$documento['documento']->iddocumentos_eventos)) }}
 							{{ Form::hidden('ideventos', $evento_info->ideventos) }}
 							{{ Form::hidden('iddocumentos_eventos', $documento['documento']->iddocumentos_eventos) }}
-							<button type="submit" id="eliminar" class="btn btn-danger">
+							<button type="submit" data-id="{{$documento['documento']->iddocumentos_eventos}}" class="btn btn-danger eliminar">
 							  <i class="fa fa-trash-o"></i> Eliminar
 							</button>
 						{{ Form::close() }}
 						@endif
 					</div>
 				</div>
-				<table class="table">
+				<a href='#' id="label{{$documento['documento']->iddocumentos_eventos}}" data-id="{{$documento['documento']->iddocumentos_eventos}}" class="label_visualizaciones">Ver visualizaciones</a>
+				<br></br>
+				<table class="table" id="table{{$documento['documento']->iddocumentos_eventos}}" hidden>
 					<tr class="info">
 						<th>Nombres</th>
 						<th>Apellidos</th>
@@ -103,4 +105,5 @@
 	</div>
 
     <script src="{{ asset('js/fileinput.min.js') }}"></script>
+    <script src="{{ asset('js/eventos/uploadFile.js') }}"></script>
 @stop

@@ -27,7 +27,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 
-	{{ Form::open(array('url'=>'colegios/submit_create_colegio', 'role'=>'form')) }}
+	{{ Form::open(array('url'=>'colegios/submit_create_colegio', 'role'=>'form', 'id'=>'form-create')) }}
 	{{ Form::hidden('latitud', null) }}
 	{{ Form::hidden('longitud', null) }}
 	<div class="panel panel-default">
@@ -82,14 +82,13 @@
 				<div class="row">
 					<div class="form-group col-md-6">
 						<br>
-						{{ Form::submit('Guardar',array('id'=>'submit-edit', 'class'=>'btn btn-primary')) }}	
+						{{ Form::submit('Guardar',array('id'=>'submit-create', 'class'=>'btn btn-primary')) }}	
 					</div>
 				</div>	
 			</div>
 		</div>
 	</div>
 	{{ Form::close() }}
-	<script src="{{ asset('js/colegio/colegios.js') }}"></script>
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
 	
 @stop

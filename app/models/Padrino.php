@@ -81,7 +81,19 @@ class Padrino extends Eloquent{
 			  ->select('tipo_identificacion.nombre as nombre_tipo_identificacion','periodo_pagos.nombre','personas.*','users.*','padrinos.idpadrinos');
 		return $query;
 	}
-    
+
+	public function scopeGetPadrinoPorUser($query,$iduser)
+	{
+		$query->where('idusers','=',$iduser);
+		return $query;
+	}
+
+	public function scopeGetPadrinoPorUserTrashed($query,$iduser)
+	{
+		$query->withTrashed()
+			  ->where('idusers','=',$iduser);
+		return $query;
+	}
     public function scopeGetPadrinosToNotificateReport($query)
 	{
 		$query->join('users','users.id','=','padrinos.idusers')

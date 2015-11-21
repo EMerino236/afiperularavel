@@ -23,19 +23,30 @@ class Helpers extends BaseController{
 		// Put your private key's passphrase here:
 		$passphrase = 'alonso3000';
 
+		$cert_path = base_path() . DIRECTORY_SEPARATOR . 'ck.pem';
+		echo 'pushAPNS:' . $cert_path . PHP_EOL;
+
 		////////////////////////////////////////////////////////////////////////////////
 
 		$ctx = stream_context_create();
-		stream_context_set_option($ctx, 'ssl', 'local_cert', 'ck.pem');
+		stream_context_set_option($ctx, 'ssl', 'local_cert', $cert_path);
 		stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
 
 		// Open a connection to the APNS server
-		$fp = stream_socket_client(
-			'ssl://gateway.sandbox.push.apple.com:2195', $err,
-			$errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+		try
+		{
+			$fp = stream_socket_client(
+				'ssl://gateway.sandbox.push.apple.com:2195', $err,
+				$errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+		}
+		catch (Exception $e)
+		{
+			echo 'Connection caused fatal error.';
+			return Response::json(['error' => 'Connection caused fatal error.'], 200);
+		}
 
 		if (!$fp)
-			exit("Failed to connect: $err $errstr" . PHP_EOL);
+			return Response::json(['error' => 'Could not establish connection with APNS: $err $errstr'], 200);
 
 		echo 'Connected to APNS' . PHP_EOL;
 
@@ -70,14 +81,12 @@ class Helpers extends BaseController{
 	{
         $GOOGLE_API_KEY = 'AIzaSyD_5fDPVn61JqNwdcMDpolwTf-1UaSh7vo';
         
-        $message = ['message' => $m];
-        
 		// Set POST variables
         $url = 'https://android.googleapis.com/gcm/send';
  
         $fields = array(
             'registration_ids' => $reg_ids,
-            'data' => $message,
+            'data' => $m,
         );
  
         $headers = array(

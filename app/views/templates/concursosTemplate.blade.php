@@ -42,6 +42,7 @@
     <script src="{{ asset('js/concursos/fases-concurso.js') }}"></script>
     <script src="{{ asset('js/concursos/aprobar-proyecto.js') }}"></script>
     <script src="{{ asset('js/concursos/detalle-proyecto.js') }}"></script>
+    <script src="{{ asset('js/concursos/upload-file-concursos.js') }}"></script>
 </head>
 
 <body>

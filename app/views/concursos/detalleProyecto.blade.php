@@ -19,14 +19,14 @@
 						{{ Form::text('titulo',Input::old('titulo'),array('class'=>'form-control','maxlength'=>100)) }}
 					</div>
 					<div class="form-group col-md-6 required @if($errors->first('presupuesto')) has-error has-feedback @endif">
-						{{ Form::label('presupuesto','Presupuesto') }}
+						{{ Form::label('presupuesto','Presupuesto (S/.)') }}
 						{{ Form::text('presupuesto',Input::old('presupuesto'),array('class'=>'form-control')) }}
 					</div>
 				
 				</div>
 				<div class="row">
 					<div class="form-group col-md-6 @if($errors->first('gastoreal')) has-error has-feedback @endif">
-						{{ Form::label('gastoreal','Gasto Real') }}
+						{{ Form::label('gastoreal','Gasto Real (S/.)') }}
 						{{ Form::text('gastoreal',Input::old('gastoreal'),array('class'=>'form-control')) }}
 					</div>
 					<div class="form-group col-md-12">
@@ -41,8 +41,8 @@
 	<table class="table"  style ="width:100%;word-wrap:break-word;table-layout: fixed;">
 		<tr class="info">
 			<th>Titulo</th>
-			<th>Presupuesto</th>
-			<th>Gasto Real</th>
+			<th>Presupuesto (S/.)</th>
+			<th>Gasto Real (S/.)</th>
 			<th>Eliminar</th>
 		</tr>
 		@foreach($detalles_proyecto as $detalle_proyecto)
@@ -61,7 +61,7 @@
 				{{$detalle_proyecto->gasto_real}}
 			</td>			
 			<td>
-				{{ HTML::link('','Eliminar',array('class'=>'btn btn-danger delete-detalle-proyecto','data-detalle'=>$detalle_proyecto->iddetalle_proyectos)) }}
+				{{ HTML::link('',' Eliminar',array('class'=>'btn btn-danger delete-detalle-proyecto fa fa-trash-o','data-detalle'=>$detalle_proyecto->iddetalle_proyectos)) }}
 			</td>
 		</tr>
 		@endforeach
@@ -88,11 +88,11 @@
 						<tr>
 							<td >
 								<div class="form-group col-md-6">
-									<span><strong>Presupuesto</strong></span>
+									<span><strong>Presupuesto (S/.)</strong></span>
 									{{ Form::text('presupuesto_detalle','',array('class'=>'form-control')) }}
 								</div>
 								<div class="form-group col-md-6">
-									<span><strong>Gasto Real</strong></span>
+									<span><strong>Gasto Real (S/.)</strong></span>
 									{{ Form::text('gasto_real_detalle','',array('class'=>'form-control','readonly'=>'')) }}
 								</div>
 							</td>												

@@ -49,8 +49,10 @@ class PushGCM extends Command {
 			//Coger los gcm_regids de los voluntarios asignados al evento que pueden recibir notificaciones
 			$registration_ids = Asistencia::getUsersToNotificate($e->ideventos)->get()->lists('gcm_token');
             
+            $title = 'AFI Perú - Evento';
             $message = 'Recordatorio de evento: ' . $e->nombre . ' - ' . $e->fecha_evento;
-            $response = Helpers::pushGCM($registration_ids, $message);
+            $m = ['title' => $title, 'message' => $message];
+            $response = Helpers::pushGCM($registration_ids, $m);
             //$this->info(var_dump($response));
 		}
 
@@ -67,8 +69,10 @@ class PushGCM extends Command {
 				if ($fee)
 				{
                     //$this->info(var_dump($s->gcm_regid));
+                    $title = 'AFI Perú - Padrino';
 					$message = 'Recordatorio de pago: ' . $fee->vencimiento;
-					$response = Helpers::pushGCM(array($s->gcm_token), $message);
+                    $m = ['title' => $title, 'message' => $message];
+					$response = Helpers::pushGCM(array($s->gcm_token), $m);
                     //$this->info(var_dump($response));
 				}
 			}

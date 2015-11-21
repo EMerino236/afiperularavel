@@ -76,6 +76,8 @@ $( document ).ready(function(){
 			}					
 			if(confirmation){
 				var idconcursos = $("input[type=hidden][name=idconcursos]").val();
+				var mensajeFecha="";
+				var mensajeTitulo="";
 				$.ajax({
 					url: inside_url+'concursos/fase_register_ajax',
 					type: 'POST',
@@ -92,8 +94,15 @@ $( document ).ready(function(){
 						fase_register = true;
 					},
 					success: function(response){
+												
 						if(response.success){
-							if(!response.fecha_disponible){
+							if(response.fecha_disponible){
+								 mensajeFecha = 'Ya existe una fase con la misma "Fecha Límite"';
+							}
+							if(response.nombre_disponible) {
+								mensajeTitulo = 'Ya existe una fase con el mismo "Título"\n';
+							}
+							if(!response.fecha_disponible && !response.nombre_disponible){
 								location.reload();
 							}
 							else{
@@ -101,7 +110,7 @@ $( document ).ready(function(){
 								BootstrapDialog.alert({          
 						          size: BootstrapDialog.SIZE_SMALL,
 						          title: 'Alerta',
-						          message: 'Ya existe una fase con la misma "Fecha Límite"', 
+						          message: mensajeTitulo + mensajeFecha, 
 						          type: BootstrapDialog.TYPE_INFO
 						        });	
 							}
