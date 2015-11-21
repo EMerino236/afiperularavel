@@ -239,6 +239,8 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::post('verify_payment', 'api\v1\PayPalController@verify');
     Route::post('set_uuid', 'api\v1\SessionController@set_uuid');
     Route::post('clear_uuid', 'api\v1\SessionController@clear_uuid');
+    Route::post('set_gcm_token', 'api\v1\SessionController@set_gcm_token');
+    Route::post('clear_gcm_token', 'api\v1\SessionController@clear_gcm_token');
 });
 
 /* Rutas para el juego */
