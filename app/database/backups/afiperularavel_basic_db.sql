@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-11-2015 a las 09:58:44
+-- Tiempo de generación: 22-11-2015 a las 12:43:54
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -288,10 +288,11 @@ CREATE TABLE IF NOT EXISTS `documentos_proyectos` (
 CREATE TABLE IF NOT EXISTS `empresas` (
   `idempresas` int(11) NOT NULL,
   `nombre_representante` varchar(100) NOT NULL,
-  `intereses` varchar(100) DEFAULT NULL,
+  `intereses` varchar(200) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   `sector` varchar(100) NOT NULL,
+  `razon_social` varchar(200) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -617,7 +618,7 @@ CREATE TABLE IF NOT EXISTS `permisos` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `permisos`
@@ -664,7 +665,9 @@ INSERT INTO `permisos` (`idpermisos`, `nombre`, `created_at`, `updated_at`, `del
 (38, 'side_reporte_log', '2015-10-07 14:19:36', '2015-10-07 14:19:36', NULL),
 (39, 'side_mis_reportes', '2015-11-08 21:04:09', NULL, NULL),
 (40, 'side_aprobar_pagos', '2015-11-11 01:14:48', NULL, NULL),
-(41, 'side_mapa_calor', '2015-11-11 01:14:48', NULL, NULL);
+(41, 'side_mapa_calor', '2015-11-11 01:14:48', NULL, NULL),
+(42, 'nav_empresas', '2015-11-22 17:40:01', NULL, NULL),
+(43, 'side_listar_empresas', '2015-11-22 17:40:53', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -679,7 +682,7 @@ CREATE TABLE IF NOT EXISTS `permisos_perfiles` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `permisos_perfiles`
@@ -762,7 +765,11 @@ INSERT INTO `permisos_perfiles` (`idpermisos_perfiles`, `idpermisos`, `idperfile
 (74, 40, 1, '2015-11-11 01:16:02', NULL, '2015-11-10 05:00:00'),
 (75, 40, 2, '2015-11-11 01:16:02', NULL, NULL),
 (76, 41, 1, '2015-11-11 01:16:35', NULL, NULL),
-(77, 41, 2, '2015-11-11 01:16:35', NULL, NULL);
+(77, 41, 2, '2015-11-11 01:16:35', NULL, NULL),
+(78, 42, 1, '2015-11-22 17:43:22', NULL, NULL),
+(79, 42, 2, '2015-11-22 17:43:22', NULL, NULL),
+(80, 43, 1, '2015-11-22 17:43:42', NULL, NULL),
+(81, 43, 2, '2015-11-22 17:43:42', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1129,15 +1136,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `push_eventos` int(11) DEFAULT '1',
   `push_pagos` int(11) DEFAULT '1',
   `uuid` varchar(100) DEFAULT NULL,
-  `gcm_token` varchar(100) DEFAULT NULL
+  `gcm_token` varchar(100) DEFAULT NULL,
+  `push_documents` int(1) DEFAULT '1',
+  `push_reports` int(1) DEFAULT '1'
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `num_documento`, `password`, `email`, `idtipo_identificacion`, `idpersona`, `auth_token`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `push_eventos`, `push_pagos`, `uuid`, `gcm_token`) VALUES
-(1, '00000000', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', '6MBzb6FI3BqztWrUqDwbJ6o4XOND05yqGZhOvyzW3aZiM8qsDr8ZCSeR0Guu', '2015-10-06 14:22:09', '2015-11-09 02:08:40', NULL, 1, 1, NULL, NULL);
+INSERT INTO `users` (`id`, `num_documento`, `password`, `email`, `idtipo_identificacion`, `idpersona`, `auth_token`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `push_eventos`, `push_pagos`, `uuid`, `gcm_token`, `push_documents`, `push_reports`) VALUES
+(1, '00000000', '$2y$10$WjPwXuIPioqsgs.rIC2ck.vgdDd9ebavWhSQyD0XbU79FQbOpZGyO', '', 1, 1, 'XU77ebl9g8Yy0C6YKiOEemdvOKq3h9Y95aQjlGOXn0uLmFPVGkbEiE6mG5Ni', '6MBzb6FI3BqztWrUqDwbJ6o4XOND05yqGZhOvyzW3aZiM8qsDr8ZCSeR0Guu', '2015-10-06 14:22:09', '2015-11-09 02:08:40', NULL, 1, 1, NULL, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1700,12 +1709,12 @@ ALTER TABLE `periodo_pagos`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermisos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
+  MODIFY `idpermisos` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT de la tabla `permisos_perfiles`
 --
 ALTER TABLE `permisos_perfiles`
-  MODIFY `idpermisos_perfiles` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=78;
+  MODIFY `idpermisos_perfiles` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=82;
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
