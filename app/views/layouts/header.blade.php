@@ -17,7 +17,7 @@
     </li>
     @if(in_array('nav_convocatorias',$permisos))
 	<li>
-		<a href="{{ URL::to('convocatorias') }}"><i class="fa fa-bullhorn fa-fw"></i> Convocatorias</a>
+		<a href="{{ URL::to('convocatorias') }}"><i class="fa fa-bullhorn fa-fw"></i> Periodos</a>
     </li>
     @endif
     @if(in_array('nav_eventos',$permisos))
@@ -43,6 +43,11 @@
     @if(in_array('nav_concursos',$permisos))
 	<li>
 		<a href="{{ URL::to('concursos') }}"><i class="fa fa-folder-open fa-fw"></i> Concursos</a>
+    </li>
+    @endif
+    @if(in_array('nav_empresas',$permisos))
+    <li>
+        <a href="{{ URL::to('empresas') }}"><i class="fa fa-building-o fa-fw"></i> Empresas</a>
     </li>
     @endif
     

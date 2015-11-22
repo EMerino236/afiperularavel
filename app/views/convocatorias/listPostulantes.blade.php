@@ -58,7 +58,9 @@
 				<th>Postulante</th>
 				<th>Comentario</th>
 				<th>Estado</th>
-				<th>Asistencia <br />Si <input type="checkbox" class="checkbox-todos-asistio" name="seleccionar-todos-asistio" value="0"> No <input type="checkbox" class="checkbox-todos-no-asistio" name="seleccionar-todos-no-asistio" value="0"> </th>
+				@if($idfase != 1)
+					<th>Asistencia <br />Si <input type="checkbox" class="checkbox-todos-asistio" name="seleccionar-todos-asistio" value="0"> No <input type="checkbox" class="checkbox-todos-no-asistio" name="seleccionar-todos-no-asistio" value="0"> </th>
+				@endif
 				<th>Aprobación <br />Si <input type="checkbox" class="checkbox-todos-aprobados" name="seleccionar-todos-aprobados" value="0"> No <input type="checkbox" class="checkbox-todos-no-aprobados" name="seleccionar-todos-no-aprobados" value="0"></th>
 			</tr>
 			@foreach($postulantes_info as $postulante_info)
@@ -69,47 +71,69 @@
 					</td>
 				<td style="vertical-align:middle">{{$postulante_info->nombres}} {{$postulante_info->apellido_pat}} {{$postulante_info->apellido_mat}}</td>
 				<td style="vertical-align:middle">
-					{{Form::textarea('comentarios[]', $postulante_info->comentario,array('rows'=>'4','cols'=>'60','maxlength'=>'255'))}}
+					{{Form::textarea('comentarios[]', $postulante_info->comentario,array('rows'=>'4','cols'=>'60','maxlength'=>'255', 'style'=>'resize:none'))}}
 				</td>
 				<td style="vertical-align:middle">
-					@if($postulante_info->aprobacion === null)
+					@if($postulante_info->aprobacion == -1)
 						Sin Revisión
 					@else
 						Revisado
 					@endif
 				</td>
+				@if($idfase != 1)
+					<td class="text-center" style="vertical-align:middle">
+						@if($postulante_info->asistencia == -1)
+							Si <input type="checkbox" name="asistencia" class="checkbox-asistencia" value="0"> No <input type="checkbox" name="no-asistencia" class="checkbox-no-asistencia" value="0">
+							{{ Form::hidden('asistencias[]', $postulante_info->asistencia,array('class'=>'hidden-asistencia')) }}
+							{{ Form::hidden('no-asistencias[]', $postulante_info->asistencia,array('class'=>'hidden-no-asistencia')) }}
+						@endif
+						@if($postulante_info->asistencia == 1)
+							<input hidden type="checkbox" name="asistencia" class="checkbox-asistencia" value="">
+							{{ Form::hidden('asistencias[]', -1) }}
+							{{ Form::hidden('no-asistencias[]', -1) }}
+							Asistió
+						@endif
+						@if($postulante_info->asistencia == 0)
+							<input hidden type="checkbox" name="asistencia" class="checkbox-asistencia" value="">
+							{{ Form::hidden('asistencias[]', -1) }}
+							{{ Form::hidden('no-asistencias[]', -1) }}
+							No Asistió
+						@endif
+					</td>
+				@else
+					<td class="text-center" style="vertical-align:middle" hidden>
+						@if($postulante_info->asistencia == -1)
+							Si <input type="checkbox" name="asistencia" class="checkbox-asistencia" value="0"> No <input type="checkbox" name="no-asistencia" class="checkbox-no-asistencia" value="0">
+							{{ Form::hidden('asistencias[]', $postulante_info->asistencia,array('class'=>'hidden-asistencia')) }}
+							{{ Form::hidden('no-asistencias[]', $postulante_info->asistencia,array('class'=>'hidden-no-asistencia')) }}
+						@endif
+						@if($postulante_info->asistencia == 1)
+							<input hidden type="checkbox" name="asistencia" class="checkbox-asistencia" value="">
+							{{ Form::hidden('asistencias[]', -1) }}
+							{{ Form::hidden('no-asistencias[]', -1) }}
+							Asistió
+						@endif
+						@if($postulante_info->asistencia == 0)
+							<input hidden type="checkbox" name="asistencia" class="checkbox-asistencia" value="">
+							{{ Form::hidden('asistencias[]', -1) }}
+							{{ Form::hidden('no-asistencias[]', -1) }}
+							No Asistió
+						@endif
+					</td>
+				@endif
 				<td class="text-center" style="vertical-align:middle">
-					@if($postulante_info->asistencia === null)
-						<input type="checkbox" name="asistencia" class="checkbox-asistencia" value="0"> <input type="checkbox" name="no-asistencia" class="checkbox-no-asistencia" value="0">
-						{{ Form::hidden('asistencias[]', $postulante_info->asistencia,array('class'=>'hidden-asistencia')) }}
-						{{ Form::hidden('no-asistencias[]', $postulante_info->asistencia,array('class'=>'hidden-no-asistencia')) }}
-					@endif
-					@if($postulante_info->asistencia === 1)
-						<input hidden type="checkbox" name="asistencia" class="checkbox-asistencia" value="">
-						{{ Form::hidden('asistencias[]', -1) }}
-						{{ Form::hidden('no-asistencias[]', -1) }}
-						Asistió
-					@endif
-					@if($postulante_info->asistencia === 0)
-						<input hidden type="checkbox" name="asistencia" class="checkbox-asistencia" value="">
-						{{ Form::hidden('asistencias[]', -1) }}
-						{{ Form::hidden('no-asistencias[]', -1) }}
-						No Asistió
-					@endif
-				</td>
-				<td class="text-center" style="vertical-align:middle">
-					@if($postulante_info->aprobacion === null)
-						<input type="checkbox" name="aprobacion" class="checkbox-aprobacion" value="0"> <input type="checkbox" name="no-aprobacion" class="checkbox-no-aprobacion" value="0">
+					@if($postulante_info->aprobacion == -1)
+						Si <input type="checkbox" name="aprobacion" class="checkbox-aprobacion" value="0"> No <input type="checkbox" name="no-aprobacion" class="checkbox-no-aprobacion" value="0">
 						{{ Form::hidden('aprobaciones[]', $postulante_info->aprobacion,array('class'=>'hidden-aprobacion')) }}
 						{{ Form::hidden('no-aprobaciones[]', $postulante_info->aprobacion,array('class'=>'hidden-no-aprobacion')) }}
 					@endif
-					@if($postulante_info->aprobacion === 1)
+					@if($postulante_info->aprobacion == 1)
 						<input hidden type="checkbox" name="aprobacion" class="checkbox-aprobacion" value="">
 						{{ Form::hidden('aprobaciones[]', -1) }}
 						{{ Form::hidden('no-aprobaciones[]', -1) }}
 						Aprobado
 					@endif
-					@if($postulante_info->aprobacion === 0)
+					@if($postulante_info->aprobacion == 0)
 						<input hidden type="checkbox" name="aprobacion" class="checkbox-aprobacion" value="">
 						{{ Form::hidden('aprobaciones[]', -1) }}
 						{{ Form::hidden('no-aprobaciones[]', -1) }}

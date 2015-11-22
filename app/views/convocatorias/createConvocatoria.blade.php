@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Crear Nueva Convocatoria</h3><span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
+            <h3 class="page-header">Crear Nuevo Periodo</h3><span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -31,7 +31,7 @@
 				<div class="row">
 					<div class="form-group col-md-4">
 						<div class="form-group required @if($errors->first('nombre')) has-error has-feedback @endif">
-							{{ Form::label('nombre','Nombre de Convocatoria') }}
+							{{ Form::label('nombre','Nombre del Periodo') }}
 							{{ Form::text('nombre',Input::old('nombre'),['class' => 'form-control','maxlength'=>'100']) }}
 						</div>
 					</div>

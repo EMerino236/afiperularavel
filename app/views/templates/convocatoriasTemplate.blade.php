@@ -31,10 +31,10 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     @if(in_array('side_nueva_convocatoria',$permisos))
-                    <li><a href="{{ URL::to('convocatorias/create_convocatoria') }}"><i class="fa fa-plus fa-fw"></i> Nueva Convocatoria</a></li>
+                    <li><a href="{{ URL::to('convocatorias/create_convocatoria') }}"><i class="fa fa-plus fa-fw"></i> Nuevo Periodo</a></li>
                     @endif
                     @if(in_array('side_listar_convocatorias',$permisos))
-                    <li><a href="{{ URL::to('convocatorias/list_convocatoria') }}"><i class="fa fa-list fa-fw"></i> Listar Convocatorias</a></li>
+                    <li><a href="{{ URL::to('convocatorias/list_convocatoria') }}"><i class="fa fa-list fa-fw"></i> Listar Periodos</a></li>
                     @endif
                 </ul>
             </div>

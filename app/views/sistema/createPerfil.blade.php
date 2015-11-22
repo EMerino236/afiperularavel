@@ -91,7 +91,7 @@
 					<div class="panel-body">
 						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="16" @if(Input::old('permisos') && in_array("16",Input::old('permisos'))) checked @endif> Listar Voluntarios<br>
 						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="17" @if(Input::old('permisos') && in_array("17",Input::old('permisos'))) checked @endif> Reporte de Asistencia<br>
-						<input class="padrinos-child" type="checkbox" name="permisos[]" value="41" @if(Input::old('permisos') && in_array("41",Input::old('permisos'))) checked @endif> Mapa de Calor<br>
+						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="41" @if(Input::old('permisos') && in_array("41",Input::old('permisos'))) checked @endif> Mapa de Calor<br>
 						<br>
 						<br>
 						<br>
@@ -174,6 +174,18 @@
 						<input class="sistema-child" type="checkbox" name="permisos[]" value="38" @if(Input::old('permisos') && in_array("38",Input::old('permisos'))) checked @endif> Reporte de Log<br>
 						<br>
 						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title"><input class="empresas-parent" type="checkbox" name="permisos[]" value="42" @if(Input::old('permisos') && in_array("42",Input::old('permisos'))) checked @endif>Menú Empresas</h3>
+					</div>
+					<div class="panel-body">
+						<input class="empresas-child" type="checkbox" name="permisos[]" value="43" @if(Input::old('permisos') && in_array("43",Input::old('permisos'))) checked @endif> Listar Empresas<br>
 					</div>
 				</div>
 			</div>

@@ -2,7 +2,7 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Lista de Convocatorias</h3>
+            <h3 class="page-header">Lista de Periodos</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -15,7 +15,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-8">
-						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Nombre de Convocatoria')) }}
+						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Nombre de Periodo')) }}
 					</div>
 					<div class="col-md-4">
 						{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}

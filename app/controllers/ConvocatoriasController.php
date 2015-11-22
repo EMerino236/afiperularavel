@@ -274,7 +274,7 @@ class ConvocatoriasController extends BaseController
 				if($data["estado_aprobacion"] == -1){
 					$data["estado_aprobacion"] = null;
 				}				
-				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase($id,$data["idfase"],$data["estado_aprobacion"])->paginate(10);													
+				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase($id,$data["idfase"],$data["estado_aprobacion"])->paginate(10);																	
 				$data["cantidad_postulantes"] = count($data["postulantes_info"]);
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{

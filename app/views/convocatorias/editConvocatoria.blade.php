@@ -2,9 +2,9 @@
 @section('content')
 	<div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Información de la Convocatoria</h3>
+            <h3 class="page-header">Información del Periodo</h3>
             @if($periodo_comenzado)
-            	<span class="campos-obligatorios">La convocatoria ya ha iniciado o ha finalizado. No es posible editar la información.</span>
+            	<span class="campos-obligatorios">El Periodo ya ha iniciado o ha finalizado. No es posible editar la información.</span>
             @else
             	<span class="campos-obligatorios">Los campos con asterisco son obligatorios</span>
         	@endif
@@ -32,7 +32,7 @@
 		<div class="row">
 			<div class="form-group col-md-4">
 				<div class="form-group required @if($errors->first('nombre')) has-error has-feedback @endif">
-					{{ Form::label('nombre','Nombre de Convocatoria') }}
+					{{ Form::label('nombre','Nombre del Periodo') }}
 					@if($convocatoria_info->deleted_at || $periodo_comenzado)
 						{{ Form::text('nombre',$convocatoria_info->nombre,['class' => 'form-control','readonly'=>'']) }}
 					@else
