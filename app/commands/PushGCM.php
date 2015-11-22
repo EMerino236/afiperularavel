@@ -51,7 +51,8 @@ class PushGCM extends Command {
             
             $title = 'AFI Perú - Evento';
             $message = 'Recordatorio de evento: ' . $e->nombre . ' - ' . $e->fecha_evento;
-            $m = ['title' => $title, 'message' => $message];
+            $type = 'Recordatorio de evento';
+            $m = ['title' => $title, 'message' => $message, 'type' => $type];
             $response = Helpers::pushGCM($registration_ids, $m);
             //$this->info(var_dump($response));
 		}
@@ -71,7 +72,8 @@ class PushGCM extends Command {
                     //$this->info(var_dump($s->gcm_regid));
                     $title = 'AFI Perú - Padrino';
 					$message = 'Recordatorio de pago: ' . $fee->vencimiento;
-                    $m = ['title' => $title, 'message' => $message];
+                    $type = 'Recordatorio de pago';
+                    $m = ['title' => $title, 'message' => $message, 'type' => $type];
 					$response = Helpers::pushGCM(array($s->gcm_token), $m);
                     //$this->info(var_dump($response));
 				}

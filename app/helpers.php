@@ -21,7 +21,7 @@ class Helpers extends BaseController{
 		echo 'pushAPNS:' . $message . PHP_EOL;
 
 		// Put your private key's passphrase here:
-		$passphrase = "alonso3000";
+		$passphrase = 'alonso3000';
 
 		$cert_path = base_path() . DIRECTORY_SEPARATOR . 'ck.pem';
 		echo 'pushAPNS:' . $cert_path . PHP_EOL;
