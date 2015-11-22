@@ -17,7 +17,7 @@
     </li>
     @if(in_array('nav_convocatorias',$permisos))
 	<li>
-		<a href="{{ URL::to('convocatorias') }}"><i class="fa fa-bullhorn fa-fw"></i> Convocatorias</a>
+		<a href="{{ URL::to('convocatorias') }}"><i class="fa fa-bullhorn fa-fw"></i> Periodos</a>
     </li>
     @endif
     @if(in_array('nav_eventos',$permisos))
