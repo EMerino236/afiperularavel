@@ -241,6 +241,7 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'api.auth'), function()
     Route::post('clear_uuid', 'api\v1\SessionController@clear_uuid');
     Route::post('set_gcm_token', 'api\v1\SessionController@set_gcm_token');
     Route::post('clear_gcm_token', 'api\v1\SessionController@clear_gcm_token');
+    Route::post('push_settings', 'api\v1\PushSettingsController@push_settings');
 });
 
 /* Rutas para el juego */

@@ -64,6 +64,10 @@ class SessionController extends \BaseController {
             			'actions' => $permisos_array,
                         'can_reapply' => $can_reapply,
                         'period' => $period,
+                        'push_events' => $user->push_eventos,
+                        'push_fees' => $user->push_pagos,
+                        // 'push_event_documents' => $user->push_documentos,
+                        // 'push_sponsor_reports' => $user->push_reportes,
             			'auth_token' => $user->auth_token
         		];
 
