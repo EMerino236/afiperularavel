@@ -184,6 +184,19 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title"><input class="empresas-parent" type="checkbox" name="permisos[]" value="42" @if($permisos_data && in_array("42",$permisos_data)) checked @endif>Empresas</h3>
+					</div>
+					<div class="panel-body">
+						<input class="empresas-child" type="checkbox" name="permisos[]" value="43" @if($permisos_data && in_array("43",$permisos_data)) checked @endif> Listar Empresas<br>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="form-group col-md-6">
 				{{ Form::submit('Guardar',array('id'=>'submit-save', 'class'=>'btn btn-primary')) }}
