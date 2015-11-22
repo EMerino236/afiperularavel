@@ -45,6 +45,11 @@
 		<a href="{{ URL::to('concursos') }}"><i class="fa fa-folder-open fa-fw"></i> Concursos</a>
     </li>
     @endif
+    @if(in_array('nav_empresas',$permisos))
+    <li>
+        <a href="{{ URL::to('empresas') }}"><i class="fa fa-building-o fa-fw"></i> Empresas</a>
+    </li>
+    @endif
     
     <!-- /.dropdown -->
     <li class="dropdown">
