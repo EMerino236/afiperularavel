@@ -54,7 +54,7 @@ class JuegoController extends \BaseController {
                 $estadoNivel->save();
             }
             
-            return Response::json(['success' => 1], 200);
+            return Response::json(['success' => 1, 'idPlayer' => $jugador->idPlayer], 200);
         }
         else return Response::json($validator->messages(), 200);
         
