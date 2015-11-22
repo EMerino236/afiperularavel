@@ -39,7 +39,10 @@ class DashboardController extends BaseController
 				$data["precolegios"] = Precolegio::all()->count();
 			}
 			if(in_array('side_listar_usuarios',$data["permisos"])){
-				$data["usuarios"] = USer::all()->count();
+				$data["usuarios"] = User::all()->count();
+			}
+			if(in_array('side_mis_eventos',$data["permisos"])){
+				return Redirect::to('/eventos/mis_eventos');
 			}
 
 			return View::make('dashboard/dashboard',$data);
