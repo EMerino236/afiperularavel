@@ -116,6 +116,16 @@ Route::group(array('prefix'=>'padrinos','before'=>'auth'),function(){
 	Route::get('/view_pago/{id}','PadrinosController@render_view_pago');
 	Route::post('/submit_aprove_pago','PadrinosController@submit_aprove_pago');	
 	Route::post('/submit_rechazar_pago','PadrinosController@submit_rechazar_pago');
+	Route::post('payment', array(
+	    'as' => 'payment',
+	    'uses' => 'IndexController@postPayment',
+	));
+
+	// this is after make the payment, PayPal redirect back to your site
+	Route::get('payment/status', array(
+	    'as' => 'payment.status',
+	    'uses' => 'IndexController@getPaymentStatus',
+	));
 });
 /* Colegios */
 Route::group(array('prefix'=>'colegios','before'=>'auth'),function(){

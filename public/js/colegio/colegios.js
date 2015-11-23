@@ -140,36 +140,64 @@ $( document ).ready(function(){
         }
       });
       if(selected.length > 0){
-        var confirmation = confirm("¿Está seguro que desea aprobar a los precolegios seleccionados?");
-        if(confirmation){
-          
-          $.ajax({
-            url: inside_url+'colegios/submit_aprove_precolegio',
-            type: 'POST',
-            data: { 'selected_id' : selected },
-            beforeSend: function(){
-            },
-            complete: function(){
-              aprobar_precolegios = true;
-            },
-            success: function(response){
-              var url = inside_url + "colegios/list_precolegios";
-              if(response.success){
-                window.location = url;
-              }else{
-                alert('La petición no se pudo completar, inténtelo de nuevo.');
+        //var confirmation = confirm("¿Está seguro que desea aprobar a los precolegios seleccionados?");
+        //if(confirmation){
+         BootstrapDialog.confirm({
+              title: 'Mensaje de Confirmación',
+              message: '¿Está seguro que desea aprobar los pagos seleccionados?', 
+              type: BootstrapDialog.TYPE_INFO,
+              btnCancelLabel: 'Cancelar', 
+              btnOKLabel: 'Aceptar', 
+              callback: function(result){
+          if(result){ 
+            $.ajax({
+              url: inside_url+'colegios/submit_aprove_precolegio',
+              type: 'POST',
+              data: { 'selected_id' : selected },
+              beforeSend: function(){
+                $("#submit-aprobar-precolegios").addClass("disabled");
+                $("#submit-aprobar-precolegios").hide();
+                $(".loader_container").show();
+              },
+              complete: function(){
+                $(".loader_container").hide();
+                $("#submit-aprobar-precolegios").removeClass("disabled");
+                $("#submit-aprobar-precolegios").show();
+                aprobar_precolegios = true;
+              },
+              success: function(response){
+                var url = inside_url + "colegios/list_precolegios";
+                if(response.success){
+                  window.location = url;
+                }else{
+                  BootstrapDialog.alert({
+                      title: 'Alerta',
+                      message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+                      type: BootstrapDialog.TYPE_INFO
+                    });
+                }
+              },
+              error: function(){
+                BootstrapDialog.alert({
+                    title: 'Alerta',
+                    message: 'La petición no se pudo completar, inténtelo de nuevo.', 
+                    type: BootstrapDialog.TYPE_INFO
+                  });
               }
-            },
-            error: function(){
-              alert('La petición no se pudo completar, inténtelo de nuevo.');
-            }
-          });
-        }else{
-          aprobar_precolegios = true;
+            });
+          }else{
+            aprobar_precolegios = true;
+          }
         }
+      });
       }else{
         aprobar_precolegios = true;
-        alert('Seleccione alguna casilla.');
+        BootstrapDialog.alert({          
+              size: BootstrapDialog.SIZE_SMALL,
+              title: 'Alerta',
+              message: 'Seleccione alguna casilla', 
+              type: BootstrapDialog.TYPE_INFO
+            });
       }
     }
   });

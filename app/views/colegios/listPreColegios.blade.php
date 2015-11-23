@@ -36,7 +36,10 @@
 	<div class="col-md-12">
 		<div class="row">
 			<div class="form-group col-md-8">	
-			@if(!$precolegios_data->isEmpty())					
+			@if(!$precolegios_data->isEmpty())
+				<div class="loader_container" style="display:none;">
+					{{ HTML::image('img/loading.gif') }}
+				</div>						
 				{{ HTML::link('','Aprobar',array('id'=>'submit-aprobar-precolegios', 'class'=>'btn btn-primary')) }}
 			@endif
 			</div>
