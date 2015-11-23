@@ -49,8 +49,8 @@
 		</div>
 		
 		<div class="row">
-			<div class="form-group col-md-6">	
-				{{ Form::submit('Regresar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+			<div class="form-group col-md-2">	
+				{{ Form::submit('Regresar',array('id'=>'submit-regresar', 'class'=>'btn btn-success btn-block')) }}
 			</div>
 		</div>
 	{{ Form::close() }}
