@@ -96,15 +96,15 @@
 		<div class="row">
 			<div class="form-group col-xs-8">
 			@if($padrino_info->deleted_at)
-				{{ Form::open(array('url'=>'padrinos/submit_enable_padrino', 'role'=>'form')) }}
+				{{ Form::open(array('url'=>'padrinos/submit_enable_padrino', 'role'=>'form','id'=>'submitEnable')) }}
 					{{ Form::hidden('user_id', $padrino_info->id) }}
 					{{ Form::hidden('padrino_id', $padrino_info->idpadrinos) }}
-					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
+					{{ Form::submit('Habilitar',array('id'=>'submit-enable', 'class'=>'btn btn-success')) }}
 			@else
-				{{ Form::open(array('url'=>'padrinos/submit_disable_padrino', 'role'=>'form')) }}
+				{{ Form::open(array('url'=>'padrinos/submit_disable_padrino', 'role'=>'form','id'=>'submitDelete')) }}
 					{{ Form::hidden('user_id', $padrino_info->id) }}
 					{{ Form::hidden('padrino_id', $padrino_info->idpadrinos) }}
-					{{ Form::submit('Inhabilitar',array('idpadrinos'=>'submit-delete', 'class'=>'btn btn-danger')) }}
+					{{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}
 			@endif
 				{{ Form::close() }}
 			</div>
