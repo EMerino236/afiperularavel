@@ -15,9 +15,12 @@
 		</div>
 	@endif
 
-@if (Session::has('danger')) 
-	<div class="alert alert-danger">{{ Session::get('danger') }}</div> 
-@endif 
+	@if (Session::has('message'))
+		<div class="alert alert-success">{{ Session::get('message') }}</div>
+	@endif
+	@if (Session::has('error'))
+		<div class="alert alert-danger">{{ Session::get('error') }}</div>
+	@endif
 	
 	<table class="table">
 		
@@ -34,7 +37,8 @@
 				<th><center>Num. Comprobante</center></th>
 				<th><center>Estado</center></th>
 				<th><center>Aprobación AFI</center></th>
-				<th><center>Registo</center></th>
+				<th><center>Pago Depósito</center></th>
+				<th><center>Pago PayPal</center></th>
 			</tr>
 			@foreach($calendario_pagos as $calendario_pago)
 			{{ Form::open(array('url'=>'padrinos/submit_registrar_pagos', 'role'=>'form')) }}
@@ -46,11 +50,11 @@
 					<center>{{$calendario_pago->monto}}</center>
 				</td>
 				<td>
-					<center>{{$calendario_pago->vencimiento}}</center>
+					<center>{{date('d/m/Y',strtotime($calendario_pago->vencimiento))}}</center>
 				</td>
 				<td>
 					@if($calendario_pago->fecha_pago)						
-						<center>{{$calendario_pago->fecha_pago}}</center>
+						<center>{{date('d/m/Y',strtotime($calendario_pago->fecha_pago))}}</center>
 					@endif
 					@if($calendario_pago->fecha_pago === null)											
 						<center>-</center>
@@ -96,19 +100,38 @@
 						Aprobado
 					@endif				
 				</td>
+				<td class"=text-center" style="vertical-align:middle">					
+						@if($calendario_pago->fecha_pago && $calendario_pago->aprobacion !== 0)
+							<center>{{ Form::submit('Depósito',array('class'=>'btn btn-primary','disabled'=>'disabled')) }}</center>
+						@endif
+						@if($calendario_pago->fecha_pago === null || $calendario_pago->aprobacion === 0)
+							<center>{{ Form::submit('Depósito',array('class'=>'btn btn-primary')) }}</center>
+							{{ Form::hidden('idcalendario_pagos', $calendario_pago->idcalendario_pagos) }}
+						@endif
+					{{ Form::close() }} 
+				</td>
 				<td class"=text-center" style="vertical-align:middle">
+					{{ Form::open(array('url'=>'padrinos/payment', 'role'=>'form')) }}
 					@if($calendario_pago->fecha_pago && $calendario_pago->aprobacion !== 0)
-						<center>{{ Form::submit('Pagar',array('class'=>'btn btn-primary','disabled'=>'disabled')) }}</center>
+						<center>{{ Form::submit('Paypal',array('id'=>'submit-registrar-pago', 'class'=>'btn btn-info','disabled'=>'disabled')) }}</center>
 					@endif
-					@if($calendario_pago->fecha_pago === null || $calendario_pago->aprobacion === 0)
-						<center>{{ Form::submit('Pagar',array('class'=>'btn btn-primary')) }}</center>
+					@if($calendario_pago->fecha_pago === null || $calendario_pago->aprobacion === 0)					
 						{{ Form::hidden('idcalendario_pagos', $calendario_pago->idcalendario_pagos) }}
+						{{ Form::hidden('monto', $calendario_pago->monto) }}
+					 	<center>{{ Form::submit('Paypal',array('id'=>'submit-registrar-pago', 'class'=>'btn btn-info')) }}</center>					 	
 					@endif
+					{{Form::close()}}
 				</td>
 			</tr>
-			{{ Form::close() }} 
 			@endforeach
 		@endif		
 	</table>
+
+	<div class="row">
+			
+			<div class="form-group col-md-1">
+					
+			</div>
+		</div>		
 
 @stop	
