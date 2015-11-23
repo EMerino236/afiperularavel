@@ -66,8 +66,8 @@ class SessionController extends \BaseController {
                         'period' => $period,
                         'push_events' => $user->push_eventos,
                         'push_fees' => $user->push_pagos,
-                        // 'push_event_documents' => $user->push_documentos,
-                        // 'push_sponsor_reports' => $user->push_reportes,
+                        'push_documents' => $user->push_documents,
+                        'push_reports' => $user->push_reports,
             			'auth_token' => $user->auth_token
         		];
 

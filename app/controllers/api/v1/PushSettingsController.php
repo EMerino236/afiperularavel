@@ -20,8 +20,8 @@ class PushSettingsController extends \BaseController {
             {
                 $user->push_eventos = $settingsInput['push_events'];
                 $user->push_pagos = $settingsInput['push_fees'];
-                // $user->push_documentos = $settingsInput['push_documents'];
-                // $user->push_reportes = $settingsInput['push_reports'];
+                $user->push_documents = $settingsInput['push_documents'];
+                $user->push_reports = $settingsInput['push_reports'];
 
                 $user->save();
 
