@@ -18,6 +18,52 @@ $( document ).ready(function(){
 			$(".hidden-aprobacion").val('0');
 		}
 	});
+
+	var aprobar_delete = true;
+  $("#submit-delete").click(function(e){
+    e.preventDefault();
+    if(aprobar_delete){
+      aprobar_delete = false;
+      BootstrapDialog.confirm({
+        title: 'Mensaje de Confirmación',
+        message: 'El padrino será eliminado ¿Está seguro que desea realizar esta acción?', 
+        type: BootstrapDialog.TYPE_INFO,
+        btnCancelLabel: 'Cancelar', 
+              btnOKLabel: 'Aceptar', 
+        callback: function(result){
+                if(result) {
+                    document.getElementById("submitDelete").submit();
+                }
+                else{
+                  aprobar_delete = true;
+                }
+            }
+      });
+    }
+  });
+
+  var aprobar_enable = true;
+  $("#submit-enable").click(function(e){
+    e.preventDefault();
+    if(aprobar_enable){
+      aprobar_enable = false;
+      BootstrapDialog.confirm({
+        title: 'Mensaje de Confirmación',
+        message: 'El padrino será habilitado ¿Está seguro que desea realizar esta acción?', 
+        type: BootstrapDialog.TYPE_INFO,
+        btnCancelLabel: 'Cancelar', 
+              btnOKLabel: 'Aceptar', 
+        callback: function(result){
+                if(result) {
+                    document.getElementById("submitEnable").submit();
+                }
+                else{
+                  aprobar_enable= true;
+                }
+            }
+      });
+    }
+  });
 	
 	var aprobar_prepadrinos = true;
 	$("#submit-aprobar-prepadrinos").click(function(e){
