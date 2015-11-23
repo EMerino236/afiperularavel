@@ -22,8 +22,10 @@ class Evento extends Eloquent{
 
 	public function scopeGetNextDayEventos($query)
 	{
-		$query->where('fecha_evento', '<=', new \DateTime('tomorrow'))
-			->where('fecha_evento', '>', new \DateTime('today'));
+		$now = date("Y-m-d H:i:s");
+
+		$query->where('fecha_evento', '<', new \DateTime('tomorrow + 1day'))
+			->where('fecha_evento', '>', new \DateTime());
 
 		return $query;
 	}

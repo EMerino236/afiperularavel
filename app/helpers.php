@@ -19,6 +19,8 @@ class Helpers extends BaseController{
 	{
 		echo 'pushAPNS:' . $deviceToken . PHP_EOL;
 		echo 'pushAPNS:' . $message . PHP_EOL;
+		$now = date("Y-m-d H:i:s");
+		echo 'pushAPNS:Now: ' . $now . PHP_EOL;
 
 		// Put your private key's passphrase here:
 		$passphrase = 'alonso3000';
