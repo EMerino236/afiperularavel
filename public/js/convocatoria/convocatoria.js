@@ -254,6 +254,29 @@ $( document ).ready(function(){
 			 return false;
 		}
 	});
+
+	var eliminar_convocatoria = true;
+	$("#submit-delete").click(function(e){
+		e.preventDefault();
+		if(eliminar_convocatoria){
+			eliminar_convocatoria = false;
+			BootstrapDialog.confirm({
+				title: 'Mensaje de Confirmación',
+				message: '¿Está seguro que desea realizar esta acción?', 
+				type: BootstrapDialog.TYPE_INFO,
+				btnCancelLabel: 'Cancelar', 
+            	btnOKLabel: 'Aceptar', 
+				callback: function(result){
+		            if(result) {
+		                document.getElementById("submitDelete").submit();
+            		}
+            		else{
+            			eliminar_convocatoria = true;
+            		}
+        		}
+			});
+		}
+	});
 });
 
 function goBack() {

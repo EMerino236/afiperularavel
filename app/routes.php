@@ -260,3 +260,14 @@ Route::group(array('prefix' => 'game'), function()
     Route::post('friends/helpNeeded', 'api\juego\JuegoController@friendsHelpNeeded');
     Route::post('friends/help', 'api\juego\JuegoController@friendsHelp');
 });
+
+/* Empresa */
+Route::group(array('prefix'=>'empresas','before'=>'auth'),function(){
+	Route::get('/','EmpresasController@home');
+	Route::get('/list_empresas','EmpresasController@list_empresas');
+	Route::get('/search_empresa','EmpresasController@search_empresa');
+	Route::get('/edit_empresa/{id}','EmpresasController@render_edit_empresa');
+	Route::post('/submit_disable_empresa','EmpresasController@submit_disable_empresa');
+	Route::post('/submit_enable_empresa','EmpresasController@submit_enable_empresa');
+	Route::post('/submit_edit_empresa','EmpresasController@submit_edit_empresa');
+});

@@ -84,7 +84,7 @@
 					{{ Form::hidden('idperiodo', $convocatoria_info->idperiodos) }}
 					{{ Form::submit('Habilitar',array('id'=>'submit-delete', 'class'=>'btn btn-success')) }}
 			@else
-				{{ Form::open(array('url'=>'convocatorias/submit_disable_convocatoria', 'role'=>'form')) }}
+				{{ Form::open(array('url'=>'convocatorias/submit_disable_convocatoria', 'role'=>'form','id'=>'submitDelete')) }}
 					{{ Form::hidden('idperiodo', $convocatoria_info->idperiodos) }}
 					 {{ Form::submit('Inhabilitar',array('id'=>'submit-delete', 'class'=>'btn btn-danger')) }}	
 			@endif
