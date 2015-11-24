@@ -28,7 +28,7 @@ class Asistencia extends Eloquent{
 	{
 		$query->join('users','users.id', '=', 'asistencias.idusers')
 			  ->where('asistencias.ideventos','=', $ideventos)
-			  ->select('users.uuid', 'users.push_eventos');
+			  ->select('users.uuid', 'users.push_eventos', 'users.push_documents');
 		
 		return $query;
 	}

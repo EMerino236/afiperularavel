@@ -21,7 +21,7 @@ class Padrino extends Eloquent{
 	public function scopeGetActivePadrinosPushInfo($query)
 	{
 		$query->join('users','users.id','=','padrinos.idusers')
-			  ->select('padrinos.idpadrinos', 'users.push_pagos', 'users.uuid', 'users.gcm_token');
+			  ->select('padrinos.idpadrinos', 'users.push_pagos', 'users.push_reports', 'users.uuid', 'users.gcm_token');
 		return $query;
 	}
 

@@ -455,7 +455,7 @@ class EventosController extends BaseController
 						$voluntarios = Asistencia::getUserPushInfoByEvento($evento->ideventos)->get();
 						foreach ($voluntarios as $voluntario)
 						{
-							if ($voluntario->push_eventos && $voluntario->uuid)
+							if ($voluntario->push_documents && $voluntario->uuid)
 							{
 								$message = 'Se subió un nuevo documento de AFI Perú.';
 								Helpers::pushAPNS($voluntario->uuid, $message, 3);

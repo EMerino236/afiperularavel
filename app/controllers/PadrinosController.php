@@ -164,7 +164,7 @@ class PadrinosController extends BaseController
 					$padrinos_push = Padrino::getActivePadrinosPushInfo()->get();
 					foreach ($padrinos_push as $padrino_push)
 					{
-						if ($padrino_push->push_pagos && $padrino_push->uuid)
+						if ($padrino_push->push_reports && $padrino_push->uuid)
 						{
 							$message = 'Te queremos informar la labor de AFI PERÚ.';
 							Helpers::pushAPNS($padrino_push->uuid, $message, 4);
