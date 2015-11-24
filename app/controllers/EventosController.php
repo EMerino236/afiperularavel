@@ -613,6 +613,18 @@ class EventosController extends BaseController
 			$data["permisos"] = Session::get('permisos');
 			$data["user_info"] = User::searchUserById($data["user"]->id)->get();
 			if(in_array('side_mis_eventos',$data["permisos"])){
+				$data["periodo_actual"] = Periodo::getPeriodoActual()->get();
+				$data["usuario_ya_inscrito"] = true;
+				if(!$data["periodo_actual"]->isEmpty()){
+					$data["periodo_actual"] = $data["periodo_actual"][0];
+					$usuario_ya_existe = UsersPeriodo::getUsersPeriodoByUserXPeriodo($data["user"]->id,$data["periodo_actual"]->idperiodos)->get();				
+					if($usuario_ya_existe->isEmpty()){
+						$data["usuario_ya_inscrito"] = false;
+					}
+				}
+				else{
+					$data["periodo_actual"] = array();
+				}
 				return View::make('eventos/misEventos',$data);
 			}else{
 				// Llamo a la función para registrar el log de auditoria
