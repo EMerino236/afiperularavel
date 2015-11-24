@@ -174,7 +174,7 @@ class PadrinosController extends BaseController
                     //Enviar las push notifications (android) a los padrinos y madrinas
                     $gcm_tokens = Padrino::getPadrinosToNotificateReport()->get()->lists('gcm_token');
                     $message = 'Te queremos informar la labor de AFI PERÚ.';
-                    $type = 'Reporte de padrinos';
+                    $type = 4;
                     $m = ['title' => $title, 'message' => $message, 'type' => $type];
 				    Helpers::pushGCM($gcm_tokens, $m);
                     

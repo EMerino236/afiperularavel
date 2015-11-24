@@ -97,7 +97,8 @@ class Padrino extends Eloquent{
     public function scopeGetPadrinosToNotificateReport($query)
 	{
 		$query->join('users','users.id','=','padrinos.idusers')
-              ->where('users.push_pagos', '=', 1)
+              ->where('padrinos.created_at','LIKE',$anho."%")
+              ->where('users.push_reports', '=', 1)
               ->whereNotNull('users.gcm_token')
 			  ->select('users.gcm_token');
 		return $query;

@@ -463,10 +463,10 @@ class EventosController extends BaseController
 						}
                         
                         // Enviar las push notifications (android) a los voluntarios
-						$gcm_tokens = Asistencia::getUsersToNotificate($ideventos)->get()->lists('gcm_token');
+						$gcm_tokens = Asistencia::getUsersToNotificateDocumentUploaded($ideventos)->get()->lists('gcm_token');
                         $title = 'AFI Perú - Nuevo documento';
                         $message = 'Se subió un nuevo documento de AFI Perú: ' . $documento->titulo;
-                        $type = 'Nuevo documento';
+                        $type = 3;
                         $m = ['title' => $title, 'message' => $message, 'type' => $type];
                         Helpers::pushGCM($gcm_tokens, $m);
                         
