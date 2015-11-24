@@ -144,7 +144,7 @@ $( document ).ready(function(){
         //if(confirmation){
          BootstrapDialog.confirm({
               title: 'Mensaje de Confirmación',
-              message: '¿Está seguro que desea aprobar los pagos seleccionados?', 
+              message: '¿Está seguro que desea aprobar los colegios seleccionados?', 
               type: BootstrapDialog.TYPE_INFO,
               btnCancelLabel: 'Cancelar', 
               btnOKLabel: 'Aceptar', 

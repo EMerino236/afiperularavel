@@ -80,7 +80,7 @@ $( document ).ready(function(){
 				//var confirmation = confirm("¿Está seguro que desea aprobar a los prepadrinos seleccionados?");
 				BootstrapDialog.confirm({
 	            title: 'Mensaje de Confirmación',
-	            message: '¿Está seguro que desea aprobar los pagos seleccionados?', 
+	            message: '¿Está seguro que desea aprobar los padrinos seleccionados?', 
 	            type: BootstrapDialog.TYPE_INFO,
 	            btnCancelLabel: 'Cancelar', 
 	            btnOKLabel: 'Aceptar', 
