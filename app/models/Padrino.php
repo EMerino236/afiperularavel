@@ -94,7 +94,7 @@ class Padrino extends Eloquent{
 			  ->where('idusers','=',$iduser);
 		return $query;
 	}
-    public function scopeGetPadrinosToNotificateReport($query)
+    public function scopeGetPadrinosToNotificateReport($query,$anho)
 	{
 		$query->join('users','users.id','=','padrinos.idusers')
               ->where('padrinos.created_at','LIKE',$anho."%")
