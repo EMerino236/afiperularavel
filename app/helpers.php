@@ -127,5 +127,15 @@ class Helpers extends BaseController{
         
         return Response::json($result_json, 200);
 	}
+
+	//Enviar una notificación a mail
+	public static function pushMail($user,$fee)
+	{
+	    Mail::send('emails.recordatorioPago',array('user'=> $user,'fee'=>$fee),function($message) use ($user,$fee)
+			{
+				$message->to($user->email)
+						->subject('Recordatorio de Pago' . $fee->vencimiento);
+			});
+	}
 }
 ?>

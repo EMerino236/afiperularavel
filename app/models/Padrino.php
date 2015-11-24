@@ -102,4 +102,11 @@ class Padrino extends Eloquent{
 			  ->select('users.gcm_token');
 		return $query;
 	}
+
+	public function scopeGetActivePadrinosPushMailInfo($query)
+	{
+		$query->join('users','users.id','=','padrinos.idusers')
+			  ->select('padrinos.idpadrinos', 'users.push_pagos', 'users.email', 'users.id');
+		return $query;
+	}
 }
