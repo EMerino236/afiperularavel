@@ -14,6 +14,7 @@
 		<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 	@if(in_array('side_mis_eventos',$permisos) && $periodo_actual && !$usuario_ya_inscrito)
+	{{ Form::open(array('url'=>'voluntarios/submit_repostulacion', 'role'=>'form')) }}
 		{{ Form::hidden('user_id', $user->id) }}
 		{{ Form::hidden('idperiodos', $periodo_actual->idperiodos) }}
 		<p><font color="red" size="5">¡Aviso Importante!</font></p>
@@ -29,6 +30,7 @@
 				</div>
 			</div>
 		</div>
+	{{ Form::close() }}	
 	@endif
 	<div class="col-xs-12">
 		<!-- Responsive calendar - START -->
