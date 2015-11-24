@@ -32,7 +32,7 @@ class PushSettingsController extends \BaseController {
             else
             {
                 $response = [ 'error' => 'Parámetro settings inválido (vacío/formato JSON incorrecto).'];
-                $status_code = 401;
+                $status_code = 200;
                 return Response::json($response, $status_code);
             }
         }
