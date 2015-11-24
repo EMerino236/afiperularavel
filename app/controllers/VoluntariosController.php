@@ -97,7 +97,7 @@ class VoluntariosController extends BaseController
 				Helpers::registrarLog(3,$descripcion_log);
 
 				Session::flash('message',"Se ha registrado correctamente su postulación al nuevo período.");
-				return Redirect::to('/dashboard');
+				return Redirect::to('/eventos/mis_eventos');
 			}else{
 				return View::make('error/error');
 			}
