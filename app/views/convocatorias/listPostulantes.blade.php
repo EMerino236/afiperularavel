@@ -144,6 +144,13 @@
 			@endforeach
 		</table>
 		<div class="row">
+			@if($idfase)
+				{{ $postulantes_info->appends(array('idfases' => $idfase,'select_aprobacion'=>$estado_aprobacion,'idperiodos'=>$convocatoria_info->idperiodos))->links() }}
+			@else
+				{{ $postulantes_info->links() }}
+			@endif
+		</div>
+		<div class="row">
 			@if($estado_aprobacion != -1)
 				<div class="form-group col-md-2">
 					{{ Form::submit('Guardar',array('id'=>'submit-aprobacion-postulantes','class'=>'btn btn-primary')) }}	
@@ -153,10 +160,5 @@
 				<a class="btn btn-default btn-block" href="{{URL::to('/convocatorias/list_convocatoria/')}}">Regresar</a>				
 			</div>
 		</div>
-		@if($idfase)
-			{{ $postulantes_info->appends(array('idfases' => $idfase,'select_aprobacion'=>$estado_aprobacion,'idperiodos'=>$convocatoria_info->idperiodos))->links() }}
-		@else
-			{{ $postulantes_info->links() }}
-		@endif
 	{{ Form::close() }}
 @stop
