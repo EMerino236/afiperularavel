@@ -159,8 +159,11 @@ class JuegoController extends \BaseController {
             {
                 // si ya existe un puntaje y es menor al nuevo puntaje, se modifica
                 $registro_puntaje->score = $puntaje;
-                $registro_puntaje->save();
             }
+            $registro_puntaje->defeatPosX = -1;
+            $registro_puntaje->defeatPosY = -1;
+            $registro_puntaje->defeated = 0;
+            $registro_puntaje->save();
         }
         else
         {
