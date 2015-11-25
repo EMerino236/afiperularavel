@@ -275,6 +275,7 @@ class ConvocatoriasController extends BaseController
 					$data["estado_aprobacion"] = null;
 				}				
 				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase($id,$data["idfase"],$data["estado_aprobacion"])->paginate(10);																	
+				
 				$data["cantidad_postulantes"] = count($data["postulantes_info"]);
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
@@ -305,6 +306,7 @@ class ConvocatoriasController extends BaseController
 					$data["estado_aprobacion"] = null;
 				}
 				$data["postulantes_info"] = PostulantesPeriodo::getPostulantesPorPeriodoFase(Input::get('idperiodos'),Input::get('idfases'),$data["estado_aprobacion"])->paginate(10);	
+				
 				$data["cantidad_postulantes"] = count($data["postulantes_info"]);
 				return View::make('convocatorias/listPostulantes',$data);
 			}else{
@@ -527,6 +529,7 @@ class ConvocatoriasController extends BaseController
 									$message->to($user->email, $persona->nombres)
 											->subject('Registro de nuevo usuario');
 								});
+								
 							}
 							else{
 								/*
