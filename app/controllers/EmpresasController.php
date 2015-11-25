@@ -7,7 +7,9 @@ class EmpresasController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"]= Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('nav_empresas',$data["permisos"])){
+			if(in_array('side_listar_empresas',$data["permisos"])){
+				return Redirect::to('/empresas/list_empresas');
+			}else if(in_array('nav_empresas',$data["permisos"])){
 				return View::make('empresas/home',$data);
 			}else{
 				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";

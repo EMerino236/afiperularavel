@@ -7,14 +7,16 @@
         <!-- /.col-lg-12 -->
     </div>
 
-    {{ Form::open(array('url'=>'/padrinos/search_padrino','method'=>'get' ,'role'=>'form', 'id'=>'search-form','class' => 'form-inline')) }}
+    {{ Form::open(array('url'=>'/padrinos/search_padrino','method'=>'get' ,'role'=>'form', 'id'=>'search-form')) }}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Búsqueda</h3>
 			</div>
 			<div class="panel-body">
-			<div class="search_bar">
-				{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Búsqueda')) }}
+				<div class="col-md-8">
+					{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Doc. de Identidad, Nombres, Apellidos, E-mail')) }}
+				</div>	
+				<div class="col-md-2">
 				{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
 			</div>	
 			</div>
@@ -23,7 +25,7 @@
 
 	<table class="table">
 		<tr class="info">
-			<th>Doc. de identidad</th>
+			<th>Doc. de Identidad</th>
 			<th>Nombres</th>
 			<th>Apellidos</th>
 			<th>E-mail</th>

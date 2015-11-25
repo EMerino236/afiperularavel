@@ -8,9 +8,11 @@ class PadrinosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"]= Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('nav_padrinos',$data["permisos"])){
+			if(in_array('side_listar_padrinos',$data["permisos"])){
+				return Redirect::to('/padrinos/list_padrinos');
+			}else if(in_array('nav_padrinos',$data["permisos"])){
 				return View::make('padrinos/home',$data);
-			}else{
+			}else{	
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
 				Helpers::registrarLog(10,$descripcion_log);

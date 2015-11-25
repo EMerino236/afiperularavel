@@ -15,7 +15,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-8">
-						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Periodo, N° Documento, Nombre')) }}
+						{{ Form::text('search',$search,array('class'=>'form-control','placeholder'=>'Ingrese Periodo, Doc. de Identidad, Nombre')) }}
 					</div>
 					<div class="col-md-4">
 						{{ Form::submit('Buscar',array('id'=>'submit-search-form','class'=>'btn btn-info')) }}
@@ -28,7 +28,7 @@
 	<table class="table">
 		<tr class="info">
 			<th>Periodo</th>
-			<th>Doc. de identidad</th>
+			<th>Doc. de Identidad</th>
 			<th>Nombre</th>
 			<th>E-mail</th>
 			<th>Celular</th>

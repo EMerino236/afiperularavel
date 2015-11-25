@@ -7,12 +7,15 @@ class ColegiosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"]= Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('nav_colegios',$data["permisos"])){
+			if(in_array('side_listar_colegios',$data["permisos"])){
+				return Redirect::to('/colegios/list_colegios');
+			}else if(in_array('nav_colegios',$data["permisos"])){
 				return View::make('colegios/home',$data);
-			}else{
+			}else{	
 				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
 				Helpers::registrarLog(10,$descripcion_log);
-				return View::make('error/error');
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
 			}
 		}else{
 			return View::make('error/error');

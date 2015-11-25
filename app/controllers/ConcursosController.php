@@ -8,9 +8,11 @@ class ConcursosController extends BaseController
 			$data["inside_url"] = Config::get('app.inside_url');
 			$data["user"]= Session::get('user');
 			$data["permisos"] = Session::get('permisos');
-			if(in_array('nav_concursos',$data["permisos"])){
+			if(in_array('side_listar_concursos',$data["permisos"])){
+				return Redirect::to('/concursos/list_concursos');
+			}else if(in_array('nav_concursos',$data["permisos"])){
 				return View::make('concursos/home',$data);
-			}else{
+			}else{	
 				// Llamo a la función para registrar el log de auditoria
 				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
 				Helpers::registrarLog(10,$descripcion_log);
