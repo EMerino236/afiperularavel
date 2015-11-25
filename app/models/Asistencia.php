@@ -28,7 +28,7 @@ class Asistencia extends Eloquent{
 	{
 		$query->join('users','users.id', '=', 'asistencias.idusers')
 			  ->where('asistencias.ideventos','=', $ideventos)
-			  ->select('users.uuid', 'users.push_eventos');
+			  ->select('users.uuid', 'users.push_eventos', 'users.push_documents');
 		
 		return $query;
 	}
@@ -38,6 +38,17 @@ class Asistencia extends Eloquent{
 		$query->join('users','users.id', '=', 'asistencias.idusers')
 			  ->where('asistencias.ideventos','=', $ideventos)
               ->where('users.push_eventos', '=', 1)
+              ->whereNotNull('users.gcm_token')
+			  ->select('users.gcm_token');
+		
+		return $query;
+	}
+    
+    public function scopeGetUsersToNotificateDocumentUploaded($query, $ideventos)
+	{
+		$query->join('users','users.id', '=', 'asistencias.idusers')
+			  ->where('asistencias.ideventos','=', $ideventos)
+              ->where('users.push_documents', '=', 1)
               ->whereNotNull('users.gcm_token')
 			  ->select('users.gcm_token');
 		

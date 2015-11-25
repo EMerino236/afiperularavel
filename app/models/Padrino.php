@@ -21,7 +21,7 @@ class Padrino extends Eloquent{
 	public function scopeGetActivePadrinosPushInfo($query)
 	{
 		$query->join('users','users.id','=','padrinos.idusers')
-			  ->select('padrinos.idpadrinos', 'users.push_pagos', 'users.uuid', 'users.gcm_token');
+			  ->select('padrinos.idpadrinos', 'users.push_pagos', 'users.push_reports', 'users.uuid', 'users.gcm_token');
 		return $query;
 	}
 
@@ -94,10 +94,11 @@ class Padrino extends Eloquent{
 			  ->where('idusers','=',$iduser);
 		return $query;
 	}
-    public function scopeGetPadrinosToNotificateReport($query)
+    public function scopeGetPadrinosToNotificateReport($query,$anho)
 	{
 		$query->join('users','users.id','=','padrinos.idusers')
-              ->where('users.push_pagos', '=', 1)
+              ->where('padrinos.created_at','LIKE',$anho."%")
+              ->where('users.push_reports', '=', 1)
               ->whereNotNull('users.gcm_token')
 			  ->select('users.gcm_token');
 		return $query;

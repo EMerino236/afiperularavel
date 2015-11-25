@@ -455,7 +455,7 @@ class EventosController extends BaseController
 						$voluntarios = Asistencia::getUserPushInfoByEvento($evento->ideventos)->get();
 						foreach ($voluntarios as $voluntario)
 						{
-							if ($voluntario->push_eventos && $voluntario->uuid)
+							if ($voluntario->push_documents && $voluntario->uuid)
 							{
 								$message = 'Se subió un nuevo documento de AFI Perú.';
 								Helpers::pushAPNS($voluntario->uuid, $message, 3);
@@ -463,10 +463,10 @@ class EventosController extends BaseController
 						}
                         
                         // Enviar las push notifications (android) a los voluntarios
-						$gcm_tokens = Asistencia::getUsersToNotificate($ideventos)->get()->lists('gcm_token');
+						$gcm_tokens = Asistencia::getUsersToNotificateDocumentUploaded($ideventos)->get()->lists('gcm_token');
                         $title = 'AFI Perú - Nuevo documento';
                         $message = 'Se subió un nuevo documento de AFI Perú: ' . $documento->titulo;
-                        $type = 'Nuevo documento';
+                        $type = 3;
                         $m = ['title' => $title, 'message' => $message, 'type' => $type];
                         Helpers::pushGCM($gcm_tokens, $m);
                         
