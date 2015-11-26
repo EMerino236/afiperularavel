@@ -39,6 +39,7 @@
 			<th>Dirección</th>
 			<th>Asistencia</th>
 			<th>Documentos</th>
+			<th>Comentarios</th>
 		</tr>
 		@foreach($eventos_data as $evento_data)
 		<tr>
@@ -56,6 +57,9 @@
 			</td>
 			<td>
 				<a href="{{URL::to('/eventos/upload_file/')}}/{{$evento_data->ideventos}}">@if($hoy < $evento_data->fecha_evento)Subir Documentos @else Visualizaciones @endif</a>
+			</td>
+			<td>
+				<a href="{{URL::to('/eventos/comentarios_ninos/')}}/{{$evento_data->ideventos}}">Ver comentarios</a>
 			</td>
 		</tr>
 		@endforeach

@@ -36,7 +36,11 @@
 						{{ Form::hidden('idasistencia_ninhos[]', $asistencia_ninhos[$i]->idasistencia_ninhos) }}
 						<td style="vertical-align:middle">{{$asistencia_ninhos[$i]->nombres}} {{$asistencia_ninhos[$i]->apellido_pat}} {{$asistencia_ninhos[$i]->apellido_mat}}</td>
 						<td style="vertical-align:middle">
-							{{ Form::select('calificaciones', ['0'=>':(','1'=>':)'],$asistencia_ninhos[$i]->calificacion,array('class'=>'form-control')) }}
+							@if($comentario_ninhos[$i])
+								{{ Form::select('calificaciones[]', ['0'=>':(','1'=>':)'],$comentario_ninhos[$i]->calificacion,array('class'=>'form-control')) }}
+							@else
+							{{ Form::select('calificaciones[]', ['0'=>':(','1'=>':)'],0,array('class'=>'form-control')) }}
+							@endif
 						</td>
 						<td style="vertical-align:middle">
 							@if($comentario_ninhos[$i])

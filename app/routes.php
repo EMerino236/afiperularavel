@@ -72,6 +72,9 @@ Route::group(array('prefix'=>'eventos','before'=>'auth'),function(){
 	Route::get('/list_puntos_reunion','EventosController@list_puntos_reunion');
 	Route::get('/list_puntos_reunion_ajax','EventosController@list_puntos_reunion_ajax');
 	Route::post('/submit_disable_puntos_reunion_ajax','EventosController@submit_disable_puntos_reunion_ajax');
+	/* Comentarios */
+	Route::get('/comentarios_ninos/{id}','EventosController@render_comentarios_ninos');
+
 });
 /* Voluntarios */
 Route::group(array('prefix'=>'voluntarios','before'=>'auth'),function(){

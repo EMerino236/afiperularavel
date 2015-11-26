@@ -835,7 +835,7 @@ class EventosController extends BaseController
 				$idcomentarios = Input::get('idcomentarios');
 				$calificaciones = Input::get('calificaciones');
 				$comentarios = Input::get('comentarios');
-				for($i=0;$i<count($idcomentarios);$i++){
+				for($i=0;$i<count($idasistencia_ninhos);$i++){
 					if(empty($idcomentarios[$i])){
 						$comentario = new Comentario;
 						$comentario->idusers = $data["user"]->id;
@@ -993,6 +993,27 @@ class EventosController extends BaseController
 			}
 		}else{
 			return Response::json(array( 'success' => false ),200);
+		}
+	}
+
+	public function render_comentarios_ninos($id=null)
+	{
+		if(Auth::check()){
+			$data["inside_url"] = Config::get('app.inside_url');
+			$data["user"] = Session::get('user');
+			$data["permisos"] = Session::get('permisos');
+			if((in_array('side_nuevo_evento',$data["permisos"])) && $id){
+				$data["comentarios"] = AsistenciaNinho::getComentariosPorEvento($id)->get();
+				return View::make('eventos/comentarios_ninhos',$data);
+			}else{
+				// Llamo a la función para registrar el log de auditoria
+				$descripcion_log = "Se intentó acceder a la ruta '".Request::path()."' por el método '".Request::method()."'";
+				Helpers::registrarLog(10,$descripcion_log);
+				Session::flash('error', 'Usted no tiene permisos para realizar dicha acción.');
+				return Redirect::to('/dashboard');
+			}
+		}else{
+			return View::make('error/error');
 		}
 	}
 }
