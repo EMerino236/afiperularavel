@@ -97,7 +97,7 @@
 					<div class="panel-body">
 						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="16" @if($permisos_data && in_array("16",$permisos_data)) checked @endif> Listar Voluntarios<br>
 						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="17" @if($permisos_data && in_array("17",$permisos_data)) checked @endif> Reporte de Asistencia<br>
-						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="41" @if($permisos_data && in_array("41",$permisos_data)) checked @endif> Mapa de Calor<br>
+						<br>
 						<br>
 						<br>
 						<br>

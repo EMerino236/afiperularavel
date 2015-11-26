@@ -91,7 +91,7 @@
 					<div class="panel-body">
 						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="16" @if(Input::old('permisos') && in_array("16",Input::old('permisos'))) checked @endif> Listar Voluntarios<br>
 						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="17" @if(Input::old('permisos') && in_array("17",Input::old('permisos'))) checked @endif> Reporte de Asistencia<br>
-						<input class="voluntarios-child" type="checkbox" name="permisos[]" value="41" @if(Input::old('permisos') && in_array("41",Input::old('permisos'))) checked @endif> Mapa de Calor<br>
+						<br>
 						<br>
 						<br>
 						<br>
